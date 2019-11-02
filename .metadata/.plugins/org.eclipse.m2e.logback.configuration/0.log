@@ -574,3 +574,14 @@
 2019-11-02 21:26:35,258 [Worker-53] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2019-11-02 21:26:35,363 [Worker-53] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2019-11-02 21:26:35,480 [Worker-53] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-02 21:26:35,480 [Worker-53] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-02 21:55:29,826 [Worker-71] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: rs.ac.uns.ftn:backend:0.0.1-SNAPSHOT @ C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\pom.xml.
+2019-11-02 21:56:24,771 [Worker-71] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-02 21:56:24,894 [Worker-71] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2019-11-02 21:56:24,895 [Worker-71] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2019-11-02 21:56:24,927 [Worker-71] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-02 21:56:24,927 [Worker-71] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-02 21:56:53,731 [Worker-70] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-02 21:56:53,734 [Worker-70] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-02 21:56:53,881 [Worker-70] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2019-11-02 21:56:53,886 [Worker-70] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
