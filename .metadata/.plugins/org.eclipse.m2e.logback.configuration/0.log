@@ -871,3 +871,28 @@ Caused by: org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find
 2019-11-03 13:38:22,486 [Worker-172] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2019-11-03 13:38:22,486 [Worker-172] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2019-11-03 13:38:22,486 [Worker-172] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-03 13:57:04,171 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 13:57:04,172 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 13:57:04,194 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 13:57:04,198 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 13:57:04,199 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-03 14:01:07,990 [Worker-183] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:07,990 [Worker-183] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:07,990 [Worker-183] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:08,006 [Worker-183] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:08,006 [Worker-183] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-03 14:01:26,755 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:26,755 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:26,755 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:26,755 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:26,755 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-03 14:01:50,999 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:50,999 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:50,999 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:01:50,999 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:01:50,999 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
+2019-11-03 14:02:09,579 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:02:09,579 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:02:09,579 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-11-03 14:02:09,595 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-11-03 14:02:09,595 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Dule\Desktop\KTS-NVT_tim9_2019\backend\backend\src\test\resources
