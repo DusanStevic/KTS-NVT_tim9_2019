@@ -1,8 +1,10 @@
 package backend.model;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("user")
 public class RegisteredUser extends User {
 
 	/**
