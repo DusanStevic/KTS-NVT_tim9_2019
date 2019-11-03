@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "id"),
+		@UniqueConstraint(columnNames = "email"),
+		@UniqueConstraint(columnNames = "username") })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class User implements UserDetails {
@@ -40,24 +44,30 @@ public abstract class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "username")
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
 
 	@JsonIgnore
-	@Column(name = "password")
+	@Column(name = "password", nullable = false, length = 80)
 	private String password;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", unique = false, nullable = true, length = 30)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", unique = false, nullable = true, length = 50)
 	private String lastName;
+	
 	//notifikacija mail-om
-	@Column(name = "email")
+	@Column(name = "email", unique = true, nullable = true, length = 60)
 	private String email;
+	
 	//notifikacija sms-om
-	@Column(name = "phone_number")
+	@Column(name = "phone_number", unique = false, nullable = true, length = 25)
 	private String phoneNumber;
+	
+
+	@Column(name = "picturePath",nullable = true, length = 70)
+	private String picturePath;
 
 	//enabled property se koristi kada korisnik treba da potvrdi confirmation mail
 	@Column(name = "enabled")
@@ -66,12 +76,12 @@ public abstract class User implements UserDetails {
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
 
-	//first_time se koristi kada se korisnik prvi put prijavljuje na sistem i treba da promeni svoj password
+	//first_time se koristi kada se Admin prvi put prijavljuje na sistem i treba da promeni svoj password
 	@Column(name = "first_time")
 	private Boolean firstTime;
 
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	private List<Authority> authorities;
 
@@ -121,7 +131,6 @@ public abstract class User implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
@@ -146,7 +155,6 @@ public abstract class User implements UserDetails {
 		this.enabled = enabled;
 	}
 	
-	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -169,19 +177,16 @@ public abstract class User implements UserDetails {
 	}
 
 	@JsonIgnore
-	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@JsonIgnore
-	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@JsonIgnore
-	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
