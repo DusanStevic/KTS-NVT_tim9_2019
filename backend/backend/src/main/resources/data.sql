@@ -19,6 +19,7 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system admi
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549);
 
-
+INSERT INTO sector (sector_type, id , name , capacity) VALUES ('standing', 1, 'S1_1', 500);	--standing sector
+INSERT INTO sector (sector_type, id , name, num_cols , num_rows) VALUES ('sitting', 2, 'S2_2', 10, 10) --sitting sector
         
         
