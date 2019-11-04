@@ -10,7 +10,7 @@ public class SectorDTO {
 	private int numRows;
 	private int numCols;
 	// Type of sector -> 'sitting' or 'standing'
-	private String type;
+	private String sector_type;
 
 	public SectorDTO() {
 		super();
@@ -22,7 +22,7 @@ public class SectorDTO {
 		this.name = s.getName();
 		this.numRows = s.getNumRows();
 		this.numCols = s.getNumCols();
-		this.type = "sitting";
+		this.sector_type = "sitting";
 	}
 
 	//fast convert from class to DTO
@@ -30,7 +30,7 @@ public class SectorDTO {
 		this.id = s.getId();
 		this.name = s.getName();
 		this.capacity = s.getCapacity();
-		this.type = "standing";
+		this.sector_type = "standing";
 	}
 
 	public SectorDTO(Long id, String name, int capacity, int numRows,
@@ -41,7 +41,7 @@ public class SectorDTO {
 		this.capacity = capacity;
 		this.numRows = numRows;
 		this.numCols = numCols;
-		this.type = type;
+		this.sector_type = type;
 	}
 
 	public Long getId() {
@@ -84,12 +84,12 @@ public class SectorDTO {
 		this.numCols = numCols;
 	}
 
-	public String getType() {
-		return type;
+	public String getSectorType() {
+		return sector_type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setSectorType(String type) {
+		this.sector_type = type;
 	}
 
 }
