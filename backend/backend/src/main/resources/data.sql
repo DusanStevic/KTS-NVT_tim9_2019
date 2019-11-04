@@ -17,6 +17,8 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1); -- registered 
 INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2); -- adminstrator has ROLE_ADMIN
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system adminstrator has ROLE_SYS_ADMIN
 
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549);
+
 
         
         
