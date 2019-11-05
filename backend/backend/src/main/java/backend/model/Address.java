@@ -32,7 +32,6 @@ public class Address {
 
 	public Address(AddressDTO a) {
 		super();
-		this.id = a.getId();
 		this.streetName = a.getStreetName();
 		this.streetNumber = a.getStreetNumber();
 		this.city = a.getCity();
