@@ -81,7 +81,7 @@ public class SectorController {
 			return ResponseEntity.notFound().build();
 		}
 
-		if (s.getName() != "") {
+		if (!s.getName().equals("")) {
 			sector.setName(s.getName());
 		}
 
