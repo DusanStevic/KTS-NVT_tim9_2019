@@ -1,4 +1,4 @@
-package backend.service;
+package backend.service.impl;
 
 import org.apache.commons.logging.Log;
 
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	protected final Log LOGGER = LogFactory.getLog(getClass());
 
 	@Autowired
-	private UserRepository korisnikRepository;
+	private UserRepository userRepository;;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	// Funkcija koja na osnovu username-a iz baze vraca objekat User-a
 	//@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = korisnikRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
 		} else {
@@ -67,7 +67,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
 		// ne zelimo da u bazi cuvamo lozinke u plain text formatu
 		user.setPassword(passwordEncoder.encode(newPassword));
-		korisnikRepository.save(user);
+		userRepository.save(user);
 
 	}
 }

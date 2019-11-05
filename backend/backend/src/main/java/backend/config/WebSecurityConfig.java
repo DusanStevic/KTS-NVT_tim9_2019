@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import backend.security.RestAuthenticationEntryPoint;
 import backend.security.TokenAuthenticationFilter;
 import backend.security.TokenUtils;
-import backend.service.CustomUserDetailsService;
+import backend.service.impl.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -66,6 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
 	@Autowired
 	TokenUtils tokenUtils;
+	/////////////////////////////////////////////////////////////////		
+/*		
+ * Milan ISA: Zbog novije verzije Springa Device objekat koji imate 		
+ * recimo u AuthenticationController klasi u metodi createAuthenticationToken kao parametar		
+ * pravi "gresku" pa se moraju dodati naredna dva beana i odraditi override dve metode jer se		
+ * implementira WebMvcConfigurer		
+ * Vise informacija na: https://projects.spring.io/spring-mobile/		
+ */
 	
 	@Bean
 	public DeviceResolverHandlerInterceptor 
@@ -127,7 +135,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 		/*
-		 * Milan: imate avatar.png u static folderu kao resurs pa sam dodao /*.png filter da bi se i png slike mogle prikazivati na stranicama
+		 * Milan ISA: imate avatar.png u static folderu kao resurs pa sam dodao /*.png filter da bi se i png slike mogle prikazivati na stranicama
 		 */
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/*.png", "/pics/*.png", "/*.jpg", "/pics/*.jpg");
 	}

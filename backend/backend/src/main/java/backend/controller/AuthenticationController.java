@@ -34,7 +34,7 @@ import backend.model.User;
 import backend.model.UserTokenState;
 import backend.security.JwtAuthenticationRequest;
 import backend.security.TokenUtils;
-import backend.service.CustomUserDetailsService;
+import backend.service.impl.CustomUserDetailsService;
 
 
 
