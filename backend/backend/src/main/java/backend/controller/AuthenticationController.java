@@ -32,8 +32,8 @@ import backend.model.Role;
 import backend.model.SysAdmin;
 import backend.model.User;
 import backend.model.UserTokenState;
-import backend.security.JwtAuthenticationRequest;
 import backend.security.TokenUtils;
+import backend.security.auth.JwtAuthenticationRequest;
 import backend.service.impl.CustomUserDetailsService;
 
 

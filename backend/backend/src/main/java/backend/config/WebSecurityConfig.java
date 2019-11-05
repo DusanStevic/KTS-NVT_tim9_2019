@@ -23,9 +23,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import backend.security.RestAuthenticationEntryPoint;
-import backend.security.TokenAuthenticationFilter;
 import backend.security.TokenUtils;
+import backend.security.auth.RestAuthenticationEntryPoint;
+import backend.security.auth.TokenAuthenticationFilter;
 import backend.service.impl.CustomUserDetailsService;
 
 @Configuration

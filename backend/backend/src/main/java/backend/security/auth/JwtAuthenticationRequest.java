@@ -1,4 +1,4 @@
-package backend.security;
+package backend.security.auth;
 
 public class JwtAuthenticationRequest {
 	

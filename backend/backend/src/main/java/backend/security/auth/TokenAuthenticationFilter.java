@@ -1,4 +1,4 @@
-package backend.security;
+package backend.security.auth;
 
 import java.io.IOException;
 
@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import backend.security.TokenUtils;
 
 //Filter koji ce presretati svaki zahtev klijenta ka serveru
 //Sem nad putanjama navedenim u WebSecurityConfig.configure(WebSecurity web)
