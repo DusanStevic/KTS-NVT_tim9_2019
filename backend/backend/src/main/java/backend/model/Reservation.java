@@ -32,11 +32,11 @@ public class Reservation {
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("reservation")
+	@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("reservations")
-	@JsonBackReference
 	private RegisteredUser buyer;
 
 	public Reservation() {
