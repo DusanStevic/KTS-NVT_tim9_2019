@@ -31,7 +31,7 @@ public class EventDay {
 	@Column(name = "description", nullable = true)
 	private String description;
 
-	@Column(name = "date", nullable = false)
+	@Column(name = "day_date", nullable = false)
 	private Date date;
 
 	@Column(name = "status", nullable = true)

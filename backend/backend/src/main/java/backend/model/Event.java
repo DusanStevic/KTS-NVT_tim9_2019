@@ -31,8 +31,8 @@ public class Event {
 	private String name;
 	@Column(name = "description", nullable = true, length = 100)
 	private String description;
-	@Column(name = "type", nullable = false)
-	private EventType type;
+	@Column(name = "eventType", nullable = false)
+	private EventType eventType;
 	@Column(name = "startDate", nullable = false)
 	private Date startDate;
 	@Column(name = "endDate", nullable = false)
@@ -58,7 +58,7 @@ public class Event {
 	 * 
 	 * @JsonIgnoreProperties("event") check how to make oneway list
 	 */
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.LAZY)
 	private Set<String> imagePaths = new HashSet<>();
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -82,7 +82,7 @@ public class Event {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.type = type;
+		this.eventType = type;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.videoPath = videoPath;
@@ -119,12 +119,12 @@ public class Event {
 		this.description = description;
 	}
 
-	public EventType getType() {
-		return type;
+	public EventType getEventType() {
+		return eventType;
 	}
 
-	public void setType(EventType type) {
-		this.type = type;
+	public void setEventType(EventType type) {
+		this.eventType = type;
 	}
 
 	public Date getStartDate() {
@@ -210,12 +210,13 @@ public class Event {
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", description="
-				+ description + ", type=" + type + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", videoPath=" + videoPath
-				+ ", maxTickets=" + maxTickets + ", lastDayOfReservation="
-				+ lastDayOfReservation + ", admin=" + admin + ", location="
-				+ location + ", imagePaths=" + imagePaths + ", eventSectors="
-				+ eventSectors + ", eventDays=" + eventDays + "]";
+				+ description + ", type=" + eventType + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", videoPath="
+				+ videoPath + ", maxTickets=" + maxTickets
+				+ ", lastDayOfReservation=" + lastDayOfReservation + ", admin="
+				+ admin + ", location=" + location + ", imagePaths="
+				+ imagePaths + ", eventSectors=" + eventSectors
+				+ ", eventDays=" + eventDays + "]";
 	}
 
 }

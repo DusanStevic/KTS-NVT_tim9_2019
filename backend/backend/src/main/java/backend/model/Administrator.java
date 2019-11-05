@@ -1,5 +1,8 @@
 package backend.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -14,22 +17,22 @@ public class Administrator extends User {
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("admin")
-	private Event events;
+	private Set<Event> events = new HashSet<>();
 
 	public Administrator() {
 		super();
 	}
 
-	public Administrator(Event events) {
+	public Administrator(Set<Event> events) {
 		super();
 		this.events = events;
 	}
 
-	public Event getEvents() {
+	public Set<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(Event events) {
+	public void setEvents(Set<Event> events) {
 		this.events = events;
 	}
 
