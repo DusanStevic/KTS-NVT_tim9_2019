@@ -1,8 +1,5 @@
 package backend.dto;
 
-import backend.model.SittingSector;
-import backend.model.StandingSector;
-
 public class SectorDTO {
 	private Long id;
 	private String name;
@@ -11,30 +8,25 @@ public class SectorDTO {
 	private int numCols;
 	// Type of sector -> 'sitting' or 'standing'
 	private String sector_type;
+	private Long hall_id;
 
 	public SectorDTO() {
 		super();
 	}
-	
-	//fast convert from class to DTO
-	public SectorDTO(SittingSector s) {
-		this.id = s.getId();
-		this.name = s.getName();
-		this.numRows = s.getNumRows();
-		this.numCols = s.getNumCols();
-		this.sector_type = "sitting";
-	}
 
-	//fast convert from class to DTO
-	public SectorDTO(StandingSector s) {
-		this.id = s.getId();
-		this.name = s.getName();
-		this.capacity = s.getCapacity();
-		this.sector_type = "standing";
-	}
+	/*
+	 * //fast convert from class to DTO public SectorDTO(SittingSector s) {
+	 * this.id = s.getId(); this.name = s.getName(); this.numRows =
+	 * s.getNumRows(); this.numCols = s.getNumCols(); this.sector_type =
+	 * "sitting"; }
+	 * 
+	 * //fast convert from class to DTO public SectorDTO(StandingSector s) {
+	 * this.id = s.getId(); this.name = s.getName(); this.capacity =
+	 * s.getCapacity(); this.sector_type = "standing"; }
+	 */
 
 	public SectorDTO(Long id, String name, int capacity, int numRows,
-			int numCols, String type) {
+			int numCols, String type, Long hallId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -42,6 +34,7 @@ public class SectorDTO {
 		this.numRows = numRows;
 		this.numCols = numCols;
 		this.sector_type = type;
+		this.hall_id = hallId;
 	}
 
 	public Long getId() {
@@ -90,6 +83,22 @@ public class SectorDTO {
 
 	public void setSectorType(String type) {
 		this.sector_type = type;
+	}
+
+	public String getSector_type() {
+		return sector_type;
+	}
+
+	public void setSector_type(String sector_type) {
+		this.sector_type = sector_type;
+	}
+
+	public Long getHall_id() {
+		return hall_id;
+	}
+
+	public void setHall_id(Long hall_id) {
+		this.hall_id = hall_id;
 	}
 
 }

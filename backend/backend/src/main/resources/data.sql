@@ -19,7 +19,11 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system admi
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549);
 
-INSERT INTO sector (sector_type, id , name , capacity) VALUES ('standing', 1, 'S1_1', 500);	--standing sector
-INSERT INTO sector (sector_type, id , name, num_cols , num_rows) VALUES ('sitting', 2, 'S2_2', 10, 10) --sitting sector
+INSERT INTO locations (id, name, description, address_id) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1);
+
+INSERT INTO halls (id, name, number_of_sectors, location_id) values (1, "Main Hall", 2, 1);
+
+INSERT INTO sectors (sector_type, id , name , capacity, hall_id) VALUES ('standing', 1, 'S1_1', 500, 1);	--standing sector
+INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id) VALUES ('sitting', 2, 'S2_2', 10, 10, 1) --sitting sector
         
         

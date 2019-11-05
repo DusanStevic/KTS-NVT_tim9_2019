@@ -20,6 +20,9 @@ public class SectorService {
 	@Autowired
 	private SectorRepository sectorRepository;
 
+	@Autowired
+	private HallService hallService;
+
 	public Sector save(Sector b) {
 		return sectorRepository.save(b);
 	}
@@ -47,6 +50,7 @@ public class SectorService {
 		case "sitting":
 			SittingSector s1 = new SittingSector();
 			s1.setName(sectorDTO.getName());
+			s1.setHall(hallService.findOne(sectorDTO.getHall_id()));
 			s1.setNumCols(sectorDTO.getNumCols());
 			s1.setNumRows(sectorDTO.getNumRows());
 			retVal = s1;
@@ -54,6 +58,7 @@ public class SectorService {
 		case "standing":
 			StandingSector s2 = new StandingSector();
 			s2.setName(sectorDTO.getName());
+			s2.setHall(hallService.findOne(sectorDTO.getHall_id()));
 			s2.setCapacity(sectorDTO.getCapacity());
 			retVal = s2;
 			break;
