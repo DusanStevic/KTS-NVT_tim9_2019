@@ -31,7 +31,6 @@ public class EventSector {
 
 	@JoinColumn(name = "sector_id", unique = false)
 	@OneToOne(cascade = CascadeType.ALL)
-	// maybe not all -> deletes sector. CHECK!
 	private Sector sector;
 
 	public EventSector() {

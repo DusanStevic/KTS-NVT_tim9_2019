@@ -7,11 +7,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 
 @Entity
 @Table(name = "tickets")
@@ -20,33 +20,40 @@ public class Ticket {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "", nullable = true)
 	private boolean hasSeat;
-	private double price;
+
+	@Column(name = "", nullable = true)
 	private int numRow;
+	@Column(name = "", nullable = true)
 	private int numCol;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("tickets")
 	private EventDay eventDay;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("tickets")
 	private Reservation reservation;
-	private Sector sector;
+
+	@ManyToOne
+	@JoinColumn(name = "sector_id")
+	private EventSector eventSector;
 
 	public Ticket() {
 		super();
 	}
 
-	public Ticket(Long id, boolean hasSeat, double price, int numRow,
-			int numCol, EventDay eventDay, Reservation reservation,
-			Sector sector) {
+	public Ticket(Long id, boolean hasSeat, int numRow, int numCol,
+			EventDay eventDay, Reservation reservation, EventSector sector) {
 		super();
 		this.id = id;
 		this.hasSeat = hasSeat;
-		this.price = price;
 		this.numRow = numRow;
 		this.numCol = numCol;
 		this.eventDay = eventDay;
 		this.reservation = reservation;
-		this.sector = sector;
+		this.eventSector = sector;
 	}
 
 	public Long getId() {
@@ -63,14 +70,6 @@ public class Ticket {
 
 	public void setHasSeat(boolean hasSeat) {
 		this.hasSeat = hasSeat;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 	public int getNumRow() {
@@ -105,12 +104,12 @@ public class Ticket {
 		this.reservation = reservation;
 	}
 
-	public Sector getSector() {
-		return sector;
+	public EventSector getEventSector() {
+		return eventSector;
 	}
 
-	public void setSector(Sector sector) {
-		this.sector = sector;
+	public void setEventSector(EventSector sector) {
+		this.eventSector = sector;
 	}
 
 }
