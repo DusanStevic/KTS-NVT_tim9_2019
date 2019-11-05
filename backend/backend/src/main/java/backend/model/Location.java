@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -26,6 +27,7 @@ public class Location {
 
 	@OneToMany(mappedBy = "location", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("location")
+	@JsonBackReference
 	private Set<Hall> halls = new HashSet<>();
 
 	@JoinColumn(name = "address_id", unique = true)
