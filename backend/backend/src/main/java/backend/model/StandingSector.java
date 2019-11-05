@@ -17,8 +17,8 @@ public class StandingSector extends Sector {
 		this.capacity = 0;
 	}
 
-	public StandingSector(Long id, String name, int capacity) {
-		super(id, name);
+	public StandingSector(Long id, String name, int capacity, Hall h) {
+		super(id, name, h);
 		this.capacity = capacity;
 	}
 

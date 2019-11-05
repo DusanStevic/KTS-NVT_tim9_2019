@@ -20,8 +20,8 @@ public class SittingSector extends Sector {
 		this.numCols = 0;
 	}
 
-	public SittingSector(Long id, String name, int rows, int cols) {
-		super(id, name);
+	public SittingSector(Long id, String name, int rows, int cols, Hall h) {
+		super(id, name, h);
 		this.numRows = rows;
 		this.numCols = cols;
 	}

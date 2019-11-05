@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name = "sector", uniqueConstraints = {
+@Table(name = "sectors", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "id"),
-		@UniqueConstraint(columnNames = "name")} )
+		@UniqueConstraint(columnNames = "name") })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "sector_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Sector implements Serializable {
@@ -22,14 +24,19 @@ public abstract class Sector implements Serializable {
 	@Column(name = "name", unique = true, nullable = false, length = 30)
 	private String name;
 
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("sectors")
+	private Hall hall;
+
 	public Sector() {
 		super();
 	}
 
-	public Sector(Long id, String name) {
+	public Sector(Long id, String name, Hall hall) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.hall = hall;
 	}
 
 	public Long getId() {
@@ -46,6 +53,14 @@ public abstract class Sector implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
 	}
 
 	@Override
