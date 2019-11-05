@@ -28,5 +28,81 @@ import backend.dto.*;
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	LocationService locationService;
+	
+	@Autowired
+	AddressService addressService;
+
+	/* saving location */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Location createLocation(@Valid @RequestBody LocationDTO loc) {
+		Location location = new Location();
+		location.setName(loc.getName());
+		location.setDescription(loc.getDescription());
+		location.setAddress(addressService.findOne(loc.getAddress_id()));
+		
+		return locationService.save(location);
+	}
+
+	/* get all locations, permitted for all */
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Location> getAllLocationes() {
+		return locationService.findAll();
+	}
+
+	/* get an location by id, permitted for all */
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Location> getLocation(
+			@PathVariable(value = "id") Long locationId) {
+		Location location = locationService.findOne(locationId);
+
+		if (location == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(location);
+	}
+
+	/* update location by id */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Location> updateLocation(
+			@PathVariable(value = "id") Long locationId,
+			@Valid @RequestBody LocationDTO loc) {
+
+		Location location = locationService.findOne(locationId);
+		if (location == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		
+		location.setName(loc.getName());
+		location.setDescription(loc.getDescription());
+		location.setAddress(addressService.findOne(loc.getAddress_id()));
+
+		Location updateLocation = locationService.save(location);
+		return ResponseEntity.ok().body(updateLocation);
+	}
+
+	/* delete Location */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Location> deleteLocation(
+			@PathVariable(value = "id") Long adressId) {
+		
+		//dodati logiku da ne moze brisatu lokaciju gde ima rezervacija.. U service
+		Location a = locationService.findOne(adressId);
+
+		if (a != null) {
+			locationService.remove(adressId);
+			logger.info("Location " + adressId + " deleted.");
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			logger.error("Location " + adressId + " not found.");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

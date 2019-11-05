@@ -43,8 +43,13 @@ public class HallController {
 	public Hall createHall(@Valid @RequestBody HallDTO hallDTO) {
 		Hall hall = new Hall();
 
-		hall.setName(hallDTO.getName());
+
+		if (!hallDTO.getName().trim().equals("")) {
+			hall.setName(hallDTO.getName());
+		}
+		if (hallDTO.getNumber_of_sectors() > 0) {
 		hall.setNumberOfSectors(hallDTO.getNumber_of_sectors());
+		}
 		hall.setLocation(locationService.findOne(hallDTO.getLocation_id()));
 		
 		return hallService.save(hall);
