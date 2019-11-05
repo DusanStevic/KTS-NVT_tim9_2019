@@ -27,5 +27,37 @@ import backend.dto.*;
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	EventService eventService;
+
+	
+	/* saving event */
+	/*
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Event createEvent(@Valid @RequestBody EventDTO eventDTO) {
+		Event event = new Event(eventDTO);
+		return eventService.save(event);
+	}
+	*/
+
+	/* get all eventes, permitted for all */
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Event> getAllEventes() {
+		return eventService.findAll();
+	}
+
+	/* get an event by id, permitted for all */
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> getEvent(
+			@PathVariable(value = "id") Long eventId) {
+		Event event = eventService.findOne(eventId);
+
+		if (event == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(event);
+	}
 }
