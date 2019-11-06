@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import backend.common.DeviceProvider;
+import backend.converters.UserConverter;
 import backend.dto.RegistrationDTO;
 import backend.dto.UserDTO;
 import backend.model.Administrator;
@@ -162,13 +163,13 @@ public class AuthenticationController {
 	@PostMapping(value = "/registerUser")
 	public ResponseEntity<UserDTO> registerUser(@RequestBody RegistrationDTO registrationDTO) {
 		RegisteredUser registeredUser = userService.registerUser(registrationDTO);
-		return new ResponseEntity<>(new UserDTO(registeredUser), HttpStatus.OK);
+		return new ResponseEntity<>(UserConverter.UserToUserDTO(registeredUser), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/registerAdmin")
 	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
 		Administrator administrator = userService.registerAdmin(registrationDTO);
-		return new ResponseEntity<>(new UserDTO(administrator), HttpStatus.OK);
+		return new ResponseEntity<>(UserConverter.UserToUserDTO(administrator), HttpStatus.OK);
 	}
 	
 	

@@ -20,6 +20,13 @@ public class UserDTO {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.email = user.getEmail();
+		//Java 1.8 way Primer sa predavanja Advanced java 
+		//umesto da iteriramo kroz for petlju koristimo stream da namapiramo 
+		//authorities objekta User na authorites objekta UserDTO
+		//kraci zapis uz koriscenje funkcionalnog programiranja, streamova i lambda izraza
+    	/*List<GrantedAuthority> grantedAuthorities = user.getUserAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().getName()))
+                .collect(Collectors.toList());*/
 		this.authorities = user.getAuthorities().stream().map(authority -> ((Authority) authority).getRole().toString()).collect(Collectors.toList());
 		
 	}
