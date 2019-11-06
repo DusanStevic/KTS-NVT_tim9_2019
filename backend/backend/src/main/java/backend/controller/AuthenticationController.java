@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
@@ -27,13 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import backend.common.DeviceProvider;
+import backend.dto.RegistrationDTO;
+import backend.dto.UserDTO;
 import backend.model.Administrator;
+import backend.model.RegisteredUser;
 import backend.model.Role;
 import backend.model.SysAdmin;
 import backend.model.User;
 import backend.model.UserTokenState;
 import backend.security.TokenUtils;
 import backend.security.auth.JwtAuthenticationRequest;
+import backend.service.UserService;
 import backend.service.impl.CustomUserDetailsService;
 
 
@@ -54,6 +59,9 @@ public class AuthenticationController {
 
 	@Autowired
 	private DeviceProvider deviceProvider;
+	
+	@Autowired
+    private UserService userService;
 
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
@@ -150,4 +158,19 @@ public class AuthenticationController {
 		public String oldPassword;
 		public String newPassword;
 	}
+	
+	@PostMapping(value = "/registerUser")
+	public ResponseEntity<UserDTO> registerUser(@RequestBody RegistrationDTO registrationDTO) {
+		RegisteredUser registeredUser = userService.registerUser(registrationDTO);
+		return new ResponseEntity<>(new UserDTO(registeredUser), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/registerAdmin")
+	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
+		Administrator administrator = userService.registerAdmin(registrationDTO);
+		return new ResponseEntity<>(new UserDTO(administrator), HttpStatus.OK);
+	}
+	
+	
+	
 }
