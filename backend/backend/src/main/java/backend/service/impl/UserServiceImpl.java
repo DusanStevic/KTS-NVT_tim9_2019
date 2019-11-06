@@ -69,7 +69,6 @@ public class UserServiceImpl implements UserService {
 		a.setRole(Role.ROLE_REGISTERED_USER);
 		authorities.add(a);
 		registeredUser.setAuthorities(authorities);
-		
 		userRepository.save(registeredUser);
 		return registeredUser;
 	}
@@ -78,7 +77,21 @@ public class UserServiceImpl implements UserService {
 	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
 		Administrator administrator = new Administrator();
 		
-		
+		administrator.setUsername(registrationDTO.getUsername());
+		administrator.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
+		//account je aktiviran
+		administrator.setEnabled(true);
+		//prvi put se prijavljuje na sistem
+		administrator.setFirstTime(true);
+		administrator.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
+		administrator.setFirstName(registrationDTO.getFirstName());
+		administrator.setLastName(registrationDTO.getLastName());
+		administrator.setEmail(registrationDTO.getEmail());
+		List<Authority> authorities = new ArrayList<>();
+		Authority a = new Authority();
+		a.setRole(Role.ROLE_ADMIN);
+		authorities.add(a);
+		administrator.setAuthorities(authorities);
 		userRepository.save(administrator);
 		return administrator;
 	}

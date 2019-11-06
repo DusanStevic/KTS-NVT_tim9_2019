@@ -165,6 +165,12 @@ public class AuthenticationController {
 		return new ResponseEntity<>(new UserDTO(registeredUser), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/registerAdmin")
+	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
+		Administrator administrator = userService.registerAdmin(registrationDTO);
+		return new ResponseEntity<>(new UserDTO(administrator), HttpStatus.OK);
+	}
+	
 	
 	
 }
