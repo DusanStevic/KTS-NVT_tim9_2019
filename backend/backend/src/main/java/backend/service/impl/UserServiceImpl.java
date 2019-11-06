@@ -32,4 +32,8 @@ public class UserServiceImpl implements UserService {
 		List<User> result = userRepository.findAll();
 		return result;
 	}
+	
+	public User save(User user) {
+		return userRepository.save(user);
+	}
 }
