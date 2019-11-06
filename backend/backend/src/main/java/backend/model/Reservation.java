@@ -31,12 +31,13 @@ public class Reservation {
 	private Date reservationDate;
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("reservation")
+	//@JsonIgnoreProperties("reservation")
 	@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("reservations")
+	//@JsonIgnoreProperties("reservations")
+	@JsonBackReference
 	private RegisteredUser buyer;
 
 	public Reservation() {

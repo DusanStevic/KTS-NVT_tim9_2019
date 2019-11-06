@@ -19,7 +19,7 @@ public class RegisteredUser extends User {
 
 	@OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("buyer")
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Reservation> reservations = new HashSet<>();
 
 	public RegisteredUser() {

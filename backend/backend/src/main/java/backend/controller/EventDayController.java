@@ -27,5 +27,78 @@ import backend.dto.*;
 @RestController
 @RequestMapping("/api/eventday")
 public class EventDayController {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	EventDayService eventDayService;
+
+	@Autowired
+	EventService eventService;
+	
+	
+	/* creating event day */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public EventDay createAddress(@Valid @RequestBody EventDayDTO eventDayDTO) {
+		EventDay eventDay = new EventDay(eventDayDTO);
+		eventDay.setEvent(eventService.findOne(eventDayDTO.getEvent_id()));
+		eventDay.setStatus(EventStatus.values()[eventDayDTO.getStatus()]);
+		return eventDayService.save(eventDay);
+	}
+
+	/* get all event days, permitted for all */
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<EventDay> getAllEventDays() {
+		return eventDayService.findAll();
+	}
+
+	/* get an address by id, permitted for all */
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventDay> getEventDays(
+			@PathVariable(value = "id") Long eventDayId) {
+		EventDay eventDay = eventDayService.findOne(eventDayId);
+
+		if (eventDay == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(eventDay);
+	}
+
+	/* update eventDays by id */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventDay> updateEventDay(
+			@PathVariable(value = "id") Long eventDayId,
+			@Valid @RequestBody EventDayDTO e) {
+
+		EventDay eventDay = eventDayService.findOne(eventDayId);
+		if (eventDay == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		eventDay.setName(e.getName());
+		eventDay.setDescription(e.getDescription());
+		eventDay.setDate(e.getDate());
+		eventDay.setEvent(eventService.findOne(e.getEvent_id()));
+		eventDay.setStatus(EventStatus.values()[e.getStatus()]);
+		EventDay updateEventDay = eventDayService.save(eventDay);
+		return ResponseEntity.ok().body(updateEventDay);
+	}
+
+	/* delete Address */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventDay> deleteEventDay(
+			@PathVariable(value = "id") Long eventDayId) {
+		EventDay a = eventDayService.findOne(eventDayId);
+
+		if (a != null) {
+			eventDayService.remove(eventDayId);
+			logger.info("Address " + eventDayId + " deleted.");
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			logger.error("Address " + eventDayId + " not found.");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

@@ -38,7 +38,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/whoami")
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	//@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	public User user(Principal user) {
 		return this.userService.findByUsername(user.getName());
 	}

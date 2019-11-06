@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import backend.dto.EventDayDTO;
+
 @Entity
 @Table(name = "event_days")
 public class EventDay {
@@ -51,6 +53,11 @@ public class EventDay {
 		super();
 	}
 
+	public EventDay(EventDayDTO e) {
+		this.name = e.getName();
+		this.description = e.getDescription();
+		this.date = e.getDate();
+	}
 	public EventDay(Long id, String name, String description, Date date,
 			EventStatus status, Set<Ticket> tickets, Event event) {
 		super();
