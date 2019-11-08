@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
 import backend.model.Administrator;
 import backend.model.Authority;
@@ -53,46 +53,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public RegisteredUser registerUser(RegistrationDTO registrationDTO) {
-		RegisteredUser registeredUser = new RegisteredUser();
-		registeredUser.setUsername(registrationDTO.getUsername());
-		registeredUser.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-		//account je aktiviran
-		registeredUser.setEnabled(true);
-		//prvi put se prijavljuje na sistem
-		registeredUser.setFirstTime(true);
-		registeredUser.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
-		registeredUser.setFirstName(registrationDTO.getFirstName());
-		registeredUser.setLastName(registrationDTO.getLastName());
-		registeredUser.setEmail(registrationDTO.getEmail());
-		List<Authority> authorities = new ArrayList<>();
-		Authority a = new Authority();
-		a.setRole(Role.ROLE_REGISTERED_USER);
-		authorities.add(a);
-		registeredUser.setAuthorities(authorities);
+		RegisteredUser registeredUser = RegistrationConverter.RegistrationDTOToRegisteredUser(registrationDTO);
 		userRepository.save(registeredUser);
 		return registeredUser;
 	}
 
 	@Override
 	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
-		Administrator administrator = new Administrator();
-		
-		administrator.setUsername(registrationDTO.getUsername());
-		administrator.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-		//account je aktiviran
-		administrator.setEnabled(true);
-		//prvi put se prijavljuje na sistem
-		administrator.setFirstTime(true);
-		administrator.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
-		administrator.setFirstName(registrationDTO.getFirstName());
-		administrator.setLastName(registrationDTO.getLastName());
-		administrator.setEmail(registrationDTO.getEmail());
-		List<Authority> authorities = new ArrayList<>();
-		Authority a = new Authority();
-		a.setRole(Role.ROLE_ADMIN);
-		authorities.add(a);
-		administrator.setAuthorities(authorities);
+		Administrator administrator = RegistrationConverter.RegistrationDTOToAdministrator(registrationDTO);
 		userRepository.save(administrator);
 		return administrator;
+		
 	}
 }
