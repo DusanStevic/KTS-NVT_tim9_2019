@@ -51,6 +51,8 @@ public class ReservationController {
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Reservation createReservation(@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
+		// provere: max selektovanih sedista, validnost podataka iz dto, kapacitet, lista sedista
+		// validno sediste
 		Reservation reservation = new Reservation();
 		reservation.setPurchased(reservationDTO.isPurchased());/////////// ???
 		reservation.setBuyer((RegisteredUser) userService.findByUsername(user.getName()));
@@ -58,24 +60,30 @@ public class ReservationController {
 		Set<Ticket> tickets = new HashSet<>();
 		List<Reservation> reservations = reservationService.findAll();
 		boolean flag = false;
-		for (Reservation r : reservations) {
-			for (Ticket t : r.getTickets()) {
-				if (t.getEventDay().getId().equals(reservationDTO.getEventDay_id())
-						&& t.getEventSector().getId().equals(reservationDTO.getSector_id())) {
-					for (String s : reservationDTO.getSedista()) {
-						String tokens[] = s.split("/");
-						int row = Integer.parseInt(tokens[0]);
-						int col = Integer.parseInt(tokens[1]);
-						if (row == t.getNumRow() && col == t.getNumCol()) {
-							flag = true;
-							return null;
+		EventSector sec = eventSectorService.findOne(reservationDTO.getSector_id());
+
+		if (sec.getSector() instanceof SittingSector) {
+			for (Reservation r : reservations) {
+				for (Ticket t : r.getTickets()) {
+					if (t.getEventDay().getId().equals(reservationDTO.getEventDay_id())
+							&& t.getEventSector().getId().equals(reservationDTO.getSector_id())) {
+
+						for (String s : reservationDTO.getSedista()) {
+							String tokens[] = s.split("/");
+							int row = Integer.parseInt(tokens[0]);
+							int col = Integer.parseInt(tokens[1]);
+							if (row == t.getNumRow() && col == t.getNumCol()) {
+								flag = true;
+								return null;
+							}
 						}
+
 					}
 				}
 			}
-		}
+		}//else provera kapaciteta
 		if (!flag) {
-			//System.out.println(reservationDTO.getSedista().size());
+			// System.out.println(reservationDTO.getSedista().size());
 			if (!reservationDTO.getSedista().isEmpty()) {
 				for (String s : reservationDTO.getSedista()) {
 					String tokens[] = s.split("/");
@@ -83,7 +91,7 @@ public class ReservationController {
 					int col = Integer.parseInt(tokens[1]);
 
 					Ticket ticket = new Ticket();
-					EventSector sec = eventSectorService.findOne(reservationDTO.getSector_id());
+
 					ticket.setEventSector(sec);
 					if (sec.getSector() instanceof SittingSector) {
 						ticket.setHasSeat(true);
@@ -92,11 +100,20 @@ public class ReservationController {
 					} else {
 						ticket.setHasSeat(false);
 					}
-
+					ticket.setReservation(reservation);
 					ticket.setEventDay(eventDayService.findOne(reservationDTO.getEventDay_id()));
 					reservation.getTickets().add(ticket);
 
 				}
+			}else {
+				Ticket ticket = new Ticket();
+
+				ticket.setEventSector(sec);
+				ticket.setHasSeat(false);
+				
+				ticket.setReservation(reservation);
+				ticket.setEventDay(eventDayService.findOne(reservationDTO.getEventDay_id()));
+				reservation.getTickets().add(ticket);
 			}
 			// reservation.setTickets(tickets);
 		}
