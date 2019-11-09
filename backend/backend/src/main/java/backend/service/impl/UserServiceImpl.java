@@ -1,10 +1,9 @@
 package backend.service.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
 import backend.model.Administrator;
-import backend.model.Authority;
 import backend.model.RegisteredUser;
-import backend.model.Role;
 import backend.model.User;
 import backend.repository.UserRepository;
 import backend.service.UserService;
@@ -26,8 +23,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private EmailService emailService;
 	
 	
 
@@ -37,9 +35,14 @@ public class UserServiceImpl implements UserService {
 		return u;
 	}
 
-	public User findById(Long id) throws AccessDeniedException {
+/*	public User findById(Long id) throws AccessDeniedException {
 		User u = userRepository.findById(id).get();
 		return u;
+	}*/
+	
+	@Override
+	public User findById(Long id) throws AccessDeniedException{
+		return userRepository.getOne(id);
 	}
 
 	public List<User> findAll() throws AccessDeniedException {
@@ -55,6 +58,11 @@ public class UserServiceImpl implements UserService {
 	public RegisteredUser registerUser(RegistrationDTO registrationDTO) {
 		RegisteredUser registeredUser = RegistrationConverter.RegistrationDTOToRegisteredUser(registrationDTO);
 		userRepository.save(registeredUser);
+		try {
+			emailService.sendRegistrationConfirmationEmail(registeredUser);
+		} catch (MailException ex) {
+			System.out.printf("Error sending mail: {0}",ex.getMessage());
+		}
 		return registeredUser;
 	}
 

@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.model.User;
@@ -30,6 +31,13 @@ public class UserController {
 	public User loadById(@PathVariable Long userId) {
 		return this.userService.findById(userId);
 	}
+	
+	@RequestMapping(method = GET, value = "/user")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public User loadById2(@RequestParam Long userId) {
+		return this.userService.findById(userId);
+	}
+	
 
 	@RequestMapping(method = GET, value = "/user/all")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
