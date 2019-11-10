@@ -32,11 +32,11 @@ public class UserController {
 		return this.userService.findById(userId);
 	}
 	
-	@RequestMapping(method = GET, value = "/user")
+	/*@RequestMapping(method = GET, value = "/user")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User loadById2(@RequestParam Long userId) {
 		return this.userService.findById(userId);
-	}
+	}*/
 	
 
 	@RequestMapping(method = GET, value = "/user/all")

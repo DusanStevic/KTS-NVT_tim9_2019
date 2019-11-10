@@ -1,7 +1,7 @@
 package backend.dto;
 
 public class AddressDTO {
-	private Long id;
+	//private Long id;
 	private String streetName;
 	private int streetNumber;
 	private String city;
@@ -13,10 +13,10 @@ public class AddressDTO {
 		super();
 	}
 
-	public AddressDTO(Long id, String streetName, int streetNumber,
+	public AddressDTO(String streetName, int streetNumber,
 			String city, String country, double latitude, double longitude) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.streetName = streetName;
 		this.streetNumber = streetNumber;
 		this.city = city;
@@ -25,13 +25,7 @@ public class AddressDTO {
 		this.longitude = longitude;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public String getStreetName() {
 		return streetName;

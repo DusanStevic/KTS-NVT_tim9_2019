@@ -23,6 +23,7 @@ import javax.validation.Valid;
 
 import backend.model.*;
 import backend.service.*;
+import backend.converters.AddressConverter;
 import backend.dto.*;
 
 @RestController
@@ -33,11 +34,14 @@ public class AddressController {
 	@Autowired
 	AddressService addressService;
 
+	@Autowired
+	AddressConverter addressConverter;
+	
 	/* saving address */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Address createAddress(@Valid @RequestBody AddressDTO addressDTO) {
-		Address address = new Address(addressDTO);
+		Address address = addressConverter.AddressDTO2Address(addressDTO);
 		return addressService.save(address);
 	}
 
@@ -51,12 +55,7 @@ public class AddressController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getAddress(
 			@PathVariable(value = "id") Long addressId) {
-		Address address = addressService.findOne(addressId);
-
-		if (address == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok().body(address);
+		return addressService.getOneAddress(addressId);
 	}
 
 	/* update address by id */
@@ -64,38 +63,16 @@ public class AddressController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> updateAddress(
 			@PathVariable(value = "id") Long addressId,
-			@Valid @RequestBody AddressDTO a) {
+			@Valid @RequestBody AddressDTO dto) {
 
-		Address address = addressService.findOne(addressId);
-		if (address == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		address.setStreetName(a.getStreetName());
-		address.setStreetNumber(a.getStreetNumber());
-		address.setCity(a.getCity());
-		address.setCountry(a.getCountry());
-		address.setLatitude(a.getLatitude());
-		address.setLongitude(a.getLongitude());
-
-		Address updateAddress = addressService.save(address);
-		return ResponseEntity.ok().body(updateAddress);
+		return addressService.update(addressId, dto);
 	}
 
 	/* delete Address */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Address> deleteAddress(
-			@PathVariable(value = "id") Long adressId) {
-		Address a = addressService.findOne(adressId);
-
-		if (a != null) {
-			addressService.remove(adressId);
-			logger.info("Address " + adressId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Address " + adressId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteAddress(
+			@PathVariable(value = "id") Long addressId) {
+		return addressService.delete(addressId);
 	}
 }

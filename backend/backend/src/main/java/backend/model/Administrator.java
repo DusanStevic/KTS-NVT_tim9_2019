@@ -16,26 +16,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @DiscriminatorValue("admin")
 public class Administrator extends User {
 	private static final long serialVersionUID = 1L;
-	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	/*@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("admin")
 	@JsonBackReference
-	private Set<Event> events = new HashSet<>();
+	private Set<Event> events = new HashSet<>();*/
 
 	public Administrator() {
 		super();
 	}
 
-	public Administrator(Set<Event> events) {
-		super();
-		this.events = events;
-	}
-
-	public Set<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
+	
 
 }

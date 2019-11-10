@@ -22,6 +22,7 @@ import javax.validation.Valid;
 
 import backend.model.*;
 import backend.service.*;
+import backend.converters.EventConverter;
 import backend.dto.*;
 
 @RestController
@@ -32,16 +33,17 @@ public class EventController {
 	@Autowired
 	EventService eventService;
 
-	
+	@Autowired
+	EventConverter eventConverter;
 	/* saving event */
-	/*
+	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Event createEvent(@Valid @RequestBody EventDTO eventDTO) {
-		Event event = new Event(eventDTO);
+	public Event createEvent(@Valid @RequestBody EventDTO dto) {
+		Event event = eventConverter.EventDTO2Event(dto);
 		return eventService.save(event);
 	}
-	*/
+	
 
 	/* get all eventes, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

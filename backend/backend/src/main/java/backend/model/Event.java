@@ -41,12 +41,14 @@ public class Event {
 	private String videoPath;
 	@Column(name = "maxTickets", nullable = false)
 	private int maxTickets;
-	@Column(name = "lastDayOfReservation", nullable = false)
-	private Date lastDayOfReservation;
-
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	/*@Column(name = "lastDayOfReservation", nullable = false)
+	private Date lastDayOfReservation;*/
+	@Column(name = "numDays", nullable = false)
+	private int numDays; //koliko dana pred event moze da se rezervise
+	
+	/*@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("events")
-	private Administrator admin;
+	private Administrator admin;*/
 
 	@JoinColumn(name = "location_id", unique = false)
 	@OneToOne(cascade = CascadeType.ALL)
@@ -75,9 +77,9 @@ public class Event {
 
 	public Event(Long id, String name, String description, EventType type,
 			Date startDate, Date endDate, String videoPath, int maxTickets,
-			Date lastDayOfReservation, Location location,
+			int numDays, Location location,
 			Set<String> imagePaths, Set<EventSector> eventSectors,
-			Set<EventDay> eventDays, Administrator admin) {
+			Set<EventDay> eventDays) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -87,12 +89,11 @@ public class Event {
 		this.endDate = endDate;
 		this.videoPath = videoPath;
 		this.maxTickets = maxTickets;
-		this.lastDayOfReservation = lastDayOfReservation;
+		this.numDays = numDays;
 		this.location = location;
 		this.imagePaths = imagePaths;
 		this.eventSectors = eventSectors;
 		this.eventDays = eventDays;
-		this.admin = admin;
 	}
 
 	public Long getId() {
@@ -159,13 +160,7 @@ public class Event {
 		this.maxTickets = maxTickets;
 	}
 
-	public Date getLastDayOfReservation() {
-		return lastDayOfReservation;
-	}
-
-	public void setLastDayOfReservation(Date lastDayOfReservation) {
-		this.lastDayOfReservation = lastDayOfReservation;
-	}
+	
 
 	public Location getLocation() {
 		return location;
@@ -199,24 +194,23 @@ public class Event {
 		this.eventDays = eventDays;
 	}
 
-	public Administrator getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Administrator admin) {
-		this.admin = admin;
-	}
 
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", description="
 				+ description + ", type=" + eventType + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", videoPath="
-				+ videoPath + ", maxTickets=" + maxTickets
-				+ ", lastDayOfReservation=" + lastDayOfReservation + ", admin="
-				+ admin + ", location=" + location + ", imagePaths="
+				+ videoPath + ", maxTickets=" + maxTickets + ", location=" + location + ", imagePaths="
 				+ imagePaths + ", eventSectors=" + eventSectors
 				+ ", eventDays=" + eventDays + "]";
+	}
+
+	public int getNumDays() {
+		return numDays;
+	}
+
+	public void setNumDays(int numDays) {
+		this.numDays = numDays;
 	}
 
 }

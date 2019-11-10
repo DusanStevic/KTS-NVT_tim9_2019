@@ -25,6 +25,9 @@ public class Address {
 	private double latitude;
 	@Column(name = "longitude", nullable = false)
 	private double longitude;
+	
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted;
 
 	public Address() {
 		super();
@@ -49,6 +52,7 @@ public class Address {
 		this.country = a.getCountry();
 		this.latitude = a.getLatitude();
 		this.longitude = a.getLongitude();
+		this.deleted = a.isDeleted();
 	}
 
 	public Address(Long id, String streetName, int streetNumber, String city,
@@ -129,6 +133,14 @@ public class Address {
 				+ ", streetNumber=" + streetNumber + ", city=" + city
 				+ ", country=" + country + ", latitude=" + latitude
 				+ ", longitude=" + longitude + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

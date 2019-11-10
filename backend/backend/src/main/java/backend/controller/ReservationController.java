@@ -68,11 +68,9 @@ public class ReservationController {
 					if (t.getEventDay().getId().equals(reservationDTO.getEventDay_id())
 							&& t.getEventSector().getId().equals(reservationDTO.getSector_id())) {
 
-						for (String s : reservationDTO.getSedista()) {
-							String tokens[] = s.split("/");
-							int row = Integer.parseInt(tokens[0]);
-							int col = Integer.parseInt(tokens[1]);
-							if (row == t.getNumRow() && col == t.getNumCol()) {
+						for (SeatDTO s : reservationDTO.getSedista()) {
+							
+							if (s.getRow() == t.getNumRow() && s.getCol() == t.getNumCol()) {
 								flag = true;
 								return null;
 							}
@@ -85,18 +83,16 @@ public class ReservationController {
 		if (!flag) {
 			// System.out.println(reservationDTO.getSedista().size());
 			if (!reservationDTO.getSedista().isEmpty()) {
-				for (String s : reservationDTO.getSedista()) {
-					String tokens[] = s.split("/");
-					int row = Integer.parseInt(tokens[0]);
-					int col = Integer.parseInt(tokens[1]);
+				for (SeatDTO s : reservationDTO.getSedista()) {
+					
 
 					Ticket ticket = new Ticket();
 
 					ticket.setEventSector(sec);
 					if (sec.getSector() instanceof SittingSector) {
 						ticket.setHasSeat(true);
-						ticket.setNumRow(row);
-						ticket.setNumCol(col);
+						ticket.setNumRow(s.getRow());
+						ticket.setNumCol(s.getCol());
 					} else {
 						ticket.setHasSeat(false);
 					}

@@ -6,8 +6,8 @@ public class ReservationDTO {
 	private Long eventDay_id;
 	private Long sector_id;
 	private boolean purchased;
-	private ArrayList<String> sedista;
-	public ReservationDTO(Long eventDay_id, Long sector_id, ArrayList<String> sedista,boolean purchased) {
+	private ArrayList<SeatDTO> sedista;
+	public ReservationDTO(Long eventDay_id, Long sector_id, ArrayList<SeatDTO> sedista,boolean purchased) {
 		super();
 		this.eventDay_id = eventDay_id;
 		this.sector_id = sector_id;
@@ -29,10 +29,10 @@ public class ReservationDTO {
 	public void setSector_id(Long sector_id) {
 		this.sector_id = sector_id;
 	}
-	public ArrayList<String> getSedista() {
+	public ArrayList<SeatDTO> getSedista() {
 		return sedista;
 	}
-	public void setSedista(ArrayList<String> sedista) {
+	public void setSedista(ArrayList<SeatDTO> sedista) {
 		this.sedista = sedista;
 	}
 	public boolean isPurchased() {
