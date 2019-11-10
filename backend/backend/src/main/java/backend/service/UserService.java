@@ -15,4 +15,5 @@ public interface UserService {
     List<User> findAll ();
     RegisteredUser registerUser(RegistrationDTO registrationDTO);
     Administrator registerAdmin(RegistrationDTO registrationDTO);
+    User save(User user);
 }
