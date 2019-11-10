@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			emailService.sendRegistrationConfirmationEmail(registeredUser);
 		} catch (MailException | InterruptedException e) {
-			System.out.printf("Error sending mail:",e.getMessage());
+			System.out.println("There was an error while sending an e-mail");
 			e.printStackTrace();
 		} 
 		return registeredUser;
@@ -67,6 +67,12 @@ public class UserServiceImpl implements UserService {
 	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
 		Administrator administrator = RegistrationConverter.RegistrationDTOToAdministrator(registrationDTO);
 		userRepository.save(administrator);
+		try {
+			emailService.sendRegistrationConfirmationEmail(administrator);
+		} catch (MailException|InterruptedException e) {
+			System.out.println("There was an error while sending an e-mail");
+			e.printStackTrace();
+		}
 		return administrator;
 		
 	}
