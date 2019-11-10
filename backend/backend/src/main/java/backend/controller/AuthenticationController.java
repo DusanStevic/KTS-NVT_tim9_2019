@@ -181,14 +181,8 @@ public class AuthenticationController {
 	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
 			throws UnsupportedEncodingException {
 		
-		byte[] decoded = Base64.getDecoder().decode(encodedId);
-		String str = new String(decoded, "UTF-8");
-	
-		
-		
-		
-		
-		//Konverzija String u Long
+		byte[] bytes = Base64.getDecoder().decode(encodedId);
+		String str = new String(bytes);
 		Long decodedId = Long.valueOf(str);
 		User user = userService.findById(decodedId);
 		if (user == null) {
