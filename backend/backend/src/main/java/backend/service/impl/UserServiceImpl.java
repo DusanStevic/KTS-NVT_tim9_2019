@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import backend.converters.RegistrationConverter;
@@ -35,10 +34,7 @@ public class UserServiceImpl implements UserService {
 		return u;
 	}
 
-/*	public User findById(Long id) throws AccessDeniedException {
-		User u = userRepository.findById(id).get();
-		return u;
-	}*/
+
 	
 	@Override
 	public User findById(Long id) throws AccessDeniedException{
@@ -60,9 +56,10 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(registeredUser);
 		try {
 			emailService.sendRegistrationConfirmationEmail(registeredUser);
-		} catch (MailException ex) {
-			System.out.printf("Error sending mail: {0}",ex.getMessage());
-		}
+		} catch (MailException | InterruptedException e) {
+			System.out.printf("Error sending mail:",e.getMessage());
+			e.printStackTrace();
+		} 
 		return registeredUser;
 	}
 

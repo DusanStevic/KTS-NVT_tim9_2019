@@ -1,5 +1,7 @@
 package backend.controller;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -171,6 +175,30 @@ public class AuthenticationController {
 		Administrator administrator = userService.registerAdmin(registrationDTO);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(administrator), HttpStatus.OK);
 	}
+	
+	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
+	@GetMapping(value = "/confirmRegistration/{encodedId}")
+	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
+			throws UnsupportedEncodingException {
+		
+		byte[] decoded = Base64.getDecoder().decode(encodedId);
+		String str = new String(decoded, "UTF-8");
+	
+		
+		
+		
+		
+		//Konverzija String u Long
+		Long decodedId = Long.valueOf(str);
+		User user = userService.findById(decodedId);
+		if (user == null) {
+			return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
+		}
+		user.setEnabled(true);
+		userService.save(user);
+		return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
+	}
+
 	
 	
 	

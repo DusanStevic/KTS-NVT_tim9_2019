@@ -21,9 +21,9 @@ public class RegistrationConverter {
 		RegisteredUser registeredUser = new RegisteredUser();
 		registeredUser.setUsername(registrationDTO.getUsername());
 		registeredUser.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-		//account je aktiviran
-		registeredUser.setEnabled(true);
-		//prvi put se prijavljuje na sistem
+		//account ce biti aktiviran kada se potvrdi registracioni konfirmacioni mail
+		registeredUser.setEnabled(false);
+		//kada se user bude prvi put prijavljivao na sistem mora da promeni password
 		registeredUser.setFirstTime(true);
 		registeredUser.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
 		registeredUser.setFirstName(registrationDTO.getFirstName());
@@ -41,9 +41,9 @@ public class RegistrationConverter {
 		Administrator administrator = new Administrator();
 		administrator.setUsername(registrationDTO.getUsername());
 		administrator.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-		//account je aktiviran
-		administrator.setEnabled(true);
-		//prvi put se prijavljuje na sistem
+		//account ce biti aktiviran kada se potvrdi registracioni konfirmacioni mail
+		administrator.setEnabled(false);
+		//kada se administrator bude prvi put prijavljivao na sistem mora da promeni password
 		administrator.setFirstTime(true);
 		administrator.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
 		administrator.setFirstName(registrationDTO.getFirstName());
