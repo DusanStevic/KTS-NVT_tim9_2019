@@ -23,6 +23,7 @@ import javax.validation.Valid;
 
 import backend.model.*;
 import backend.service.*;
+import backend.converters.LocationConverter;
 import backend.dto.*;
 
 @RestController
@@ -36,14 +37,14 @@ public class LocationController {
 	@Autowired
 	AddressService addressService;
 
+	@Autowired
+	LocationConverter locationConverter;
+	
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Location createLocation(@Valid @RequestBody LocationDTO loc) {
-		Location location = new Location();
-		location.setName(loc.getName());
-		location.setDescription(loc.getDescription());
-		location.setAddress(addressService.findOne(loc.getAddress_id()));
+		Location location = locationConverter.LocationDTO2Location(loc);
 		
 		return locationService.save(location);
 	}
