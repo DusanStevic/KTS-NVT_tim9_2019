@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
+import backend.exceptions.UserNotFoundException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.User;
@@ -32,6 +33,19 @@ public class UserServiceImpl implements UserService {
 	public User findByUsername(String username) throws UsernameNotFoundException {
 		User u = userRepository.findByUsername(username);
 		return u;
+	}
+	
+	
+	@Override
+	public User pronadjiKorisnika(String username) throws UserNotFoundException {
+		
+		User u = userRepository.findByUsername(username);
+		if (u==null) {
+			throw new UserNotFoundException(username);
+		} else {
+			return u;
+		}
+		
 	}
 
 
