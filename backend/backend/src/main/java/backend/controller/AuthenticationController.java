@@ -25,11 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
-
-
-
+import org.springframework.web.servlet.view.RedirectView;
 
 import backend.common.DeviceProvider;
 import backend.converters.UserConverter;
@@ -178,19 +174,29 @@ public class AuthenticationController {
 	
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
-	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
+	public RedirectView confirmRegistration(@PathVariable("encodedId") String encodedId)
 			throws UnsupportedEncodingException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
 		String str = new String(bytes);
 		Long decodedId = Long.valueOf(str);
 		User user = userService.findById(decodedId);
+		/*TO DO : Kada se bude radio front vidi da li ces :
+		 * 1.Preko flaga otvarati stranice
+		 * 2.Raditi redirekciju pomocu public RedirectView se prebacivati na stranice*/
 		if (user == null) {
-			return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
+			return new RedirectView("/index.html");
 		}
 		user.setEnabled(true);
 		userService.save(user);
-		return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
+		return new RedirectView("/index.html");
+		
+		//ALTERNATIVA SA FLAGOM
+		//public ResponseEntity<String>
+		//return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
+		//return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
+		
+		
 	}
 
 	
