@@ -49,6 +49,9 @@ public class EventDay {
 	@JsonIgnoreProperties("eventDays")
 	private Event event;
 
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	public EventDay() {
 		super();
 	}
@@ -59,7 +62,7 @@ public class EventDay {
 		this.date = e.getDate();
 	}
 	public EventDay(Long id, String name, String description, Date date,
-			EventStatus status, Set<Ticket> tickets, Event event) {
+			EventStatus status, Set<Ticket> tickets, Event event, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -68,6 +71,7 @@ public class EventDay {
 		this.status = status;
 		this.tickets = tickets;
 		this.event = event;
+		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -131,6 +135,14 @@ public class EventDay {
 		return "EventDay [id=" + id + ", name=" + name + ", description="
 				+ description + ", date=" + date + ", status=" + status
 				+ ", tickets=" + tickets + ", event=" + event + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -62,4 +62,22 @@ public class EventController {
 		}
 		return ResponseEntity.ok().body(event);
 	}
+	
+	/* update event by id */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> updateEvent(
+			@PathVariable(value = "id") Long eventId,
+			@Valid @RequestBody EventDTO dto) {
+		Event e = eventConverter.EventDTO2Event(dto);
+		return eventService.update(eventId, e);
+	}
+
+	/* delete event */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteEvent(
+			@PathVariable(value = "id") Long eventId) {
+		return eventService.delete(eventId);
+	}
 }

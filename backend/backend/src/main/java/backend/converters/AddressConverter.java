@@ -10,7 +10,6 @@ public class AddressConverter {
 	
 	public Address AddressDTO2Address(AddressDTO dto) {
 		Address a = new Address(dto);
-		a.setDeleted(false);
 		return a;
 	}
 	

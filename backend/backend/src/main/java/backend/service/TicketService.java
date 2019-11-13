@@ -37,4 +37,8 @@ public class TicketService {
 	public void remove(Long id) {
 		ticketRepository.deleteById(id);
 	}
+	
+	public List<Ticket> findAllByEventDayIDEventSectorID(Long ed_id, Long es_id){
+		return ticketRepository.findAllByEventDayIDEventSectorID(ed_id, es_id);
+	}
 }

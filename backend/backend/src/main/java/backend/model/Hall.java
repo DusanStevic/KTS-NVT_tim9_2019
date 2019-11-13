@@ -41,19 +41,24 @@ public class Hall {
 	@JsonIgnoreProperties("halls")
 	@JsonBackReference
 	private Location location;
+	
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
 
 	public Hall() {
 		super();
 	}
 
+	
 	public Hall(Long id, String name, int numberOfSectors, Set<Sector> sectors,
-			Location location) {
+			Location location, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.numberOfSectors = numberOfSectors;
 		this.sectors = sectors;
 		this.location = location;
+		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -101,6 +106,16 @@ public class Hall {
 		return "Hall [id=" + id + ", name=" + name + ", numberOfSectors="
 				+ numberOfSectors + ", sectors=" + sectors + ", location="
 				+ location.getName() + "]";
+	}
+
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

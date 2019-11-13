@@ -46,6 +46,9 @@ public class Event {
 	@Column(name = "numDays", nullable = false)
 	private int numDays; //koliko dana pred event moze da se rezervise
 	
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	/*@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("events")
 	private Administrator admin;*/
@@ -79,7 +82,7 @@ public class Event {
 			Date startDate, Date endDate, String videoPath, int maxTickets,
 			int numDays, Location location,
 			Set<String> imagePaths, Set<EventSector> eventSectors,
-			Set<EventDay> eventDays) {
+			Set<EventDay> eventDays, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -94,8 +97,24 @@ public class Event {
 		this.imagePaths = imagePaths;
 		this.eventSectors = eventSectors;
 		this.eventDays = eventDays;
+		this.deleted = deleted;
 	}
 
+	public void setEvent(Event e) {
+		this.deleted = e.deleted;
+		this.name = e.name;
+		this.description = e.description;
+		this.eventType = e.eventType;
+		this.startDate = e.startDate;
+		this.endDate = e.endDate;
+		this.videoPath = e.videoPath;
+		this.maxTickets = e.maxTickets;
+		this.numDays = e.numDays;
+		this.location = e.location;
+		this.imagePaths = e.imagePaths;
+		this.eventSectors = e.eventSectors;
+		this.eventDays = e.eventDays;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -211,6 +230,14 @@ public class Event {
 
 	public void setNumDays(int numDays) {
 		this.numDays = numDays;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }
