@@ -91,19 +91,9 @@ public class LocationController {
 	/* delete Location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Location> deleteLocation(
-			@PathVariable(value = "id") Long adressId) {
+	public ResponseEntity<String> deleteLocation(
+			@PathVariable(value = "id") Long locId) {
 		
-		//dodati logiku da ne moze brisatu lokaciju gde ima rezervacija.. U service
-		Location a = locationService.findOne(adressId);
-
-		if (a != null) {
-			locationService.remove(adressId);
-			logger.info("Location " + adressId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Location " + adressId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		return locationService.delete(locId);
 	}
 }

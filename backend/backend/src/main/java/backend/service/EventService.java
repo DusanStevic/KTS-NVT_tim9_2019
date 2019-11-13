@@ -20,6 +20,12 @@ public class EventService {
 	@Autowired
 	private EventRepository eventRepository;
 
+	@Autowired
+	EventDayService eventDayService;
+	
+	@Autowired
+	EventSectorService eventSectorService;
+	
 	public Event save(Event b) {
 		return eventRepository.save(b);
 	}
@@ -45,6 +51,8 @@ public class EventService {
 		Event e = findOne(eventID);
 		if(!e.equals(null) && !e.isDeleted()) {
 			e.setDeleted(true);
+			e.getEventDays().forEach(ed -> eventDayService.delete(ed.getId()));
+			e.getEventSectors().forEach(es -> eventSectorService.delete(es.getId()));
 			save(e);
 			return ResponseEntity.ok().body("Successfully deleted");
 		}else {

@@ -131,6 +131,9 @@ public class ReservationService {
 		Reservation r = findOne(ID);
 		if(!r.equals(null) && !r.isDeleted()) {
 			r.setDeleted(true);
+			for(Ticket t : r.getTickets()) {
+				ticketService.delete(t.getId());
+			}
 			save(r);
 			return ResponseEntity.ok().body("Successfully deleted");
 		}else {
