@@ -40,18 +40,22 @@ public class Reservation {
 	@JsonBackReference
 	private RegisteredUser buyer;
 
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	public Reservation() {
 		super();
 	}
 
 	public Reservation(Long id, boolean purchased, Date reservationDate,
-			Set<Ticket> tickets, RegisteredUser buyer) {
+			Set<Ticket> tickets, RegisteredUser buyer, boolean deleted) {
 		super();
 		this.id = id;
 		this.purchased = purchased;
 		this.reservationDate = reservationDate;
 		this.tickets = tickets;
 		this.buyer = buyer;
+		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -99,6 +103,14 @@ public class Reservation {
 		return "Reservation [id=" + id + ", purchased=" + purchased
 				+ ", reservationDate=" + reservationDate + ", tickets="
 				+ tickets + ", buyer=" + buyer + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -27,7 +27,7 @@ public class Address {
 	private double longitude;
 	
 	@Column(name = "deleted", nullable = false)
-	private boolean deleted;
+	private boolean deleted = false;
 
 	public Address() {
 		super();

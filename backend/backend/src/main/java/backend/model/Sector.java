@@ -28,6 +28,9 @@ public abstract class Sector implements Serializable {
 	@JsonIgnoreProperties("sectors")
 	private Hall hall;
 
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	public Sector() {
 		super();
 	}
@@ -97,6 +100,14 @@ public abstract class Sector implements Serializable {
 	@Override
 	public String toString() {
 		return "Sector [id=" + id + ", name=" + name + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -60,6 +60,12 @@ public class TicketController {
 		return tisketService.findAll();
 	}
 
+	/* get all addresses, permitted for all */
+	@GetMapping(value = "/{ed_id}/{es_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Ticket> getAllTicketsEventDayIDEventSectorID(@PathVariable(value = "ed_id") Long ed_id, @PathVariable(value = "es_id") Long es_id) {
+		return tisketService.findAllByEventDayIDEventSectorID(ed_id, es_id);
+	}
+	
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Ticket> getTicket(

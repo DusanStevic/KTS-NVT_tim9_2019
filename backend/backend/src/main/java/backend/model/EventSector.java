@@ -33,16 +33,20 @@ public class EventSector {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Sector sector;
 
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	public EventSector() {
 		super();
 	}
 
-	public EventSector(Long id, double price, Event event, Sector sector) {
+	public EventSector(Long id, double price, Event event, Sector sector, boolean deleted ) {
 		super();
 		this.id = id;
 		this.price = price;
 		this.event = event;
 		this.sector = sector;
+		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -81,6 +85,14 @@ public class EventSector {
 	public String toString() {
 		return "EventSector [id=" + id + ", price=" + price + ", event="
 				+ event.toString() + ", sector=" + sector.toString() + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -1,7 +1,7 @@
 package backend.dto;
 
 public class SectorDTO {
-	private Long id;
+	//private Long id;
 	private String name;
 	private int capacity;
 	private int numRows;
@@ -25,10 +25,10 @@ public class SectorDTO {
 	 * s.getCapacity(); this.sector_type = "standing"; }
 	 */
 
-	public SectorDTO(Long id, String name, int capacity, int numRows,
+	public SectorDTO(String name, int capacity, int numRows,
 			int numCols, String type, Long hallId) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.name = name;
 		this.capacity = capacity;
 		this.numRows = numRows;
@@ -37,13 +37,7 @@ public class SectorDTO {
 		this.hall_id = hallId;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public String getName() {
 		return name;

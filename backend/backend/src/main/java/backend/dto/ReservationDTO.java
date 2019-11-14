@@ -7,6 +7,8 @@ public class ReservationDTO {
 	private Long sector_id;
 	private boolean purchased;
 	private ArrayList<SeatDTO> sedista;
+	private int numOfStandingTickets;
+	
 	public ReservationDTO(Long eventDay_id, Long sector_id, ArrayList<SeatDTO> sedista,boolean purchased) {
 		super();
 		this.eventDay_id = eventDay_id;
@@ -40,6 +42,12 @@ public class ReservationDTO {
 	}
 	public void setPurchased(boolean purchased) {
 		this.purchased = purchased;
+	}
+	public int getNumOfStandingTickets() {
+		return numOfStandingTickets;
+	}
+	public void setNumOfStandingTickets(int numOfStandingTickets) {
+		this.numOfStandingTickets = numOfStandingTickets;
 	}
 	
 	

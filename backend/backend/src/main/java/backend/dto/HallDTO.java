@@ -1,30 +1,27 @@
 package backend.dto;
 
+import java.util.ArrayList;
+
 public class HallDTO {
-	private Long id;
+	
 	private String name;
 	private int number_of_sectors;
 	private Long location_id;
-
+	private ArrayList<SectorDTO> sectors;
+	
 	public HallDTO() {
 		super();
 	}
 
-	public HallDTO(Long id, String name, int number_of_sectors, Long location_id) {
+	public HallDTO(String name, int number_of_sectors, Long location_id, ArrayList<SectorDTO> sectors) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.number_of_sectors = number_of_sectors;
 		this.location_id = location_id;
+		this.sectors = sectors;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public String getName() {
 		return name;
@@ -48,6 +45,14 @@ public class HallDTO {
 
 	public void setLocation_id(Long location_id) {
 		this.location_id = location_id;
+	}
+
+	public ArrayList<SectorDTO> getSectors() {
+		return sectors;
+	}
+
+	public void setSectors(ArrayList<SectorDTO> sectors) {
+		this.sectors = sectors;
 	}
 
 }

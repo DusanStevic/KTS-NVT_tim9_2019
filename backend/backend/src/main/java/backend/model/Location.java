@@ -34,18 +34,22 @@ public class Location {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 
+	@Column(name = "deleted", nullable = false)
+	private boolean deleted = false;
+	
 	public Location() {
 		super();
 	}
 
 	public Location(Long id, String name, String description, Set<Hall> halls,
-			Address address) {
+			Address address, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.halls = halls;
 		this.address = address;
+		this.deleted = deleted;
 	}
 
 	public String getName() {
@@ -93,6 +97,14 @@ public class Location {
 		return "Location [id=" + id + ", name=" + name + ", description="
 				+ description + ", halls=" + halls.toString() + ", address="
 				+ address.toString() + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.dto.SectorDTO;
+import backend.model.Address;
 import backend.model.Sector;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
@@ -67,5 +69,16 @@ public class SectorService {
 		}
 
 		return save(retVal);
+	}
+	
+	public ResponseEntity<String> delete(Long id) {
+		Sector s = findOne(id);
+		if(!s.equals(null) && !s.isDeleted()) {
+			s.setDeleted(true);
+			save(s);
+			return ResponseEntity.ok().body("Successfully deleted");
+		}else {
+			return ResponseEntity.badRequest().body("Could not find requested sector");
+		}
 	}
 }

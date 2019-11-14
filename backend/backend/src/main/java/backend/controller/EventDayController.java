@@ -37,14 +37,14 @@ public class EventDayController {
 	
 	
 	/* creating event day */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public EventDay createAddress(@Valid @RequestBody EventDayDTO eventDayDTO) {
 		EventDay eventDay = new EventDay(eventDayDTO);
 		eventDay.setEvent(eventService.findOne(eventDayDTO.getEvent_id()));
 		eventDay.setStatus(EventStatus.values()[eventDayDTO.getStatus()]);
 		return eventDayService.save(eventDay);
-	}
+	}*/
 
 	/* get all event days, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

@@ -38,82 +38,16 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 
-	@Autowired
-	UserService userService;
-
-	@Autowired
-	EventDayService eventDayService;
-
-	@Autowired
-	EventSectorService eventSectorService;
+	
 
 	/* saving address */
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Reservation createReservation(@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
-		// provere: max selektovanih sedista, validnost podataka iz dto, kapacitet, lista sedista
+	public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
+		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
-		Reservation reservation = new Reservation();
-		reservation.setPurchased(reservationDTO.isPurchased());/////////// ???
-		reservation.setBuyer((RegisteredUser) userService.findByUsername(user.getName()));
-		reservation.setReservationDate(new Date());
-		Set<Ticket> tickets = new HashSet<>();
-		List<Reservation> reservations = reservationService.findAll();
-		boolean flag = false;
-		EventSector sec = eventSectorService.findOne(reservationDTO.getSector_id());
-
-		if (sec.getSector() instanceof SittingSector) {
-			for (Reservation r : reservations) {
-				for (Ticket t : r.getTickets()) {
-					if (t.getEventDay().getId().equals(reservationDTO.getEventDay_id())
-							&& t.getEventSector().getId().equals(reservationDTO.getSector_id())) {
-
-						for (SeatDTO s : reservationDTO.getSedista()) {
-							
-							if (s.getRow() == t.getNumRow() && s.getCol() == t.getNumCol()) {
-								flag = true;
-								return null;
-							}
-						}
-
-					}
-				}
-			}
-		}//else provera kapaciteta
-		if (!flag) {
-			// System.out.println(reservationDTO.getSedista().size());
-			if (!reservationDTO.getSedista().isEmpty()) {
-				for (SeatDTO s : reservationDTO.getSedista()) {
-					
-
-					Ticket ticket = new Ticket();
-
-					ticket.setEventSector(sec);
-					if (sec.getSector() instanceof SittingSector) {
-						ticket.setHasSeat(true);
-						ticket.setNumRow(s.getRow());
-						ticket.setNumCol(s.getCol());
-					} else {
-						ticket.setHasSeat(false);
-					}
-					ticket.setReservation(reservation);
-					ticket.setEventDay(eventDayService.findOne(reservationDTO.getEventDay_id()));
-					reservation.getTickets().add(ticket);
-
-				}
-			}else {
-				Ticket ticket = new Ticket();
-
-				ticket.setEventSector(sec);
-				ticket.setHasSeat(false);
-				
-				ticket.setReservation(reservation);
-				ticket.setEventDay(eventDayService.findOne(reservationDTO.getEventDay_id()));
-				reservation.getTickets().add(ticket);
-			}
-			// reservation.setTickets(tickets);
-		}
-		return reservationService.save(reservation);
+		
+		return reservationService.createReservation(reservationDTO, user);
 	}
 
 	/* get all addresses, permitted for all */
@@ -122,6 +56,12 @@ public class ReservationController {
 		return reservationService.findAll();
 	}
 
+	/* get all addresses, permitted for all */
+	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Reservation> getAllActiveReservations() {
+		return reservationService.findAllActive();
+	}
+	
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> getReservation(@PathVariable(value = "id") Long reservationId) {
@@ -155,16 +95,7 @@ public class ReservationController {
 	/* delete Address */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> deleteReservation(@PathVariable(value = "id") Long reservationId) {
-		Reservation r = reservationService.findOne(reservationId);
-
-		if (r != null) {
-			reservationService.remove(reservationId);
-			logger.info("Address " + reservationId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Address " + reservationId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteReservation(@PathVariable(value = "id") Long reservationId) {
+		return reservationService.delete(reservationId);
 	}
 }
