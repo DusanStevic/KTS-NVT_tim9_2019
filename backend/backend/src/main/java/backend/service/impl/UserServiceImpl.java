@@ -1,6 +1,7 @@
 package backend.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -36,23 +37,45 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	@Override
-	public User pronadjiKorisnika(String username) throws UserNotFoundException {
+	/*@Override
+	public User pronadjiKorisnika(Long id) throws UserNotFoundException {
 		
-		User u = userRepository.findByUsername(username);
+		User u = userRepository.getOne(id);
 		if (u==null) {
-			throw new UserNotFoundException(username);
+			throw new UserNotFoundException(id);
 		} else {
 			return u;
 		}
 		
+	}*/
+	
+	
+	
+	
+	//OVO RADI
+	@Override
+	public User pronadjiKorisnika(Long id) throws UserNotFoundException {
+		return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+	
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 	
 	@Override
 	public User findById(Long id) throws AccessDeniedException{
-		return userRepository.getOne(id);
+		//return userRepository.getOne(id);
+		return userRepository.findById(id).get();
 	}
 
 	public List<User> findAll() throws AccessDeniedException {

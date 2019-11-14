@@ -1,6 +1,6 @@
 package backend.exceptions;
 
-public class UserNotFoundException extends Exception {
+public class UserNotFoundException extends Exception  {
 
 	/**
 	 * 
@@ -12,10 +12,10 @@ public class UserNotFoundException extends Exception {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UserNotFoundException(String username) {
+	/*public UserNotFoundException(String username) {
 		super(String.format("User with username: %s is not found.", username));
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	
 	
 
