@@ -39,8 +39,8 @@ import backend.model.User;
 import backend.model.UserTokenState;
 import backend.security.TokenUtils;
 import backend.security.auth.JwtAuthenticationRequest;
+import backend.service.CustomUserDetailsService;
 import backend.service.UserService;
-import backend.service.impl.CustomUserDetailsService;
 
 
 
@@ -174,7 +174,7 @@ public class AuthenticationController {
 	
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
-	public RedirectView confirmRegistration(@PathVariable("encodedId") String encodedId)
+	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
 			throws UnsupportedEncodingException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
@@ -185,11 +185,13 @@ public class AuthenticationController {
 		 * 1.Preko flaga otvarati stranice
 		 * 2.Raditi redirekciju pomocu public RedirectView se prebacivati na stranice*/
 		if (user == null) {
-			return new RedirectView("/index.html");
+			//return new RedirectView("/index.html");
+			return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
 		}
 		user.setEnabled(true);
 		userService.save(user);
-		return new RedirectView("/index.html");
+		//return new RedirectView("/index.html");
+		return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
 		
 		//ALTERNATIVA SA FLAGOM
 		//public ResponseEntity<String>
