@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import backend.security.TokenUtils;
 import backend.security.auth.RestAuthenticationEntryPoint;
 import backend.security.auth.TokenAuthenticationFilter;
-import backend.service.impl.CustomUserDetailsService;
+import backend.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
