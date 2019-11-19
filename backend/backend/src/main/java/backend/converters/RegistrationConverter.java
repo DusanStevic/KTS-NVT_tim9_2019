@@ -29,6 +29,8 @@ public class RegistrationConverter {
 		registeredUser.setFirstName(registrationDTO.getFirstName());
 		registeredUser.setLastName(registrationDTO.getLastName());
 		registeredUser.setEmail(registrationDTO.getEmail());
+		//prilikom registracije korisnik dobija defaultnu sliku 
+		registeredUser.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		List<Authority> authorities = new ArrayList<>();
 		Authority a = new Authority();
 		a.setRole(Role.ROLE_REGISTERED_USER);
@@ -49,6 +51,8 @@ public class RegistrationConverter {
 		administrator.setFirstName(registrationDTO.getFirstName());
 		administrator.setLastName(registrationDTO.getLastName());
 		administrator.setEmail(registrationDTO.getEmail());
+		//prilikom registracije administrator dobija defaultnu sliku 
+		administrator.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		List<Authority> authorities = new ArrayList<>();
 		Authority a = new Authority();
 		a.setRole(Role.ROLE_ADMIN);

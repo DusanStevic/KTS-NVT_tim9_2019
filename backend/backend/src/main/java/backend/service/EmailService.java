@@ -1,4 +1,4 @@
-package backend.service.impl;
+package backend.service;
 
 import java.util.Base64;
 

@@ -12,6 +12,7 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String imageUrl;
 	private List<String> authorities;
 	
 	public UserDTO(User user){
@@ -20,6 +21,7 @@ public class UserDTO {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.email = user.getEmail();
+		this.imageUrl = user.getImageUrl();
 		//Java 1.8 way Primer sa predavanja Advanced java 
 		//umesto da iteriramo kroz for petlju koristimo stream da namapiramo 
 		//authorities objekta User na authorites objekta UserDTO
@@ -77,6 +79,14 @@ public class UserDTO {
 
 	public void setAuthorities(List<String> authorities) {
 		this.authorities = authorities;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 

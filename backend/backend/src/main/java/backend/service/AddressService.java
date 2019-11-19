@@ -26,9 +26,17 @@ public class AddressService {
 		return addressRepository.save(b);
 	}
 
-	public Address findOne(Long id) {
+	/*public Address findOne(Long id) {
 		return addressRepository.getOne(id);
+	}*/
+	/*DULE BUDZI*/
+	public Address findOne(Long id) {
+		//forsiram da mi vrati null umesto entity not found exception ili da mi vrati 
+		// address not found exception kao kod usera sto sam napravio
+		Address a = addressRepository.findById(id).orElse(null);
+		return a;
 	}
+	
 
 	public List<Address> findAll() {
 		return addressRepository.findAll();
@@ -70,12 +78,29 @@ public class AddressService {
 		}
 	}
 	
-	public ResponseEntity<Address> getOneAddress(Long addressId){
+	/*public ResponseEntity<Address> getOneAddress(Long addressId){
 		Address a = findOne(addressId);
 		if(!a.equals(null) && !a.isDeleted()) {
 			return ResponseEntity.ok().body(a);
 		}else {
 			return ResponseEntity.notFound().build();
+			
 		}
+	}*/
+	//dule budzi
+	public ResponseEntity<Address> getOneAddress(Long addressId){
+		/*Address a = findOne(addressId);
+		if(!a.equals(null) && !a.isDeleted()) {
+			return ResponseEntity.ok().body(a);
+		}else {
+			return ResponseEntity.notFound().build();
+			
+		}*/
+		Address a = findOne(addressId);
+		if(a == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(a, HttpStatus.OK);
 	}
 }

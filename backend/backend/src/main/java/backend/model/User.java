@@ -66,8 +66,8 @@ public abstract class User implements UserDetails {
 	private String phoneNumber;
 	
 
-	@Column(name = "picturePath",nullable = true, length = 70)
-	private String picturePath;
+	@Column(name = "image_url",nullable = true)
+	private String imageUrl;
 
 	//enabled property se koristi kada korisnik treba da potvrdi confirmation mail
 	@Column(name = "enabled")
@@ -191,6 +191,16 @@ public abstract class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
 
 	
 
