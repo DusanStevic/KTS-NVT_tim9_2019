@@ -1,5 +1,6 @@
 package backend.controller;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 //can copypaste everywhere
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class LocationController {
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Location createLocation(@Valid @RequestBody LocationDTO loc) {
+	public Location createLocation(@Valid @RequestBody LocationDTO loc) throws Exception{
 		Location location = locationConverter.LocationDTO2Location(loc);
 		
 		return locationService.save(location);
@@ -72,7 +73,7 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationDTO loc) {
+			@Valid @RequestBody LocationDTO loc) throws Exception{
 
 		Location location = locationService.findOne(locationId);
 		if (location == null) {
@@ -89,11 +90,11 @@ public class LocationController {
 	}
 
 	/* delete Location */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteLocation(
 			@PathVariable(value = "id") Long locId) {
 		
 		return locationService.delete(locId);
-	}
+	}*/
 }

@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "id"),
 		@UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "username") })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -19,7 +19,7 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system admi
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 
-INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, false);
+INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, "1970-01-01 01:00:00");
 
 INSERT INTO halls (id, name, number_of_sectors, location_id, deleted) values (1, "Main Hall", 2, 1, false);
 
@@ -36,8 +36,8 @@ insert into event_days ( id, day_date, description, name, status, event_id , del
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (1, 500, 1, 1, false);
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (2, 700, 1, 2, false);
 
-insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (1, false, "2019-11-05", 1, false);
-insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (2, false, "2019-11-05", 1, true);
+insert into reservations (id, purchased, reservation_date, buyer_id , deleted, canceled) values (1, false, "2019-11-05", 1, false, false);
+insert into reservations (id, purchased, reservation_date, buyer_id , deleted, canceled) values (2, false, "2019-11-05", 1, true, false);
 
 insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id , deleted)
 	values (1, true ,1, 1, 1, 2, 1, false);

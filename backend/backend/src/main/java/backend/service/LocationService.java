@@ -1,10 +1,13 @@
 package backend.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import backend.model.Location;
 import backend.repository.LocationRepository;
 
 @Service
+@Transactional
 public class LocationService {
 	@Autowired
 	private LocationRepository locationRepository;
@@ -26,8 +30,15 @@ public class LocationService {
 	@Autowired
 	TicketService ticketService;
 	
-	public Location save(Location b) {
-		return locationRepository.save(b);
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+	public Location save(Location b) throws Exception{
+		try {
+			return locationRepository.save(b);
+		}catch (DataIntegrityViolationException e) {
+			// TODO: handle exception
+			throw new Exception();
+		}
+		
 	}
 
 	public Location findOne(Long id) {
@@ -47,7 +58,7 @@ public class LocationService {
 		locationRepository.deleteById(id);
 	}
 	
-	public ResponseEntity<String> delete(Long id) {
+	/*public ResponseEntity<String> delete(Long id) {
 		if(!ticketService.findAllByLocation(id).isEmpty()) {
 			return ResponseEntity.badRequest().body("Could not delete location");
 		}
@@ -62,5 +73,5 @@ public class LocationService {
 		}else {
 			return ResponseEntity.badRequest().body("Could not find requested location");
 		}
-	}
+	}*/
 }

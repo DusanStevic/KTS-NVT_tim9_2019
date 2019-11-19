@@ -141,4 +141,25 @@ public class ReservationService {
 		}
 	}
 
+	public Reservation cancelReservation(Long id) throws Exception {
+		Reservation r = findOne(id);
+		if(r != null && !r.isCanceled() && !r.isDeleted()) {
+			r.setCanceled(true);
+			
+			return save(r);
+		}else {
+			throw new Exception();
+		}
+	}
+	
+	public Reservation purchaseReservation(Long id) throws Exception {
+		Reservation r = findOne(id);
+		if(r != null && !r.isCanceled() && !r.isDeleted()) {
+			r.setPurchased(true);
+			
+			return save(r);
+		}else {
+			throw new Exception();
+		}
+	}
 }

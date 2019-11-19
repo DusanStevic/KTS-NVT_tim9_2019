@@ -43,6 +43,9 @@ public class Reservation {
 	@Column(name = "deleted", nullable = false)
 	private boolean deleted = false;
 	
+	@Column(name = "canceled", nullable = false)
+	private boolean canceled = false;
+	
 	public Reservation() {
 		super();
 	}
@@ -111,6 +114,14 @@ public class Reservation {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
 	}
 
 }

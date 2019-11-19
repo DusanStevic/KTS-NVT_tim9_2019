@@ -92,10 +92,23 @@ public class ReservationController {
 		return ResponseEntity.ok().body(updateReservation);
 	}
 
-	/* delete Address */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/* delete reservation */
+	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteReservation(@PathVariable(value = "id") Long reservationId) {
 		return reservationService.delete(reservationId);
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYS_ADMIN')")
+	@PutMapping(value = "cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId) throws Exception {
+		return new ResponseEntity<>(reservationService.cancelReservation(reservationId), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	@PutMapping(value = "purchase/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId) throws Exception {
+		return new ResponseEntity<>(reservationService.purchaseReservation(reservationId), HttpStatus.OK);
+	}
+	
 }
