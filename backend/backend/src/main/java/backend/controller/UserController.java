@@ -7,15 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.UserConverter;
 import backend.dto.UserDTO;
 import backend.exceptions.UserNotFoundException;
 import backend.model.User;
 import backend.repository.UserRepository;
+import backend.service.FileUploadService;
 import backend.service.UserService;
 
 import java.security.Principal;
@@ -25,7 +28,7 @@ import java.util.Optional;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value="api/user")
 public class UserController {
 
 	@Autowired
@@ -33,6 +36,9 @@ public class UserController {
 	
 	@Autowired
     private UserRepository repository;
+	
+	@Autowired
+	private FileUploadService fileUploadService;
 
 	// Za pristup ovoj metodi neophodno je da ulogovani korisnik ima ADMIN ulogu
 	// Ukoliko nema, server ce vratiti gresku 403 Forbidden
@@ -135,6 +141,17 @@ public class UserController {
 		return this.userService.pronadjiKorisnika(userId);
 	
     }
+	
+	
+	 //update slike usera razbijanje requesta na multipart i json deo
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_REGISTERED_USER')")
+	@PutMapping(value = "/image",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<User> updateImage(@RequestParam("file")MultipartFile file, Principal principal) {
+		User user = userService.findByUsername(principal.getName());
+		user.setImageUrl(fileUploadService.imageUpload(file));
+		userService.save(user);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
 	
 	
 	
