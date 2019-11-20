@@ -1,5 +1,10 @@
 package backend.controller;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+import java.security.Principal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,19 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import backend.converters.UserConverter;
-import backend.dto.UserDTO;
 import backend.exceptions.UserNotFoundException;
 import backend.model.User;
 import backend.repository.UserRepository;
 import backend.service.FileUploadService;
 import backend.service.UserService;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(value="api/user")
