@@ -33,5 +33,15 @@ public class CloudinaryConfig {
             return null;
         }
     }
+    
+    //Chunked video upload.This method must be used to upload files larger than 100 MB in size.
+    public Map uploadLarge(Object file, Map options){
+        try{
+            return cloudinary.uploader().uploadLarge(file, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
    
 }

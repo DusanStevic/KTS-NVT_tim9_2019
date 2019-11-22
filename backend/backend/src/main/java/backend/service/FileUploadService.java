@@ -44,7 +44,7 @@ public class FileUploadService {
 			//VIDEO UPLOAD
 			//umesto parametra auto ako tacno znam koji tip fajla cu upload-ovati onda mogu da navedem taj tip fajla
 			//Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type","auto")); auto → video
-			Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type", "video"));
+			Map uploadResult = cloudinaryConfig.uploadLarge(file.getBytes(),ObjectUtils.asMap("resource_type", "video"));
             cloudinaryUploadedVideoUrl = uploadResult.get("url").toString();
           	
     		
