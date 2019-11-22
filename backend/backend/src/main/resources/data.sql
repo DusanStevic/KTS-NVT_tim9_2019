@@ -39,11 +39,11 @@ insert into event_sectors (id, price, event_id, sector_id, deleted) values (2, 7
 insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (1, false, "2019-11-05", 1, false);
 insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (2, false, "2019-11-05", 1, true);
 
-insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id , deleted)
-	values (1, true ,1, 1, 1, 2, 1, false);
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (1, true ,1, 1, 1, 2, 1);
 
-insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id , deleted)
-	values (2, true ,1, 2, 1, 2, 2, true);
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (2, true ,1, 2, 1, 2, 2);
 
 
         

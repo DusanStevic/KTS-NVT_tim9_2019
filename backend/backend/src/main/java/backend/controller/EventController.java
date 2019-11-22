@@ -1,7 +1,8 @@
 package backend.controller;
-import java.security.Principal;
 //can copypaste everywhere
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-
-import backend.model.*;
-import backend.service.*;
 import backend.converters.EventConverter;
-import backend.dto.*;
+import backend.dto.EventDTO;
+import backend.model.Event;
+import backend.service.EventService;
+import backend.service.FileUploadService;
 
 @RestController
 @RequestMapping("/api/event")
@@ -51,7 +51,7 @@ public class EventController {
 	}
 	
 
-	/* get all eventes, permitted for all */
+	/* get all events, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Event> getAllEventes() {
 		return eventService.findAll();
@@ -95,6 +95,7 @@ public class EventController {
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteEvent(
 			@PathVariable(value = "id") Long eventId) {
+		logger.debug("Deleted" + eventId);
 		return eventService.delete(eventId);
 	}
 }
