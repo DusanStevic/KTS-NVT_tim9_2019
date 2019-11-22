@@ -23,15 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.EventConverter;
-<<<<<<< HEAD
-import backend.converters.UserConverter;
-import backend.dto.*;
-=======
 import backend.dto.EventDTO;
 import backend.model.Event;
 import backend.service.EventService;
 import backend.service.FileUploadService;
->>>>>>> master
+
 
 @RestController
 @RequestMapping("/api/event")
