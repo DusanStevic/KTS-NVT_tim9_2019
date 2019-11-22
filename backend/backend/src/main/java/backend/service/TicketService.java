@@ -56,4 +56,9 @@ public class TicketService {
 			return ResponseEntity.badRequest().body("Could not find requested ticket");
 		}
 	}
+	
+	public List<Ticket> findAllByEvent(Long event_id)
+	{
+		return ticketRepository.findAllByEvent(event_id);
+	}
 }

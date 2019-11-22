@@ -1,4 +1,4 @@
-package backend.dto;
+package backend.dto.charts;
 
 public class SystemInformationsDTO {
 	private int numberOfEvents;
