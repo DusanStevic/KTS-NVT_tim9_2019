@@ -2,13 +2,13 @@ package backend.dto.charts;
 
 public class ChartEventTicketsSoldDTO {
 	private String eventName;
-	private int ticketsSold;
+	private double ticketsSold;
 
 	public ChartEventTicketsSoldDTO() {
 		super();
 	}
 
-	public ChartEventTicketsSoldDTO(String eventName, int ticketsSold) {
+	public ChartEventTicketsSoldDTO(String eventName, double ticketsSold) {
 		super();
 		this.eventName = eventName;
 		this.ticketsSold = ticketsSold;
@@ -22,7 +22,7 @@ public class ChartEventTicketsSoldDTO {
 		this.eventName = eventName;
 	}
 
-	public int getTicketsSold() {
+	public double getTicketsSold() {
 		return ticketsSold;
 	}
 

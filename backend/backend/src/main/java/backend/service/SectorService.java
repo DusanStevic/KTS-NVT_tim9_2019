@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.dto.SectorDTO;
-import backend.model.Address;
 import backend.model.Sector;
 import backend.model.SittingSector;
 import backend.model.StandingSector;

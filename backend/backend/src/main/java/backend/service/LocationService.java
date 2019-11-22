@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Location;
 import backend.repository.LocationRepository;
@@ -22,10 +21,13 @@ public class LocationService {
 
 	@Autowired
 	HallService hallService;
-	
+
 	@Autowired
 	TicketService ticketService;
-	
+
+	@Autowired
+	EventService eventService;
+
 	public Location save(Location b) {
 		return locationRepository.save(b);
 	}
@@ -46,21 +48,24 @@ public class LocationService {
 	public void remove(Long id) {
 		locationRepository.deleteById(id);
 	}
-	
+
 	public ResponseEntity<String> delete(Long id) {
-		if(!ticketService.findAllByLocation(id).isEmpty()) {
-			return ResponseEntity.badRequest().body("Could not delete location");
+		if (!ticketService.findAllByLocation(id).isEmpty()) {
+			return ResponseEntity.badRequest()
+					.body("Could not delete location");
 		}
 		Location loc = findOne(id);
-		if(!loc.equals(null) && !loc.isDeleted()) {
+		if (!loc.equals(null) && !loc.isDeleted()) {
 			loc.setDeleted(true);
-			for(Hall h : loc.getHalls()) {
+			for (Hall h : loc.getHalls()) {
 				hallService.delete(h.getId());
 			}
 			save(loc);
 			return ResponseEntity.ok().body("Successfully deleted");
-		}else {
-			return ResponseEntity.badRequest().body("Could not find requested location");
+		} else {
+			return ResponseEntity.badRequest().body(
+					"Could not find requested location");
 		}
 	}
+
 }

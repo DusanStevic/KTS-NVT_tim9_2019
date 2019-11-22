@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cloudinary.utils.ObjectUtils;
-
 import backend.config.CloudinaryConfig;
+
+import com.cloudinary.utils.ObjectUtils;
 /*source code za cloudinary api
 https://cloudinary.com/documentation/java_image_upload
 https://cloudinary.com/documentation/java_video_upload
