@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import backend.dto.AddressDTO;
-import backend.model.Address;
 import backend.model.Event;
 import backend.repository.EventRepository;
 

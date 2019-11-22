@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import backend.model.Reservation;
 import backend.model.Ticket;
 import backend.repository.TicketRepository;
 
@@ -39,22 +38,21 @@ public class TicketService {
 	public void remove(Long id) {
 		ticketRepository.deleteById(id);
 	}
-	
-	public List<Ticket> findAllByEventDayIDEventSectorID(Long ed_id, Long es_id){
+
+	public List<Ticket> findAllByEventDayIDEventSectorID(Long ed_id, Long es_id) {
 		return ticketRepository.findAllByEventDayIDEventSectorID(ed_id, es_id);
 	}
-	
-	public List<Ticket> findAllByLocation(Long id){
+
+	public List<Ticket> findAllByLocation(Long id) {
 		return ticketRepository.findAllByLocation(id);
 	}
-	
+
 	public ResponseEntity<String> delete(Long ID) {
-		Ticket t = findOne(ID);
-		if(!t.equals(null) && !t.isDeleted()) {
-			t.setDeleted(true);
-			save(t);
+		// Arpad: Izbacio sam logicko brisanje, nema smisla kod ticketa
+		try {
+			ticketRepository.deleteById(ID);
 			return ResponseEntity.ok().body("Successfully deleted");
-		}else {
+		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("Could not find requested ticket");
 		}
 	}
