@@ -2,24 +2,63 @@ package backend.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
+
+import backend.model.Authority;
+import backend.model.Event;
 
 public class EventDTO {
+	private Long id;
 	private String name;
 	private String description;
 	private int event_type;
 	private Date start_date;
 	private Date end_date;
-	private String video_path;
+	
 	private int max_tickets;
 	//private Date last_day_of_reservation;
 	private int num_days; //koliko dana pred manifestaciju vazi rezervacija
 	private Long location_id;
 	private ArrayList<String> image_paths;
+	private ArrayList<String> video_paths;
 	private ArrayList<EventSectorDTO> sectors;
 	private ArrayList<EventDayDTO> event_days;
 	
-	public EventDTO(String name, String description, int event_type, Date start_date, Date end_date, String video_path,
-			int max_tickets, int num_days, Long location_id, ArrayList<String> image_paths,
+	public EventDTO(Event event){
+		this.id = event.getId();
+		this.name = event.getName();
+		this.description =event.getDescription();
+		this.event_type = event.getEventType().ordinal();
+		this.start_date = event.getStartDate();
+		this.end_date = event.getEndDate();
+		this.max_tickets = event.getMaxTickets();
+		this.num_days = event.getNumDays();
+		this.location_id = event.getLocation().getId();
+		this.image_paths = (ArrayList<String>) event.getImagePaths().stream().map(temp->temp).collect(Collectors.toList());
+		this.video_paths = (ArrayList<String>) event.getVideoPaths().stream().map(temp->temp).collect(Collectors.toList());
+		this.sectors = (ArrayList<EventSectorDTO>) event.getEventSectors().stream().map(temp->{
+			EventSectorDTO obj = new EventSectorDTO();
+			obj.setPrice(temp.getPrice());
+			obj.setEvent_id(temp.getEvent().getId());
+			obj.setSector_id(temp.getSector().getId());
+			return obj;
+		}).collect(Collectors.toList());
+		this.event_days = (ArrayList<EventDayDTO>) event.getEventDays().stream().map(temp->{
+			EventDayDTO obj = new EventDayDTO();
+			obj.setName(temp.getName());
+			obj.setDescription(temp.getDescription());
+			obj.setDate(temp.getDate());
+			obj.setStatus(temp.getStatus().ordinal());
+			obj.setEvent_id(temp.getEvent().getId());
+			
+			return obj;
+		}).collect(Collectors.toList());
+		
+	
+	}
+	
+	public EventDTO(String name, String description, int event_type, Date start_date, Date end_date,
+			int max_tickets, int num_days, Long location_id, ArrayList<String> image_paths,ArrayList<String> video_paths,
 			ArrayList<EventSectorDTO> sectors, ArrayList<EventDayDTO> event_days) {
 		super();
 		this.name = name;
@@ -27,11 +66,12 @@ public class EventDTO {
 		this.event_type = event_type;
 		this.start_date = start_date;
 		this.end_date = end_date;
-		this.video_path = video_path;
+		
 		this.max_tickets = max_tickets;
 		this.num_days = num_days;
 		this.location_id = location_id;
 		this.image_paths = image_paths;
+		this.video_paths = video_paths;
 		this.sectors = sectors;
 		this.event_days = event_days;
 	}
@@ -68,12 +108,7 @@ public class EventDTO {
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
 	}
-	public String getVideo_path() {
-		return video_path;
-	}
-	public void setVideo_path(String video_path) {
-		this.video_path = video_path;
-	}
+	
 	public int getMax_tickets() {
 		return max_tickets;
 	}
@@ -110,6 +145,24 @@ public class EventDTO {
 	public void setEvent_days(ArrayList<EventDayDTO> event_days) {
 		this.event_days = event_days;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ArrayList<String> getVideo_paths() {
+		return video_paths;
+	}
+
+	public void setVideo_paths(ArrayList<String> video_paths) {
+		this.video_paths = video_paths;
+	}
+	
+	
 	
 	
 }

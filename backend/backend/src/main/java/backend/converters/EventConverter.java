@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 import backend.dto.EventDTO;
 import backend.dto.EventDayDTO;
 import backend.dto.EventSectorDTO;
+import backend.dto.UserDTO;
 import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventSector;
 import backend.model.EventType;
+import backend.model.User;
 import backend.service.LocationService;
 
 @Component
@@ -32,7 +34,9 @@ public class EventConverter {
 		Event e = new Event();
 		e.setDescription(dto.getDescription());
 		e.setName(dto.getName());
-		e.setVideoPath(dto.getVideo_path());
+		//e.setVideoPath(dto.getVideo_path());
+		
+	
 		e.setStartDate(dto.getStart_date());
 		e.setEndDate(dto.getEnd_date());
 		e.setNumDays(dto.getNum_days());
@@ -42,6 +46,11 @@ public class EventConverter {
 		for(String img_path : dto.getImage_paths()) {
 			e.getImagePaths().add(img_path);
 		}
+		for(String video_path : dto.getVideo_paths()) {
+			e.getVideoPaths().add(video_path);
+		}
+		
+		
 		
 		
 	    int diff = (int) ((dto.getEnd_date().getTime() - dto.getStart_date().getTime()) / (1000 * 60 * 60 * 24));
@@ -60,5 +69,10 @@ public class EventConverter {
 			e.getEventSectors().add(es);
 		}
 		return e;
+	}
+	
+	//konvertuje Event u EventDTO
+	public static EventDTO Event2EventDTO(Event event) {
+		return new EventDTO(event);
 	}
 }
