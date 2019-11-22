@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import backend.model.*;
 import backend.service.*;
 import backend.converters.EventConverter;
+import backend.converters.UserConverter;
 import backend.dto.*;
 
 @RestController
@@ -79,15 +80,31 @@ public class EventController {
 		return eventService.update(eventId, e);
 	}
 	
-	/* update video of event by id */
+
+	
+	/*add image to event*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PutMapping(value = "/video/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Event> updateVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+	@PutMapping(value = "/addImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
 		Event event = eventService.findOne(eventId);
-		event.setVideoPath(fileUploadService.videoUpload(file));
+		event.getImagePaths().add(fileUploadService.imageUpload(file));
 		eventService.save(event);
-		return new ResponseEntity<>(event, HttpStatus.OK);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
 	}
+	
+	/*add video to event*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(value = "/addVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+		Event event = eventService.findOne(eventId);
+		event.getVideoPaths().add(fileUploadService.videoUpload(file));
+		eventService.save(event);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
+	}
+	
+	
 	
 
 	/* delete event */

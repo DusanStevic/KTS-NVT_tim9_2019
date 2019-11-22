@@ -37,8 +37,6 @@ public class Event {
 	private Date startDate;
 	@Column(name = "endDate", nullable = false)
 	private Date endDate;
-	@Column(name = "videoPath", nullable = true)
-	private String videoPath;
 	@Column(name = "maxTickets", nullable = false)
 	private int maxTickets;
 	/*@Column(name = "lastDayOfReservation", nullable = false)
@@ -65,6 +63,14 @@ public class Event {
 	 */
 	@ElementCollection(fetch = FetchType.LAZY)
 	private Set<String> imagePaths = new HashSet<>();
+	
+	@ElementCollection(fetch = FetchType.LAZY)
+	private Set<String> videoPaths = new HashSet<>();
+	
+	/*//TO DO: PREBACI SE NA SET 
+	@Column(name = "videoPath", nullable = true)
+	private String videoPath;*/
+	
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("event")
@@ -81,7 +87,7 @@ public class Event {
 	public Event(Long id, String name, String description, EventType type,
 			Date startDate, Date endDate, String videoPath, int maxTickets,
 			int numDays, Location location,
-			Set<String> imagePaths, Set<EventSector> eventSectors,
+			Set<String> imagePaths,Set<String> videoPaths, Set<EventSector> eventSectors,
 			Set<EventDay> eventDays, boolean deleted) {
 		super();
 		this.id = id;
@@ -90,7 +96,7 @@ public class Event {
 		this.eventType = type;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.videoPath = videoPath;
+		this.videoPaths = videoPaths;
 		this.maxTickets = maxTickets;
 		this.numDays = numDays;
 		this.location = location;
@@ -107,7 +113,7 @@ public class Event {
 		this.eventType = e.eventType;
 		this.startDate = e.startDate;
 		this.endDate = e.endDate;
-		this.videoPath = e.videoPath;
+		this.videoPaths = e.videoPaths;
 		this.maxTickets = e.maxTickets;
 		this.numDays = e.numDays;
 		this.location = e.location;
@@ -162,14 +168,9 @@ public class Event {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
 
-	public String getVideoPath() {
-		return videoPath;
-	}
-
-	public void setVideoPath(String videoPath) {
-		this.videoPath = videoPath;
-	}
+	
 
 	public int getMaxTickets() {
 		return maxTickets;
@@ -219,7 +220,7 @@ public class Event {
 		return "Event [id=" + id + ", name=" + name + ", description="
 				+ description + ", type=" + eventType + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", videoPath="
-				+ videoPath + ", maxTickets=" + maxTickets + ", location=" + location + ", imagePaths="
+				+ videoPaths + ", maxTickets=" + maxTickets + ", location=" + location + ", imagePaths="
 				+ imagePaths + ", eventSectors=" + eventSectors
 				+ ", eventDays=" + eventDays + "]";
 	}
@@ -238,6 +239,14 @@ public class Event {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public Set<String> getVideoPaths() {
+		return videoPaths;
+	}
+
+	public void setVideoPaths(Set<String> videoPaths) {
+		this.videoPaths = videoPaths;
 	}
 
 }
