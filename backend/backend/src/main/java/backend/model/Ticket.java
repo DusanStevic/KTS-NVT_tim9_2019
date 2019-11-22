@@ -40,9 +40,6 @@ public class Ticket {
 	@JoinColumn(name = "sector_id")
 	private EventSector eventSector;
 
-	@Column(name = "deleted", nullable = false)
-	private boolean deleted = false;
-	
 	public Ticket() {
 		super();
 	}
@@ -113,14 +110,6 @@ public class Ticket {
 
 	public void setEventSector(EventSector sector) {
 		this.eventSector = sector;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
 	}
 
 }
