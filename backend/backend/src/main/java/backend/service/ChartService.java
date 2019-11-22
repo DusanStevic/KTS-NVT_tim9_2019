@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import backend.dto.charts.ChartEventTicketsSoldDTO;
 import backend.dto.charts.ChartIncomeEventsDTO;
+import backend.dto.charts.ChartIncomeLocationsDTO;
+import backend.dto.charts.ChartLocationTicketsSoldDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.dto.charts.SystemInformationsDTO;
 import backend.model.Authority;
@@ -73,6 +75,10 @@ public class ChartService {
 		ArrayList<ChartIncomeEventsDTO> info = new ArrayList<ChartIncomeEventsDTO>();
 
 		List<Event> events = eventService.findAll();
+		
+		if (events.isEmpty()) {
+			return info;
+		}
 
 		double sum = 0;
 		for (Event event : events) {
@@ -94,6 +100,10 @@ public class ChartService {
 		ArrayList<ChartEventTicketsSoldDTO> info = new ArrayList<ChartEventTicketsSoldDTO>();
 
 		List<Event> events = eventService.findAll();
+		
+		if (events.isEmpty()) {
+			return info;
+		}
 
 		int sum = 0;
 		for (Event event : events) {
@@ -150,6 +160,26 @@ public class ChartService {
 		}
 		info.add(new ChartEventTicketsSoldDTO("Average", sum / events.size()));
 		return info;
+	}
+
+	public List<ChartIncomeLocationsDTO> incomeByLocations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<ChartIncomeLocationsDTO> incomeByLocations(DateIntervalDTO interval) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations(DateIntervalDTO interval) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
