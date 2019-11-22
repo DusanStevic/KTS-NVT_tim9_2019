@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.model.EventSector;
-import backend.model.Reservation;
-import backend.model.Ticket;
 import backend.repository.EventSectorRepository;
 
 @Service

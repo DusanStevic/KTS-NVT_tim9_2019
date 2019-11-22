@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Sector;
 import backend.repository.HallRepository;
