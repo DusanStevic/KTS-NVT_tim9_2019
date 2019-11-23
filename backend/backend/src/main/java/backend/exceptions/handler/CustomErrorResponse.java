@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+
+/*https://www.mkyong.com/spring-boot/spring-rest-error-handling-example/
+https://dzone.com/articles/spring-rest-service-exception-handling-1
+https://www.baeldung.com/exception-handling-for-rest-with-spring
+*/
 public class CustomErrorResponse {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime timestamp;

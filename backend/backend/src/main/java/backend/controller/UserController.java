@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import backend.exceptions.UserNotFoundException;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.User;
 import backend.repository.UserRepository;
 import backend.service.FileUploadService;
@@ -132,10 +132,10 @@ public class UserController {
 	/*Drugi nacin greska se hvata na nivou  GlobalExceptioinHandler vrsi se propagacija greske navise sa 
 	 * controllera na GlobalExceptionHandler + imamo CustomErrorREsponse takodje ispravan nacin rada*/
 	//OVO RADI
-	@GetMapping("/user/{userId}")
+	@GetMapping("/{userId}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	User findOne(@PathVariable Long userId) throws UserNotFoundException{
-		return this.userService.pronadjiKorisnika(userId);
+	User findOne(@PathVariable Long userId) throws ResourceNotFoundException{
+		return this.userService.findById(userId);
 	
     }
 	
