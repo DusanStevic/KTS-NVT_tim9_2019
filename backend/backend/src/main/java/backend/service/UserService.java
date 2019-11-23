@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
-import backend.exceptions.UserNotFoundException;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.User;
@@ -51,17 +51,13 @@ public class UserService {
 	 * }
 	 */
 
-	public User pronadjiKorisnika(Long id) throws UserNotFoundException {
+
+
+	public User findById(Long id) throws ResourceNotFoundException {
 		User u = userRepository.findById(id).orElseThrow(
-				() -> new UserNotFoundException(id));
+				() -> new ResourceNotFoundException("User not found!"));
 
 		return u;
-
-	}
-
-	public User findById(Long id) throws AccessDeniedException {
-		// return userRepository.getOne(id);
-		return userRepository.findById(id).get();
 	}
 
 	public List<User> findAll() throws AccessDeniedException {
