@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.dto.charts.ChartEventTicketsSoldDTO;
 import backend.dto.charts.ChartIncomeEventsDTO;
+import backend.dto.charts.ChartIncomeLocationsDTO;
+import backend.dto.charts.ChartLocationTicketsSoldDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.dto.charts.SystemInformationsDTO;
 import backend.service.ChartService;
@@ -80,12 +82,14 @@ public class ChartController {
 					.build();
 		}
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
 	@PutMapping(path = "/event_incomes/interval", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ChartIncomeEventsDTO>> getIncomeByEvents(@Valid @RequestBody DateIntervalDTO interval) {
+	public ResponseEntity<List<ChartIncomeEventsDTO>> getIncomeByEvents(
+			@Valid @RequestBody DateIntervalDTO interval) {
 		try {
-			List<ChartIncomeEventsDTO> info = chartService.incomeByEvents(interval);
+			List<ChartIncomeEventsDTO> info = chartService
+					.incomeByEvents(interval);
 			if (info != null) {
 				return ResponseEntity.ok().body(info);
 			} else {
@@ -96,13 +100,84 @@ public class ChartController {
 					.build();
 		}
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
 	@PutMapping(path = "/event_tickets_sold/interval", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ChartEventTicketsSoldDTO>> getTicketsSoldByEvents(@Valid @RequestBody DateIntervalDTO interval) {
+	public ResponseEntity<List<ChartEventTicketsSoldDTO>> getTicketsSoldByEvents(
+			@Valid @RequestBody DateIntervalDTO interval) {
 		try {
 			List<ChartEventTicketsSoldDTO> info = chartService
 					.soldTicketsByEvents(interval);
+			if (info != null) {
+				return ResponseEntity.ok().body(info);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.build();
+		}
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
+	@GetMapping(path = "/location_incomes", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChartIncomeLocationsDTO>> getIncomeByLocations() {
+		try {
+			List<ChartIncomeLocationsDTO> info = chartService
+					.incomeByLocations();
+			if (info != null) {
+				return ResponseEntity.ok().body(info);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.build();
+		}
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN','ROLE_ADMIN')")
+	@GetMapping(path = "/location_tickets_sold", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChartLocationTicketsSoldDTO>> getTicketsSoldByLocations() {
+		try {
+			List<ChartLocationTicketsSoldDTO> info = chartService
+					.soldTicketsByLocations();
+			if (info != null) {
+				return ResponseEntity.ok().body(info);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.build();
+		}
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
+	@PutMapping(path = "/location_incomes/interval", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChartIncomeLocationsDTO>> getIncomeByLocations(
+			@Valid @RequestBody DateIntervalDTO interval) {
+		try {
+			List<ChartIncomeLocationsDTO> info = chartService
+					.incomeByLocations(interval);
+			if (info != null) {
+				return ResponseEntity.ok().body(info);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.build();
+		}
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN','ROLE_ADMIN')")
+	@PutMapping(path = "/location_tickets_sold/interval", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChartLocationTicketsSoldDTO>> getTicketsSoldByLocations(
+			@Valid @RequestBody DateIntervalDTO interval) {
+		try {
+			List<ChartLocationTicketsSoldDTO> info = chartService
+					.soldTicketsByLocations(interval);
 			if (info != null) {
 				return ResponseEntity.ok().body(info);
 			} else {

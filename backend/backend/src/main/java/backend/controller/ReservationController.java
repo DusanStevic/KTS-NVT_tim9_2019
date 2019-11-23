@@ -1,17 +1,14 @@
 package backend.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 //can copypaste everywhere
 import java.util.List;
-import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-import backend.model.*;
-import backend.service.*;
-import backend.dto.*;
+import backend.dto.ReservationDTO;
+import backend.model.Reservation;
+import backend.service.ReservationService;
 
 @RestController
 @RequestMapping("/api/reservation")
@@ -38,15 +33,14 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 
-	
-
 	/* saving address */
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
+	public ResponseEntity<Reservation> createReservation(
+			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
 		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
-		
+
 		return reservationService.createReservation(reservationDTO, user);
 	}
 
@@ -61,10 +55,11 @@ public class ReservationController {
 	public List<Reservation> getAllActiveReservations() {
 		return reservationService.findAllActive();
 	}
-	
+
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> getReservation(@PathVariable(value = "id") Long reservationId) {
+	public ResponseEntity<Reservation> getReservation(
+			@PathVariable(value = "id") Long reservationId) {
 		Reservation reservation = reservationService.findOne(reservationId);
 
 		if (reservation == null) {
@@ -76,7 +71,8 @@ public class ReservationController {
 	/* update address by id */
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> updateReservation(@PathVariable(value = "id") Long reservationId,
+	public ResponseEntity<Reservation> updateReservation(
+			@PathVariable(value = "id") Long reservationId,
 			@Valid @RequestBody ReservationDTO r) {
 
 		Reservation reservation = reservationService.findOne(reservationId);
@@ -95,7 +91,9 @@ public class ReservationController {
 	/* delete Address */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> deleteReservation(@PathVariable(value = "id") Long reservationId) {
+	public ResponseEntity<String> deleteReservation(
+			@PathVariable(value = "id") Long reservationId) {
+		logger.info("Deleting " + reservationId);
 		return reservationService.delete(reservationId);
 	}
 }
