@@ -1,14 +1,15 @@
 package backend.config;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.Singleton;
-import com.cloudinary.Transformation;
+import java.io.IOException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.Map;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Singleton;
+import com.cloudinary.utils.ObjectUtils;
 
 /*source code za cloudinary api
 https://cloudinary.com/documentation/java_image_upload
@@ -43,5 +44,15 @@ public class CloudinaryConfig {
             return null;
         }
     }
+    //Following code would delete the uploaded image assigned with the public ID
+    public Map destroy(String publicId, Map options) {
+    	try{
+            return cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
    
 }
