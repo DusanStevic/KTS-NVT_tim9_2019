@@ -26,10 +26,11 @@ INSERT INTO halls (id, name, number_of_sectors, location_id, deleted) values (1,
 INSERT INTO sectors (sector_type, id , name , capacity, hall_id, deleted) VALUES ('standing', 1, 'S1_1', 500, 1, false);	--standing sector
 INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, deleted) VALUES ('sitting', 2, 'S2_2', 10, 10, 1, false); --sitting sector
 
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, video_path, location_id, deleted) 
-	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", "video1", 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, false);
 	
 insert into event_image_paths (event_id, image_paths) values(1, "e1picture1");
+insert into event_video_paths (event_id, video_paths) values(1, "e1video1");
 
 insert into event_days ( id, day_date, description, name, status, event_id , deleted) values(1,"2020-03-03", "Dubioza 21:00, Sars 23:00", "Uniparty Day 1.", 0,1, false);
 
@@ -39,11 +40,11 @@ insert into event_sectors (id, price, event_id, sector_id, deleted) values (2, 7
 insert into reservations (id, purchased, reservation_date, buyer_id , deleted, canceled) values (1, false, "2019-11-05", 1, false, false);
 insert into reservations (id, purchased, reservation_date, buyer_id , deleted, canceled) values (2, false, "2019-11-05", 1, true, false);
 
-insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id , deleted)
-	values (1, true ,1, 1, 1, 2, 1, false);
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (1, true ,1, 1, 1, 2, 1);
 
-insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id , deleted)
-	values (2, true ,1, 2, 1, 2, 2, true);
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (2, true ,1, 2, 1, 2, 2);
 
 
         

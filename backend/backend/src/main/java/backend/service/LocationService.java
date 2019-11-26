@@ -1,6 +1,7 @@
 package backend.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -10,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import backend.model.Address;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.DeletingException;
+import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Hall;
 import backend.model.Location;
 import backend.repository.LocationRepository;
@@ -26,23 +29,22 @@ public class LocationService {
 
 	@Autowired
 	HallService hallService;
-	
+
 	@Autowired
 	TicketService ticketService;
 	
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-	public Location save(Location b) throws Exception{
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
+	public Location save(Location b) throws SavingException{
 		try {
 			return locationRepository.save(b);
 		}catch (DataIntegrityViolationException e) {
-			// TODO: handle exception
-			throw new Exception();
+			throw new SavingException("Could not save location. Check if there is another location on the same address.");
 		}
 		
 	}
-
 	public Location findOne(Long id) {
-		return locationRepository.getOne(id);
+		return locationRepository.findById(id).orElse(null);
 	}
 
 	public List<Location> findAll() {
@@ -57,21 +59,27 @@ public class LocationService {
 	public void remove(Long id) {
 		locationRepository.deleteById(id);
 	}
+
 	
-	/*public ResponseEntity<String> delete(Long id) {
-		if(!ticketService.findAllByLocation(id).isEmpty()) {
-			return ResponseEntity.badRequest().body("Could not delete location");
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = DeletingException.class)
+	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException{
+		if (!ticketService.findAllByLocation(id).isEmpty()) {
+			throw new BadRequestException("Could not delete location");
 		}
 		Location loc = findOne(id);
-		if(!loc.equals(null) && !loc.isDeleted()) {
-			loc.setDeleted(true);
-			for(Hall h : loc.getHalls()) {
+		if (loc != null && loc.getDeleted().equals(new Timestamp(0L))) {
+			loc.setDeleted(new Timestamp(System.currentTimeMillis()));
+			for (Hall h : loc.getHalls()) {
 				hallService.delete(h.getId());
 			}
 			save(loc);
-			return ResponseEntity.ok().body("Successfully deleted");
-		}else {
-			return ResponseEntity.badRequest().body("Could not find requested location");
+			
+		} else {
+			throw new ResourceNotFoundException("Could not find requested location");
 		}
-	}*/
-}
+
+	}
+
+	}
+
+

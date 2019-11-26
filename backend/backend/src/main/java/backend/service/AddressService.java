@@ -53,7 +53,7 @@ public class AddressService {
 	
 	public ResponseEntity<String> delete(Long addressID) {
 		Address a = findOne(addressID);
-		if(!a.equals(null) && !a.isDeleted()) {
+		if(a == null && !a.isDeleted()) {
 			a.setDeleted(true);
 			save(a);
 			return ResponseEntity.ok().body("Successfully deleted");

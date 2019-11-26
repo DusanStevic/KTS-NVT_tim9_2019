@@ -1,8 +1,9 @@
 package backend.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-//can copypaste everywhere
+
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-import backend.model.*;
-import backend.service.*;
 import backend.converters.LocationConverter;
-import backend.dto.*;
+import backend.dto.LocationDTO;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
+import backend.model.Location;
+import backend.service.AddressService;
+import backend.service.LocationService;
 
 @RestController
 @RequestMapping("/api/location")
@@ -44,10 +47,10 @@ public class LocationController {
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Location createLocation(@Valid @RequestBody LocationDTO loc) throws Exception{
+	public ResponseEntity<?> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException{
 		Location location = locationConverter.LocationDTO2Location(loc);
+		return new ResponseEntity<>(locationService.save(location), HttpStatus.OK);
 		
-		return locationService.save(location);
 	}
 
 	/* get all locations, permitted for all */
@@ -90,11 +93,12 @@ public class LocationController {
 	}
 
 	/* delete Location */
-	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteLocation(
-			@PathVariable(value = "id") Long locId) {
-		
-		return locationService.delete(locId);
-	}*/
+			@PathVariable(value = "id") Long locId) throws SavingException, BadRequestException, ResourceNotFoundException {
+		logger.info("Deleting location id " + locId);
+		locationService.delete(locId);
+		return new ResponseEntity<>("Successfully deleted location", HttpStatus.OK);
+	}
 }

@@ -2,6 +2,8 @@ package backend.controller;
 //can copypaste everywhere
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-
-import backend.model.*;
-import backend.service.*;
 import backend.converters.EventConverter;
-import backend.dto.*;
+import backend.dto.EventDTO;
+import backend.model.Event;
+import backend.service.EventService;
+import backend.service.FileUploadService;
+
 
 @RestController
 @RequestMapping("/api/event")
@@ -32,6 +36,9 @@ public class EventController {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	private FileUploadService fileUploadService;
 
 	@Autowired
 	EventConverter eventConverter;
@@ -45,7 +52,7 @@ public class EventController {
 	}
 	
 
-	/* get all eventes, permitted for all */
+	/* get all events, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Event> getAllEventes() {
 		return eventService.findAll();
@@ -72,12 +79,40 @@ public class EventController {
 		Event e = eventConverter.EventDTO2Event(dto);
 		return eventService.update(eventId, e);
 	}
+	
+
+	
+	/*add image to event*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(value = "/addImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+		Event event = eventService.findOne(eventId);
+		event.getImagePaths().add(fileUploadService.imageUpload(file));
+		eventService.save(event);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
+	}
+	
+	/*add video to event*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(value = "/addVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+		Event event = eventService.findOne(eventId);
+		event.getVideoPaths().add(fileUploadService.videoUpload(file));
+		eventService.save(event);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
+	}
+	
+	
+	
 
 	/* delete event */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteEvent(
 			@PathVariable(value = "id") Long eventId) {
+		logger.debug("Deleted" + eventId);
 		return eventService.delete(eventId);
 	}
 }

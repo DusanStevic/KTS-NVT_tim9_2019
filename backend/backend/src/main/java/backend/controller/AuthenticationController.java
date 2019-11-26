@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
 
 import backend.common.DeviceProvider;
 import backend.converters.UserConverter;
 import backend.dto.RegistrationDTO;
 import backend.dto.UserDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.Role;
@@ -175,7 +175,7 @@ public class AuthenticationController {
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
 	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException, ResourceNotFoundException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
 		String str = new String(bytes);

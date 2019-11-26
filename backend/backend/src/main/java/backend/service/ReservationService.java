@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import backend.dto.ReservationDTO;
 import backend.dto.SeatDTO;
-import backend.model.Address;
 import backend.model.EventSector;
 import backend.model.RegisteredUser;
 import backend.model.Reservation;
