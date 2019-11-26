@@ -1,4 +1,5 @@
 package backend.controller;
+import java.io.IOException;
 //can copypaste everywhere
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.EventConverter;
 import backend.dto.EventDTO;
+import backend.dto.UrlDTO;
 import backend.model.Event;
 import backend.service.EventService;
 import backend.service.FileUploadService;
@@ -88,6 +90,20 @@ public class EventController {
 	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
 		Event event = eventService.findOne(eventId);
 		event.getImagePaths().add(fileUploadService.imageUpload(file));
+		eventService.save(event);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
+	}
+	
+	/*delete image from event*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(value = "/deleteImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventDTO> deleteImage(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException {
+		Event event = eventService.findOne(eventId);
+		//brisanje url-a slike iz baze
+		event.getImagePaths().remove(dto.getUrl());
+		//brisanje slike(stvarnog fajla) sa cloud-a
+		fileUploadService.imageDelete(dto.getUrl());
 		eventService.save(event);
 		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
 		
