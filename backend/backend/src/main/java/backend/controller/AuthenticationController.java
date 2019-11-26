@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.common.DeviceProvider;
 import backend.converters.UserConverter;
@@ -160,17 +162,26 @@ public class AuthenticationController {
 		public String newPassword;
 	}
 	
-	@PostMapping(value = "/registerUser")
-	public ResponseEntity<UserDTO> registerUser(@RequestBody RegistrationDTO registrationDTO) {
-		RegisteredUser registeredUser = userService.registerUser(registrationDTO);
+	
+	/*Prilikom slanja sa fronta mora se poslati default slika ako korisnik nece da uploduje neku
+	 * simultano slanje json+multipart-data*/
+	@PostMapping(value = "/registerUser",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {"multipart/form-data"})
+	public ResponseEntity<UserDTO> registerUser(@RequestPart("obj") RegistrationDTO registrationDTO, @RequestPart("file") MultipartFile file) {
+		RegisteredUser registeredUser = userService.registerUser(registrationDTO,file);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(registeredUser), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/registerAdmin")
-	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
-		Administrator administrator = userService.registerAdmin(registrationDTO);
+
+	/*Prilikom slanja sa fronta mora se poslati default slika ako korisnik nece da uploduje neku
+	 * simultano slanje json+multipart-data*/
+	@PostMapping(value = "/registerAdmin",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {"multipart/form-data"})
+	public ResponseEntity<UserDTO> registerAdmin(@RequestPart("obj") RegistrationDTO registrationDTO, @RequestPart("file") MultipartFile file) {
+		Administrator administrator = userService.registerAdmin(registrationDTO,file);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(administrator), HttpStatus.OK);
 	}
+	
+	
+	
 	
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
