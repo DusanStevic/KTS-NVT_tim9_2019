@@ -17,7 +17,7 @@ public class RegistrationConverter {
 	static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	//konvertuje RegistrationDTO u RegisteredUser
-	public static RegisteredUser RegistrationDTOToRegisteredUser(RegistrationDTO registrationDTO){
+	public static RegisteredUser RegistrationDTO2RegisteredUser(RegistrationDTO registrationDTO){
 		RegisteredUser registeredUser = new RegisteredUser();
 		registeredUser.setUsername(registrationDTO.getUsername());
 		registeredUser.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
@@ -29,8 +29,7 @@ public class RegistrationConverter {
 		registeredUser.setFirstName(registrationDTO.getFirstName());
 		registeredUser.setLastName(registrationDTO.getLastName());
 		registeredUser.setEmail(registrationDTO.getEmail());
-		//prilikom registracije korisnik dobija defaultnu sliku 
-		registeredUser.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
+		//slika ce biti nalepljena na korisnicki profil iz FileUploadService
 		List<Authority> authorities = new ArrayList<>();
 		Authority a = new Authority();
 		a.setRole(Role.ROLE_REGISTERED_USER);
@@ -39,7 +38,7 @@ public class RegistrationConverter {
 		return registeredUser;
 	}
 	//konvertuje RegistrationDTO u Administrator
-	public static Administrator RegistrationDTOToAdministrator(RegistrationDTO registrationDTO){
+	public static Administrator RegistrationDTO2Administrator(RegistrationDTO registrationDTO){
 		Administrator administrator = new Administrator();
 		administrator.setUsername(registrationDTO.getUsername());
 		administrator.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
@@ -51,8 +50,7 @@ public class RegistrationConverter {
 		administrator.setFirstName(registrationDTO.getFirstName());
 		administrator.setLastName(registrationDTO.getLastName());
 		administrator.setEmail(registrationDTO.getEmail());
-		//prilikom registracije administrator dobija defaultnu sliku 
-		administrator.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
+		//slika ce biti nalepljena na korisnicki profil iz FileUploadService
 		List<Authority> authorities = new ArrayList<>();
 		Authority a = new Authority();
 		a.setRole(Role.ROLE_ADMIN);
