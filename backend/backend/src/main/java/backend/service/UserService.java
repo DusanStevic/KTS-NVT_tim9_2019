@@ -7,6 +7,7 @@ import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
@@ -24,6 +25,9 @@ public class UserService {
 
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private FileUploadService fileUploadService;
 
 	public User findByUsername(String username)
 			throws UsernameNotFoundException {
@@ -69,9 +73,9 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public RegisteredUser registerUser(RegistrationDTO registrationDTO) {
-		RegisteredUser registeredUser = RegistrationConverter
-				.RegistrationDTOToRegisteredUser(registrationDTO);
+	public RegisteredUser registerUser(RegistrationDTO registrationDTO,MultipartFile file) {
+		RegisteredUser registeredUser = RegistrationConverter.RegistrationDTO2RegisteredUser(registrationDTO);
+		registeredUser.setImageUrl(fileUploadService.imageUpload(file));
 		userRepository.save(registeredUser);
 		try {
 			emailService.sendRegistrationConfirmationEmail(registeredUser);
@@ -82,9 +86,10 @@ public class UserService {
 		return registeredUser;
 	}
 
-	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
-		Administrator administrator = RegistrationConverter
-				.RegistrationDTOToAdministrator(registrationDTO);
+
+	public Administrator registerAdmin(RegistrationDTO registrationDTO,MultipartFile file) {
+		Administrator administrator = RegistrationConverter.RegistrationDTO2Administrator(registrationDTO);
+		administrator.setImageUrl(fileUploadService.imageUpload(file));
 		userRepository.save(administrator);
 		try {
 			emailService.sendRegistrationConfirmationEmail(administrator);
