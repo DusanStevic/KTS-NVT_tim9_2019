@@ -37,6 +37,29 @@ public class FileUploadService {
 		return cloudinaryUploadedImageUrl;
 	}
 	
+	public void imageDelete(String url) throws IOException{
+		//IMAGE DELETE
+		//funkcija za brisanje slika sa clouda
+		
+		/*splitovanje url kako bih izvukao publicId iz url-a
+		https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg
+		*/
+		String[] splitedUrl = url.split("/");
+		/* uzimam poslednji element iz url-a tj. uploadovani file lf4ddnka9rqe62creizz.jpg
+		 */
+	    String file  = splitedUrl[splitedUrl.length-1];
+	    /*
+	     razbijam file na njegovo ime na cloud-u(publicId) i ekstenziju lf4ddnka9rqe62creizz i jpg
+	     */
+	    String[] fileAndExtension = file.split("\\.");
+	    /*
+	     kupim publicId lf4ddnka9rqe62creizz
+	     */
+	    String publicId = fileAndExtension[0];
+		cloudinaryConfig.destroy(publicId,ObjectUtils.asMap("invalidate", true));
+		
+	}
+	
 	public String videoUpload(MultipartFile file){
 		String cloudinaryUploadedVideoUrl = new String();
 		try {
