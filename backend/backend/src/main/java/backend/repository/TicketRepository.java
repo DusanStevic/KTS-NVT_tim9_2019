@@ -19,4 +19,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 	
 	@Query ("select t from Ticket t where t.eventDay.event.id = ?1")
 	public List<Ticket> findAllByEvent(Long event_id);
+	
+	@Query ("select t from Ticket t where t.reservation.id = ?1")
+	public List<Ticket> findAllByReservation(Long res_id);
 }

@@ -50,11 +50,13 @@ public class ReservationController {
 		return reservationService.findAll();
 	}
 
-	/* get all addresses, permitted for all */
+	//Nema smisla jer nema logicko brisanje
+	/* get all addresses, permitted for all */ 
+	/*
 	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Reservation> getAllActiveReservations() {
 		return reservationService.findAllActive();
-	}
+	}*/
 
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

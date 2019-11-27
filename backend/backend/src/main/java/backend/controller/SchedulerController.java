@@ -26,8 +26,16 @@ public class SchedulerController {
 				dateTimeFormatter.format(LocalDateTime.now()));
 		try {
 			schedulerService.logicalDeleteExpiredEvents();
+			logger.info("Deleting expired events completed");
 		} catch (Exception e) {
 			logger.error("Error while deleting expired events");
+		}
+		
+		try {
+			schedulerService.deleteUnboughtReservations();
+			logger.info("Deletion of unbought events completed");
+		} catch (Exception e) {
+			logger.error("Error while deleting unbought reservations");
 		}
 	}
 }
