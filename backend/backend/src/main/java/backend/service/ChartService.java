@@ -35,7 +35,7 @@ public class ChartService {
 
 	@Autowired
 	EventService eventService;
-	
+
 	@Autowired
 	LocationService locationService;
 
@@ -80,8 +80,8 @@ public class ChartService {
 		ArrayList<ChartIncomeEventsDTO> info = new ArrayList<ChartIncomeEventsDTO>();
 
 		List<Event> events = eventService.findAll();
-		
-		if (events.isEmpty()) {
+
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
@@ -105,8 +105,8 @@ public class ChartService {
 		ArrayList<ChartEventTicketsSoldDTO> info = new ArrayList<ChartEventTicketsSoldDTO>();
 
 		List<Event> events = eventService.findAll();
-		
-		if (events.isEmpty()) {
+
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
@@ -128,7 +128,7 @@ public class ChartService {
 
 		List<Event> events = eventService.findByInterval(interval);
 
-		if (events.isEmpty()) {
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
@@ -152,7 +152,7 @@ public class ChartService {
 
 		List<Event> events = eventService.findByInterval(interval);
 
-		if (events.isEmpty()) {
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
@@ -171,17 +171,19 @@ public class ChartService {
 		ArrayList<ChartIncomeLocationsDTO> info = new ArrayList<ChartIncomeLocationsDTO>();
 
 		List<Location> locations = locationService.findAll();
-		
-		if (locations.isEmpty()) {
+
+		if (locations == null || locations.isEmpty()) {
 			return info;
 		}
 
 		double sum = 0;
 		for (Location location : locations) {
-			List<Ticket> locationTickets = ticketService.findAllByLocation(location.getId());
-			
-			double inc = locationTickets.stream().mapToDouble(c -> c.getEventSector().getPrice()).sum();
-			
+			List<Ticket> locationTickets = ticketService
+					.findAllByLocation(location.getId());
+
+			double inc = locationTickets.stream()
+					.mapToDouble(c -> c.getEventSector().getPrice()).sum();
+
 			sum += inc;
 			info.add(new ChartIncomeLocationsDTO(location.getName(), inc));
 		}
@@ -193,50 +195,58 @@ public class ChartService {
 		ArrayList<ChartLocationTicketsSoldDTO> info = new ArrayList<ChartLocationTicketsSoldDTO>();
 
 		List<Location> locations = locationService.findAll();
-		
-		if (locations.isEmpty()) {
+
+		if (locations == null || locations.isEmpty()) {
 			return info;
 		}
 
 		int sum = 0;
 		for (Location location : locations) {
-			int soldTickets = ticketService.findAllByLocation(location.getId()).size();
+			int soldTickets = ticketService.findAllByLocation(location.getId())
+					.size();
 			sum += soldTickets;
-			info.add(new ChartLocationTicketsSoldDTO(location.getName(), soldTickets));
+			info.add(new ChartLocationTicketsSoldDTO(location.getName(),
+					soldTickets));
 		}
-		info.add(new ChartLocationTicketsSoldDTO("Average", sum / locations.size()));
+		info.add(new ChartLocationTicketsSoldDTO("Average", sum
+				/ locations.size()));
 		return info;
 	}
-	
-	public List<ChartIncomeLocationsDTO> incomeByLocations(DateIntervalDTO interval) {
+
+	public List<ChartIncomeLocationsDTO> incomeByLocations(
+			DateIntervalDTO interval) {
 		ArrayList<ChartIncomeLocationsDTO> info = new ArrayList<ChartIncomeLocationsDTO>();
-		//List of locations that had events at given interval
-		HashMap<Location,Double> locations = new HashMap<Location,Double>();
-		
+		// List of locations that had events at given interval
+		HashMap<Location, Double> locations = new HashMap<Location, Double>();
+
 		List<Event> events = eventService.findByInterval(interval);
-		
-		//if there wasn't any event then no location made profit
-		if (events.isEmpty()) {
+
+		// if there wasn't any event then no location made profit
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
 		int sum = 0;
 		for (Event e : events) {
-			if(!locations.containsKey(e.getLocation()))
-			{
-				List<Ticket> locationTickets = ticketService.findAllByEvent(e.getId());
-				
-				double inc = locationTickets.stream().mapToDouble(c -> c.getEventSector().getPrice()).sum();
-				
+			if (!locations.containsKey(e.getLocation())) {
+				List<Ticket> locationTickets = ticketService.findAllByEvent(e
+						.getId());
+
+				double inc = locationTickets.stream()
+						.mapToDouble(c -> c.getEventSector().getPrice()).sum();
+
 				sum += inc;
 				locations.put(e.getLocation(), inc);
-			}else{
-				List<Ticket> locationTickets = ticketService.findAllByEvent(e.getId());
-				
-				double inc = locationTickets.stream().mapToDouble(c -> c.getEventSector().getPrice()).sum();
-				
+			} else {
+				List<Ticket> locationTickets = ticketService.findAllByEvent(e
+						.getId());
+
+				double inc = locationTickets.stream()
+						.mapToDouble(c -> c.getEventSector().getPrice()).sum();
+
 				sum += inc;
-				locations.put(e.getLocation(), locations.get(e.getLocation()) + inc);
+				locations.put(e.getLocation(), locations.get(e.getLocation())
+						+ inc);
 			}
 		}
 		for (Location l : locations.keySet()) {
@@ -245,38 +255,41 @@ public class ChartService {
 		info.add(new ChartIncomeLocationsDTO("Average", sum / locations.size()));
 		return info;
 	}
-	
-	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations(DateIntervalDTO interval) {
+
+	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations(
+			DateIntervalDTO interval) {
 		ArrayList<ChartLocationTicketsSoldDTO> info = new ArrayList<ChartLocationTicketsSoldDTO>();
-		//List of locations that had events at given interval
-		HashMap<Location,Double> locations = new HashMap<Location,Double>();
-		
+		// List of locations that had events at given interval
+		HashMap<Location, Double> locations = new HashMap<Location, Double>();
+
 		List<Event> events = eventService.findByInterval(interval);
-		
-		//if there wasn't any event then no location made profit
-		if (events.isEmpty()) {
+
+		// if there wasn't any event then no location made profit
+		if (events == null || events.isEmpty()) {
 			return info;
 		}
 
 		int sum = 0;
 		for (Event e : events) {
-			if(!locations.containsKey(e.getLocation()))
-			{
+			if (!locations.containsKey(e.getLocation())) {
 				double count = ticketService.findAllByEvent(e.getId()).size();
-				
+
 				sum += count;
 				locations.put(e.getLocation(), count);
-			}else{
+			} else {
 				double count = ticketService.findAllByEvent(e.getId()).size();
-					
+
 				sum += count;
-				locations.put(e.getLocation(), locations.get(e.getLocation()) + count);
+				locations.put(e.getLocation(), locations.get(e.getLocation())
+						+ count);
 			}
 		}
 		for (Location l : locations.keySet()) {
-			info.add(new ChartLocationTicketsSoldDTO(l.getName(), locations.get(l)));
+			info.add(new ChartLocationTicketsSoldDTO(l.getName(), locations
+					.get(l)));
 		}
-		info.add(new ChartLocationTicketsSoldDTO("Average", sum / locations.size()));
+		info.add(new ChartLocationTicketsSoldDTO("Average", sum
+				/ locations.size()));
 		return info;
 	}
 

@@ -52,8 +52,7 @@ public class EventService {
 		if (!e.equals(null) && !e.isDeleted()) {
 			e.setDeleted(true);
 			e.getEventDays().forEach(ed -> eventDayService.delete(ed.getId()));
-			e.getEventSectors().forEach(
-					es -> eventSectorService.delete(es.getId()));
+			e.getEventSectors().forEach(es -> eventSectorService.delete(es.getId()));
 			save(e);
 			return ResponseEntity.ok().body("Successfully deleted");
 		} else {
@@ -76,5 +75,9 @@ public class EventService {
 	public List<Event> findByInterval(@Valid DateIntervalDTO interval) {
 		return eventRepository.findAllByInterval(interval.getStartDate(),
 				interval.getEndDate());
+	}
+
+	public List<Event> findAllActive() {
+		return eventRepository.findAllActive();
 	}
 }
