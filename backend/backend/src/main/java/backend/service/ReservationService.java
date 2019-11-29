@@ -35,7 +35,7 @@ public class ReservationService {
 
 	@Autowired
 	EventSectorService esService;
-	
+
 	@Autowired
 	EventDayService eventDayService;
 
@@ -51,9 +51,12 @@ public class ReservationService {
 		return reservationRepository.findAll();
 	}
 
+	/*
+	 * Not needed -> No logical deletion at reservation anymore
 	public List<Reservation> findAllActive() {
 		return reservationRepository.findAllActive();
 	}
+	*/
 
 	public Page<Reservation> findAll(Pageable page) {
 		return reservationRepository.findAll(page);
@@ -64,47 +67,52 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
-	public ResponseEntity<Reservation> createReservation(ReservationDTO dto, Principal user) {
+	public ResponseEntity<Reservation> createReservation(ReservationDTO dto,
+			Principal user) {
 		System.out.println("NEW RESERVATION");
 		Reservation r = new Reservation();
 		r.setReservationDate(new Date());
 		r.setBuyer((RegisteredUser) userService.findByUsername(user.getName()));
-		r.setDeleted(false);
 		r.setPurchased(dto.isPurchased());
-		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(dto.getEventDay_id(), dto.getSector_id());
+		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(
+				dto.getEventDay_id(), dto.getSector_id());
 		System.out.println(tickets.size());
 		EventSector es = esService.findOne(dto.getSector_id());
 		if (es.getSector() instanceof StandingSector) {
 			StandingSector stand = (StandingSector) es.getSector();
-			if(stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
-				//not ok, nema dovoljno mesta
+			if (stand.getCapacity() < tickets.size()
+					+ dto.getNumOfStandingTickets()) {
+				// not ok, nema dovoljno mesta
 				return ResponseEntity.badRequest().body(null);
-			}else {
-				//ok
-				for(int i=0; i<dto.getNumOfStandingTickets(); i++) {
+			} else {
+				// ok
+				for (int i = 0; i < dto.getNumOfStandingTickets(); i++) {
 					Ticket t = new Ticket();
 					t.setEventSector(es);
 					t.setHasSeat(false);
 					t.setEventDay(eventDayService.findOne(dto.getEventDay_id()));
 					t.setReservation(r);
-					
+
 					r.getTickets().add(t);
 				}
-				
+
 				return ResponseEntity.ok().body(save(r));
 			}
 		} else {
-			//sitting sector
-			if(dto.getSedista().isEmpty()) {
-				//not ok, ako je sitting sector onda mora biti bar jedno sediste
+			// sitting sector
+			if (dto.getSedista().isEmpty()) {
+				// not ok, ako je sitting sector onda mora biti bar jedno
+				// sediste
 				return ResponseEntity.badRequest().body(null);
 			}
-			List<SeatDTO> seats = tickets.stream().map(t -> new SeatDTO(t.getNumRow(), t.getNumCol()))
-					.filter(s -> dto.getSedista().contains(s)).collect(Collectors.toList());
+			List<SeatDTO> seats = tickets.stream()
+					.map(t -> new SeatDTO(t.getNumRow(), t.getNumCol()))
+					.filter(s -> dto.getSedista().contains(s))
+					.collect(Collectors.toList());
 			if (seats.isEmpty()) {
 				// ok
-				for(SeatDTO seat : dto.getSedista()) {
-					if(dto.getSedista().contains(seat)) {
+				for (SeatDTO seat : dto.getSedista()) {
+					if (dto.getSedista().contains(seat)) {
 						return ResponseEntity.badRequest().body(null);
 					}
 					Ticket t = new Ticket();
@@ -114,10 +122,10 @@ public class ReservationService {
 					t.setNumCol(seat.getCol());
 					t.setNumRow(seat.getRow());
 					t.setReservation(r);
-					
+
 					r.getTickets().add(t);
 				}
-				
+
 				return ResponseEntity.ok().body(save(r));
 			} else {
 				// not ok, postoji bar jedno zauzeto sediste
@@ -125,19 +133,23 @@ public class ReservationService {
 			}
 		}
 	}
-	
+
 	public ResponseEntity<String> delete(Long ID) {
 		Reservation r = findOne(ID);
-		if(!r.equals(null) && !r.isDeleted()) {
-			r.setDeleted(true);
-			for(Ticket t : r.getTickets()) {
+		if (r != null) {
+			for (Ticket t : r.getTickets()) {
 				ticketService.delete(t.getId());
 			}
-			save(r);
+			remove(ID);
 			return ResponseEntity.ok().body("Successfully deleted");
-		}else {
-			return ResponseEntity.badRequest().body("Could not find requested reservation");
+		} else {
+			return ResponseEntity.badRequest().body(
+					"Could not find requested reservation");
 		}
+	}
+
+	public List<Reservation> findByEvent(Long event_id) {
+		return reservationRepository.findByEvent(event_id);
 	}
 
 }

@@ -27,7 +27,8 @@ public class FileUploadService {
 			//IMAGE UPLOAD
 			//umesto parametra auto ako tacno znam koji tip fajla cu upload-ovati onda mogu da navedem taj tip fajla
 			//Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type","auto")); auto → image
-            Map uploadResult = cloudinaryConfig.uploadFile(file.getBytes(),ObjectUtils.asMap("resource_type", "image"));
+            @SuppressWarnings("rawtypes")
+			Map uploadResult = cloudinaryConfig.uploadFile(file.getBytes(),ObjectUtils.asMap("resource_type", "image"));
             cloudinaryUploadedImageUrl = uploadResult.get("url").toString();
             
         } catch (IOException e){
@@ -60,6 +61,7 @@ public class FileUploadService {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public String videoUpload(MultipartFile file){
 		String cloudinaryUploadedVideoUrl = new String();
 		try {

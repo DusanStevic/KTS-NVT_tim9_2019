@@ -59,6 +59,12 @@ public class EventController {
 	public List<Event> getAllEventes() {
 		return eventService.findAll();
 	}
+	
+	/* get all active events, permitted for all */
+	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Event> getAllActiveEvents() {
+		return eventService.findAllActive();
+	}
 
 	/* get an event by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

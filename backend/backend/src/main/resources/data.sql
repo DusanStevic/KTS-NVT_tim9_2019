@@ -8,12 +8,14 @@ INSERT INTO authorities (id, role) VALUES (3, 'ROLE_SYS_ADMIN');
 
 -- password is 'user' (bcrypt encoded)
 INSERT INTO users (user_type, id, username, password, first_name, last_name, email, enabled,last_password_reset_date, phone_number, first_time) VALUES ( 'user', 1, 'user', '$2a$10$NBqWWykrf7S2o2V2ja5E7OaDCbjAqcghBIk9dOl1Bj3UIsooKJMkK','Bob', 'Bobic', 'bob@gmail.com', true, '2019-04-18 20:58:00', '00381643332211', false);
+INSERT INTO users (user_type, id, username, password, first_name, last_name, email, enabled,last_password_reset_date, phone_number, first_time) VALUES ( 'user', 4, 'user2', '$2a$10$NBqWWykrf7S2o2V2ja5E7OaDCbjAqcghBIk9dOl1Bj3UIsooKJMkK','Arpad', 'Varga Somodji', 'tirmann25+10@gmail.com', true, '2019-04-18 20:58:00', '0658845455', false);
 -- password is 'admin' (bcrypt encoded)
 INSERT INTO users (user_type, id, username, password, first_name, last_name, email, enabled,last_password_reset_date, phone_number, first_time) VALUES ( 'admin', 2, 'admin', '$2a$10$mj6jiG5FLHp4s2Nvf84mbeeYPjjFmeDDtk7Uzua8sBBWzuXtNoPqW','Tom', 'Tomic', 'tom@gmail.com', true, '2019-04-18 20:58:00', '00381643332211', false);
 INSERT INTO users (user_type, id, username, password, first_name, last_name, email, enabled,last_password_reset_date, phone_number, first_time) VALUES ( 'sys', 3, 'sys', '$2a$10$mj6jiG5FLHp4s2Nvf84mbeeYPjjFmeDDtk7Uzua8sBBWzuXtNoPqW','Jovan', 'Jovanovic', 'tirmann25@gmail.com', true, '2019-04-18 20:58:00', '00381643332211', false);
 
 
 INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1); -- registered user has ROLE_REGISTERED_USER
+INSERT INTO user_authority (user_id, authority_id) VALUES (4, 1); -- registered user has ROLE_REGISTERED_USER
 INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2); -- adminstrator has ROLE_ADMIN
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system adminstrator has ROLE_SYS_ADMIN
 
@@ -37,8 +39,8 @@ insert into event_days ( id, day_date, description, name, status, event_id , del
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (1, 500, 1, 1, false);
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (2, 700, 1, 2, false);
 
-insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (1, false, "2019-11-05", 1, false);
-insert into reservations (id, purchased, reservation_date, buyer_id , deleted) values (2, false, "2019-11-05", 1, true);
+insert into reservations (id, purchased, reservation_date, buyer_id ) values (1, false, "2019-11-05", 1);
+insert into reservations (id, purchased, reservation_date, buyer_id ) values (2, false, "2019-11-05", 1);
 
 insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
 	values (1, true ,1, 1, 1, 2, 1);
