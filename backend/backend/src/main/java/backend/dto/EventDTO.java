@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import backend.model.Authority;
 import backend.model.Event;
 
 public class EventDTO {

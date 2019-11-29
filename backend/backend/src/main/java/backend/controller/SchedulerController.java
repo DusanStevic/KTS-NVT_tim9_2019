@@ -26,16 +26,30 @@ public class SchedulerController {
 				dateTimeFormatter.format(LocalDateTime.now()));
 		try {
 			schedulerService.logicalDeleteExpiredEvents();
-			logger.info("Deleting expired events completed");
+			logger.info("Deleting expired events COMPLETED");
 		} catch (Exception e) {
-			logger.error("Error while deleting expired events");
+			logger.error("ERROR while deleting expired events!");
 		}
 		
 		try {
 			schedulerService.deleteUnboughtReservations();
-			logger.info("Deletion of unbought events completed");
+			logger.info("Deletion of unbought tickets and reservations COMPLETED");
 		} catch (Exception e) {
-			logger.error("Error while deleting unbought reservations");
+			logger.error("ERROR while deleting unbought reservations!");
+		}
+		
+		try {
+			schedulerService.sendEventReminders();
+			logger.info("Sending event reminders for users COMPLETED!");
+		} catch (Exception e) {
+			logger.error("ERROR while sending event reminders to users!");
+		}
+		
+		try {
+			schedulerService.sendBuyingReminders();
+			logger.info("Sending ticket buying reminders for users COMPLETED!");
+		} catch (Exception e) {
+			logger.error("ERROR while sending reservation buying reminders to users!");
 		}
 	}
 }

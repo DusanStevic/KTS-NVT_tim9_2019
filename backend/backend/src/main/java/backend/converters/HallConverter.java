@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import backend.dto.HallDTO;
 import backend.dto.SectorDTO;
 import backend.model.Hall;
-import backend.model.Sector;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
 

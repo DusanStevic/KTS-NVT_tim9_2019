@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import backend.model.Event;
@@ -18,6 +19,9 @@ public class SchedulerService {
 
 	@Autowired
 	ReservationService reservationService;
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	EmailService emailService;
@@ -69,6 +73,71 @@ public class SchedulerService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void sendEventReminders() throws MailException, InterruptedException {
+		List<Event> activeEvents = eventService.findAllActive();
+		Date today = new Date();
+		Calendar cToday = Calendar.getInstance();
+		cToday.setTime(today);
+
+		for (Event event : activeEvents) {
+			// setting calendar on the day before event start
+			Calendar cDayBefore = Calendar.getInstance();
+			cDayBefore.setTime(event.getStartDate());
+			cDayBefore.add(Calendar.DATE, -1);
+			cDayBefore.getTime();
+
+			if (cToday.get(Calendar.YEAR) == cDayBefore.get(Calendar.YEAR)
+					&& cToday.get(Calendar.MONTH) == cDayBefore
+							.get(Calendar.MONTH)
+					&& cToday.get(Calendar.DAY_OF_MONTH) == cDayBefore
+							.get(Calendar.DAY_OF_MONTH)) {
+				List<Reservation> rezervacije = reservationService
+						.findByEvent(event.getId());
+				for (Reservation reservation : rezervacije) {
+					emailService.sendEventReminder(reservation.getBuyer(),
+							event);
+				}
+
+			}
+		}
+	}
+
+	public void sendBuyingReminders() {
+		List<Event> activeEvents = eventService.findAllActive();
+		Date today = new Date();
+		Calendar cToday = Calendar.getInstance();
+		cToday.setTime(today);
+
+		for (Event event : activeEvents) {
+			// setting calendar on the day before event start
+			Calendar cDayBefore = Calendar.getInstance();
+			cDayBefore.setTime(event.getStartDate());
+			cDayBefore.add(Calendar.DATE, -1);
+
+			if (cToday.get(Calendar.YEAR) == cDayBefore.get(Calendar.YEAR)
+					&& cToday.get(Calendar.MONTH) == cDayBefore
+							.get(Calendar.MONTH)
+					&& cToday.get(Calendar.DAY_OF_MONTH) == cDayBefore
+							.get(Calendar.DAY_OF_MONTH)) {
+				List<Reservation> rezervacije = reservationService
+						.findByEvent(event.getId());
+				for (Reservation reservation : rezervacije) {
+					//if tickets not bought send reminder
+					if (!reservation.isPurchased()) {
+						try {
+							emailService.sendBuyingReminder(
+									reservation.getBuyer(), event);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+
+			}
 		}
 	}
 
