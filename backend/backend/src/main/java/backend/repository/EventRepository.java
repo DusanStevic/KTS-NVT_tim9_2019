@@ -12,5 +12,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	@Query("select e from Event e where (e.startDate between ?1 and ?2) and (e.endDate between ?1 and ?2) ")
 	List<Event> findAllByInterval(Date startDate, Date endDate);
+	
+	@Query("select e from Event e where e.deleted = false")
+	public List<Event> findAllActive();
 
 }

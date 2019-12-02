@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "reservations")
@@ -31,34 +30,32 @@ public class Reservation {
 	private Date reservationDate;
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//@JsonIgnoreProperties("reservation")
+	// @JsonIgnoreProperties("reservation")
 	@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("reservations")
+	// @JsonIgnoreProperties("reservations")
 	@JsonBackReference
 	private RegisteredUser buyer;
 
-	@Column(name = "deleted", nullable = false)
-	private boolean deleted = false;
-	
+
 	@Column(name = "canceled", nullable = false)
 	private boolean canceled = false;
 	
+
 	public Reservation() {
 		super();
 	}
 
 	public Reservation(Long id, boolean purchased, Date reservationDate,
-			Set<Ticket> tickets, RegisteredUser buyer, boolean deleted) {
+			Set<Ticket> tickets, RegisteredUser buyer) {
 		super();
 		this.id = id;
 		this.purchased = purchased;
 		this.reservationDate = reservationDate;
 		this.tickets = tickets;
 		this.buyer = buyer;
-		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -108,13 +105,7 @@ public class Reservation {
 				+ tickets + ", buyer=" + buyer + "]";
 	}
 
-	public boolean isDeleted() {
-		return deleted;
-	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
 
 	public boolean isCanceled() {
 		return canceled;
@@ -123,5 +114,6 @@ public class Reservation {
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
+
 
 }

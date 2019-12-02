@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Singleton;
-import com.cloudinary.utils.ObjectUtils;
 
 /*source code za cloudinary api
 https://cloudinary.com/documentation/java_image_upload
@@ -26,17 +25,11 @@ public class CloudinaryConfig {
         cloudinary.config.apiSecret = secret;
         cloudinary.config.apiKey = key;
     }
-    public Map upload(Object file, Map options){
-        try{
-            return cloudinary.uploader().upload(file, options);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
     
-    //Chunked video upload.This method must be used to upload files larger than 100 MB in size.
-    public Map uploadLarge(Object file, Map options){
+    //Chunked file upload.This method must be used to upload files larger than 100 MB in size.
+    @SuppressWarnings("rawtypes")
+	public Map uploadFile(Object file, Map options){
         try{
             return cloudinary.uploader().uploadLarge(file, options);
         } catch (IOException e) {
@@ -44,15 +37,24 @@ public class CloudinaryConfig {
             return null;
         }
     }
-    //Following code would delete the uploaded image assigned with the public ID
-    public Map destroy(String publicId, Map options) {
+    
+    //Following code would delete the uploaded file assigned with the public ID
+    @SuppressWarnings("rawtypes")
+	public Map deleteFile(String publicId, Map options) {
     	try{
-            return cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            return cloudinary.uploader().destroy(publicId, options);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+    
+    
+    
+    
+
+    
+
     
    
 }

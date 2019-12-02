@@ -2,18 +2,17 @@ package backend.converters;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import backend.dto.EventDTO;
 import backend.dto.EventDayDTO;
 import backend.dto.EventSectorDTO;
-import backend.dto.UserDTO;
 import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventSector;
 import backend.model.EventType;
-import backend.model.User;
 import backend.service.LocationService;
 
 @Component

@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.dto.ReservationDTO;
@@ -37,7 +36,7 @@ public class ReservationService {
 
 	@Autowired
 	EventSectorService esService;
-	
+
 	@Autowired
 	EventDayService eventDayService;
 
@@ -53,9 +52,12 @@ public class ReservationService {
 		return reservationRepository.findAll();
 	}
 
+	/*
+	 * Not needed -> No logical deletion at reservation anymore
 	public List<Reservation> findAllActive() {
 		return reservationRepository.findAllActive();
 	}
+	*/
 
 	public Page<Reservation> findAll(Pageable page) {
 		return reservationRepository.findAll(page);
@@ -67,17 +69,19 @@ public class ReservationService {
 	}
 
 	public Reservation createReservation(ReservationDTO dto, Principal user) throws BadRequestException {
+
 		System.out.println("NEW RESERVATION");
 		Reservation r = new Reservation();
 		r.setReservationDate(new Date());
 		r.setBuyer((RegisteredUser) userService.findByUsername(user.getName()));
-		r.setDeleted(false);
 		r.setPurchased(dto.isPurchased());
-		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(dto.getEventDay_id(), dto.getSector_id());
+		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(
+				dto.getEventDay_id(), dto.getSector_id());
 		System.out.println(tickets.size());
 		EventSector es = esService.findOne(dto.getSector_id());
 		if (es.getSector() instanceof StandingSector) {
 			StandingSector stand = (StandingSector) es.getSector();
+
 			if(stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
 				//not ok, nema dovoljno mesta
 				throw new BadRequestException("Not enough room!");
@@ -89,9 +93,10 @@ public class ReservationService {
 					t.setHasSeat(false);
 					t.setEventDay(eventDayService.findOne(dto.getEventDay_id()));
 					t.setReservation(r);
-					
+
 					r.getTickets().add(t);
 				}
+
 				
 				return save(r);
 			}
@@ -109,7 +114,7 @@ public class ReservationService {
 					/*if(dto.getSedista().contains(seat)) {
 						return ResponseEntity.badRequest().body(null);   WTF?? ideja je bila da ne sme dva ista sedista, nz kako je ovo radilo???
 					}*/
-					
+
 					Ticket t = new Ticket();
 					t.setEventDay(eventDayService.findOne(dto.getEventDay_id()));
 					t.setEventSector(es);
@@ -117,11 +122,12 @@ public class ReservationService {
 					t.setNumCol(seat.getCol());
 					t.setNumRow(seat.getRow());
 					t.setReservation(r);
-					
+
 					r.getTickets().add(t);
 				}
-				
+
 				return save(r);
+
 			} else {
 				// not ok, postoji bar jedno zauzeto sediste
 				throw new BadRequestException("A seat is already taken!");
@@ -130,7 +136,7 @@ public class ReservationService {
 	}
 	
 	
-	public void delete(Long ID) throws ResourceNotFoundException {
+	/*public void delete(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
 		if(r != null && !r.isDeleted()) {
 			r.setDeleted(true);
@@ -141,11 +147,11 @@ public class ReservationService {
 		}else {
 			throw new ResourceNotFoundException("Could not find requested reservation");
 		}
-	}
+	}*/
 
 	public Reservation cancelReservation(Long id) throws Exception {
 		Reservation r = findOne(id);
-		if(r != null && !r.isCanceled() && !r.isDeleted()) {
+		if(r != null && !r.isCanceled()) {
 			r.setCanceled(true);
 			
 			return save(r);
@@ -156,7 +162,7 @@ public class ReservationService {
 	
 	public Reservation purchaseReservation(Long id) throws Exception {
 		Reservation r = findOne(id);
-		if(r != null && !r.isCanceled() && !r.isDeleted()) {
+		if(r != null && !r.isCanceled()) {
 			r.setPurchased(true);
 			
 			return save(r);
@@ -164,4 +170,11 @@ public class ReservationService {
 			throw new Exception();
 		}
 	}
+
+
+
+	public List<Reservation> findByEvent(Long event_id) {
+		return reservationRepository.findByEvent(event_id);
+	}
+
 }

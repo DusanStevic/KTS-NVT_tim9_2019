@@ -3,7 +3,6 @@ package backend.converters;
 import org.springframework.stereotype.Component;
 
 import backend.dto.SectorDTO;
-import backend.model.Sector;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
 

@@ -59,6 +59,12 @@ public class EventController {
 	public List<Event> getAllEventes() {
 		return eventService.findAll();
 	}
+	
+	/* get all active events, permitted for all */
+	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Event> getAllActiveEvents() {
+		return eventService.findAllActive();
+	}
 
 	/* get an event by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -115,6 +121,20 @@ public class EventController {
 	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
 		Event event = eventService.findOne(eventId);
 		event.getVideoPaths().add(fileUploadService.videoUpload(file));
+		eventService.save(event);
+		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
+		
+	}
+	
+	/*delete image from event*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(value = "/deleteVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventDTO> deleteVideo(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException {
+		Event event = eventService.findOne(eventId);
+		//brisanje url-a videa iz baze
+		event.getVideoPaths().remove(dto.getUrl());
+		//brisanje videa(stvarnog fajla) sa cloud-a
+		fileUploadService.videoDelete(dto.getUrl());
 		eventService.save(event);
 		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
 		

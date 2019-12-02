@@ -27,7 +27,8 @@ public class FileUploadService {
 			//IMAGE UPLOAD
 			//umesto parametra auto ako tacno znam koji tip fajla cu upload-ovati onda mogu da navedem taj tip fajla
 			//Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type","auto")); auto → image
-            Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type", "image"));
+            @SuppressWarnings("rawtypes")
+			Map uploadResult = cloudinaryConfig.uploadFile(file.getBytes(),ObjectUtils.asMap("resource_type", "image"));
             cloudinaryUploadedImageUrl = uploadResult.get("url").toString();
             
         } catch (IOException e){
@@ -39,7 +40,7 @@ public class FileUploadService {
 	
 	public void imageDelete(String url) throws IOException{
 		//IMAGE DELETE
-		//funkcija za brisanje slika sa clouda
+		//funkcija za brisanje slika
 		
 		/*splitovanje url kako bih izvukao publicId iz url-a
 		https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg
@@ -56,10 +57,11 @@ public class FileUploadService {
 	     kupim publicId lf4ddnka9rqe62creizz
 	     */
 	    String publicId = fileAndExtension[0];
-		cloudinaryConfig.destroy(publicId,ObjectUtils.asMap("invalidate", true));
+		cloudinaryConfig.deleteFile(publicId,ObjectUtils.asMap("invalidate", true));
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public String videoUpload(MultipartFile file){
 		String cloudinaryUploadedVideoUrl = new String();
 		try {
@@ -67,7 +69,7 @@ public class FileUploadService {
 			//VIDEO UPLOAD
 			//umesto parametra auto ako tacno znam koji tip fajla cu upload-ovati onda mogu da navedem taj tip fajla
 			//Map uploadResult = cloudinaryConfig.upload(file.getBytes(),ObjectUtils.asMap("resource_type","auto")); auto → video
-			Map uploadResult = cloudinaryConfig.uploadLarge(file.getBytes(),ObjectUtils.asMap("resource_type", "video"));
+			Map uploadResult = cloudinaryConfig.uploadFile(file.getBytes(),ObjectUtils.asMap("resource_type", "video"));
             cloudinaryUploadedVideoUrl = uploadResult.get("url").toString();
           	
     		
@@ -76,6 +78,29 @@ public class FileUploadService {
             
         }
 		return cloudinaryUploadedVideoUrl;
+	}
+	
+	public void videoDelete(String url) throws IOException{
+		//VIDEO DELETE
+		//funkcija za brisanje videa
+		
+		/*splitovanje url kako bih izvukao publicId iz url-a
+		https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.mp4
+		*/
+		String[] splitedUrl = url.split("/");
+		/* uzimam poslednji element iz url-a tj. uploadovani file lf4ddnka9rqe62creizz.mp4
+		 */
+	    String file  = splitedUrl[splitedUrl.length-1];
+	    /*
+	     razbijam file na njegovo ime na cloud-u(publicId) i ekstenziju lf4ddnka9rqe62creizz i mp4
+	     */
+	    String[] fileAndExtension = file.split("\\.");
+	    /*
+	     kupim publicId lf4ddnka9rqe62creizz
+	     */
+	    String publicId = fileAndExtension[0];
+		cloudinaryConfig.deleteFile(publicId,ObjectUtils.asMap("resource_type", "video"));
+		
 	}
 
 }
