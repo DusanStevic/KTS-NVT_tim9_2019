@@ -136,10 +136,10 @@ public class ReservationService {
 	}
 	
 	
-	/*public void delete(Long ID) throws ResourceNotFoundException {
+	public void delete(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
-		if(r != null && !r.isDeleted()) {
-			r.setDeleted(true);
+		if(r != null) {
+			remove(ID);
 			for(Ticket t : r.getTickets()) {
 				ticketService.delete(t.getId());
 			}
@@ -147,7 +147,7 @@ public class ReservationService {
 		}else {
 			throw new ResourceNotFoundException("Could not find requested reservation");
 		}
-	}*/
+	}
 
 	public Reservation cancelReservation(Long id) throws Exception {
 		Reservation r = findOne(id);
