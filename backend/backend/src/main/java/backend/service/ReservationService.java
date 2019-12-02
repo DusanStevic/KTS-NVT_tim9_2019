@@ -45,7 +45,7 @@ public class ReservationService {
 	}
 
 	public Reservation findOne(Long id) {
-		return reservationRepository.getOne(id);
+		return reservationRepository.findById(id).orElse(null);
 	}
 
 	public List<Reservation> findAll() {
@@ -85,6 +85,8 @@ public class ReservationService {
 			if(stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
 				//not ok, nema dovoljno mesta
 				throw new BadRequestException("Not enough room!");
+			}else if(dto.getNumOfStandingTickets() < 1){
+				throw new BadRequestException("There should be at least one ticket");
 			}else {
 				//ok
 				for(int i=0; i<dto.getNumOfStandingTickets(); i++) {
@@ -130,7 +132,7 @@ public class ReservationService {
 
 			} else {
 				// not ok, postoji bar jedno zauzeto sediste
-				throw new BadRequestException("A seat is already taken!");
+				throw new BadRequestException("A seat has already been taken!");
 			}
 		}
 	}
@@ -149,26 +151,34 @@ public class ReservationService {
 		}
 	}
 
-	public Reservation cancelReservation(Long id) throws Exception {
+	public Reservation cancelReservation(Long id) throws BadRequestException, ResourceNotFoundException {
 		Reservation r = findOne(id);
-		if(r != null && !r.isCanceled()) {
+		if(r == null) {
+			throw new ResourceNotFoundException("Could not find requested reservation.");
+		}else if(r.isCanceled()) {
+			throw new BadRequestException("Reservation has already been canceled.");
+		}else {
 			r.setCanceled(true);
 			
 			return save(r);
-		}else {
-			throw new Exception();
 		}
+		
 	}
 	
-	public Reservation purchaseReservation(Long id) throws Exception {
+	public Reservation purchaseReservation(Long id) throws BadRequestException, ResourceNotFoundException {
 		Reservation r = findOne(id);
-		if(r != null && !r.isCanceled()) {
+		if(r == null) {
+			throw new ResourceNotFoundException("Could not find requested reservation.");
+		}else if(r.isCanceled()) {
+			throw new BadRequestException("Could not purchase canceled reservation.");
+		}else if(r.isPurchased()) {
+			throw new BadRequestException("Reservation has already been purchased.");
+		}else {
 			r.setPurchased(true);
 			
 			return save(r);
-		}else {
-			throw new Exception();
 		}
+		
 	}
 
 

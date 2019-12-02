@@ -105,13 +105,13 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId) throws Exception {
+	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId) throws BadRequestException, ResourceNotFoundException {
 		return new ResponseEntity<>(reservationService.cancelReservation(reservationId), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "purchase/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId) throws Exception {
+	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId) throws BadRequestException, ResourceNotFoundException{
 		return new ResponseEntity<>(reservationService.purchaseReservation(reservationId), HttpStatus.OK);
 	}
 	
