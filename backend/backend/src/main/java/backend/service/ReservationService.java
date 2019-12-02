@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import backend.dto.ReservationDTO;
 import backend.dto.SeatDTO;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventSector;
 import backend.model.RegisteredUser;
 import backend.model.Reservation;
@@ -64,7 +66,7 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
-	public ResponseEntity<Reservation> createReservation(ReservationDTO dto, Principal user) {
+	public Reservation createReservation(ReservationDTO dto, Principal user) throws BadRequestException {
 		System.out.println("NEW RESERVATION");
 		Reservation r = new Reservation();
 		r.setReservationDate(new Date());
@@ -78,7 +80,7 @@ public class ReservationService {
 			StandingSector stand = (StandingSector) es.getSector();
 			if(stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
 				//not ok, nema dovoljno mesta
-				return ResponseEntity.badRequest().body(null);
+				throw new BadRequestException("Not enough room!");
 			}else {
 				//ok
 				for(int i=0; i<dto.getNumOfStandingTickets(); i++) {
@@ -91,22 +93,23 @@ public class ReservationService {
 					r.getTickets().add(t);
 				}
 				
-				return ResponseEntity.ok().body(save(r));
+				return save(r);
 			}
 		} else {
 			//sitting sector
 			if(dto.getSedista().isEmpty()) {
 				//not ok, ako je sitting sector onda mora biti bar jedno sediste
-				return ResponseEntity.badRequest().body(null);
+				throw new BadRequestException("No seats selected in a sitting sector!");
 			}
-			List<SeatDTO> seats = tickets.stream().map(t -> new SeatDTO(t.getNumRow(), t.getNumCol()))
+			List<SeatDTO> taken_seats = tickets.stream().map(t -> new SeatDTO(t.getNumRow(), t.getNumCol()))
 					.filter(s -> dto.getSedista().contains(s)).collect(Collectors.toList());
-			if (seats.isEmpty()) {
+			if (taken_seats.isEmpty()) {
 				// ok
 				for(SeatDTO seat : dto.getSedista()) {
-					if(dto.getSedista().contains(seat)) {
-						return ResponseEntity.badRequest().body(null);
-					}
+					/*if(dto.getSedista().contains(seat)) {
+						return ResponseEntity.badRequest().body(null);   WTF?? ideja je bila da ne sme dva ista sedista, nz kako je ovo radilo???
+					}*/
+					
 					Ticket t = new Ticket();
 					t.setEventDay(eventDayService.findOne(dto.getEventDay_id()));
 					t.setEventSector(es);
@@ -118,25 +121,25 @@ public class ReservationService {
 					r.getTickets().add(t);
 				}
 				
-				return ResponseEntity.ok().body(save(r));
+				return save(r);
 			} else {
 				// not ok, postoji bar jedno zauzeto sediste
-				return ResponseEntity.badRequest().body(null);
+				throw new BadRequestException("A seat is already taken!");
 			}
 		}
 	}
 	
-	public ResponseEntity<String> delete(Long ID) {
+	
+	public void delete(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
-		if(!r.equals(null) && !r.isDeleted()) {
+		if(r != null && !r.isDeleted()) {
 			r.setDeleted(true);
 			for(Ticket t : r.getTickets()) {
 				ticketService.delete(t.getId());
 			}
 			save(r);
-			return ResponseEntity.ok().body("Successfully deleted");
 		}else {
-			return ResponseEntity.badRequest().body("Could not find requested reservation");
+			throw new ResourceNotFoundException("Could not find requested reservation");
 		}
 	}
 

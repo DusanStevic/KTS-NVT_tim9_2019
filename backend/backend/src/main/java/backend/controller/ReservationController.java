@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.dto.ReservationDTO;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Reservation;
 import backend.service.ReservationService;
 
@@ -38,11 +40,11 @@ public class ReservationController {
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> createReservation(
-			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) {
+			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) throws BadRequestException {
 		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
 
-		return reservationService.createReservation(reservationDTO, user);
+		return new ResponseEntity<>(reservationService.createReservation(reservationDTO, user), HttpStatus.OK);
 	}
 
 	/* get all addresses, permitted for all */
@@ -90,15 +92,16 @@ public class ReservationController {
 	}
 
 	/* delete reservation */
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteReservation(
-			@PathVariable(value = "id") Long reservationId) {
+			@PathVariable(value = "id") Long reservationId) throws ResourceNotFoundException {
 		logger.info("Deleting " + reservationId);
-		return reservationService.delete(reservationId);
-	}
+		reservationService.delete(reservationId);
+		return new ResponseEntity<>("Successfully deleted reservation", HttpStatus.OK);
+	}*/
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId) throws Exception {
 		return new ResponseEntity<>(reservationService.cancelReservation(reservationId), HttpStatus.OK);

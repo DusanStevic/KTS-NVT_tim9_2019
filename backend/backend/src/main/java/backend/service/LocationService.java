@@ -2,6 +2,7 @@ package backend.service;
 
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -63,7 +64,7 @@ public class LocationService {
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = DeletingException.class)
 	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException{
-		if (!ticketService.findAllByLocation(id).isEmpty()) {
+		if (!ticketService.findAllByLocationDate(id, new Date()).isEmpty()) {
 			throw new BadRequestException("Could not delete location");
 		}
 		Location loc = findOne(id);
