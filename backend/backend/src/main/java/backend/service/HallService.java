@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.model.Sector;
 import backend.repository.HallRepository;
@@ -44,7 +45,7 @@ public class HallService {
 		hallRepository.deleteById(id);
 	}
 	
-	public ResponseEntity<String> delete(Long id) {
+	public void delete(Long id) throws ResourceNotFoundException {
 		Hall h = findOne(id);
 		if(!h.equals(null) && !h.isDeleted()) {
 			h.setDeleted(true);
@@ -52,9 +53,9 @@ public class HallService {
 				sectorService.delete(s.getId());
 			}
 			save(h);
-			return ResponseEntity.ok().body("Successfully deleted");
+			//return ResponseEntity.ok().body("Successfully deleted");
 		}else {
-			return ResponseEntity.badRequest().body("Could not find requested hall");
+			throw new ResourceNotFoundException("Could not find requested hall");
 		}
 	}
 }

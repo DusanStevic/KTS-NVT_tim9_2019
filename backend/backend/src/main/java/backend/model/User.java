@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "id"),
 		@UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "username") })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -48,7 +47,7 @@ public abstract class User implements UserDetails {
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
 
-	@JsonIgnore
+	@JsonBackReference
 	@Column(name = "password", nullable = false, length = 80)
 	private String password;
 

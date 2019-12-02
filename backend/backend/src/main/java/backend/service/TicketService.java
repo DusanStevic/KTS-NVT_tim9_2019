@@ -1,5 +1,6 @@
 package backend.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -43,10 +44,14 @@ public class TicketService {
 		return ticketRepository.findAllByEventDayIDEventSectorID(ed_id, es_id);
 	}
 
+	public List<Ticket> findAllByLocationDate(Long id, Date date) {
+		return ticketRepository.findAllByLocationDate(id, date);
+	}
+
 	public List<Ticket> findAllByLocation(Long id) {
 		return ticketRepository.findAllByLocation(id);
 	}
-
+	
 	public ResponseEntity<String> delete(Long ID) {
 		// Arpad: Izbacio sam logicko brisanje, nema smisla kod ticketa
 		try {

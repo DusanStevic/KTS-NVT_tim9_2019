@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 	
 /*https://www.mkyong.com/spring-boot/spring-rest-error-handling-example/
 https://dzone.com/articles/spring-rest-service-exception-handling-1
@@ -32,6 +33,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<CustomErrorResponse> badRequestExceptionHandler(Exception ex, WebRequest request) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(ex.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+
+    }
+    
+    @ExceptionHandler(SavingException.class)
+    public ResponseEntity<CustomErrorResponse> savingExceptionHandler(Exception ex, WebRequest request) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(LocalDateTime.now());
         errors.setError(ex.getMessage());

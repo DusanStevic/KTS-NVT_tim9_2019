@@ -39,6 +39,11 @@ public class Reservation {
 	@JsonBackReference
 	private RegisteredUser buyer;
 
+
+	@Column(name = "canceled", nullable = false)
+	private boolean canceled = false;
+	
+
 	public Reservation() {
 		super();
 	}
@@ -99,5 +104,16 @@ public class Reservation {
 				+ ", reservationDate=" + reservationDate + ", tickets="
 				+ tickets + ", buyer=" + buyer + "]";
 	}
+
+
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
+
 
 }

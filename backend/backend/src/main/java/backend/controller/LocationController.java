@@ -1,6 +1,6 @@
 package backend.controller;
 
-//can copypaste everywhere
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.converters.LocationConverter;
 import backend.dto.LocationDTO;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Location;
 import backend.service.AddressService;
 import backend.service.LocationService;
@@ -43,10 +47,10 @@ public class LocationController {
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Location createLocation(@Valid @RequestBody LocationDTO loc) {
+	public ResponseEntity<?> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException{
 		Location location = locationConverter.LocationDTO2Location(loc);
+		return new ResponseEntity<>(locationService.save(location), HttpStatus.OK);
 		
-		return locationService.save(location);
 	}
 
 	/* get all locations, permitted for all */
@@ -72,7 +76,7 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationDTO loc) {
+			@Valid @RequestBody LocationDTO loc) throws Exception{
 
 		Location location = locationService.findOne(locationId);
 		if (location == null) {
@@ -92,8 +96,9 @@ public class LocationController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteLocation(
-			@PathVariable(value = "id") Long locId) {
+			@PathVariable(value = "id") Long locId) throws SavingException, BadRequestException, ResourceNotFoundException {
 		logger.info("Deleting location id " + locId);
-		return locationService.delete(locId);
+		locationService.delete(locId);
+		return new ResponseEntity<>("Successfully deleted location", HttpStatus.OK);
 	}
 }

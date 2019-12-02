@@ -7,9 +7,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "sectors", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "id"),
-		@UniqueConstraint(columnNames = "name") })
+@Table(name = "sectors")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "sector_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Sector implements Serializable {
@@ -21,7 +19,7 @@ public abstract class Sector implements Serializable {
 	private Long id;
 
 	// sector must have a unique name
-	@Column(name = "name", unique = true, nullable = false, length = 30)
+	@Column(name = "name", nullable = false, length = 30)
 	private String name;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
