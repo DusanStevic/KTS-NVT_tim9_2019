@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.User;
-import backend.repository.UserRepository;
 import backend.service.FileUploadService;
 import backend.service.UserService;
 
@@ -30,10 +29,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-    private UserRepository repository;
-	
+		
 	@Autowired
 	private FileUploadService fileUploadService;
 
@@ -49,12 +45,7 @@ public class UserController {
 	
 	
 	
-	/*ovo je primer query param*/
-	/*@RequestMapping(method = GET, value = "/user")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public User loadById2(@RequestParam Long userId) {
-		return this.userService.findById(userId);
-	}*/
+
 	
 
 	@RequestMapping(method = GET, value = "/user/all")
@@ -138,6 +129,16 @@ public class UserController {
 		return this.userService.findById(userId);
 	
     }
+	
+	/*ovo je primer query param*/
+	@GetMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public User loadById2(@RequestParam Long userId) throws ResourceNotFoundException {
+		return this.userService.findById(userId);
+	}
+	
+	
+	
 	
 	
 	 //update slike usera razbijanje requesta na multipart i json deo
