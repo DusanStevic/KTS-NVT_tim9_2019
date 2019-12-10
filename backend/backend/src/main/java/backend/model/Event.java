@@ -117,8 +117,8 @@ public class Event {
 		this.numDays = e.numDays;
 		this.location = e.location;
 		this.imagePaths = e.imagePaths;
-		this.eventSectors = e.eventSectors;
-		this.eventDays = e.eventDays;
+		//this.eventSectors = e.eventSectors;
+		//this.eventDays = e.eventDays;
 	}
 	public Long getId() {
 		return id;

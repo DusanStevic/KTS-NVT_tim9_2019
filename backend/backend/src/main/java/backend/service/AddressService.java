@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.dto.AddressDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Address;
 import backend.repository.AddressRepository;
 
@@ -26,9 +27,7 @@ public class AddressService {
 		return addressRepository.save(b);
 	}
 
-	/*public Address findOne(Long id) {
-		return addressRepository.getOne(id);
-	}*/
+	
 	/*DULE BUDZI*/
 	public Address findOne(Long id) {
 		//forsiram da mi vrati null umesto entity not found exception ili da mi vrati 
@@ -51,20 +50,19 @@ public class AddressService {
 		addressRepository.deleteById(id);
 	}
 	
-	public ResponseEntity<String> delete(Long addressID) {
+	public void delete(Long addressID) throws ResourceNotFoundException {
 		Address a = findOne(addressID);
-		if(a == null && !a.isDeleted()) {
+		if(a != null && !a.isDeleted()) {
 			a.setDeleted(true);
 			save(a);
-			return ResponseEntity.ok().body("Successfully deleted");
 		}else {
-			return ResponseEntity.badRequest().body("Could not find requested address");
+			throw new ResourceNotFoundException("Could not find requested address");
 		}
 	}
 	
-	public ResponseEntity<Address> update(Long addressId, AddressDTO dto){
+	public Address update(Long addressId, AddressDTO dto) throws ResourceNotFoundException{
 		Address a = findOne(addressId);
-		if(!a.equals(null) && !a.isDeleted()) {
+		if(a != null && !a.isDeleted()) {
 			a.setStreetName(dto.getStreetName());
 			a.setStreetNumber(dto.getStreetNumber());
 			a.setCity(dto.getCity());
@@ -72,35 +70,20 @@ public class AddressService {
 			a.setLatitude(dto.getLatitude());
 			a.setLongitude(dto.getLongitude());
 			
-			return ResponseEntity.ok().body(save(a));
+			return save(a);
 		}else {
-			return ResponseEntity.notFound().build();
+			throw new ResourceNotFoundException("Could not find requested address");
 		}
 	}
 	
-	/*public ResponseEntity<Address> getOneAddress(Long addressId){
-		Address a = findOne(addressId);
-		if(!a.equals(null) && !a.isDeleted()) {
-			return ResponseEntity.ok().body(a);
-		}else {
-			return ResponseEntity.notFound().build();
-			
-		}
-	}*/
+	
 	//dule budzi
-	public ResponseEntity<Address> getOneAddress(Long addressId){
-		/*Address a = findOne(addressId);
-		if(!a.equals(null) && !a.isDeleted()) {
-			return ResponseEntity.ok().body(a);
-		}else {
-			return ResponseEntity.notFound().build();
-			
-		}*/
+	public Address getOneAddress(Long addressId) throws ResourceNotFoundException{
 		Address a = findOne(addressId);
 		if(a == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			throw new ResourceNotFoundException("Could not find requested address");
 		}
 		
-		return new ResponseEntity<>(a, HttpStatus.OK);
+		return a;
 	}
 }

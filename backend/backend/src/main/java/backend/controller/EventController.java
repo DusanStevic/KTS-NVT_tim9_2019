@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import backend.converters.EventConverter;
 import backend.dto.EventDTO;
 import backend.dto.UrlDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
 import backend.service.EventService;
 import backend.service.FileUploadService;
@@ -48,34 +49,29 @@ public class EventController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Event createEvent(@Valid @RequestBody EventDTO dto) {
+	public ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO dto) {
 		Event event = eventConverter.EventDTO2Event(dto);
-		return eventService.save(event);
+		return new ResponseEntity<>(eventService.save(event), HttpStatus.OK);
 	}
 	
 
 	/* get all events, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Event> getAllEventes() {
-		return eventService.findAll();
+	public ResponseEntity<List<Event>> getAllEventes() {
+		return new ResponseEntity<>(eventService.findAll(), HttpStatus.OK);
 	}
 	
 	/* get all active events, permitted for all */
 	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Event> getAllActiveEvents() {
-		return eventService.findAllActive();
+	public ResponseEntity<List<Event>> getAllActiveEvents() {
+		return new ResponseEntity<>(eventService.findAllActive(), HttpStatus.OK);
 	}
 
 	/* get an event by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(
-			@PathVariable(value = "id") Long eventId) {
-		Event event = eventService.findOne(eventId);
-
-		if (event == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok().body(event);
+			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
+		return new ResponseEntity<>(eventService.getOneEvent(eventId), HttpStatus.OK);
 	}
 	
 	/* update event by id */
@@ -83,9 +79,10 @@ public class EventController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> updateEvent(
 			@PathVariable(value = "id") Long eventId,
-			@Valid @RequestBody EventDTO dto) {
+			@Valid @RequestBody EventDTO dto) throws ResourceNotFoundException {
 		Event e = eventConverter.EventDTO2Event(dto);
-		return eventService.update(eventId, e);
+		
+		return new ResponseEntity<>(eventService.update(eventId, e), HttpStatus.OK);
 	}
 	
 
@@ -147,8 +144,9 @@ public class EventController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteEvent(
-			@PathVariable(value = "id") Long eventId) {
+			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
 		logger.debug("Deleted" + eventId);
-		return eventService.delete(eventId);
+		eventService.delete(eventId);
+		return new ResponseEntity<>("Successfully deleted event", HttpStatus.OK);
 	}
 }

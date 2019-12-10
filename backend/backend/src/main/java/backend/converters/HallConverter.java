@@ -18,7 +18,7 @@ public class HallConverter {
 	public Hall HallDTO2Hall(HallDTO dto) {
 		Hall hall = new Hall();
 		hall.setName(dto.getName());
-		hall.setNumberOfSectors(dto.getNumber_of_sectors());
+		
 		for(SectorDTO sec_dto : dto.getSectors()) {
 			if(sec_dto.getSector_type().toLowerCase().equals("sitting")) {
 				SittingSector sit = sectorConverter.SectorDTO2SittingSector(sec_dto);

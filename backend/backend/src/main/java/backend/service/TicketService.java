@@ -24,7 +24,7 @@ public class TicketService {
 	}
 
 	public Ticket findOne(Long id) {
-		return ticketRepository.getOne(id);
+		return ticketRepository.findById(id).orElse(null);
 	}
 
 	public List<Ticket> findAll() {

@@ -39,7 +39,7 @@ public class TicketController {
 	EventSectorService eventSectorService;
 
 	/* saving address */
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Ticket createTicket(@Valid @RequestBody TicketDTO ticketDTO) {
 		Ticket ticket = new Ticket();
@@ -52,7 +52,7 @@ public class TicketController {
 		}
 		
 		return tisketService.save(ticket);
-	}
+	}*/
 
 	/* get all addresses, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +79,7 @@ public class TicketController {
 	}
 
 	/* update address by id */
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Ticket> updateTicket(
 			@PathVariable(value = "id") Long ticketId,
@@ -94,10 +94,10 @@ public class TicketController {
 
 		Ticket updateTicket = tisketService.save(ticket);
 		return ResponseEntity.ok().body(updateTicket);
-	}
+	}*/
 
 	/* delete Address */
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Ticket> deleteTicket(
 			@PathVariable(value = "id") Long ticketId) {
@@ -111,5 +111,5 @@ public class TicketController {
 			logger.error("Address " + ticketId + " not found.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	}
+	}*/
 }

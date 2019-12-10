@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import backend.dto.HallDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.model.Sector;
@@ -29,7 +30,7 @@ public class HallService {
 	}
 
 	public Hall findOne(Long id) {
-		return hallRepository.getOne(id);
+		return hallRepository.findById(id).orElse(null);
 	}
 
 	public List<Hall> findAll() {
@@ -47,7 +48,7 @@ public class HallService {
 	
 	public void delete(Long id) throws ResourceNotFoundException {
 		Hall h = findOne(id);
-		if(!h.equals(null) && !h.isDeleted()) {
+		if(h != null && !h.isDeleted()) {
 			h.setDeleted(true);
 			for(Sector s : h.getSectors()) {
 				sectorService.delete(s.getId());
@@ -57,5 +58,16 @@ public class HallService {
 		}else {
 			throw new ResourceNotFoundException("Could not find requested hall");
 		}
+	}
+	
+	public Hall update(Long id, HallDTO h) throws ResourceNotFoundException {
+		Hall hall = findOne(id);
+		if(hall == null || hall.isDeleted()) 
+			throw new ResourceNotFoundException("Could not find requested hall");
+		
+		if (!h.getName().trim().equals("")) {
+			hall.setName(h.getName());
+		}
+		return save(hall);
 	}
 }

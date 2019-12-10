@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.converters.EventDayConverter;
 import backend.dto.EventDayDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventDay;
 import backend.model.EventStatus;
 import backend.service.EventDayService;
@@ -36,6 +38,8 @@ public class EventDayController {
 	@Autowired
 	EventService eventService;
 	
+	@Autowired
+	EventDayConverter eventDayConverter;
 	
 	/* creating event day */
 	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
@@ -49,20 +53,20 @@ public class EventDayController {
 
 	/* get all event days, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<EventDay> getAllEventDays() {
-		return eventDayService.findAll();
+	public ResponseEntity<List<EventDay>> getAllEventDays() {
+		return new ResponseEntity<>(eventDayService.findAll(), HttpStatus.OK);
 	}
 
-	/* get an address by id, permitted for all */
+	/* get event day by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventDay> getEventDays(
+	public ResponseEntity<?> getEventDay(
 			@PathVariable(value = "id") Long eventDayId) {
 		EventDay eventDay = eventDayService.findOne(eventDayId);
 
 		if (eventDay == null) {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>("Could not find requested event day", HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.ok().body(eventDay);
+		return new ResponseEntity<>(eventDay, HttpStatus.OK);
 	}
 
 	/* update eventDays by id */
@@ -70,36 +74,18 @@ public class EventDayController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventDay> updateEventDay(
 			@PathVariable(value = "id") Long eventDayId,
-			@Valid @RequestBody EventDayDTO e) {
-
-		EventDay eventDay = eventDayService.findOne(eventDayId);
-		if (eventDay == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		eventDay.setName(e.getName());
-		eventDay.setDescription(e.getDescription());
-		eventDay.setDate(e.getDate());
-		eventDay.setEvent(eventService.findOne(e.getEvent_id()));
-		eventDay.setStatus(EventStatus.values()[e.getStatus()]);
-		EventDay updateEventDay = eventDayService.save(eventDay);
-		return ResponseEntity.ok().body(updateEventDay);
+			@Valid @RequestBody EventDayDTO e) throws ResourceNotFoundException {
+		EventDay eventDay = eventDayConverter.EventDayDTO2EventDay(e);
+		return new ResponseEntity<>(eventDayService.update(eventDayId, eventDay), HttpStatus.OK);
+		
 	}
 
-	/* delete Address */
+	/* delete event day */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventDay> deleteEventDay(
-			@PathVariable(value = "id") Long eventDayId) {
-		EventDay a = eventDayService.findOne(eventDayId);
-
-		if (a != null) {
-			eventDayService.remove(eventDayId);
-			logger.info("Address " + eventDayId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Address " + eventDayId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteEventDay(
+			@PathVariable(value = "id") Long eventDayId) throws ResourceNotFoundException {
+		eventDayService.delete(eventDayId);
+		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
 	}
 }

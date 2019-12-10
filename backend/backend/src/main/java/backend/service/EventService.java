@@ -8,11 +8,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.dto.charts.DateIntervalDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
+import backend.model.EventDay;
+import backend.model.EventSector;
 import backend.repository.EventRepository;
 
 @Service
@@ -31,7 +33,7 @@ public class EventService {
 	}
 
 	public Event findOne(Long id) {
-		return eventRepository.getOne(id);
+		return eventRepository.findById(id).orElse(null);
 	}
 
 	public List<Event> findAll() {
@@ -47,28 +49,39 @@ public class EventService {
 		eventRepository.deleteById(id);
 	}
 
-	public ResponseEntity<String> delete(Long eventID) {
+	public Event getOneEvent(Long eventId) throws ResourceNotFoundException{
+		Event e = findOne(eventId);
+		if(e == null){
+			throw new ResourceNotFoundException("Could not find requested event");
+		}
+		
+		return e;
+	}
+	
+	public void delete(Long eventID) throws ResourceNotFoundException {
 		Event e = findOne(eventID);
-		if (!e.equals(null) && !e.isDeleted()) {
+		if (e != null && !e.isDeleted()) {
 			e.setDeleted(true);
-			e.getEventDays().forEach(ed -> eventDayService.delete(ed.getId()));
-			e.getEventSectors().forEach(es -> eventSectorService.delete(es.getId()));
+			for(EventDay ed : e.getEventDays()) {
+				eventDayService.delete(ed.getId());
+			}
+			for(EventSector es : e.getEventSectors()) {
+				eventSectorService.delete(es.getId());
+			}
+			
 			save(e);
-			return ResponseEntity.ok().body("Successfully deleted");
 		} else {
-			return ResponseEntity.badRequest().body(
-					"Could not find requested event");
+			throw new ResourceNotFoundException("Could not find requested event");
 		}
 	}
 
-	public ResponseEntity<Event> update(Long eventId, Event event) {
+	public Event update(Long eventId, Event event) throws ResourceNotFoundException {
 		Event e = findOne(eventId);
-		if (!e.equals(null) && !e.isDeleted()) {
+		if (e != null && !e.isDeleted()) {
 			e.setEvent(event);
-
-			return ResponseEntity.ok().body(save(e));
+			return save(e);
 		} else {
-			return ResponseEntity.notFound().build();
+			throw new ResourceNotFoundException("Could not find requested event");
 		}
 	}
 

@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import backend.model.*;
 import backend.service.*;
 import backend.dto.*;
+import backend.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/api/eventsector")
@@ -38,69 +39,52 @@ public class EventSectorController {
 	@Autowired
 	SectorService sectorService;
 	
-	/* saving address */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/* saving event sector */
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public EventSector createEventSector(@Valid @RequestBody EventSectorDTO eventSectorDTO) {
+	public ResponseEntity<EventSector> createEventSector(@Valid @RequestBody EventSectorDTO eventSectorDTO) {
 		EventSector eventSector = new EventSector();
 		eventSector.setEvent(eventService.findOne(eventSectorDTO.getEvent_id()));
 		eventSector.setPrice(eventSectorDTO.getPrice());
 		eventSector.setSector(sectorService.findOne(eventSectorDTO.getSector_id()));
-		return eventSectorService.save(eventSector);
-	}
+		return new ResponseEntity<>(eventSectorService.save(eventSector), HttpStatus.OK);
+	}*/
 
-	/* get all addresses, permitted for all */
+	/* get all event sectors, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<EventSector> getAllEventSectors() {
-		return eventSectorService.findAll();
+	public ResponseEntity<List<EventSector>> getAllEventSectors() {
+		return new ResponseEntity<>(eventSectorService.findAll(), HttpStatus.OK);
 	}
 
-	/* get an address by id, permitted for all */
+	/* get an event sector by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventSector> getEventSector(
+	public ResponseEntity<?> getEventSector(
 			@PathVariable(value = "id") Long eventSectorId) {
 		EventSector eventSector = eventSectorService.findOne(eventSectorId);
 
 		if (eventSector == null) {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>("Could not find requested event sector", HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.ok().body(eventSector);
+		return new ResponseEntity<>(eventSector, HttpStatus.OK);
 	}
 
-	/* update address by id */
+	/* update event sector by id */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventSector> updateEventSector(
 			@PathVariable(value = "id") Long eventSectorId,
-			@Valid @RequestBody EventSectorDTO es) {
+			@Valid @RequestBody EventSectorDTO es) throws ResourceNotFoundException {
 
-		EventSector eventSector = eventSectorService.findOne(eventSectorId);
-		if (eventSector == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		eventSector.setEvent(eventService.findOne(es.getEvent_id()));
-		eventSector.setPrice(es.getPrice());
-		eventSector.setSector(sectorService.findOne(es.getSector_id()));
-
-		EventSector updateEventSector = eventSectorService.save(eventSector);
-		return ResponseEntity.ok().body(updateEventSector);
+		return new ResponseEntity<>(eventSectorService.update(eventSectorId, es.getPrice()), HttpStatus.OK);
+		
 	}
 
-	/* delete Address */
+	/* delete event sector */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventSector> deleteEventSector(
-			@PathVariable(value = "id") Long eventSectorId) {
-		EventSector es = eventSectorService.findOne(eventSectorId);
-
-		if (es != null) {
-			eventSectorService.remove(eventSectorId);
-			logger.info("Address " + eventSectorId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Address " + eventSectorId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteEventSector(
+			@PathVariable(value = "id") Long eventSectorId) throws ResourceNotFoundException {
+		eventSectorService.delete(eventSectorId);
+		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
 	}
 }
