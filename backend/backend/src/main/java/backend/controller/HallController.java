@@ -4,6 +4,7 @@ package backend.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.dto.HallDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.service.HallService;
 import backend.service.LocationService;
@@ -38,7 +40,7 @@ public class HallController {
 	HallService hallService;
 
 	/* saving hall */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Hall createHall(@Valid @RequestBody HallDTO hallDTO) {
 		Hall hall = new Hall();
@@ -53,7 +55,7 @@ public class HallController {
 		hall.setLocation(locationService.findOne(hallDTO.getLocation_id()));
 		
 		return hallService.save(hall);
-	}
+	}*/
 
 	/* get all halls, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,13 +65,13 @@ public class HallController {
 
 	/* get an hall by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Hall> getHall(@PathVariable(value = "id") Long hallId) {
+	public ResponseEntity<?> getHall(@PathVariable(value = "id") Long hallId) {
 		Hall hall = hallService.findOne(hallId);
 
 		if (hall == null) {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>("Could not find requested event sector", HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.ok().body(hall);
+		return new ResponseEntity<>(hall, HttpStatus.OK);
 	}
 
 	/* update hall by id */
@@ -77,45 +79,18 @@ public class HallController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hall> updateHall(
 			@PathVariable(value = "id") Long hallId,
-			@Valid @RequestBody HallDTO h) {
+			@Valid @RequestBody HallDTO h) throws ResourceNotFoundException {
 
-		Hall hall = hallService.findOne(hallId);
-		if (hall == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		// maybe makes no sense because hall cant go to different location, but
-		// it can stay
-		if (h.getLocation_id() != null) {
-			hall.setLocation(locationService.findOne(h.getLocation_id()));
-		}
-		if (!h.getName().trim().equals("")) {
-			hall.setName(h.getName());
-		}
-
-		if (h.getNumber_of_sectors() > 0) {
-			hall.setNumberOfSectors(h.getNumber_of_sectors());
-		}
-
-		Hall updateHall = hallService.save(hall);
-		return ResponseEntity.ok().body(updateHall);
+		return new ResponseEntity<>(hallService.update(hallId, h), HttpStatus.OK);
 	}
 
 	/* delete Hall */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Hall> deleteHall(
-			@PathVariable(value = "id") Long hallId) {
-		Hall h = hallService.findOne(hallId);
-
-		if (h != null) {
-			hallService.remove(hallId);
-			logger.info("Hall " + hallId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Hall " + hallId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteHall(
+			@PathVariable(value = "id") Long hallId) throws ResourceNotFoundException {
+		hallService.delete(hallId);
+		return new ResponseEntity<>("Successfully deleted hall", HttpStatus.OK);
 	}
 
 }

@@ -24,6 +24,8 @@ import javax.validation.Valid;
 import backend.model.*;
 import backend.service.*;
 import backend.dto.*;
+import backend.exceptions.BadRequestException;
+import backend.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/api/sector")
@@ -37,7 +39,7 @@ public class SectorController {
 
 	
 	 /* saving sector	 */ 
-	 @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/* @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	 @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE) 
 	 public ResponseEntity<Sector> createSector(@Valid@RequestBody SectorDTO sectorDTO) { 
 		 Sector retval = sectorService.create(sectorDTO); 
@@ -46,7 +48,7 @@ public class SectorController {
 		 }else{
 			 return ResponseEntity.ok().body(retval);
 		 }
-	 }
+	 }*/
 	 
 
 	
@@ -59,13 +61,13 @@ public class SectorController {
 
 	/* get a sector by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Sector> getSector( @PathVariable(value = "id") Long sectorId) {
+	public ResponseEntity<?> getSector( @PathVariable(value = "id") Long sectorId) {
 		
 		Sector sector = sectorService.findOne(sectorId);
 		if (sector == null) {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>("Could not find requested sector", HttpStatus.OK);
 		}
-		return ResponseEntity.ok().body(sector);
+		return new ResponseEntity<>(sector, HttpStatus.OK);
 	}
 
 	/* update sector by id */
@@ -73,60 +75,17 @@ public class SectorController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Sector> updateSector(
 			@PathVariable(value = "id") Long sectorId,
-			@Valid @RequestBody SectorDTO s) {
-
-		Sector sector = sectorService.findOne(sectorId);
-
-		if (sector == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		if (!s.getName().equals("")) {
-			sector.setName(s.getName());
-		}
-
-		if (s.getSectorType().trim().toLowerCase().equals("sitting")) {
-			SittingSector s1 = (SittingSector) sector;
-
-			if (s.getNumCols() > 0) {
-				s1.setNumCols(s.getNumCols());
-			}
-			if (s.getNumRows() > 0) {
-				s1.setNumRows(s.getNumRows());
-			}
-
-			Sector updated = sectorService.save(sector);
-			return ResponseEntity.ok().body(updated);
-
-		} else if (s.getSectorType().trim().toLowerCase().equals("standing")) {
-			StandingSector s2 = (StandingSector) sector;
-
-			if (s.getCapacity() > 0) {
-				s2.setCapacity(s.getCapacity());
-			}
-			Sector updated = sectorService.save(sector);
-			return ResponseEntity.ok().body(updated);
-		} else {
-
-			return ResponseEntity.badRequest().build();
-		}
+			@Valid @RequestBody SectorDTO s) throws BadRequestException, ResourceNotFoundException {
+		return new ResponseEntity<>(sectorService.update(sectorId, s), HttpStatus.OK);
 
 	}
 
 	/* delete Sector */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Sector> deleteSector(
-			@PathVariable(value = "id") Long sectorId) {
-		Sector s = sectorService.findOne(sectorId);
-
-		if (s != null) {
-			sectorService.remove(sectorId);
-			logger.info("Sector " + sectorId + " deleted.");
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Sector " + sectorId + " not found.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> deleteSector(
+			@PathVariable(value = "id") Long sectorId) throws ResourceNotFoundException {
+		sectorService.delete(sectorId);
+		return new ResponseEntity<>("Successfully deleted sector", HttpStatus.OK);
 	}
 }

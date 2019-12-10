@@ -38,6 +38,7 @@ public class EventConverter {
 	
 		e.setStartDate(dto.getStart_date());
 		e.setEndDate(dto.getEnd_date());
+		
 		e.setNumDays(dto.getNum_days());
 		e.setMaxTickets(dto.getMax_tickets());
 		e.setEventType(EventType.values()[dto.getEvent_type()]);

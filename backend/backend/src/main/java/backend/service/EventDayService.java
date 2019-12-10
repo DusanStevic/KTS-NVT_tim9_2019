@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventDay;
 import backend.repository.EventDayRepository;
 
@@ -23,7 +24,7 @@ public class EventDayService {
 	}
 
 	public EventDay findOne(Long id) {
-		return eventDayRepository.getOne(id);
+		return eventDayRepository.findById(id).orElse(null);
 	}
 
 	public List<EventDay> findAll() {
@@ -39,14 +40,26 @@ public class EventDayService {
 		eventDayRepository.deleteById(id);
 	}
 	
-	public ResponseEntity<String> delete(Long ID) {
+	public void delete(Long ID) throws ResourceNotFoundException {
 		EventDay ed = findOne(ID);
-		if(!ed.equals(null) && !ed.isDeleted()) {
+		if(ed != null && !ed.isDeleted()) {
 			ed.setDeleted(true);
 			save(ed);
-			return ResponseEntity.ok().body("Successfully deleted");
 		}else {
-			return ResponseEntity.badRequest().body("Could not find requested event day");
+			throw new ResourceNotFoundException("Could not find requested event day");
+		}
+	}
+	
+	public EventDay update(Long id, EventDay e) throws ResourceNotFoundException {
+		EventDay eventDay = findOne(id);
+		if(eventDay != null && !eventDay.isDeleted()) {
+			eventDay.setDescription(e.getDescription());
+			eventDay.setName(e.getName());
+			//eventDay.setStatus(e.getStatus());
+			//eventDay.setDate(e.getDate());
+			return save(eventDay);
+		}else {
+			throw new ResourceNotFoundException("Could not find requested event day");
 		}
 	}
 

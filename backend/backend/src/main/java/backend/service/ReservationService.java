@@ -142,10 +142,7 @@ public class ReservationService {
 		Reservation r = findOne(ID);
 		if(r != null) {
 			remove(ID);
-			for(Ticket t : r.getTickets()) {
-				ticketService.delete(t.getId());
-			}
-			save(r);
+			
 		}else {
 			throw new ResourceNotFoundException("Could not find requested reservation");
 		}

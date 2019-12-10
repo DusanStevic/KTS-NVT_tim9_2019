@@ -47,7 +47,7 @@ public class LocationController {
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException{
+	public ResponseEntity<?> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException{
 		Location location = locationConverter.LocationDTO2Location(loc);
 		return new ResponseEntity<>(locationService.save(location), HttpStatus.OK);
 		
@@ -55,20 +55,15 @@ public class LocationController {
 
 	/* get all locations, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Location> getAllLocationes() {
-		return locationService.findAll();
+	public ResponseEntity<List<Location>> getAllLocationes() {
+		return new ResponseEntity<>(locationService.findAll(), HttpStatus.OK);
 	}
 
 	/* get an location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> getLocation(
-			@PathVariable(value = "id") Long locationId) {
-		Location location = locationService.findOne(locationId);
-
-		if (location == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok().body(location);
+			@PathVariable(value = "id") Long locationId) throws ResourceNotFoundException {
+		return new ResponseEntity<>(locationService.getOneLocation(locationId), HttpStatus.OK);
 	}
 
 	/* update location by id */
@@ -76,20 +71,8 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationDTO loc) throws Exception{
-
-		Location location = locationService.findOne(locationId);
-		if (location == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		
-		location.setName(loc.getName());
-		location.setDescription(loc.getDescription());
-		location.setAddress(addressService.findOne(loc.getAddress_id()));
-
-		Location updateLocation = locationService.save(location);
-		return ResponseEntity.ok().body(updateLocation);
+			@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException {
+		return new ResponseEntity<>(locationService.update(locationId, loc), HttpStatus.OK);
 	}
 
 	/* delete Location */

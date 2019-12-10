@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventSector;
 import backend.repository.EventSectorRepository;
 
@@ -23,7 +24,7 @@ public class EventSectorService {
 	}
 
 	public EventSector findOne(Long id) {
-		return eventSectorRepository.getOne(id);
+		return eventSectorRepository.findById(id).orElse(null);
 	}
 
 	public List<EventSector> findAll() {
@@ -39,14 +40,23 @@ public class EventSectorService {
 		eventSectorRepository.deleteById(id);
 	}
 	
-	public ResponseEntity<String> delete(Long ID) {
+	public void delete(Long ID) throws ResourceNotFoundException {
 		EventSector es = findOne(ID);
-		if(!es.equals(null) && !es.isDeleted()) {
+		if(es != null && !es.isDeleted()) {
 			es.setDeleted(true);
 			save(es);
-			return ResponseEntity.ok().body("Successfully deleted");
 		}else {
-			return ResponseEntity.badRequest().body("Could not find requested event sector");
+			throw new ResourceNotFoundException("Could not find requested event sector");
+		}
+	}
+	
+	public EventSector update(Long id, double price) throws ResourceNotFoundException {
+		EventSector es = findOne(id);
+		if(es != null && !es.isDeleted()) {
+			es.setPrice(price);
+			return save(es);
+		}else {
+			throw new ResourceNotFoundException("Could not find requested sector of an event");
 		}
 	}
 }

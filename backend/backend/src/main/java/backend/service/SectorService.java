@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.dto.SectorDTO;
+import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Sector;
 import backend.model.SittingSector;
@@ -30,7 +31,7 @@ public class SectorService {
 	}
 
 	public Sector findOne(Long id) {
-		return sectorRepository.getOne(id);
+		return sectorRepository.findById(id).orElse(null);
 	}
 
 	public List<Sector> findAll() {
@@ -46,7 +47,7 @@ public class SectorService {
 		sectorRepository.deleteById(id);
 	}
 
-	public Sector create(SectorDTO sectorDTO) {
+	/*public Sector create(SectorDTO sectorDTO) {
 		Sector retVal;
 		switch (sectorDTO.getSectorType().trim().toLowerCase()) {
 		case "sitting":
@@ -69,16 +70,53 @@ public class SectorService {
 		}
 
 		return save(retVal);
-	}
+	}*/
 	
 	public void delete(Long id) throws ResourceNotFoundException {
 		Sector s = findOne(id);
-		if(!s.equals(null) && !s.isDeleted()) {
+		if(s != null && !s.isDeleted()) {
 			s.setDeleted(true);
 			save(s);
 			//return ResponseEntity.ok().body("Successfully deleted");
 		}else {
 			throw new ResourceNotFoundException("Could not find requested sector");
+		}
+	}
+	
+	public Sector update(Long id, SectorDTO s) throws BadRequestException, ResourceNotFoundException {
+		Sector sector = findOne(id);
+
+		if (sector == null || sector.isDeleted()) {
+			throw new ResourceNotFoundException("Could not find requested sector");
+		}
+
+		if (!s.getName().equals("")) {
+			sector.setName(s.getName());
+		}
+
+		if (s.getSectorType().trim().toLowerCase().equals("sitting")) {
+			SittingSector s1 = (SittingSector) sector;
+
+			if (s.getNumCols() > 0) {
+				s1.setNumCols(s.getNumCols());
+			}
+			if (s.getNumRows() > 0) {
+				s1.setNumRows(s.getNumRows());
+			}
+
+			Sector updated = save(sector);
+			return updated;
+
+		} else if (s.getSectorType().trim().toLowerCase().equals("standing")) {
+			StandingSector s2 = (StandingSector) sector;
+
+			if (s.getCapacity() > 0) {
+				s2.setCapacity(s.getCapacity());
+			}
+			Sector updated = save(sector);
+			return updated;
+		} else {
+			throw new BadRequestException("Invalid sector type");
 		}
 	}
 }

@@ -28,8 +28,8 @@ public class Hall {
 	@Column(name = "name", nullable = false, length = 60)
 	private String name;
 
-	@Column(name = "number_of_sectors", nullable = true)
-	private int numberOfSectors;
+	/*@Column(name = "number_of_sectors", nullable = true)
+	private int numberOfSectors;*/
 
 	@OneToMany(mappedBy = "hall", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("hall")
@@ -50,12 +50,12 @@ public class Hall {
 	}
 
 	
-	public Hall(Long id, String name, int numberOfSectors, Set<Sector> sectors,
+	public Hall(Long id, String name, Set<Sector> sectors,
 			Location location, boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.numberOfSectors = numberOfSectors;
+		//this.numberOfSectors = numberOfSectors;
 		this.sectors = sectors;
 		this.location = location;
 		this.deleted = deleted;
@@ -77,14 +77,7 @@ public class Hall {
 		this.name = name;
 	}
 
-	public int getNumberOfSectors() {
-		return numberOfSectors;
-	}
-
-	public void setNumberOfSectors(int numberOfSectors) {
-		this.numberOfSectors = numberOfSectors;
-	}
-
+	
 	public Set<Sector> getSectors() {
 		return sectors;
 	}
@@ -103,8 +96,7 @@ public class Hall {
 
 	@Override
 	public String toString() {
-		return "Hall [id=" + id + ", name=" + name + ", numberOfSectors="
-				+ numberOfSectors + ", sectors=" + sectors + ", location="
+		return "Hall [id=" + id + ", name=" + name  + ", sectors=" + sectors + ", location="
 				+ location.getName() + "]";
 	}
 

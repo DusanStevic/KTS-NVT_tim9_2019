@@ -14,10 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import backend.dto.LocationDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.DeletingException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.exceptions.SavingException;
+import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Location;
 import backend.repository.LocationRepository;
@@ -34,6 +36,10 @@ public class LocationService {
 	@Autowired
 	TicketService ticketService;
 	
+	@Autowired
+	AddressService addressService;
+	
+	private static final Timestamp FIRST_TIMESTAMP = new Timestamp(0L); 
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
 	public Location save(Location b) throws SavingException{
@@ -61,6 +67,14 @@ public class LocationService {
 		locationRepository.deleteById(id);
 	}
 
+	public Location getOneLocation(Long locationId) throws ResourceNotFoundException{
+		Location loc = findOne(locationId);
+		if(loc == null){
+			throw new ResourceNotFoundException("Could not find requested location");
+		}
+		
+		return loc;
+	}
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = DeletingException.class)
 	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException{
@@ -68,7 +82,7 @@ public class LocationService {
 			throw new BadRequestException("Could not delete location");
 		}
 		Location loc = findOne(id);
-		if (loc != null && loc.getDeleted().equals(new Timestamp(0L))) {
+		if (loc != null && loc.getDeleted().equals(FIRST_TIMESTAMP)) {
 			loc.setDeleted(new Timestamp(System.currentTimeMillis()));
 			for (Hall h : loc.getHalls()) {
 				hallService.delete(h.getId());
@@ -81,6 +95,18 @@ public class LocationService {
 
 	}
 
+
+	public Location update(Long locationId, LocationDTO dto) throws SavingException, ResourceNotFoundException {
+		Location loc = findOne(locationId);
+		if(loc != null && loc.getDeleted().equals(FIRST_TIMESTAMP)){
+			loc.setName(dto.getName());
+			loc.setDescription(dto.getDescription());
+			loc.setAddress(addressService.getOneAddress(dto.getAddress_id()));
+			return save(loc);
+		}else {
+			throw new ResourceNotFoundException("Could not find requested location");
+		}
 	}
+}
 
 
