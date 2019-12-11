@@ -32,8 +32,8 @@ public class EventService {
 		return eventRepository.save(b);
 	}
 
-	public Event findOne(Long id) {
-		return eventRepository.findById(id).orElse(null);
+	public Event findOne(Long id) throws ResourceNotFoundException {
+		return eventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested event"));
 	}
 
 	public List<Event> findAll() {
@@ -49,14 +49,6 @@ public class EventService {
 		eventRepository.deleteById(id);
 	}
 
-	public Event getOneEvent(Long eventId) throws ResourceNotFoundException{
-		Event e = findOne(eventId);
-		if(e == null){
-			throw new ResourceNotFoundException("Could not find requested event");
-		}
-		
-		return e;
-	}
 	
 	public void delete(Long eventID) throws ResourceNotFoundException {
 		Event e = findOne(eventID);

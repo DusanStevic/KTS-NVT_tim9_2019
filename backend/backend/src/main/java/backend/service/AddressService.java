@@ -1,6 +1,7 @@
 package backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -29,13 +30,17 @@ public class AddressService {
 
 	
 	/*DULE BUDZI*/
-	public Address findOne(Long id) {
+	public Address findOne(Long id) throws ResourceNotFoundException {
 		//forsiram da mi vrati null umesto entity not found exception ili da mi vrati 
 		// address not found exception kao kod usera sto sam napravio
-		Address a = addressRepository.findById(id).orElse(null);
+		Address a = addressRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested address"));
 		return a;
 	}
 	
+	public Address findOneNotDeleted(Long id) throws ResourceNotFoundException {
+		Address a = addressRepository.findByIdAndDeleted(id, false).orElseThrow(() -> new ResourceNotFoundException("Could not find requested address"));
+		return a;
+	}
 
 	public List<Address> findAll() {
 		return addressRepository.findAll();
@@ -77,13 +82,5 @@ public class AddressService {
 	}
 	
 	
-	//dule budzi
-	public Address getOneAddress(Long addressId) throws ResourceNotFoundException{
-		Address a = findOne(addressId);
-		if(a == null){
-			throw new ResourceNotFoundException("Could not find requested address");
-		}
-		
-		return a;
-	}
+	
 }

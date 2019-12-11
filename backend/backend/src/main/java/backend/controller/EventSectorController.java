@@ -59,7 +59,7 @@ public class EventSectorController {
 	/* get an event sector by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getEventSector(
-			@PathVariable(value = "id") Long eventSectorId) {
+			@PathVariable(value = "id") Long eventSectorId) throws ResourceNotFoundException {
 		EventSector eventSector = eventSectorService.findOne(eventSectorId);
 
 		if (eventSector == null) {

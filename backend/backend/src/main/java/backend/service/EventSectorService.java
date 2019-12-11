@@ -23,8 +23,8 @@ public class EventSectorService {
 		return eventSectorRepository.save(b);
 	}
 
-	public EventSector findOne(Long id) {
-		return eventSectorRepository.findById(id).orElse(null);
+	public EventSector findOne(Long id) throws ResourceNotFoundException {
+		return eventSectorRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested event sector"));
 	}
 
 	public List<EventSector> findAll() {
@@ -46,7 +46,7 @@ public class EventSectorService {
 			es.setDeleted(true);
 			save(es);
 		}else {
-			throw new ResourceNotFoundException("Could not find requested event sector");
+			throw new ResourceNotFoundException("Could not find event sector");
 		}
 	}
 	
@@ -56,7 +56,8 @@ public class EventSectorService {
 			es.setPrice(price);
 			return save(es);
 		}else {
-			throw new ResourceNotFoundException("Could not find requested sector of an event");
+			throw new ResourceNotFoundException("Could not find event sector");
 		}
+		
 	}
 }

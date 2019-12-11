@@ -71,7 +71,7 @@ public class EventController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(
 			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(eventService.getOneEvent(eventId), HttpStatus.OK);
+		return new ResponseEntity<>(eventService.findOne(eventId), HttpStatus.OK);
 	}
 	
 	/* update event by id */
@@ -90,7 +90,7 @@ public class EventController {
 	/*add image to event*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/addImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) throws ResourceNotFoundException {
 		Event event = eventService.findOne(eventId);
 		event.getImagePaths().add(fileUploadService.imageUpload(file));
 		eventService.save(event);
@@ -101,7 +101,7 @@ public class EventController {
 	/*delete image from event*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/deleteImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventDTO> deleteImage(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException {
+	public ResponseEntity<EventDTO> deleteImage(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException, ResourceNotFoundException {
 		Event event = eventService.findOne(eventId);
 		//brisanje url-a slike iz baze
 		event.getImagePaths().remove(dto.getUrl());
@@ -115,7 +115,7 @@ public class EventController {
 	/*add video to event*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/addVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) {
+	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) throws ResourceNotFoundException {
 		Event event = eventService.findOne(eventId);
 		event.getVideoPaths().add(fileUploadService.videoUpload(file));
 		eventService.save(event);
@@ -126,7 +126,7 @@ public class EventController {
 	/*delete image from event*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/deleteVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventDTO> deleteVideo(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException {
+	public ResponseEntity<EventDTO> deleteVideo(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException, ResourceNotFoundException {
 		Event event = eventService.findOne(eventId);
 		//brisanje url-a videa iz baze
 		event.getVideoPaths().remove(dto.getUrl());
