@@ -68,7 +68,7 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
-	public Reservation createReservation(ReservationDTO dto, Principal user) throws BadRequestException {
+	public Reservation createReservation(ReservationDTO dto, Principal user) throws BadRequestException, ResourceNotFoundException {
 
 		System.out.println("NEW RESERVATION");
 		Reservation r = new Reservation();

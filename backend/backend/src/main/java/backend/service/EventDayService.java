@@ -23,8 +23,8 @@ public class EventDayService {
 		return eventDayRepository.save(b);
 	}
 
-	public EventDay findOne(Long id) {
-		return eventDayRepository.findById(id).orElse(null);
+	public EventDay findOne(Long id) throws ResourceNotFoundException {
+		return eventDayRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested event day"));
 	}
 
 	public List<EventDay> findAll() {
@@ -46,7 +46,7 @@ public class EventDayService {
 			ed.setDeleted(true);
 			save(ed);
 		}else {
-			throw new ResourceNotFoundException("Could not find requested event day");
+			throw new ResourceNotFoundException("Could not find event day");
 		}
 	}
 	
@@ -59,8 +59,9 @@ public class EventDayService {
 			//eventDay.setDate(e.getDate());
 			return save(eventDay);
 		}else {
-			throw new ResourceNotFoundException("Could not find requested event day");
+			throw new ResourceNotFoundException("Could not find event day");
 		}
+		
 	}
 
 }

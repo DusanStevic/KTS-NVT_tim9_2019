@@ -20,7 +20,14 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2); -- adminstrato
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system adminstrator has ROLE_SYS_ADMIN
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (2, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (3, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (4, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (5, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (6, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (7, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (8, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, "1970-01-01 01:00:00");
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);

@@ -56,7 +56,7 @@ public class AddressController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getAddress(
 			@PathVariable(value = "id") Long addressId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(addressService.getOneAddress(addressId), HttpStatus.OK);
+		return new ResponseEntity<>(addressService.findOne(addressId), HttpStatus.OK);
 	}
 
 	/* update address by id */

@@ -101,7 +101,7 @@ public class LocationService {
 		if(loc != null && loc.getDeleted().equals(FIRST_TIMESTAMP)){
 			loc.setName(dto.getName());
 			loc.setDescription(dto.getDescription());
-			loc.setAddress(addressService.getOneAddress(dto.getAddress_id()));
+			loc.setAddress(addressService.findOne(dto.getAddress_id()));
 			return save(loc);
 		}else {
 			throw new ResourceNotFoundException("Could not find requested location");

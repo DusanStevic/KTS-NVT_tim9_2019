@@ -40,7 +40,7 @@ public class ReservationController {
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> createReservation(
-			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) throws BadRequestException {
+			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) throws BadRequestException, ResourceNotFoundException {
 		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
 

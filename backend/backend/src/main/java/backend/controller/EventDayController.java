@@ -60,7 +60,7 @@ public class EventDayController {
 	/* get event day by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getEventDay(
-			@PathVariable(value = "id") Long eventDayId) {
+			@PathVariable(value = "id") Long eventDayId) throws ResourceNotFoundException {
 		EventDay eventDay = eventDayService.findOne(eventDayId);
 
 		if (eventDay == null) {
