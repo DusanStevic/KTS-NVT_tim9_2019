@@ -55,18 +55,14 @@ public class SectorController {
 	 /* get all sectors, permitted for all*/
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Sector> getAllSectores() {
-		return sectorService.findAll();
+		return sectorService.findAllNotDeleted();
 	}
 
 
 	/* get a sector by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getSector( @PathVariable(value = "id") Long sectorId) {
-		
-		Sector sector = sectorService.findOne(sectorId);
-		if (sector == null) {
-			return new ResponseEntity<>("Could not find requested sector", HttpStatus.OK);
-		}
+	public ResponseEntity<?> getSector( @PathVariable(value = "id") Long sectorId) throws ResourceNotFoundException {
+		Sector sector = sectorService.findOneNotDeleted(sectorId);
 		return new ResponseEntity<>(sector, HttpStatus.OK);
 	}
 

@@ -44,8 +44,9 @@ public class ReservationService {
 		return reservationRepository.save(b);
 	}
 
-	public Reservation findOne(Long id) {
-		return reservationRepository.findById(id).orElse(null);
+	public Reservation findOne(Long id) throws ResourceNotFoundException {
+		return reservationRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested reservation"));
 	}
 
 	public List<Reservation> findAll() {
@@ -53,11 +54,10 @@ public class ReservationService {
 	}
 
 	/*
-	 * Not needed -> No logical deletion at reservation anymore
-	public List<Reservation> findAllActive() {
-		return reservationRepository.findAllActive();
-	}
-	*/
+	 * Not needed -> No logical deletion at reservation anymore public
+	 * List<Reservation> findAllActive() { return
+	 * reservationRepository.findAllActive(); }
+	 */
 
 	public Page<Reservation> findAll(Pageable page) {
 		return reservationRepository.findAll(page);
@@ -68,28 +68,28 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
-	public Reservation createReservation(ReservationDTO dto, Principal user) throws BadRequestException, ResourceNotFoundException {
+	public Reservation createReservation(ReservationDTO dto, Principal user)
+			throws BadRequestException, ResourceNotFoundException {
 
 		System.out.println("NEW RESERVATION");
 		Reservation r = new Reservation();
 		r.setReservationDate(new Date());
 		r.setBuyer((RegisteredUser) userService.findByUsername(user.getName()));
 		r.setPurchased(dto.isPurchased());
-		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(
-				dto.getEventDay_id(), dto.getSector_id());
+		List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(dto.getEventDay_id(), dto.getSector_id());
 		System.out.println(tickets.size());
 		EventSector es = esService.findOne(dto.getSector_id());
 		if (es.getSector() instanceof StandingSector) {
 			StandingSector stand = (StandingSector) es.getSector();
 
-			if(stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
-				//not ok, nema dovoljno mesta
+			if (stand.getCapacity() < tickets.size() + dto.getNumOfStandingTickets()) {
+				// not ok, nema dovoljno mesta
 				throw new BadRequestException("Not enough room!");
-			}else if(dto.getNumOfStandingTickets() < 1){
+			} else if (dto.getNumOfStandingTickets() < 1) {
 				throw new BadRequestException("There should be at least one ticket");
-			}else {
-				//ok
-				for(int i=0; i<dto.getNumOfStandingTickets(); i++) {
+			} else {
+				// ok
+				for (int i = 0; i < dto.getNumOfStandingTickets(); i++) {
 					Ticket t = new Ticket();
 					t.setEventSector(es);
 					t.setHasSeat(false);
@@ -99,23 +99,24 @@ public class ReservationService {
 					r.getTickets().add(t);
 				}
 
-				
 				return save(r);
 			}
 		} else {
-			//sitting sector
-			if(dto.getSedista().isEmpty()) {
-				//not ok, ako je sitting sector onda mora biti bar jedno sediste
+			// sitting sector
+			if (dto.getSedista().isEmpty()) {
+				// not ok, ako je sitting sector onda mora biti bar jedno sediste
 				throw new BadRequestException("No seats selected in a sitting sector!");
 			}
 			List<SeatDTO> taken_seats = tickets.stream().map(t -> new SeatDTO(t.getNumRow(), t.getNumCol()))
 					.filter(s -> dto.getSedista().contains(s)).collect(Collectors.toList());
 			if (taken_seats.isEmpty()) {
 				// ok
-				for(SeatDTO seat : dto.getSedista()) {
-					/*if(dto.getSedista().contains(seat)) {
-						return ResponseEntity.badRequest().body(null);   WTF?? ideja je bila da ne sme dva ista sedista, nz kako je ovo radilo???
-					}*/
+				for (SeatDTO seat : dto.getSedista()) {
+					/*
+					 * if(dto.getSedista().contains(seat)) { return
+					 * ResponseEntity.badRequest().body(null); WTF?? ideja je bila da ne sme dva
+					 * ista sedista, nz kako je ovo radilo??? }
+					 */
 
 					Ticket t = new Ticket();
 					t.setEventDay(eventDayService.findOne(dto.getEventDay_id()));
@@ -136,49 +137,37 @@ public class ReservationService {
 			}
 		}
 	}
-	
-	
+
 	public void delete(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
-		if(r != null) {
-			remove(ID);
-			
-		}else {
-			throw new ResourceNotFoundException("Could not find requested reservation");
-		}
+		remove(ID);
 	}
 
 	public Reservation cancelReservation(Long id) throws BadRequestException, ResourceNotFoundException {
 		Reservation r = findOne(id);
-		if(r == null) {
-			throw new ResourceNotFoundException("Could not find requested reservation.");
-		}else if(r.isCanceled()) {
+		if (r.isCanceled()) {
 			throw new BadRequestException("Reservation has already been canceled.");
-		}else {
+		} else {
 			r.setCanceled(true);
-			
+
 			return save(r);
 		}
-		
+
 	}
-	
+
 	public Reservation purchaseReservation(Long id) throws BadRequestException, ResourceNotFoundException {
 		Reservation r = findOne(id);
-		if(r == null) {
-			throw new ResourceNotFoundException("Could not find requested reservation.");
-		}else if(r.isCanceled()) {
+		if (r.isCanceled()) {
 			throw new BadRequestException("Could not purchase canceled reservation.");
-		}else if(r.isPurchased()) {
+		} else if (r.isPurchased()) {
 			throw new BadRequestException("Reservation has already been purchased.");
-		}else {
+		} else {
 			r.setPurchased(true);
-			
+
 			return save(r);
 		}
-		
+
 	}
-
-
 
 	public List<Reservation> findByEvent(Long event_id) {
 		return reservationRepository.findByEvent(event_id);

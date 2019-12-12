@@ -47,7 +47,8 @@ public class ReservationController {
 		return new ResponseEntity<>(reservationService.createReservation(reservationDTO, user), HttpStatus.OK);
 	}
 
-	/* get all addresses, permitted for all */
+	/* get all reservations, permitted for all */
+	//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Reservation> getAllReservations() {
 		return reservationService.findAll();
@@ -64,34 +65,29 @@ public class ReservationController {
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> getReservation(
-			@PathVariable(value = "id") Long reservationId) {
+			@PathVariable(value = "id") Long reservationId) throws ResourceNotFoundException {
 		Reservation reservation = reservationService.findOne(reservationId);
 
-		if (reservation == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok().body(reservation);
+		return new ResponseEntity<Reservation>(reservation, HttpStatus.OK);
 	}
 
-	/* update address by id */
-	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	/* update reservation by id */
+	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> updateReservation(
 			@PathVariable(value = "id") Long reservationId,
-			@Valid @RequestBody ReservationDTO r) {
+			@Valid @RequestBody ReservationDTO r) throws ResourceNotFoundException {
 
 		Reservation reservation = reservationService.findOne(reservationId);
 		if (reservation == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		/*
-		 * 
-		 */
+		
 
 		Reservation updateReservation = reservationService.save(reservation);
 		return ResponseEntity.ok().body(updateReservation);
-	}
+	}*/
 
 	/* delete reservation */
 	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
@@ -105,13 +101,13 @@ public class ReservationController {
 	
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId) throws BadRequestException, ResourceNotFoundException {
+	public ResponseEntity<Reservation> cancelReservation(@PathVariable(value = "id") Long reservationId, Principal user) throws BadRequestException, ResourceNotFoundException {
 		return new ResponseEntity<>(reservationService.cancelReservation(reservationId), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "purchase/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId) throws BadRequestException, ResourceNotFoundException{
+	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId, Principal user) throws BadRequestException, ResourceNotFoundException{
 		return new ResponseEntity<>(reservationService.purchaseReservation(reservationId), HttpStatus.OK);
 	}
 	

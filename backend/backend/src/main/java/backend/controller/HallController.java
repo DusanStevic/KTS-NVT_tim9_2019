@@ -60,17 +60,14 @@ public class HallController {
 	/* get all halls, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Hall> getAllHalles() {
-		return hallService.findAll();
+		return hallService.findAllNotDeleted();
 	}
 
 	/* get an hall by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getHall(@PathVariable(value = "id") Long hallId) {
-		Hall hall = hallService.findOne(hallId);
+	public ResponseEntity<Hall> getHall(@PathVariable(value = "id") Long hallId) throws ResourceNotFoundException {
+		Hall hall = hallService.findOneNotDeleted(hallId);
 
-		if (hall == null) {
-			return new ResponseEntity<>("Could not find requested event sector", HttpStatus.NOT_FOUND);
-		}
 		return new ResponseEntity<>(hall, HttpStatus.OK);
 	}
 

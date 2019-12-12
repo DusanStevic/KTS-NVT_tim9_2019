@@ -1,6 +1,5 @@
 package backend.service;
 
-
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +22,7 @@ import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Location;
 import backend.repository.LocationRepository;
+import static backend.constants.Constants.FIRST_TIMESTAMP;
 
 @Service
 @Transactional
@@ -35,23 +35,37 @@ public class LocationService {
 
 	@Autowired
 	TicketService ticketService;
-	
+
 	@Autowired
 	AddressService addressService;
-	
-	private static final Timestamp FIRST_TIMESTAMP = new Timestamp(0L); 
-	
+
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
-	public Location save(Location b) throws SavingException{
+	public Location save(Location b) throws SavingException {
 		try {
 			return locationRepository.save(b);
-		}catch (DataIntegrityViolationException e) {
-			throw new SavingException("Could not save location. Check if there is another location on the same address.");
+		} catch (DataIntegrityViolationException e) {
+			throw new SavingException(
+					"Could not save location. Check if there is another location on the same address.");
 		}
-		
+
 	}
-	public Location findOne(Long id) {
-		return locationRepository.findById(id).orElse(null);
+
+	public Location findOne(Long id) throws ResourceNotFoundException {
+		return locationRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));
+	}
+
+	public Location findOneNotDeleted(Long id) throws ResourceNotFoundException {
+		return locationRepository.findByIdAndDeleted(id, FIRST_TIMESTAMP)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));
+	}
+
+	public List<Location> findAllNotDeleted() {
+		return locationRepository.findAllByDeleted(FIRST_TIMESTAMP);
+	}
+
+	public Page<Location> findAllNotDeleted(Pageable page) {
+		return locationRepository.findAllByDeleted(FIRST_TIMESTAMP, page);
 	}
 
 	public List<Location> findAll() {
@@ -67,46 +81,25 @@ public class LocationService {
 		locationRepository.deleteById(id);
 	}
 
-	public Location getOneLocation(Long locationId) throws ResourceNotFoundException{
-		Location loc = findOne(locationId);
-		if(loc == null){
-			throw new ResourceNotFoundException("Could not find requested location");
-		}
-		
-		return loc;
-	}
-	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = DeletingException.class)
-	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException{
+	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException {
 		if (!ticketService.findAllByLocationDate(id, new Date()).isEmpty()) {
 			throw new BadRequestException("Could not delete location");
 		}
-		Location loc = findOne(id);
-		if (loc != null && loc.getDeleted().equals(FIRST_TIMESTAMP)) {
-			loc.setDeleted(new Timestamp(System.currentTimeMillis()));
-			for (Hall h : loc.getHalls()) {
-				hallService.delete(h.getId());
-			}
-			save(loc);
-			
-		} else {
-			throw new ResourceNotFoundException("Could not find requested location");
+		Location loc = findOneNotDeleted(id);
+		loc.setDeleted(new Timestamp(System.currentTimeMillis()));
+		for (Hall h : loc.getHalls()) {
+			hallService.delete(h.getId());
 		}
+		save(loc);
 
 	}
-
 
 	public Location update(Long locationId, LocationDTO dto) throws SavingException, ResourceNotFoundException {
-		Location loc = findOne(locationId);
-		if(loc != null && loc.getDeleted().equals(FIRST_TIMESTAMP)){
-			loc.setName(dto.getName());
-			loc.setDescription(dto.getDescription());
-			loc.setAddress(addressService.findOne(dto.getAddress_id()));
-			return save(loc);
-		}else {
-			throw new ResourceNotFoundException("Could not find requested location");
-		}
+		Location loc = findOneNotDeleted(locationId);
+		loc.setName(dto.getName());
+		loc.setDescription(dto.getDescription());
+		loc.setAddress(addressService.findOne(dto.getAddress_id()));
+		return save(loc);
 	}
 }
-
-

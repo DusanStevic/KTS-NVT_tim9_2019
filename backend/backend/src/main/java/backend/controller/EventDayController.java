@@ -54,18 +54,14 @@ public class EventDayController {
 	/* get all event days, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EventDay>> getAllEventDays() {
-		return new ResponseEntity<>(eventDayService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(eventDayService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
 	/* get event day by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getEventDay(
 			@PathVariable(value = "id") Long eventDayId) throws ResourceNotFoundException {
-		EventDay eventDay = eventDayService.findOne(eventDayId);
-
-		if (eventDay == null) {
-			return new ResponseEntity<>("Could not find requested event day", HttpStatus.NOT_FOUND);
-		}
+		EventDay eventDay = eventDayService.findOneNotDeleted(eventDayId);
 		return new ResponseEntity<>(eventDay, HttpStatus.OK);
 	}
 

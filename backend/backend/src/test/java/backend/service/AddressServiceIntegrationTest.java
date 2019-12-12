@@ -40,8 +40,11 @@ public class AddressServiceIntegrationTest {
 	
 	@Test
 	public void testFindAllPageable() {
-		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
-		Page<Address> found = addressService.findAll(pageRequest);
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //druga strana
+		Page<Address> found = addressService.findAllNotDeleted(pageRequest);
+		for(Address a : found) {
+			System.out.println(a.getStreetName());
+		}
 		assertEquals(PAGE_SIZE, found.getSize());
 	}
 	

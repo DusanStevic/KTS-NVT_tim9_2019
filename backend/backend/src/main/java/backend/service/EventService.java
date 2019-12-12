@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import backend.dto.charts.DateIntervalDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.model.Address;
 import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventSector;
@@ -33,7 +34,8 @@ public class EventService {
 	}
 
 	public Event findOne(Long id) throws ResourceNotFoundException {
-		return eventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested event"));
+		return eventRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested event"));
 	}
 
 	public List<Event> findAll() {
@@ -49,40 +51,43 @@ public class EventService {
 		eventRepository.deleteById(id);
 	}
 
-	
 	public void delete(Long eventID) throws ResourceNotFoundException {
-		Event e = findOne(eventID);
-		if (e != null && !e.isDeleted()) {
-			e.setDeleted(true);
-			for(EventDay ed : e.getEventDays()) {
-				eventDayService.delete(ed.getId());
-			}
-			for(EventSector es : e.getEventSectors()) {
-				eventSectorService.delete(es.getId());
-			}
-			
-			save(e);
-		} else {
-			throw new ResourceNotFoundException("Could not find requested event");
+		Event e = findOneNotDeleted(eventID);
+		e.setDeleted(true);
+		for (EventDay ed : e.getEventDays()) {
+			eventDayService.delete(ed.getId());
 		}
+		for (EventSector es : e.getEventSectors()) {
+			eventSectorService.delete(es.getId());
+		}
+
+		save(e);
 	}
 
+	
+
 	public Event update(Long eventId, Event event) throws ResourceNotFoundException {
-		Event e = findOne(eventId);
-		if (e != null && !e.isDeleted()) {
+		Event e = findOneNotDeleted(eventId);
 			e.setEvent(event);
 			return save(e);
-		} else {
-			throw new ResourceNotFoundException("Could not find requested event");
-		}
+		
 	}
 
 	public List<Event> findByInterval(@Valid DateIntervalDTO interval) {
-		return eventRepository.findAllByInterval(interval.getStartDate(),
-				interval.getEndDate());
+		return eventRepository.findAllByInterval(interval.getStartDate(), interval.getEndDate());
 	}
 
-	public List<Event> findAllActive() {
-		return eventRepository.findAllActive();
+	public Event findOneNotDeleted(Long id) throws ResourceNotFoundException {
+		Event e = eventRepository.findByIdAndDeleted(id, false)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested event"));
+		return e;
+	}
+
+	public List<Event> findAllNotDeleted() {
+		return eventRepository.findAllByDeleted(false);
+	}
+
+	public Page<Event> findAllNotDeleted(Pageable page) {
+		return eventRepository.findAllByDeleted(false, page);
 	}
 }

@@ -6,7 +6,7 @@ public class AddressConstants {
 	public static final int PAGE_SIZE = 5;
 	
 	public static final Long DB_ADDRESS_ID = 3L;
-	public static final String DB_ADDRESS_STREET = "Street";
+	public static final String DB_ADDRESS_STREET = "Street3";
 	public static final int DB_ADDRESS_STREET_NUM = 2;
 	public static final String DB_ADDRESS_CITY = "Novi Sad";
 	public static final String DB_ADDRESS_COUNTRY = "Serbia";

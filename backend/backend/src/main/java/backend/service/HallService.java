@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import backend.dto.HallDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Sector;
 import backend.repository.HallRepository;
@@ -24,13 +25,27 @@ public class HallService {
 
 	@Autowired
 	SectorService sectorService;
-	
+
 	public Hall save(Hall b) {
 		return hallRepository.save(b);
 	}
 
-	public Hall findOne(Long id) {
-		return hallRepository.findById(id).orElse(null);
+	public Hall findOne(Long id) throws ResourceNotFoundException {
+		return hallRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested hall"));
+	}
+
+	public Hall findOneNotDeleted(Long id) throws ResourceNotFoundException {
+		return hallRepository.findByIdAndDeleted(id, false)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested hall"));
+	}
+
+	public List<Hall> findAllNotDeleted() {
+		return hallRepository.findAllByDeleted(false);
+	}
+
+	public Page<Hall> findAllNotDeleted(Pageable page) {
+		return hallRepository.findAllByDeleted(false, page);
 	}
 
 	public List<Hall> findAll() {
@@ -45,26 +60,19 @@ public class HallService {
 	public void remove(Long id) {
 		hallRepository.deleteById(id);
 	}
-	
+
 	public void delete(Long id) throws ResourceNotFoundException {
-		Hall h = findOne(id);
-		if(h != null && !h.isDeleted()) {
-			h.setDeleted(true);
-			for(Sector s : h.getSectors()) {
-				sectorService.delete(s.getId());
-			}
-			save(h);
-			//return ResponseEntity.ok().body("Successfully deleted");
-		}else {
-			throw new ResourceNotFoundException("Could not find requested hall");
+		Hall h = findOneNotDeleted(id);
+		h.setDeleted(true);
+		for (Sector s : h.getSectors()) {
+			sectorService.delete(s.getId());
 		}
+		save(h);
 	}
-	
+
 	public Hall update(Long id, HallDTO h) throws ResourceNotFoundException {
-		Hall hall = findOne(id);
-		if(hall == null || hall.isDeleted()) 
-			throw new ResourceNotFoundException("Could not find requested hall");
-		
+		Hall hall = findOneNotDeleted(id);
+
 		if (!h.getName().trim().equals("")) {
 			hall.setName(h.getName());
 		}

@@ -47,7 +47,7 @@ public class LocationController {
 	/* saving location */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException{
+	public ResponseEntity<Location> createLocation(@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException{
 		Location location = locationConverter.LocationDTO2Location(loc);
 		return new ResponseEntity<>(locationService.save(location), HttpStatus.OK);
 		
@@ -56,14 +56,14 @@ public class LocationController {
 	/* get all locations, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Location>> getAllLocationes() {
-		return new ResponseEntity<>(locationService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(locationService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
 	/* get an location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> getLocation(
 			@PathVariable(value = "id") Long locationId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(locationService.getOneLocation(locationId), HttpStatus.OK);
+		return new ResponseEntity<>(locationService.findOneNotDeleted(locationId), HttpStatus.OK);
 	}
 
 	/* update location by id */

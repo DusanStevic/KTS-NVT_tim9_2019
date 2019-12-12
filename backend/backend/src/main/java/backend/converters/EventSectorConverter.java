@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import backend.dto.EventSectorDTO;
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventSector;
 import backend.service.SectorService;
 
@@ -13,7 +14,7 @@ public class EventSectorConverter {
 	@Autowired
 	SectorService sectorService;
 	
-	public EventSector EventSectorDTO2EventSector(EventSectorDTO dto) {
+	public EventSector EventSectorDTO2EventSector(EventSectorDTO dto) throws ResourceNotFoundException {
 		EventSector es = new EventSector();
 		es.setPrice(dto.getPrice());
 		es.setSector(sectorService.findOne(dto.getSector_id()));

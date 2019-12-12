@@ -49,7 +49,7 @@ public class EventController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO dto) {
+	public ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO dto) throws ResourceNotFoundException {
 		Event event = eventConverter.EventDTO2Event(dto);
 		return new ResponseEntity<>(eventService.save(event), HttpStatus.OK);
 	}
@@ -64,14 +64,14 @@ public class EventController {
 	/* get all active events, permitted for all */
 	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllActiveEvents() {
-		return new ResponseEntity<>(eventService.findAllActive(), HttpStatus.OK);
+		return new ResponseEntity<>(eventService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
 	/* get an event by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(
 			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(eventService.findOne(eventId), HttpStatus.OK);
+		return new ResponseEntity<>(eventService.findOneNotDeleted(eventId), HttpStatus.OK);
 	}
 	
 	/* update event by id */
@@ -91,7 +91,7 @@ public class EventController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/addImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<EventDTO> addImage(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) throws ResourceNotFoundException {
-		Event event = eventService.findOne(eventId);
+		Event event = eventService.findOneNotDeleted(eventId);
 		event.getImagePaths().add(fileUploadService.imageUpload(file));
 		eventService.save(event);
 		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
@@ -102,7 +102,7 @@ public class EventController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/deleteImage/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventDTO> deleteImage(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException, ResourceNotFoundException {
-		Event event = eventService.findOne(eventId);
+		Event event = eventService.findOneNotDeleted(eventId);
 		//brisanje url-a slike iz baze
 		event.getImagePaths().remove(dto.getUrl());
 		//brisanje slike(stvarnog fajla) sa cloud-a
@@ -116,7 +116,7 @@ public class EventController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/addVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<EventDTO> addVideo(@PathVariable("id") Long eventId,@RequestParam("file")MultipartFile file) throws ResourceNotFoundException {
-		Event event = eventService.findOne(eventId);
+		Event event = eventService.findOneNotDeleted(eventId);
 		event.getVideoPaths().add(fileUploadService.videoUpload(file));
 		eventService.save(event);
 		return new ResponseEntity<>(EventConverter.Event2EventDTO(event), HttpStatus.OK);
@@ -127,7 +127,7 @@ public class EventController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/deleteVideo/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventDTO> deleteVideo(@PathVariable("id") Long eventId,@Valid @RequestBody UrlDTO dto) throws IOException, ResourceNotFoundException {
-		Event event = eventService.findOne(eventId);
+		Event event = eventService.findOneNotDeleted(eventId);
 		//brisanje url-a videa iz baze
 		event.getVideoPaths().remove(dto.getUrl());
 		//brisanje videa(stvarnog fajla) sa cloud-a

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import backend.exceptions.ResourceNotFoundException;
+import backend.model.Address;
 import backend.model.EventDay;
 import backend.repository.EventDayRepository;
 
@@ -24,13 +25,27 @@ public class EventDayService {
 	}
 
 	public EventDay findOne(Long id) throws ResourceNotFoundException {
-		return eventDayRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Could not find requested event day"));
+		return eventDayRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested event day"));
+	}
+
+	public EventDay findOneNotDeleted(Long id) throws ResourceNotFoundException {
+		return eventDayRepository.findByIdAndDeleted(id, false)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested event day"));
 	}
 
 	public List<EventDay> findAll() {
 		return eventDayRepository.findAll();
 	}
 
+	public List<EventDay> findAllNotDeleted() {
+		return eventDayRepository.findAllByDeleted(false);
+	}
+
+	public Page<EventDay> findAllNotDeleted(Pageable page){
+		return eventDayRepository.findAllByDeleted(false, page);
+	}
+	
 	public Page<EventDay> findAll(Pageable page) {
 		return eventDayRepository.findAll(page);
 	}
@@ -39,29 +54,21 @@ public class EventDayService {
 	public void remove(Long id) {
 		eventDayRepository.deleteById(id);
 	}
-	
+
 	public void delete(Long ID) throws ResourceNotFoundException {
-		EventDay ed = findOne(ID);
-		if(ed != null && !ed.isDeleted()) {
-			ed.setDeleted(true);
-			save(ed);
-		}else {
-			throw new ResourceNotFoundException("Could not find event day");
-		}
+		EventDay ed = findOneNotDeleted(ID);
+		ed.setDeleted(true);
+		save(ed);
 	}
-	
+
 	public EventDay update(Long id, EventDay e) throws ResourceNotFoundException {
-		EventDay eventDay = findOne(id);
-		if(eventDay != null && !eventDay.isDeleted()) {
-			eventDay.setDescription(e.getDescription());
-			eventDay.setName(e.getName());
-			//eventDay.setStatus(e.getStatus());
-			//eventDay.setDate(e.getDate());
-			return save(eventDay);
-		}else {
-			throw new ResourceNotFoundException("Could not find event day");
-		}
-		
+		EventDay eventDay = findOneNotDeleted(id);
+		eventDay.setDescription(e.getDescription());
+		eventDay.setName(e.getName());
+		// eventDay.setStatus(e.getStatus());
+		// eventDay.setDate(e.getDate());
+		return save(eventDay);
+
 	}
 
 }
