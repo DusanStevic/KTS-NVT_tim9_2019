@@ -53,18 +53,14 @@ public class EventSectorController {
 	/* get all event sectors, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EventSector>> getAllEventSectors() {
-		return new ResponseEntity<>(eventSectorService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(eventSectorService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
 	/* get an event sector by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getEventSector(
 			@PathVariable(value = "id") Long eventSectorId) throws ResourceNotFoundException {
-		EventSector eventSector = eventSectorService.findOne(eventSectorId);
-
-		if (eventSector == null) {
-			return new ResponseEntity<>("Could not find requested event sector", HttpStatus.NOT_FOUND);
-		}
+		EventSector eventSector = eventSectorService.findOneNotDeleted(eventSectorId);
 		return new ResponseEntity<>(eventSector, HttpStatus.OK);
 	}
 

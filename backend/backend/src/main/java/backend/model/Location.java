@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import static backend.constants.Constants.FIRST_TIMESTAMP;
 
 @Entity
 @Table(name = "locations", uniqueConstraints = {
@@ -37,7 +38,7 @@ public class Location {
 	private Address address;
 
 	@Column(name = "deleted", nullable = false)
-	private Timestamp deleted = new Timestamp(0L);
+	private Timestamp deleted = FIRST_TIMESTAMP;
 	
 	public Location() {
 		super();

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import backend.exceptions.ResourceNotFoundException;
 import backend.model.Ticket;
 import backend.repository.TicketRepository;
 
@@ -23,8 +24,9 @@ public class TicketService {
 		return ticketRepository.save(b);
 	}
 
-	public Ticket findOne(Long id) {
-		return ticketRepository.findById(id).orElse(null);
+	public Ticket findOne(Long id) throws ResourceNotFoundException {
+		return ticketRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested address"));
 	}
 
 	public List<Ticket> findAll() {
@@ -51,19 +53,14 @@ public class TicketService {
 	public List<Ticket> findAllByLocation(Long id) {
 		return ticketRepository.findAllByLocation(id);
 	}
-	
-	public ResponseEntity<String> delete(Long ID) {
+
+	/*public void delete(Long ID) {
 		// Arpad: Izbacio sam logicko brisanje, nema smisla kod ticketa
-		try {
-			ticketRepository.deleteById(ID);
-			return ResponseEntity.ok().body("Successfully deleted");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("Could not find requested ticket");
-		}
-	}
-	
-	public List<Ticket> findAllByEvent(Long event_id)
-	{
+		ticketRepository.deleteById(ID);
+
+	}*/
+
+	public List<Ticket> findAllByEvent(Long event_id) {
 		return ticketRepository.findAllByEvent(event_id);
 	}
 }

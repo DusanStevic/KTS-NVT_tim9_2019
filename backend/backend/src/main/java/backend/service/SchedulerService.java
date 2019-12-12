@@ -29,7 +29,7 @@ public class SchedulerService {
 	// Logically delete all event
 	public void logicalDeleteExpiredEvents() {
 		try {
-			List<Event> activeEvents = eventService.findAllActive();
+			List<Event> activeEvents = eventService.findAllNotDeleted();
 			Date today = new Date();
 			for (Event event : activeEvents) {
 				if (event.getEndDate().before(today)) {
@@ -45,7 +45,7 @@ public class SchedulerService {
 	// Checking if there is unbough reservation after event-deadline
 	public void deleteUnboughtReservations() {
 		try {
-			List<Event> activeEvents = eventService.findAllActive();
+			List<Event> activeEvents = eventService.findAllNotDeleted();
 			Date today = new Date();
 
 			for (Event event : activeEvents) {
@@ -77,7 +77,7 @@ public class SchedulerService {
 	}
 
 	public void sendEventReminders() throws MailException, InterruptedException {
-		List<Event> activeEvents = eventService.findAllActive();
+		List<Event> activeEvents = eventService.findAllNotDeleted();
 		Date today = new Date();
 		Calendar cToday = Calendar.getInstance();
 		cToday.setTime(today);
@@ -106,7 +106,7 @@ public class SchedulerService {
 	}
 
 	public void sendBuyingReminders() {
-		List<Event> activeEvents = eventService.findAllActive();
+		List<Event> activeEvents = eventService.findAllNotDeleted();
 		Date today = new Date();
 		Calendar cToday = Calendar.getInstance();
 		cToday.setTime(today);

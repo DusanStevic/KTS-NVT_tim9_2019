@@ -19,15 +19,15 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (4, 1); -- registered 
 INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2); -- adminstrator has ROLE_ADMIN
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system adminstrator has ROLE_SYS_ADMIN
 
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (2, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (3, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (4, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (5, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (6, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (7, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (8, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street1", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (2, "Street2", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (3, "Street3", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (4, "Street4", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (5, "Street5", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (6, "Street6", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (7, "Street7", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (8, "Street8", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street9", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
 INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, "1970-01-01 01:00:00");
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);

@@ -49,14 +49,14 @@ public class AddressController {
 	/* get all addresses, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Address>> getAllAddresses() {
-		return new ResponseEntity<>(addressService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(addressService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getAddress(
 			@PathVariable(value = "id") Long addressId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(addressService.findOne(addressId), HttpStatus.OK);
+		return new ResponseEntity<>(addressService.findOneNotDeleted(addressId), HttpStatus.OK);
 	}
 
 	/* update address by id */

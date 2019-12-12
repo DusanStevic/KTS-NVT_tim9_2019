@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import backend.model.*;
 import backend.service.*;
 import backend.dto.*;
+import backend.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/api/ticket")
@@ -69,7 +70,7 @@ public class TicketController {
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Ticket> getTicket(
-			@PathVariable(value = "id") Long ticketId) {
+			@PathVariable(value = "id") Long ticketId) throws ResourceNotFoundException {
 		Ticket ticket = tisketService.findOne(ticketId);
 
 		if (ticket == null) {
