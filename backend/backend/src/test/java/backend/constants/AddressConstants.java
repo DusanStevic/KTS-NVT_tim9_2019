@@ -14,7 +14,9 @@ public class AddressConstants {
 	public static final double DB_ADDRESS_LONG = 19.833549;
 	public static final boolean DB_ADDRESS_DELETED = false;
 	
-	public static final Long DB_ADDRESS_ID_NON_EXISTENT = 666L;
+	public static final Long ADDRESS_ID_NON_EXISTENT = 666L;
+	public static final Long DB_ADDRESS_ID_DELETED = 1L;
+	public static final String DB_ADDRESS_ID_DELETED_STREET = "Street1";
 	
 	public static final String NEW_ADDRESS_STREET = "Gogoljeva";
 	public static final int NEW_ADDRESS_STREET_NUM = 22;

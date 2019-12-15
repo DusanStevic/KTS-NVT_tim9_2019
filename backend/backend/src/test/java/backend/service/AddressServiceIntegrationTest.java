@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
@@ -63,8 +62,29 @@ public class AddressServiceIntegrationTest {
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
-	public void testFindOneNotFound() throws ResourceNotFoundException {
-		Address found = addressService.findOne(DB_ADDRESS_ID_NON_EXISTENT);
+	public void testFindOneNonExistent() throws ResourceNotFoundException {
+		@SuppressWarnings("unused")
+		Address found = addressService.findOne(ADDRESS_ID_NON_EXISTENT);
+		
+	}
+	
+	@Test
+	public void testFindOneDeleted() throws ResourceNotFoundException {
+		Address found = addressService.findOne(DB_ADDRESS_ID_DELETED);
+		assertNotNull(found);
+		assertTrue(DB_ADDRESS_ID_DELETED == found.getId());
+		assertEquals(DB_ADDRESS_ID_DELETED, found.getStreetName());
+		assertEquals(DB_ADDRESS_STREET_NUM, found.getStreetNumber());
+		assertEquals(DB_ADDRESS_CITY, found.getCity());
+		assertEquals(DB_ADDRESS_COUNTRY, found.getCountry());
+		assertTrue(found.isDeleted());
+		assertTrue(DB_ADDRESS_LAT == found.getLatitude());
+		assertTrue(DB_ADDRESS_LONG == found.getLongitude());
+	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void testFindOneDeleted_NotFound() throws ResourceNotFoundException {
+		Address found = addressService.findOneNotDeleted(DB_ADDRESS_ID_DELETED);
 	}
 	
 	@Test
