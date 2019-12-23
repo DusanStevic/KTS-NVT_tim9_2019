@@ -2,11 +2,26 @@ package backend.dto;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class ReservationDTO {
+	@NotNull(message = "Event day is mandatory")
+	@Min(value=1, message="Invalid event day")
 	private Long eventDay_id;
+	
+	@NotNull(message = "Sector is mandatory")
+	@Min(value=1, message="Invalid sector")
+	/*
+	 * id event sektora
+	 */
 	private Long sector_id;
+	
+	@NotNull
 	private boolean purchased;
+	
 	private ArrayList<SeatDTO> sedista;
+	
 	private int numOfStandingTickets;
 	
 	public ReservationDTO(Long eventDay_id, Long sector_id, ArrayList<SeatDTO> sedista,boolean purchased) {

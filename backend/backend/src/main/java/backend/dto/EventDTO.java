@@ -4,27 +4,58 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import backend.model.Event;
 
 public class EventDTO {
-	private Long id;
+	//private Long id;
+	@NotNull(message = "Event name is mandatory")
+	@Length(min=1, message="Event name is mandatory")
 	private String name;
+	
 	private String description;
+	
+	@NotNull(message = "Event type is mandatory")
+	@Min(value=0, message="Invalid type of an event")
+	@Max(value=4, message="Invalid type of an event")
 	private int event_type;
+	
+	@NotNull(message = "Event starting date is mandatory")
 	private Date start_date;
+	
+	@NotNull(message = "Event ending date is mandatory")
 	private Date end_date;
 	
-	private int max_tickets;
-	//private Date last_day_of_reservation;
+	@NotNull(message = "Maximum number of tickets per reservation is mandatory")
+	@Min(value=1, message="Maximum number of tickets per reservation must be greater than or equal to {value}")
+	private int max_tickets; //max tickets per reservation
+	
+	@NotNull(message = "Number of days is mandatory")
 	private int num_days; //koliko dana pred manifestaciju vazi rezervacija
+	
+	@NotNull(message = "Location is mandatory")
+	@Min(value=1, message="Invalid location id")
 	private Long location_id;
+	
 	private ArrayList<String> image_paths;
 	private ArrayList<String> video_paths;
+	
+	@NotNull(message = "Sectors are mandatory")
+	@NotEmpty(message="Sectors are mandatory")
 	private ArrayList<EventSectorDTO> sectors;
+	
+	@NotNull(message = "Event days are mandatory")
+	@NotEmpty(message="Event days are mandatory")
 	private ArrayList<EventDayDTO> event_days;
 	
 	public EventDTO(Event event){
-		this.id = event.getId();
+		//this.id = event.getId();
 		this.name = event.getName();
 		this.description =event.getDescription();
 		this.event_type = event.getEventType().ordinal();
@@ -145,13 +176,7 @@ public class EventDTO {
 		this.event_days = event_days;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public ArrayList<String> getVideo_paths() {
 		return video_paths;

@@ -1,8 +1,20 @@
 package backend.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class EventSectorDTO {
-	private double price;
+	@NotNull(message = "Price is mandatory")
+	@Min(value=0, message="Price must be greater than or equal to {value}")
+	private Double price;
+	
+	/*
+	 * ne prosledjuje se prilikom kreiranja eventa
+	 */
 	private Long event_id;
+	
+	@NotNull(message = "Sector is mandatory")
+	@Min(value=1, message="Invalid sector")
 	private Long sector_id;
 	
 	public EventSectorDTO(double price, Long event_id, Long sector_id) {

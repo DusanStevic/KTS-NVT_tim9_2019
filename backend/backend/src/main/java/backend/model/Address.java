@@ -13,13 +13,13 @@ public class Address {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "street_name", nullable = true, length = 100)
+	@Column(name = "street_name", nullable = false, length = 100)
 	private String streetName;
-	@Column(name = "street_number", nullable = true)
+	@Column(name = "street_number", nullable = false)
 	private int streetNumber;
-	@Column(name = "city", nullable = true, length = 70)
+	@Column(name = "city", nullable = false, length = 70)
 	private String city;
-	@Column(name = "country", nullable = true, length = 40)
+	@Column(name = "country", nullable = false, length = 40)
 	private String country;
 	@Column(name = "latitude", nullable = false)
 	private double latitude;

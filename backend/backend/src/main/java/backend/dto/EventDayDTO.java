@@ -2,12 +2,28 @@ package backend.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 public class EventDayDTO {
+	@NotNull(message = "Name of event day is mandatory")
+	@Length(min=1, message="Name of event day is mandatory")
 	private String name;
+	
 	private String description;
+	
+	//@NotNull(message = "Date is mandatory")
 	private Date date;
-	private Long event_status_id;
+	
+	//@Min(value=1, message="Street number must be greater than or equal to {value}")
+	//private Long event_status_id;
+	
+	//@NotNull(message = "Event is mandatory")
+	//@Min(value=1, message="Id of an event must be greater than or equal to {value}")
 	private Long event_id;
+	
 	private int status;
 	
 	public EventDayDTO() {
@@ -20,7 +36,7 @@ public class EventDayDTO {
 		this.name = name;
 		this.description = description;
 		this.date = date;
-		this.event_status_id = event_status_id;
+		//this.event_status_id = event_status_id;
 		this.event_id = event_id;
 		this.status = status;
 	}
@@ -56,14 +72,14 @@ public class EventDayDTO {
 	}
 
 
-	public Long getEvent_status_id() {
+	/*public Long getEvent_status_id() {
 		return event_status_id;
 	}
 
 
 	public void setEvent_status_id(Long event_status_id) {
 		this.event_status_id = event_status_id;
-	}
+	}*/
 
 
 	public Long getEvent_id() {
