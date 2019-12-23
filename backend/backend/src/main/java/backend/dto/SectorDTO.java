@@ -1,13 +1,28 @@
 package backend.dto;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 public class SectorDTO {
 	//private Long id;
+	@NotNull(message = "Sector name is mandatory")
+	@Length(min=1, message="Sector name is mandatory")
 	private String name;
+	
 	private int capacity;
+	
 	private int numRows;
+	
 	private int numCols;
 	// Type of sector -> 'sitting' or 'standing'
+	@NotNull(message = "Type of sector is mandatory")
+	@Length(min=1, message="Type of sector is mandatory")
 	private String sector_type;
+	
+	/*
+	 * ne salje se prilikom kreiranja lokacije
+	 */
 	private Long hall_id;
 
 	public SectorDTO() {

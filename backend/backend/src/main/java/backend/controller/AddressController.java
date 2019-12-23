@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,7 @@ public class AddressController {
 	/* saving address */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Address> createAddress(@Valid @RequestBody AddressDTO addressDTO) {
+	public ResponseEntity<Address> createAddress(@Valid @RequestBody AddressDTO addressDTO) throws MethodArgumentNotValidException {
 		Address address = addressConverter.AddressDTO2Address(addressDTO);
 		return new ResponseEntity<>(addressService.save(address), HttpStatus.OK);
 	}

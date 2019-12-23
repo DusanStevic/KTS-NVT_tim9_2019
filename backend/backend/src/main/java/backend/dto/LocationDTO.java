@@ -2,10 +2,26 @@ package backend.dto;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 public class LocationDTO {
+	
+	@NotNull(message = "Location name is mandatory")
+	@Length(min=1, message="Location name is mandatory")
 	private String name;
+	
 	private String description;
+	
+	@NotNull(message = "Address is mandatory")
+	@Min(value=1, message="Address not valid")
 	private Long address_id;
+	
+	@NotNull(message = "Halls are mandatory")
+	@NotEmpty(message="Halls are mandatory")
 	private ArrayList<HallDTO> halls;
 	
 	public LocationDTO() {
