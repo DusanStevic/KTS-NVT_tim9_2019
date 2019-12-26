@@ -10,28 +10,36 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Address;
+import backend.repository.AddressRepository;
+
 import static backend.constants.AddressConstants.*;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-@javax.transaction.Transactional
+
 @TestPropertySource("classpath:application-test.properties")
 public class AddressServiceIntegrationTest {
 
 	@Autowired
 	AddressService addressService;
+	
+	@Autowired
+	AddressRepository addressRepository;
 	
 	@Test
 	public void testFindAll() {
@@ -125,8 +133,8 @@ public class AddressServiceIntegrationTest {
 	}
 	
 	@Test
-	@javax.transaction.Transactional
-    @Rollback
+	//@Transactional
+    //@Rollback(true)
 	public void testSave() {
 		Address a = new Address();
 		a.setStreetName(NEW_ADDRESS_STREET);
@@ -150,7 +158,14 @@ public class AddressServiceIntegrationTest {
 		assertTrue(NEW_ADDRESS_LAT == found.getLatitude());
 		assertTrue(NEW_ADDRESS_LONG == found.getLongitude());
 		assertTrue((long) (DB_ADDRESS_COUNT+1) == found.getId());
+		
+		/*
+		 * jer rollback ne radi, privremeno resenje, lose jer ako pukne neki assert, nece se izvrsiti brisanje
+		 */
+		addressRepository.deleteById(found.getId()); //ne obrise ako je ukljucena transakcija i rollback
+		
 	}
+	
 	
 	@Test(expected = ResourceNotFoundException.class)
 	//@Ignore
@@ -160,5 +175,10 @@ public class AddressServiceIntegrationTest {
 	public void testFindOne1() throws ResourceNotFoundException {
 		Address found = addressService.findOne((long) (DB_ADDRESS_COUNT+1));
 		System.out.println(found.getStreetName());
+	}
+	
+	@Test
+	public void testDelete() {
+		
 	}
 }

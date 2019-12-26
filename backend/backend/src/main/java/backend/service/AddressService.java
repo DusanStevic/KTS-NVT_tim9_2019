@@ -56,10 +56,10 @@ public class AddressService {
 		return addressRepository.findAll(page);
 	}
 
-	@Transactional
+	/*@Transactional
 	public void remove(Long id) {
 		addressRepository.deleteById(id);
-	}
+	}*/
 
 	public void delete(Long addressID) throws ResourceNotFoundException {
 		Address a = findOneNotDeleted(addressID);
