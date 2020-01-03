@@ -67,14 +67,14 @@ public class AddressService {
 		save(a);
 	}
 
-	public Address update(Long addressId, AddressDTO dto) throws ResourceNotFoundException {
+	public Address update(Long addressId, Address address) throws ResourceNotFoundException {
 		Address a = findOneNotDeleted(addressId);
-		a.setStreetName(dto.getStreetName());
-		a.setStreetNumber(dto.getStreetNumber());
-		a.setCity(dto.getCity());
-		a.setCountry(dto.getCountry());
-		a.setLatitude(dto.getLatitude());
-		a.setLongitude(dto.getLongitude());
+		a.setStreetName(address.getStreetName());
+		a.setStreetNumber(address.getStreetNumber());
+		a.setCity(address.getCity());
+		a.setCountry(address.getCountry());
+		a.setLatitude(address.getLatitude());
+		a.setLongitude(address.getLongitude());
 
 		return save(a);
 	}

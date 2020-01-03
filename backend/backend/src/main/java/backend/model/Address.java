@@ -66,6 +66,17 @@ public class Address {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
+	
+	public Address(String streetName, int streetNumber, String city,
+			String country, double latitude, double longitude) {
+		super();
+		this.streetName = streetName;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public Long getId() {
 		return id;
@@ -136,11 +147,30 @@ public class Address {
 	}
 
 	public boolean isDeleted() {
-		return deleted;
+		return this.deleted;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setDeleted(boolean del) {
+		this.deleted = del;
+	}
+
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }
