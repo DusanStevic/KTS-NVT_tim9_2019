@@ -19,7 +19,7 @@ public class AddressDTO {
 	
 	@NotNull(message = "Street number is mandatory")
 	@Min(value=1, message="Street number must be greater than or equal to {value}")
-	private int streetNumber;
+	private Integer streetNumber;
 	
 	@NotNull(message = "City is mandatory")
 	@Length(min=1, message="City is mandatory")
@@ -43,8 +43,8 @@ public class AddressDTO {
 		super();
 	}
 
-	public AddressDTO(String streetName, int streetNumber,
-			String city, String country, double latitude, double longitude) {
+	public AddressDTO(String streetName, Integer streetNumber,
+			String city, String country, Double latitude, Double longitude) {
 		super();
 		//this.id = id;
 		this.streetName = streetName;
@@ -65,11 +65,11 @@ public class AddressDTO {
 		this.streetName = streetName;
 	}
 
-	public int getStreetNumber() {
+	public Integer getStreetNumber() {
 		return streetNumber;
 	}
 
-	public void setStreetNumber(int streetNumber) {
+	public void setStreetNumber(Integer streetNumber) {
 		this.streetNumber = streetNumber;
 	}
 
@@ -89,19 +89,19 @@ public class AddressDTO {
 		this.country = country;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

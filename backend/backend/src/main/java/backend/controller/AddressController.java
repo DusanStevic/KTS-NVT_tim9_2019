@@ -1,5 +1,7 @@
 package backend.controller;
 
+
+
 //can copypaste everywhere
 import java.util.List;
 
@@ -8,6 +10,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +57,12 @@ public class AddressController {
 		return new ResponseEntity<>(addressService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
+	@GetMapping(value="/page", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<Address>> getAllAddressesPage() {
+		PageRequest pageRequest = PageRequest.of(0, 5); //druga strana
+		return new ResponseEntity<>(addressService.findAllNotDeleted(pageRequest), HttpStatus.OK);
+	}
+	
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getAddress(
@@ -66,8 +76,8 @@ public class AddressController {
 	public ResponseEntity<Address> updateAddress(
 			@PathVariable(value = "id") Long addressId,
 			@Valid @RequestBody AddressDTO dto) throws ResourceNotFoundException {
-
-		return new ResponseEntity<>(addressService.update(addressId, dto), HttpStatus.OK);
+		Address a = addressConverter.AddressDTO2Address(dto);
+		return new ResponseEntity<>(addressService.update(addressId, a), HttpStatus.OK);
 	}
 
 	/* delete Address */
