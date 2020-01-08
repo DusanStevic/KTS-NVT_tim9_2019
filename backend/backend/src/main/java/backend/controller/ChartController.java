@@ -22,7 +22,6 @@ import backend.dto.charts.ChartLocationTicketsSoldDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.dto.charts.SystemInformationsDTO;
 import backend.service.ChartService;
-import backend.service.EventService;
 
 @RestController
 @RequestMapping("/api/charts")
@@ -30,9 +29,6 @@ public class ChartController {
 
 	@Autowired
 	ChartService chartService;
-
-	@Autowired
-	EventService eventService;
 
 	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
 	@GetMapping(path = "/sysinfo", produces = MediaType.APPLICATION_JSON_VALUE)

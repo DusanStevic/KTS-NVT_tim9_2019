@@ -30,24 +30,37 @@ INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, delet
 
 INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
 	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (2, "Folk fest", "2020-05-03", "2020-05-03", 0, 3, 5, "FolkFest", 1, false);
 	
 insert into event_image_paths (event_id, image_paths) values(1, "e1picture1");
 insert into event_video_paths (event_id, video_paths) values(1, "e1video1");
+insert into event_image_paths (event_id, image_paths) values(2, "e1picture1");
+insert into event_video_paths (event_id, video_paths) values(2, "e1video1");
 
 insert into event_days ( id, day_date, description, name, status, event_id , deleted) values(1,"2020-03-03", "Dubioza 21:00, Sars 23:00", "Uniparty Day 1.", 0,1, false);
+insert into event_days ( id, day_date, description, name, status, event_id , deleted) values(2,"2020-05-03", "Medjunarodni folk festival", "FolkFest Day 1.", 0,2, false);
 
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (1, 500, 1, 1, false);
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (2, 700, 1, 2, false);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (3, 400, 2, 1, false);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (4, 250, 2, 2, false);
 
 insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (1, false, "2019-11-05", 1, false);
 insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (2, false, "2019-11-05", 1, false);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (3, false, "2019-11-05", 4, false);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (4, false, "2019-11-05", 4, false);
 
 insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
-	values (1, true ,1, 1, 1, 2, 1);
-
+	values (1, true,1, 1, 1, 2, 1);
 insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
-	values (2, true ,1, 2, 1, 2, 2);
-
-
+	values (2, true,1, 2, 1, 2, 2);
+		
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (3, true,1, 1, 2, 4, 3);
+insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, reservation_id )
+	values (4, true,1, 2, 2, 4, 4);
+insert into tickets (id, has_seat, event_day_id, sector_id, reservation_id )
+	values (5, false, 2, 3, 4);
         
         
