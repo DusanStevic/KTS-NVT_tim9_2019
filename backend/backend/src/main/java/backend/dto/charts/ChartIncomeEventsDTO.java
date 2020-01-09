@@ -30,4 +30,10 @@ public class ChartIncomeEventsDTO {
 		this.income = income;
 	}
 
+	@Override
+	public String toString() {
+		return "ChartIncomeEventsDTO [eventName=" + eventName + ", income="
+				+ income + "]";
+	}
+
 }

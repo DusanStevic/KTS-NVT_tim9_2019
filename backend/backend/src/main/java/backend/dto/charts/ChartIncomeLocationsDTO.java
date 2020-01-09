@@ -4,7 +4,7 @@ public class ChartIncomeLocationsDTO {
 	private String locationName;
 	private double income;
 
-	public  ChartIncomeLocationsDTO() {
+	public ChartIncomeLocationsDTO() {
 		super();
 	}
 
@@ -29,4 +29,11 @@ public class ChartIncomeLocationsDTO {
 	public void setIncome(double income) {
 		this.income = income;
 	}
+
+	@Override
+	public String toString() {
+		return "ChartIncomeLocationsDTO [locationName=" + locationName
+				+ ", income=" + income + "]";
+	}
+
 }

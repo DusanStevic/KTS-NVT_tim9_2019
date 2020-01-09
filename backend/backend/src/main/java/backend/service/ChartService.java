@@ -17,6 +17,7 @@ import backend.dto.charts.ChartIncomeLocationsDTO;
 import backend.dto.charts.ChartLocationTicketsSoldDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.dto.charts.SystemInformationsDTO;
+import backend.exceptions.BadRequestException;
 import backend.model.Authority;
 import backend.model.Event;
 import backend.model.Location;
@@ -95,7 +96,7 @@ public class ChartService {
 			sum += income[0];
 			info.add(new ChartIncomeEventsDTO(event.getName(), income[0]));
 		}
-		info.add(new ChartIncomeEventsDTO("Average", sum / events.size()));
+		info.add(new ChartIncomeEventsDTO("Average", sum / (double) events.size()));
 		return info;
 	}
 
@@ -110,21 +111,26 @@ public class ChartService {
 			return info;
 		}
 
-		double sum = 0;
+		double sum = 0.0;
 		for (Event event : events) {
-			int soldTickets = ticketService.findAllByEvent(event.getId())
-					.size();
+			double soldTickets = (double) ticketService.findAllByEvent(
+					event.getId()).size();
 			sum += soldTickets;
 			info.add(new ChartEventTicketsSoldDTO(event.getName(), soldTickets));
 		}
-		info.add(new ChartEventTicketsSoldDTO("Average", sum / events.size()));
+		info.add(new ChartEventTicketsSoldDTO("Average", sum
+				/ (double) events.size()));
 		return info;
 	}
 
 	// Only interested in events in given interval
 	public List<ChartIncomeEventsDTO> incomeByEvents(
-			@Valid DateIntervalDTO interval) {
+			@Valid DateIntervalDTO interval) throws BadRequestException {
 		ArrayList<ChartIncomeEventsDTO> info = new ArrayList<ChartIncomeEventsDTO>();
+
+		if (interval.getStartDate().after(interval.getEndDate())) {
+			throw new BadRequestException("Start date must be after end date!");
+		}
 
 		List<Event> events = eventService.findByInterval(interval);
 
@@ -142,13 +148,17 @@ public class ChartService {
 			sum += income[0];
 			info.add(new ChartIncomeEventsDTO(event.getName(), income[0]));
 		}
-		info.add(new ChartIncomeEventsDTO("Average", sum / events.size()));
+		info.add(new ChartIncomeEventsDTO("Average", sum / (double) events.size()));
 		return info;
 	}
 
 	public List<ChartEventTicketsSoldDTO> soldTicketsByEvents(
-			@Valid DateIntervalDTO interval) {
+			@Valid DateIntervalDTO interval) throws BadRequestException {
 		ArrayList<ChartEventTicketsSoldDTO> info = new ArrayList<ChartEventTicketsSoldDTO>();
+
+		if (interval.getStartDate().after(interval.getEndDate())) {
+			throw new BadRequestException("Start date must be after end date!");
+		}
 
 		List<Event> events = eventService.findByInterval(interval);
 
@@ -156,14 +166,14 @@ public class ChartService {
 			return info;
 		}
 
-		int sum = 0;
+		double sum = 0;
 		for (Event event : events) {
-			int soldTickets = ticketService.findAllByEvent(event.getId())
+			double soldTickets = ticketService.findAllByEvent(event.getId())
 					.size();
 			sum += soldTickets;
 			info.add(new ChartEventTicketsSoldDTO(event.getName(), soldTickets));
 		}
-		info.add(new ChartEventTicketsSoldDTO("Average", sum / events.size()));
+		info.add(new ChartEventTicketsSoldDTO("Average", sum / (double) events.size()));
 		return info;
 	}
 
@@ -187,7 +197,7 @@ public class ChartService {
 			sum += inc;
 			info.add(new ChartIncomeLocationsDTO(location.getName(), inc));
 		}
-		info.add(new ChartIncomeLocationsDTO("Average", sum / locations.size()));
+		info.add(new ChartIncomeLocationsDTO("Average", sum / (double) locations.size()));
 		return info;
 	}
 
@@ -200,24 +210,28 @@ public class ChartService {
 			return info;
 		}
 
-		int sum = 0;
+		double sum = 0;
 		for (Location location : locations) {
-			int soldTickets = ticketService.findAllByLocation(location.getId())
+			double soldTickets = ticketService.findAllByLocation(location.getId())
 					.size();
 			sum += soldTickets;
 			info.add(new ChartLocationTicketsSoldDTO(location.getName(),
 					soldTickets));
 		}
 		info.add(new ChartLocationTicketsSoldDTO("Average", sum
-				/ locations.size()));
+				/ (double) locations.size()));
 		return info;
 	}
 
 	public List<ChartIncomeLocationsDTO> incomeByLocations(
-			DateIntervalDTO interval) {
+			DateIntervalDTO interval) throws BadRequestException {
 		ArrayList<ChartIncomeLocationsDTO> info = new ArrayList<ChartIncomeLocationsDTO>();
 		// List of locations that had events at given interval
 		HashMap<Location, Double> locations = new HashMap<Location, Double>();
+
+		if (interval.getStartDate().after(interval.getEndDate())) {
+			throw new BadRequestException("Start date must be after end date!");
+		}
 
 		List<Event> events = eventService.findByInterval(interval);
 
@@ -226,7 +240,7 @@ public class ChartService {
 			return info;
 		}
 
-		int sum = 0;
+		double sum = 0;
 		for (Event e : events) {
 			if (!locations.containsKey(e.getLocation())) {
 				List<Ticket> locationTickets = ticketService.findAllByEvent(e
@@ -252,15 +266,19 @@ public class ChartService {
 		for (Location l : locations.keySet()) {
 			info.add(new ChartIncomeLocationsDTO(l.getName(), locations.get(l)));
 		}
-		info.add(new ChartIncomeLocationsDTO("Average", sum / locations.size()));
+		info.add(new ChartIncomeLocationsDTO("Average", sum / (double) locations.size()));
 		return info;
 	}
 
 	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations(
-			DateIntervalDTO interval) {
+			DateIntervalDTO interval) throws BadRequestException {
 		ArrayList<ChartLocationTicketsSoldDTO> info = new ArrayList<ChartLocationTicketsSoldDTO>();
 		// List of locations that had events at given interval
 		HashMap<Location, Double> locations = new HashMap<Location, Double>();
+
+		if (interval.getStartDate().after(interval.getEndDate())) {
+			throw new BadRequestException("Start date must be after end date!");
+		}
 
 		List<Event> events = eventService.findByInterval(interval);
 
@@ -269,7 +287,7 @@ public class ChartService {
 			return info;
 		}
 
-		int sum = 0;
+		double sum = 0;
 		for (Event e : events) {
 			if (!locations.containsKey(e.getLocation())) {
 				double count = ticketService.findAllByEvent(e.getId()).size();
@@ -289,7 +307,7 @@ public class ChartService {
 					.get(l)));
 		}
 		info.add(new ChartLocationTicketsSoldDTO("Average", sum
-				/ locations.size()));
+				/ (double) locations.size()));
 		return info;
 	}
 
