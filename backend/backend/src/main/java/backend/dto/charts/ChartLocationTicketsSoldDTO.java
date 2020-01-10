@@ -26,7 +26,14 @@ public class ChartLocationTicketsSoldDTO {
 		return ticketsSold;
 	}
 
-	public void setTicketsSold(int ticketsSold) {
+	public void setTicketsSold(double ticketsSold) {
 		this.ticketsSold = ticketsSold;
 	}
+
+	@Override
+	public String toString() {
+		return "ChartLocationTicketsSoldDTO [locationName=" + locationName
+				+ ", ticketsSold=" + ticketsSold + "]";
+	}
+
 }

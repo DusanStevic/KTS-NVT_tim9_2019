@@ -23,7 +23,6 @@ import backend.converters.EventDayConverter;
 import backend.dto.EventDayDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventDay;
-import backend.model.EventStatus;
 import backend.service.EventDayService;
 import backend.service.EventService;
 
@@ -82,6 +81,7 @@ public class EventDayController {
 	public ResponseEntity<String> deleteEventDay(
 			@PathVariable(value = "id") Long eventDayId) throws ResourceNotFoundException {
 		eventDayService.delete(eventDayId);
+		logger.info("Deleted eventday with id " + eventDayId);
 		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
 	}
 }

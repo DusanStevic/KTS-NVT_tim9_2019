@@ -2,6 +2,8 @@ package backend.controller;
 //can copypaste everywhere
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +14,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-import backend.model.*;
-import backend.service.*;
-import backend.dto.*;
+import backend.dto.EventSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.model.EventSector;
+import backend.service.EventSectorService;
+import backend.service.EventService;
+import backend.service.SectorService;
 
 @RestController
 @RequestMapping("/api/eventsector")
@@ -81,6 +82,7 @@ public class EventSectorController {
 	public ResponseEntity<String> deleteEventSector(
 			@PathVariable(value = "id") Long eventSectorId) throws ResourceNotFoundException {
 		eventSectorService.delete(eventSectorId);
+		logger.info("Deleted " + eventSectorId);
 		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
 	}
 }

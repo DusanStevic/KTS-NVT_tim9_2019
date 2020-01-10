@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import backend.model.Address;
 import backend.model.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long> {

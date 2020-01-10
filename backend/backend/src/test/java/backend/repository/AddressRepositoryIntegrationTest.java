@@ -1,28 +1,32 @@
 package backend.repository;
 
+import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_STREET;
+import static backend.constants.AddressConstants.PAGE_SIZE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import static backend.constants.AddressConstants.*;
-import static org.junit.Assert.*;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import backend.model.Address;
-import backend.service.AddressService;
-import ch.qos.logback.classic.net.SyslogAppender;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

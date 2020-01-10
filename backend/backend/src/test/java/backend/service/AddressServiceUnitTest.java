@@ -1,26 +1,28 @@
 package backend.service;
 
+import static backend.constants.AddressConstants.pageRequest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static backend.constants.AddressConstants.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Address;
@@ -105,7 +107,7 @@ public class AddressServiceUnitTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNonExistent() throws ResourceNotFoundException {
-		Address found = addressService.findOne(nonExistentId);
+		addressService.findOne(nonExistentId);
 	}
 
 	@Test
@@ -135,7 +137,7 @@ public class AddressServiceUnitTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_nonExistentAddress() throws ResourceNotFoundException {
-		Address found = addressService.findOneNotDeleted(nonExistentId);
+		addressService.findOneNotDeleted(nonExistentId);
 	}
 	
 	@Test
