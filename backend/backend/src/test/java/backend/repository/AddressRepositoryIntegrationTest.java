@@ -118,8 +118,7 @@ public class AddressRepositoryIntegrationTest {
 		
 		assertEquals(PAGE_SIZE, found.getSize());*/
 		/*
-		 * isto je kao u integr testu za service, samo sto se direktno poziva repository
-		 * medjutim, ne radi
+		 * znaci ovo radi
 		 */
 		PageRequest pageRequest = PageRequest.of(1, 5); //druga strana
 		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
@@ -135,7 +134,10 @@ public class AddressRepositoryIntegrationTest {
 	
 	@Test
 	public void testFindAllByDeletedPageable_True() {
-		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
+		/*
+		 * i ovo radi
+		 */
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
 		Page<Address> found = addressRepository.findAllByDeleted(true, pageRequest);
 		assertNotNull(found);
 		for(Address a: found) {

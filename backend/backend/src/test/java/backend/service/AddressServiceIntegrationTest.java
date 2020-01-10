@@ -66,6 +66,7 @@ public class AddressServiceIntegrationTest {
 	
 	@Test
 	public void testFindAllNotDeletedPageable() {
+		System.out.println("Pageable");
 		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
 		Page<Address> found = addressService.findAllNotDeleted(pageRequest);
 		for(Address a : found) {

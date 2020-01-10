@@ -30,7 +30,7 @@ public class Location {
 
 	@OneToMany(mappedBy = "location", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("location")
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Hall> halls = new HashSet<>();
 
 	@JoinColumn(name = "address_id")
@@ -55,6 +55,16 @@ public class Location {
 		this.deleted = deleted;
 	}
 
+	public Location(String name, String description, 
+			Address address, Timestamp deleted) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.halls = halls;
+		this.address = address;
+		this.deleted = deleted;
+	}
+	
 	public String getName() {
 		return name;
 	}

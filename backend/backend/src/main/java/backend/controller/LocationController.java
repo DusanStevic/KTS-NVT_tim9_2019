@@ -55,11 +55,11 @@ public class LocationController {
 
 	/* get all locations, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Location>> getAllLocationes() {
+	public ResponseEntity<List<Location>> getAllLocations() {
 		return new ResponseEntity<>(locationService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
-	/* get an location by id, permitted for all */
+	/* get a location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> getLocation(
 			@PathVariable(value = "id") Long locationId) throws ResourceNotFoundException {
@@ -71,7 +71,8 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException {
+			@Valid @RequestBody LocationDTO dto) throws SavingException, ResourceNotFoundException {
+		Location loc = locationConverter.LocationDTO2Location(dto);
 		return new ResponseEntity<>(locationService.update(locationId, loc), HttpStatus.OK);
 	}
 

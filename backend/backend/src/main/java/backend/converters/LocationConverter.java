@@ -23,7 +23,7 @@ public class LocationConverter {
 		Location loc = new Location();
 		loc.setDescription(dto.getDescription());
 		loc.setName(dto.getName());
-		loc.setAddress(addressService.findOne(dto.getAddress_id()));
+		loc.setAddress(addressService.findOneNotDeleted(dto.getAddress_id()));
 		for(HallDTO hall_dto : dto.getHalls()) {
 			Hall hall = hallConverter.HallDTO2Hall(hall_dto);
 			hall.setLocation(loc);

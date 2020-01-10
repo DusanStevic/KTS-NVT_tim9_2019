@@ -95,11 +95,11 @@ public class LocationService {
 
 	}
 
-	public Location update(Long locationId, LocationDTO dto) throws SavingException, ResourceNotFoundException {
+	public Location update(Long locationId, Location location) throws SavingException, ResourceNotFoundException {
 		Location loc = findOneNotDeleted(locationId);
-		loc.setName(dto.getName());
-		loc.setDescription(dto.getDescription());
-		loc.setAddress(addressService.findOne(dto.getAddress_id()));
+		loc.setName(location.getName());
+		loc.setDescription(location.getDescription());
+		loc.setAddress(location.getAddress());
 		return save(loc);
 	}
 }
