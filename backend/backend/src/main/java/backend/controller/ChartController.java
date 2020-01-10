@@ -41,7 +41,7 @@ public class ChartController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
 	@GetMapping(path = "/event_incomes", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChartIncomeEventsDTO>> getIncomeByEvents() {
 		List<ChartIncomeEventsDTO> info = chartService.incomeByEvents();
@@ -52,7 +52,7 @@ public class ChartController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
 	@GetMapping(path = "/event_tickets_sold", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChartEventTicketsSoldDTO>> getTicketsSoldByEvents() {
 		List<ChartEventTicketsSoldDTO> info = chartService
@@ -64,7 +64,7 @@ public class ChartController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
 	@PutMapping(path = "/event_incomes/interval", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChartIncomeEventsDTO>> getIncomeByEvents(
 			@Valid @RequestBody DateIntervalDTO interval) throws BadRequestException{
@@ -78,7 +78,7 @@ public class ChartController {
 
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
 	@PutMapping(path = "/event_tickets_sold/interval", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChartEventTicketsSoldDTO>> getTicketsSoldByEvents(
 			@Valid @RequestBody DateIntervalDTO interval) throws BadRequestException {

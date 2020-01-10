@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import backend.dto.charts.DateIntervalDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Address;
 import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventSector;

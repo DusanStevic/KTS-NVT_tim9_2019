@@ -390,7 +390,6 @@ public class ChartControllerIntergrationTest {
 		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 		assertNotNull(responseEntity.getBody());
 		assertTrue(responseEntity.getBody().contains("Start date must be after end date"));
-		
 	}
 	
 }

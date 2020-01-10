@@ -1,8 +1,28 @@
 package backend.service;
 
-import java.util.List;
+import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
+import static backend.constants.AddressConstants.DB_ADDRESS_CITY;
+import static backend.constants.AddressConstants.DB_ADDRESS_COUNT;
+import static backend.constants.AddressConstants.DB_ADDRESS_COUNTRY;
+import static backend.constants.AddressConstants.DB_ADDRESS_DELETED_STREET;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_UPDATED;
+import static backend.constants.AddressConstants.DB_ADDRESS_LAT;
+import static backend.constants.AddressConstants.DB_ADDRESS_LONG;
+import static backend.constants.AddressConstants.DB_ADDRESS_STREET;
+import static backend.constants.AddressConstants.DB_ADDRESS_STREET_NUM;
+import static backend.constants.AddressConstants.NEW_ADDRESS;
+import static backend.constants.AddressConstants.PAGE_SIZE;
+import static backend.constants.AddressConstants.UPD_ADDRESS;
+import static backend.constants.AddressConstants.pageRequest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,23 +30,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Address;
-import backend.repository.AddressRepository;
-
-import static backend.constants.AddressConstants.*;
 
 
 @RunWith(SpringRunner.class)
@@ -126,12 +136,12 @@ public class AddressServiceIntegrationTest {
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindDeletedAddress() throws ResourceNotFoundException {
-		Address found = addressService.findOneNotDeleted(DB_ADDRESS_ID_DELETED);
+		addressService.findOneNotDeleted(DB_ADDRESS_ID_DELETED);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindNonExistingAddress() throws ResourceNotFoundException {
-		Address found = addressService.findOneNotDeleted(ADDRESS_ID_NON_EXISTENT);
+		addressService.findOneNotDeleted(ADDRESS_ID_NON_EXISTENT);
 	}
 	
 	@Test
