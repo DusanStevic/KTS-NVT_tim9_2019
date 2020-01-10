@@ -110,22 +110,7 @@ public class AddressRepositoryIntegrationTest {
 	
 	@Test
 	public void testFindAllByDeletedPageable_False() {
-		/*PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
-		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
-		assertNotNull(found);
-		for(Address a: found) {
-			System.out.println("*********************************************************");
-			System.out.println(a.getStreetName());
-			System.out.println("*********************************************************");
-			assertFalse(a.isDeleted());
-		}
-		
-		assertEquals(PAGE_SIZE, found.getSize());*/
-		/*
-		 * isto je kao u integr testu za service, samo sto se direktno poziva repository
-		 * medjutim, ne radi
-		 */
-		PageRequest pageRequest = PageRequest.of(1, 5); //druga strana
+		PageRequest pageRequest = PageRequest.of(0, 5); //prva strana
 		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
 		System.out.println("*********************************************************");
 		for(Address a : found.getContent()) {
