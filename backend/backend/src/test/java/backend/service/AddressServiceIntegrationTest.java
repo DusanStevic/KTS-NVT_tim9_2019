@@ -76,7 +76,7 @@ public class AddressServiceIntegrationTest {
 	
 	@Test
 	public void testFindAllNotDeletedPageable() {
-		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
 		Page<Address> found = addressService.findAllNotDeleted(pageRequest);
 		for(Address a : found) {
 			System.out.println(a.getStreetName());
