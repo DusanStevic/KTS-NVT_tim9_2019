@@ -24,9 +24,9 @@ public class Ticket {
 	private boolean hasSeat;
 
 	@Column(name = "", nullable = true)
-	private int numRow;
+	private Integer numRow;
 	@Column(name = "", nullable = true)
-	private int numCol;
+	private Integer numCol;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("tickets")

@@ -1,7 +1,5 @@
 package backend.constants;
 
-import static backend.constants.AddressConstants.PAGE_SIZE;
-
 import org.springframework.data.domain.PageRequest;
 
 import backend.dto.AddressDTO;

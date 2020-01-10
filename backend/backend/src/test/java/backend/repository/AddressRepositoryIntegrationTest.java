@@ -1,28 +1,32 @@
 package backend.repository;
 
+import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_STREET;
+import static backend.constants.AddressConstants.PAGE_SIZE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import static backend.constants.AddressConstants.*;
-import static org.junit.Assert.*;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import backend.model.Address;
-import backend.service.AddressService;
-import ch.qos.logback.classic.net.SyslogAppender;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -106,21 +110,11 @@ public class AddressRepositoryIntegrationTest {
 	
 	@Test
 	public void testFindAllByDeletedPageable_False() {
-		/*PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
-		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
-		assertNotNull(found);
-		for(Address a: found) {
-			System.out.println("*********************************************************");
-			System.out.println(a.getStreetName());
-			System.out.println("*********************************************************");
-			assertFalse(a.isDeleted());
-		}
-		
-		assertEquals(PAGE_SIZE, found.getSize());*/
 		/*
 		 * znaci ovo radi
 		 */
-		PageRequest pageRequest = PageRequest.of(1, 5); //druga strana
+		PageRequest pageRequest = PageRequest.of(0, 5); //prva strana
+
 		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
 		System.out.println("*********************************************************");
 		for(Address a : found.getContent()) {
@@ -135,7 +129,7 @@ public class AddressRepositoryIntegrationTest {
 	@Test
 	public void testFindAllByDeletedPageable_True() {
 		/*
-		 * i ovo radi
+		 * i ovo radi marijeta
 		 */
 		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
 		Page<Address> found = addressRepository.findAllByDeleted(true, pageRequest);

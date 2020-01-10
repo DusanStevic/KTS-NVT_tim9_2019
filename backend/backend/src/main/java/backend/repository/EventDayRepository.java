@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import backend.model.EventDay;
-import backend.model.Location;
 
 public interface EventDayRepository extends JpaRepository<EventDay, Long> {
 

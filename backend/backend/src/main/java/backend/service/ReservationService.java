@@ -140,6 +140,7 @@ public class ReservationService {
 
 	public void delete(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
+		System.out.println(r.toString());
 		remove(ID);
 	}
 

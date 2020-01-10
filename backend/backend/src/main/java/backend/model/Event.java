@@ -84,7 +84,7 @@ public class Event {
 	}
 
 	public Event(Long id, String name, String description, EventType type,
-			Date startDate, Date endDate, String videoPath, int maxTickets,
+			Date startDate, Date endDate, int maxTickets,
 			int numDays, Location location,
 			Set<String> imagePaths,Set<String> videoPaths, Set<EventSector> eventSectors,
 			Set<EventDay> eventDays, boolean deleted) {
@@ -95,11 +95,11 @@ public class Event {
 		this.eventType = type;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.videoPaths = videoPaths;
 		this.maxTickets = maxTickets;
 		this.numDays = numDays;
 		this.location = location;
 		this.imagePaths = imagePaths;
+		this.videoPaths = videoPaths;
 		this.eventSectors = eventSectors;
 		this.eventDays = eventDays;
 		this.deleted = deleted;

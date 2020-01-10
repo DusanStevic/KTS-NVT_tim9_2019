@@ -1,11 +1,19 @@
 package backend.controller;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_DELETED;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_UPDATED;
+import static backend.constants.AddressConstants.DB_ADDRESS_STREET;
+import static backend.constants.AddressConstants.NEW_ADDRESS_DTO;
+import static backend.constants.AddressConstants.UPD_ADDRESS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +28,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import static backend.constants.AddressConstants.*;
 
 import backend.converters.AddressConverter;
 import backend.dto.AddressDTO;
