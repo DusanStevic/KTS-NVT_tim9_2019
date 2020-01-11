@@ -18,6 +18,7 @@ import static backend.constants.AddressConstants.pageRequest;
 import static backend.constants.LocationConstants.*;
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,7 +157,7 @@ public class LocationServiceIntegrationTest {
 	public void testDelete() throws ResourceNotFoundException, SavingException, BadRequestException {
 		int db_size_before_delete = locationService.findAll().size();
 
-		locationService.delete(DB_LOCATION_ID_TO_BE_DELETED);
+		locationService.delete(DB_LOCATION_ID_TO_BE_DELETED, new Date());
 
 		int db_size_after_delete = locationService.findAll().size();
 
@@ -169,13 +170,13 @@ public class LocationServiceIntegrationTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testDelete_NotFoundException() throws ResourceNotFoundException, SavingException, BadRequestException {
-		locationService.delete(DB_LOCATION_ID_DELETED); // lokacija je vec obrisana i nece biti pronadjena
+		locationService.delete(DB_LOCATION_ID_DELETED, new Date()); // lokacija je vec obrisana i nece biti pronadjena
 	}
 
 	@Test(expected = BadRequestException.class)
 	public void testDelete_BadRequestException()
 			throws ResourceNotFoundException, SavingException, BadRequestException {
-		locationService.delete(DB_LOCATION_ID); // postoje ticketi za lokaciju pa nmz da se obrise
+		locationService.delete(DB_LOCATION_ID, new Date()); // postoje ticketi za lokaciju pa nmz da se obrise
 	}
 
 	@Test

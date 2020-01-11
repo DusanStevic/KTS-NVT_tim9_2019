@@ -31,8 +31,8 @@ public class LocationConstants {
 	
 	public static Location NEW_LOCATION = new Location("NOVA", "Nova lokacija je u gradu", null, FIRST_TIMESTAMP);
 	public static final Long NEW_LOCATION_ADDRESS_ID = 7L;
-	//public static final Long UPD_LOCATION_ADDRESS_ID = 9L;
+	public static final Long UPD_LOCATION_ADDRESS_ID = 5L;
 	
 	public static Location UPD_LOCATION = new Location("UPDATED", "Azurirana lokacija je u gradu", null, FIRST_TIMESTAMP);
-	public static LocationDTO DTO_NEW_LOCATION = new LocationDTO("NOVA", "Nova lokacija je u gradu", 7L, new ArrayList<>());
+	public static LocationDTO DTO_NEW_LOCATION = new LocationDTO("NOVA", "Nova lokacija je u gradu", NEW_LOCATION_ADDRESS_ID, null);
 }

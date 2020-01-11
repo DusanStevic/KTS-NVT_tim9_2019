@@ -27,7 +27,7 @@ INSERT INTO adresses (id, street_name, street_number, city, country, latitude, l
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (6, "Street6", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (7, "Street7", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (8, "Street8", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
-INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street9", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
+INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street9", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
 
 INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 3, "1970-01-01 00:00:00"); 
 INSERT INTO locations (id, name, description, address_id, deleted) values (2, "SPENS NS deleted", "Biggest location for sports in Vojvodina", 4, "2019-11-26 00:00:00");--deleted

@@ -224,6 +224,15 @@ public class AddressControllerIntegrationTest {
 		assertEquals(size, addressService.findAll().size()); //nije se dodavao novi vec je izmenjen postojeci
 	}
 	
+	@Test 
+	public void testUpdate_NotFoundException() {
+		AddressDTO dto = addressConverter.Addres2AddressDTO(UPD_ADDRESS);
+		HttpEntity<AddressDTO> httpEntity = new HttpEntity<AddressDTO>(dto, headers);
+		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/address/"+ADDRESS_ID_NON_EXISTENT, HttpMethod.PUT, httpEntity, String.class);
+		System.out.println(responseEntity.getBody());
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
+	}
 	@Test
 	public void testUpdateInvalidParameters() {
 		

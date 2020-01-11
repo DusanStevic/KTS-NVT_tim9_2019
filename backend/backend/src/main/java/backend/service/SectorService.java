@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import backend.dto.SectorDTO;
+import backend.dto.SittingSectorDTO;
+import backend.dto.StandingSectorDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Sector;
@@ -86,26 +88,26 @@ public class SectorService {
 
 		if (!s.getName().equals("")) {
 			sector.setName(s.getName());
-		}
+		} 
 
-		if (s.getSectorType().trim().toLowerCase().equals("sitting")) {
+		if (s instanceof SittingSectorDTO) {
 			SittingSector s1 = (SittingSector) sector;
 
-			if (s.getNumCols() > 0) {
-				s1.setNumCols(s.getNumCols());
+			if (((SittingSectorDTO) s).getNumCols() > 0) {
+				s1.setNumCols(((SittingSectorDTO) s).getNumCols());
 			}
-			if (s.getNumRows() > 0) {
-				s1.setNumRows(s.getNumRows());
+			if (((SittingSectorDTO) s).getNumRows() > 0) {
+				s1.setNumRows(((SittingSectorDTO) s).getNumRows());
 			}
 
 			Sector updated = save(sector);
 			return updated;
 
-		} else if (s.getSectorType().trim().toLowerCase().equals("standing")) {
+		} else if (s instanceof StandingSectorDTO) {
 			StandingSector s2 = (StandingSector) sector;
 
-			if (s.getCapacity() > 0) {
-				s2.setCapacity(s.getCapacity());
+			if (((StandingSectorDTO) s).getCapacity() > 0) {
+				s2.setCapacity(((StandingSectorDTO) s).getCapacity());
 			}
 			Sector updated = save(sector);
 			return updated;

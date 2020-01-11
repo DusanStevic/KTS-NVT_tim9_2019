@@ -3,31 +3,32 @@ package backend.service;
 import static backend.constants.AddressConstants.pageRequest;
 import static backend.constants.LocationConstants.FIRST_TIMESTAMP;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Address;
 import backend.model.Location;
+import backend.model.Ticket;
 import backend.repository.LocationRepository;
 
 @RunWith(SpringRunner.class)
@@ -40,11 +41,15 @@ public class LocationServiceUnitTest {
 	@MockBean
 	LocationRepository locationRepositoryMocked;
 	
+	@MockBean
+	TicketService ticketServiceMocked;
+	
 	public static final Long locationId = 1L;
 	public static final Long deletedLocationId = 2L;
 	public static final Long nonExistentId = 666L;
 	public static final Location location = new Location(locationId, "Naziv", "Opis", null, null, FIRST_TIMESTAMP);
 	public static final Location deletedLocation = new Location(deletedLocationId, "Naziv deleted", "Opis deleted", null, null, null);
+	public static final Location locationToBeDeleted = new Location(locationId, "Naziv", "Opis", null, null, FIRST_TIMESTAMP);
 	@Before
 	public void setup() {
 		//Address address_deleted = new Address(deletedAddressId, "Street1", 223, "City", "Country", 22.2, 33.3);
@@ -129,61 +134,80 @@ public class LocationServiceUnitTest {
 		verify(locationRepositoryMocked, times(1)).findByIdAndDeleted(locationId, FIRST_TIMESTAMP);
 	}
 
-//	@Test(expected = ResourceNotFoundException.class)
-//	public void testFindOneNotDeleted_nonExistentAddress() throws ResourceNotFoundException {
-//		Address found = addressService.findOneNotDeleted(nonExistentId);
-//	}
-//	
-//	@Test
-//	public void testSave() {
-//		when(addressRepositoryMocked.save(address)).thenReturn(address);
-//		Address saved = addressService.save(address);
-//		assertNotNull(saved);
-//		assertFalse(saved.isDeleted());
-//		assertEquals(address.getCity(), saved.getCity());
-//		assertEquals(address.getCountry(), saved.getCountry());
-//		assertEquals(address.getStreetName(), saved.getStreetName());
-//		assertEquals(address.getStreetNumber(), saved.getStreetNumber());
-//		assertTrue(address.getLatitude() == saved.getLatitude());
-//		assertTrue(address.getLongitude() == saved.getLongitude());
-//		verify(addressRepositoryMocked, times(1)).save(address);
-//	}
-//	
-//	@Test
-//	public void testDelete() throws ResourceNotFoundException {
-//		when(addressRepositoryMocked.findByIdAndDeleted(addressId, false)).thenReturn(Optional.of(address));
-//		addressService.delete(addressId);
-//		verify(addressRepositoryMocked, times(1)).findByIdAndDeleted(addressId, false);
-//		verify(addressRepositoryMocked, times(1)).save(address);
-//	}
-//	
-//	@Test(expected = ResourceNotFoundException.class)
-//	public void testDeleteException() throws ResourceNotFoundException {
-//		addressService.delete(nonExistentId);
-//	}
-//	
-//	@Test
-//	public void testUpdate() throws ResourceNotFoundException {
-//		when(addressRepositoryMocked.findByIdAndDeleted(addressId, false)).thenReturn(Optional.of(address));
-//		Address upd = new Address(addressId, "blaa", 666, "mjau", "lego kocke", 66.6, 45.6);
-//		when(addressRepositoryMocked.save(upd)).thenReturn(upd);
-//		Address updated = addressService.update(addressId, upd);
-//		
-//		assertNotNull(updated);
-//		assertTrue(addressId == updated.getId());
-//		assertFalse(updated.isDeleted());
-//		assertEquals(upd.getCity(), updated.getCity());
-//		assertEquals(upd.getCountry(), updated.getCountry());
-//		assertEquals(upd.getStreetName(), updated.getStreetName());
-//		assertEquals(upd.getStreetNumber(), updated.getStreetNumber());
-//		assertTrue(upd.getLatitude() == updated.getLatitude());
-//		assertTrue(upd.getLongitude() == updated.getLongitude());
-//		verify(addressRepositoryMocked, times(1)).findByIdAndDeleted(addressId, false);
-//		verify(addressRepositoryMocked, times(1)).save(upd);
-//	}
-//	
-//	@Test(expected = ResourceNotFoundException.class)
-//	public void testUpdateException() throws ResourceNotFoundException {
-//		addressService.update(nonExistentId, null);
-//	}
+	@Test(expected = ResourceNotFoundException.class)
+	public void testFindOneNotDeleted_nonExistentLocation() throws ResourceNotFoundException {
+		Location found = locationService.findOneNotDeleted(nonExistentId);
+	}
+	
+	@Test
+	public void testSave() throws SavingException {
+		when(locationRepositoryMocked.save(location)).thenReturn(location);
+		Location saved = locationService.save(location);
+		assertNotNull(saved);
+		assertEquals(location.getId(), saved.getId());
+		assertEquals(location.getName(), saved.getName());
+		verify(locationRepositoryMocked, times(1)).save(location);
+	}
+	
+	@Test(expected = SavingException.class)
+	public void testSave_SavingException() throws SavingException {
+		when(locationRepositoryMocked.save(location)).thenThrow(new DataIntegrityViolationException("Could not save location"));
+		locationService.save(location);
+	}
+	@Test
+	public void testDelete() throws ResourceNotFoundException, SavingException, BadRequestException {
+		when(locationRepositoryMocked.findByIdAndDeleted(locationId, FIRST_TIMESTAMP)).thenReturn(Optional.of(locationToBeDeleted));
+		locationService.delete(locationId, new Date());
+		verify(locationRepositoryMocked, times(1)).findByIdAndDeleted(locationId, FIRST_TIMESTAMP);
+		verify(locationRepositoryMocked, times(1)).save(locationToBeDeleted);
+	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void testDelete_NotFoundException() throws ResourceNotFoundException, SavingException, BadRequestException {
+		locationService.delete(nonExistentId, new Date());
+	}
+	
+	@Test(expected = SavingException.class)
+	public void testDelete_SavingException() throws SavingException, BadRequestException, ResourceNotFoundException {
+		when(locationRepositoryMocked.findByIdAndDeleted(locationId, FIRST_TIMESTAMP)).thenReturn(Optional.of(locationToBeDeleted));
+		when(locationRepositoryMocked.save(locationToBeDeleted)).thenThrow(new DataIntegrityViolationException("Could not save location"));
+		locationService.delete(locationId, new Date());
+	}
+	
+	@Test(expected = BadRequestException.class)
+	public void testDelete_BadRequestException() throws SavingException, BadRequestException, ResourceNotFoundException {
+		List<Ticket> tickets = new ArrayList<>();
+		tickets.add(new Ticket());
+		Date date = new Date();
+		when(ticketServiceMocked.findAllByLocationDate(locationId, date)).thenReturn(tickets);
+		locationService.delete(locationId, date);
+	}
+	@Test
+	public void testUpdate() throws ResourceNotFoundException, SavingException {
+		when(locationRepositoryMocked.findByIdAndDeleted(locationId, FIRST_TIMESTAMP)).thenReturn(Optional.of(location));
+		Address adr = new Address();
+		adr.setId(1L);
+		Location upd = new Location(locationId, "blaa", "mjau", null, adr, null);
+		when(locationRepositoryMocked.save(upd)).thenReturn(upd);
+		Location updated = locationService.update(locationId, upd);
+		
+		assertNotNull(updated);
+		assertTrue(locationId == updated.getId());
+		assertEquals(upd.getName(), updated.getName());
+		assertEquals(upd.getDescription(), updated.getDescription());
+		assertEquals(upd.getAddress().getId(), updated.getAddress().getId());
+		verify(locationRepositoryMocked, times(1)).findByIdAndDeleted(locationId, FIRST_TIMESTAMP);
+		verify(locationRepositoryMocked, times(1)).save(upd);
+	}
+	
+	@Test(expected = SavingException.class)
+	public void testUpdate_SavingException() throws SavingException, ResourceNotFoundException {
+		when(locationRepositoryMocked.save(location)).thenThrow(new DataIntegrityViolationException("Could not save location"));
+		when(locationRepositoryMocked.findByIdAndDeleted(locationId, FIRST_TIMESTAMP)).thenReturn(Optional.of(location));
+		locationService.update(locationId, location);
+	}
+	@Test(expected = ResourceNotFoundException.class)
+	public void testUpdate_NotFoundException() throws ResourceNotFoundException, SavingException {
+		locationService.update(nonExistentId, null);
+	}
 }

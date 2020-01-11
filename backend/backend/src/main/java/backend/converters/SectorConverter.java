@@ -3,6 +3,8 @@ package backend.converters;
 import org.springframework.stereotype.Component;
 
 import backend.dto.SectorDTO;
+import backend.dto.SittingSectorDTO;
+import backend.dto.StandingSectorDTO;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
 
@@ -11,7 +13,7 @@ public class SectorConverter {
 
 	
 	
-	public StandingSector SectorDTO2StandingSector(SectorDTO dto) {
+	public StandingSector StandingSectorDTO2StandingSector(StandingSectorDTO dto) {
 		StandingSector sec = new StandingSector();
 		sec.setCapacity(dto.getCapacity());
 		sec.setName(dto.getName());
@@ -19,7 +21,7 @@ public class SectorConverter {
 		return sec;
 	}
 	
-	public SittingSector SectorDTO2SittingSector(SectorDTO dto) {
+	public SittingSector SittingSectorDTO2SittingSector(SittingSectorDTO dto) {
 		SittingSector sec = new SittingSector();
 		sec.setNumCols(dto.getNumCols());
 		sec.setNumRows(dto.getNumRows());

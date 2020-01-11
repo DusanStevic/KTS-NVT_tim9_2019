@@ -129,7 +129,7 @@ public class AddressRepositoryIntegrationTest {
 	@Test
 	public void testFindAllByDeletedPageable_True() {
 		/*
-		 * i ovo radi marijeta
+		 * i ovo radi, marijeta
 		 */
 		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
 		Page<Address> found = addressRepository.findAllByDeleted(true, pageRequest);

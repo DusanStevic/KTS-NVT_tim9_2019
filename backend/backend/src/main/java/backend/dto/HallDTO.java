@@ -9,20 +9,20 @@ import org.hibernate.validator.constraints.Length;
 
 public class HallDTO {
 	@NotNull(message = "Hall name is mandatory")
-	@Length(min=1, message="Hall name is mandatory")
+	@Length(min = 1, message = "Hall name is mandatory")
 	private String name;
-	
+
 	private int number_of_sectors;
-	
+
 	/*
 	 * ne prosledjuje se prilikom kreiranja lokacije
 	 */
 	private Long location_id;
-	
+
 	@NotNull(message = "Sectors are mandatory")
-	@NotEmpty(message="Sectors are mandatory")
+	@NotEmpty(message = "Sectors are mandatory")
 	private ArrayList<SectorDTO> sectors;
-	
+
 	public HallDTO() {
 		super();
 	}
@@ -35,7 +35,11 @@ public class HallDTO {
 		this.sectors = sectors;
 	}
 
-	
+	public HallDTO(String name, ArrayList<SectorDTO> sectors) {
+		super();
+		this.name = name;
+		this.sectors = sectors;
+	}
 
 	public String getName() {
 		return name;

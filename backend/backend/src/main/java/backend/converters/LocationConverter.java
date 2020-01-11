@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import backend.dto.HallDTO;
 import backend.dto.LocationDTO;
+import backend.dto.LocationUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.model.Location;
@@ -23,12 +24,21 @@ public class LocationConverter {
 		Location loc = new Location();
 		loc.setDescription(dto.getDescription());
 		loc.setName(dto.getName());
+		
 		loc.setAddress(addressService.findOneNotDeleted(dto.getAddress_id()));
 		for(HallDTO hall_dto : dto.getHalls()) {
 			Hall hall = hallConverter.HallDTO2Hall(hall_dto);
 			hall.setLocation(loc);
 			loc.getHalls().add(hall);
 		}
+		return loc;
+	}
+	
+	public Location LocationUpdateDTO2Location(LocationUpdateDTO dto ) throws ResourceNotFoundException {
+		Location loc = new Location();
+		loc.setName(dto.getName());
+		loc.setDescription(dto.getDescription());
+		loc.setAddress(addressService.findOneNotDeleted(dto.getAddress_id()));
 		return loc;
 	}
 }

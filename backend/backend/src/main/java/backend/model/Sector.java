@@ -5,11 +5,22 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Table(name = "sectors")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "sector_type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME, 
+		  include = JsonTypeInfo.As.PROPERTY, 
+		  property = "type")
+		@JsonSubTypes({ 
+		  @Type(value = SittingSector.class, name = "sitting"), 
+		  @Type(value = StandingSector.class, name = "standing") 
+		})
 public abstract class Sector implements Serializable {
 	private static final long serialVersionUID = -4864142627042418170L;
 
