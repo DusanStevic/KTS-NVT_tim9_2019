@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,17 +144,7 @@ public class AddressServiceIntegrationTest {
 	}
 	
 	@Test
-	//@Transactional
-    //@Rollback(true)
 	public void testSave() {
-		/*Address a = new Address();
-		a.setStreetName(NEW_ADDRESS_STREET);
-		a.setStreetNumber(NEW_ADDRESS_STREET_NUM);
-		a.setDeleted(NEW_ADDRESS_DELETED);
-		a.setCity(NEW_ADDRESS_CITY);
-		a.setCountry(NEW_ADDRESS_COUNTRY);
-		a.setLatitude(NEW_ADDRESS_LAT);
-		a.setLongitude(NEW_ADDRESS_LONG);*/
 		
 		int dbSizeBeforeAdd = addressService.findAll().size();
 		Address found = addressService.save(NEW_ADDRESS);
@@ -171,23 +160,9 @@ public class AddressServiceIntegrationTest {
 		assertTrue(NEW_ADDRESS.getLongitude() == found.getLongitude());
 		assertTrue((long) (dbSizeBeforeAdd+1) == found.getId());
 		
-		/*
-		 * jer rollback ne radi, privremeno resenje, lose jer ako pukne neki assert, nece se izvrsiti brisanje
-		 */
-		//addressRepository.deleteById(found.getId()); //ne obrise ako je ukljucena transakcija i rollback
-		
 	}
 	
-	
-	@Test(expected = ResourceNotFoundException.class)
-	@Ignore
-	/*
-	 * prethodna test metoda nije radila rollback
-	 */
-	public void testFindOne1() throws ResourceNotFoundException {
-		Address found = addressService.findOne((long) (DB_ADDRESS_COUNT+1));
-		System.out.println(found.getStreetName());
-	}
+
 	
 	@Test
 	public void testDelete() throws ResourceNotFoundException {

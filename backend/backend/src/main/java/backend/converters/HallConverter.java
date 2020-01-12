@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import backend.dto.HallDTO;
 import backend.dto.SectorDTO;
+import backend.dto.SittingSectorDTO;
+import backend.dto.StandingSectorDTO;
 import backend.model.Hall;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
@@ -18,14 +20,14 @@ public class HallConverter {
 	public Hall HallDTO2Hall(HallDTO dto) {
 		Hall hall = new Hall();
 		hall.setName(dto.getName());
-		
+
 		for(SectorDTO sec_dto : dto.getSectors()) {
-			if(sec_dto.getSector_type().toLowerCase().equals("sitting")) {
-				SittingSector sit = sectorConverter.SectorDTO2SittingSector(sec_dto);
+			if(sec_dto instanceof SittingSectorDTO) {
+				SittingSector sit = sectorConverter.SittingSectorDTO2SittingSector((SittingSectorDTO)sec_dto);
 				sit.setHall(hall);
 				hall.getSectors().add(sit);
-			}else if(sec_dto.getSector_type().toLowerCase().equals("standing")) {
-				StandingSector stand = sectorConverter.SectorDTO2StandingSector(sec_dto);
+			}else if(sec_dto instanceof StandingSectorDTO) {
+				StandingSector stand = sectorConverter.StandingSectorDTO2StandingSector((StandingSectorDTO) sec_dto);
 				stand.setHall(hall);
 				hall.getSectors().add(stand);
 			}else {

@@ -34,11 +34,11 @@ public class Hall {
 	@OneToMany(mappedBy = "hall", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("hall")
 
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Sector> sectors = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("halls")
+	//@JsonIgnoreProperties("halls")
 	@JsonBackReference
 	private Location location;
 	

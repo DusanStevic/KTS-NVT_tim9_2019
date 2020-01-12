@@ -2,12 +2,15 @@ package backend.service;
 
 import static backend.constants.Constants.FIRST_TIMESTAMP;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,12 +43,20 @@ public class LocationService {
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
 	public Location save(Location b) throws SavingException {
+		Location loc = null;
 		try {
-			return locationRepository.save(b);
+			System.out.println("try save loc");
+
+			loc = locationRepository.save(b);
 		} catch (DataIntegrityViolationException e) {
+			System.out.println("**************");
+			System.out.println("ako je ovde dosao onda je ok");
+			System.out.println(e.getMessage());
+
 			throw new SavingException(
 					"Could not save location. Check if there is another location on the same address.");
 		}
+		return loc;
 
 	}
 
@@ -81,24 +92,34 @@ public class LocationService {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = DeletingException.class)
-	public void delete(Long id) throws SavingException, BadRequestException, ResourceNotFoundException {
-		if (!ticketService.findAllByLocationDate(id, new Date()).isEmpty()) {
+	public void delete(Long id, Date date) throws SavingException, BadRequestException, ResourceNotFoundException {
+		if (!ticketService.findAllByLocationDate(id, date).isEmpty()) {
 			throw new BadRequestException("Could not delete location");
 		}
+
 		Location loc = findOneNotDeleted(id);
 		loc.setDeleted(new Timestamp(System.currentTimeMillis()));
-		for (Hall h : loc.getHalls()) {
-			hallService.delete(h.getId());
+		if (loc.getHalls() != null) {
+			for (Hall h : loc.getHalls()) {
+				hallService.delete(h.getId());
+			}
 		}
 		save(loc);
 
 	}
 
-	public Location update(Long locationId, LocationDTO dto) throws SavingException, ResourceNotFoundException {
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
+	public Location update(Long locationId, Location location) throws SavingException, ResourceNotFoundException {
 		Location loc = findOneNotDeleted(locationId);
-		loc.setName(dto.getName());
-		loc.setDescription(dto.getDescription());
-		loc.setAddress(addressService.findOne(dto.getAddress_id()));
-		return save(loc);
+
+		loc.setName(location.getName());
+		loc.setDescription(location.getDescription());
+		loc.setAddress(location.getAddress());
+		try {
+			return save(loc);
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("jebemu cole");
+			throw new SavingException("upd sav  exc");
+		}
 	}
 }

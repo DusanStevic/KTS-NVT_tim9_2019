@@ -1,6 +1,7 @@
 package backend.controller;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.converters.LocationConverter;
 import backend.dto.LocationDTO;
+import backend.dto.LocationUpdateDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.exceptions.SavingException;
@@ -55,11 +57,11 @@ public class LocationController {
 
 	/* get all locations, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Location>> getAllLocationes() {
+	public ResponseEntity<List<Location>> getAllLocations() {
 		return new ResponseEntity<>(locationService.findAllNotDeleted(), HttpStatus.OK);
 	}
 
-	/* get an location by id, permitted for all */
+	/* get a location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> getLocation(
 			@PathVariable(value = "id") Long locationId) throws ResourceNotFoundException {
@@ -71,7 +73,8 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationDTO loc) throws SavingException, ResourceNotFoundException {
+			@Valid @RequestBody LocationUpdateDTO dto) throws SavingException, ResourceNotFoundException {
+		Location loc = locationConverter.LocationUpdateDTO2Location(dto);
 		return new ResponseEntity<>(locationService.update(locationId, loc), HttpStatus.OK);
 	}
 
@@ -81,7 +84,7 @@ public class LocationController {
 	public ResponseEntity<String> deleteLocation(
 			@PathVariable(value = "id") Long locId) throws SavingException, BadRequestException, ResourceNotFoundException {
 		logger.info("Deleting location id " + locId);
-		locationService.delete(locId);
+		locationService.delete(locId, new Date());
 		return new ResponseEntity<>("Successfully deleted location", HttpStatus.OK);
 	}
 }

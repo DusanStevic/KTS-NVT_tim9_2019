@@ -158,7 +158,9 @@ public class AddressServiceUnitTest {
 	@Test
 	public void testDelete() throws ResourceNotFoundException {
 		when(addressRepositoryMocked.findByIdAndDeleted(addressId, false)).thenReturn(Optional.of(address));
+		System.out.println(address.isDeleted());
 		addressService.delete(addressId);
+		System.out.println(address.isDeleted());
 		verify(addressRepositoryMocked, times(1)).findByIdAndDeleted(addressId, false);
 		verify(addressRepositoryMocked, times(1)).save(address);
 	}

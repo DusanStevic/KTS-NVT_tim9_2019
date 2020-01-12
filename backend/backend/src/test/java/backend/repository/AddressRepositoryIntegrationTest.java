@@ -110,7 +110,11 @@ public class AddressRepositoryIntegrationTest {
 	
 	@Test
 	public void testFindAllByDeletedPageable_False() {
+		/*
+		 * znaci ovo radi
+		 */
 		PageRequest pageRequest = PageRequest.of(0, 5); //prva strana
+
 		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
 		System.out.println("*********************************************************");
 		for(Address a : found.getContent()) {
@@ -124,7 +128,10 @@ public class AddressRepositoryIntegrationTest {
 	
 	@Test
 	public void testFindAllByDeletedPageable_True() {
-		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
+		/*
+		 * i ovo radi, marijeta
+		 */
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
 		Page<Address> found = addressRepository.findAllByDeleted(true, pageRequest);
 		assertNotNull(found);
 		for(Address a: found) {
