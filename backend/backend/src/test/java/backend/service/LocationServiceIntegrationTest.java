@@ -209,10 +209,14 @@ public class LocationServiceIntegrationTest {
 		locationService.update(DB_LOCATION_ID_DELETED, null);
 	}
 
-	@Test
+	@Test(expected = SavingException.class)
 	public void testUpdate_SavingException() throws ResourceNotFoundException, SavingException {
-		// pokusaj izmene adrese lokacije na adresu na kojojs se nalazi neka druga
+		// pokusaj izmene adrese lokacije na adresu na kojoj se nalazi neka druga
 		// lokacija
+		//ocekiva se da ne moze da sacuva jer postoji duplikat address_id + location.deleted
+		//sto znaci da ne mogu postojati dve lokacije koje nisu obrisane na istoj adresi
+		System.out.println("servis upd sav exc");
+		
 		UPD_LOCATION.setAddress(addressService.findOneNotDeleted(DB_LOCATION_ADDRESS_ID));
 		Location updated = locationService.update(DB_LOCATION_ID_TO_BE_UPDATED, UPD_LOCATION);
 	}

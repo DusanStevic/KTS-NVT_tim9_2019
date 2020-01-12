@@ -26,7 +26,7 @@ public class LocationConstants {
 	public static final Long DB_LOCATION_ADDRESS_ID = 3L;
 	public static final Long DB_DELETED_LOCATION_ADDRESS_ID = 4L;
 	
-	public static final int DB_LOCATION_COUNT = 4;
+	public static final int DB_LOCATION_COUNT = 5;
 	
 	
 	public static Location NEW_LOCATION = new Location("NOVA", "Nova lokacija je u gradu", null, FIRST_TIMESTAMP);

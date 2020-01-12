@@ -75,7 +75,6 @@ public class LocationController {
 			@PathVariable(value = "id") Long locationId,
 			@Valid @RequestBody LocationUpdateDTO dto) throws SavingException, ResourceNotFoundException {
 		Location loc = locationConverter.LocationUpdateDTO2Location(dto);
-		System.out.println("konvertovano");
 		return new ResponseEntity<>(locationService.update(locationId, loc), HttpStatus.OK);
 	}
 

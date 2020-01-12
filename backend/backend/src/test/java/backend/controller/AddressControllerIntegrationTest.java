@@ -67,13 +67,13 @@ public class AddressControllerIntegrationTest {
 	public void testGetAllAddresses() {
 		ResponseEntity<Address[]> responseEntity = restTemplate.getForEntity("/api/address", Address[].class);
 		Address[] addresses = responseEntity.getBody();
-		Address a0 = addresses[0];
+		Address a1 = addresses[1];
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(addresses);
 		assertNotEquals(0, addresses.length);
-		assertEquals(5, addresses.length);
-		assertEquals(DB_ADDRESS_ID, a0.getId());
-		assertEquals(DB_ADDRESS_STREET, a0.getStreetName());
+		assertEquals(7, addresses.length);
+		assertEquals(DB_ADDRESS_ID, a1.getId());
+		assertEquals(DB_ADDRESS_STREET, a1.getStreetName());
 	}
 	
 	
@@ -100,7 +100,7 @@ public class AddressControllerIntegrationTest {
 	public void testDelete() throws ResourceNotFoundException {
 		int size = addressService.findAllNotDeleted().size();
 		
-		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/address/" + DB_ADDRESS_ID_TO_BE_DELETED, 
+		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/address/" + 4, 
 	            HttpMethod.DELETE, new HttpEntity<Object>(headers), String.class);
 		
 		

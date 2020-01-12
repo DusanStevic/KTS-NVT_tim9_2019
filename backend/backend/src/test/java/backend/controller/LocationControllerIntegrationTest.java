@@ -98,17 +98,18 @@ public class LocationControllerIntegrationTest {
 	public void testDelete() throws ResourceNotFoundException {
 		int size = locationService.findAllNotDeleted().size();
 		
-		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/" + DB_LOCATION_ID_TO_BE_DELETED, 
+		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/" + 5, 
 	            HttpMethod.DELETE, new HttpEntity<Object>(headers), String.class);
 		
-		
-		assertEquals(size-1, locationService.findAllNotDeleted().size()); 
+		System.out.println("controller del");
+		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals("Successfully deleted location", responseEntity.getBody());
 		
-		Location deleted = locationService.findOne(DB_LOCATION_ID_TO_BE_DELETED);
-		assertEquals(DB_LOCATION_ID_TO_BE_DELETED, deleted.getId());
+		Location deleted = locationService.findOne(5L);
+		assertEquals(Long.valueOf(5L), deleted.getId());
 		assertNotEquals(FIRST_TIMESTAMP, deleted.getDeleted());
+		assertEquals(size-1, locationService.findAllNotDeleted().size()); 
 	}
 	
 	@Test
@@ -138,12 +139,11 @@ public class LocationControllerIntegrationTest {
 		HallDTO hall = new HallDTO("ime hall dto", sectors);
 		halls.add(hall);
 		DTO_NEW_LOCATION.setHalls(halls);
-		DTO_NEW_LOCATION.setAddress_id(NEW_LOCATION_ADDRESS_ID);
+		DTO_NEW_LOCATION.setAddress_id(2L);
 		
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		
 		ResponseEntity<Location> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, Location.class);
-		
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		Location created = responseEntity.getBody();
 		assertNotNull(created);
@@ -173,10 +173,7 @@ public class LocationControllerIntegrationTest {
 		DTO_NEW_LOCATION.setAddress_id(ADDRESS_ID_NON_EXISTENT);
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
-		System.out.println("addr not found");
-		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-		System.out.println(responseEntity.getBody());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
 	}
 	
@@ -185,10 +182,7 @@ public class LocationControllerIntegrationTest {
 		DTO_NEW_LOCATION.setAddress_id(DB_ADDRESS_ID);
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
-		System.out.println("sav exc");
-		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-		System.out.println(responseEntity.getBody());
 		assertTrue(responseEntity.getBody().contains("Could not save location"));
 	}
 	@Test
@@ -221,7 +215,6 @@ public class LocationControllerIntegrationTest {
 		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/"+DB_LOCATION_ID_TO_BE_UPDATED, 
 				HttpMethod.PUT, httpEntity, String.class);
-		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
 	}
@@ -232,21 +225,24 @@ public class LocationControllerIntegrationTest {
 		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/"+LOCATION_ID_NON_EXISTENT, 
 				HttpMethod.PUT, httpEntity, String.class);
-		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested location"));
 	}
 	
 	@Test
+	@Transactional
 	public void testUpdate_SavingException() {
-		LocationUpdateDTO dto = new LocationUpdateDTO("upd", "desc", DB_LOCATION_ADDRESS_ID);
-		System.out.println("sav exception update");
+		LocationUpdateDTO dto = new LocationUpdateDTO("upd", "desc", DB_ADDRESS_ID);
+		System.out.println("controller upd sav exc");
 		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/"+DB_LOCATION_ID_TO_BE_UPDATED, 
 				HttpMethod.PUT, httpEntity, String.class);
+		System.out.println("controller upd sav exc");
 		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not save location"));
+		
+		
 	}
 	
 	@Test

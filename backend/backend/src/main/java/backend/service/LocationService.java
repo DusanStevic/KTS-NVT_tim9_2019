@@ -43,19 +43,20 @@ public class LocationService {
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
 	public Location save(Location b) throws SavingException {
-		System.out.println("save loc");
+		Location loc = null;
 		try {
-			System.out.println("try");
-			System.out.println(b.getId());
-			System.out.println(b.getAddress().getId());
-			return locationRepository.save(b);
-		} catch (Exception e) {
+			System.out.println("try save loc");
+
+			loc = locationRepository.save(b);
+		} catch (DataIntegrityViolationException e) {
 			System.out.println("**************");
+			System.out.println("ako je ovde dosao onda je ok");
 			System.out.println(e.getMessage());
-			
+
 			throw new SavingException(
 					"Could not save location. Check if there is another location on the same address.");
-		} 
+		}
+		return loc;
 
 	}
 
@@ -95,7 +96,7 @@ public class LocationService {
 		if (!ticketService.findAllByLocationDate(id, date).isEmpty()) {
 			throw new BadRequestException("Could not delete location");
 		}
-		
+
 		Location loc = findOneNotDeleted(id);
 		loc.setDeleted(new Timestamp(System.currentTimeMillis()));
 		if (loc.getHalls() != null) {
@@ -107,13 +108,18 @@ public class LocationService {
 
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = SavingException.class)
 	public Location update(Long locationId, Location location) throws SavingException, ResourceNotFoundException {
 		Location loc = findOneNotDeleted(locationId);
-		System.out.println(loc.getId());
+
 		loc.setName(location.getName());
 		loc.setDescription(location.getDescription());
 		loc.setAddress(location.getAddress());
-		System.out.println("setovano");
-		return save(loc);
+		try {
+			return save(loc);
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("jebemu cole");
+			throw new SavingException("upd sav  exc");
+		}
 	}
 }
