@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import backend.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceUnitTest {
 	@Autowired
 	private UserService userService;
