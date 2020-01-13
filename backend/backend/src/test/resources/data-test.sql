@@ -36,6 +36,10 @@ INSERT INTO locations (id, name, description, address_id, deleted) values (4, "S
 INSERT INTO locations (id, name, description, address_id, deleted) values (5, "SPENS NS to be deleted2", "Biggest location for sports in Vojvodina", 9, "1970-01-01 00:00:00");
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);
+INSERT INTO halls (id, name, location_id, deleted) values (2, "Main Hall deleted", 1, true);
+INSERT INTO halls (id, name, location_id, deleted) values (3, "Main Hall update", 1, false);
+INSERT INTO halls (id, name, location_id, deleted) values (4, "Main Hall to be deleted", 3, false);
+INSERT INTO halls (id, name, location_id, deleted) values (5, "Main Hall to be deleted2", 3, false);
 
 INSERT INTO sectors (sector_type, id , name , capacity, hall_id, deleted) VALUES ('standing', 1, 'S1_1', 500, 1, false);	--standing sector
 INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, deleted) VALUES ('sitting', 2, 'S2_2', 10, 10, 1, false); --sitting sector

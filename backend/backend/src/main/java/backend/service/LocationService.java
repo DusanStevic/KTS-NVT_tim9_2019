@@ -65,6 +65,7 @@ public class LocationService {
 				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));
 	}
 
+	@javax.transaction.Transactional
 	public Location findOneNotDeleted(Long id) throws ResourceNotFoundException {
 		return locationRepository.findByIdAndDeleted(id, FIRST_TIMESTAMP)
 				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));

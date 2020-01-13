@@ -17,7 +17,7 @@ public class HallDTO {
 	/*
 	 * ne prosledjuje se prilikom kreiranja lokacije
 	 */
-	private Long location_id;
+	//private Long location_id;
 
 	@NotNull(message = "Sectors are mandatory")
 	@NotEmpty(message = "Sectors are mandatory")
@@ -27,11 +27,11 @@ public class HallDTO {
 		super();
 	}
 
-	public HallDTO(String name, int number_of_sectors, Long location_id, ArrayList<SectorDTO> sectors) {
+	public HallDTO(String name, int number_of_sectors, ArrayList<SectorDTO> sectors) {
 		super();
 		this.name = name;
 		this.number_of_sectors = number_of_sectors;
-		this.location_id = location_id;
+		//this.location_id = location_id;
 		this.sectors = sectors;
 	}
 
@@ -57,13 +57,13 @@ public class HallDTO {
 		this.number_of_sectors = number_of_sectors;
 	}
 
-	public Long getLocation_id() {
+	/*public Long getLocation_id() {
 		return location_id;
 	}
 
 	public void setLocation_id(Long location_id) {
 		this.location_id = location_id;
-	}
+	}*/
 
 	public ArrayList<SectorDTO> getSectors() {
 		return sectors;
