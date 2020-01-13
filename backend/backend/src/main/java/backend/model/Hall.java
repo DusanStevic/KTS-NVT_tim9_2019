@@ -61,6 +61,13 @@ public class Hall {
 		this.deleted = deleted;
 	}
 
+	public Hall(String name, Location location) {
+		super();
+		this.name = name;
+		this.location = location;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -97,7 +104,7 @@ public class Hall {
 	@Override
 	public String toString() {
 		return "Hall [id=" + id + ", name=" + name  + ", sectors=" + sectors + ", location="
-				+ location.getName() + "]";
+				 + "]";
 	}
 
 
@@ -108,6 +115,23 @@ public class Hall {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hall other = (Hall) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

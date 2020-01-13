@@ -2,12 +2,13 @@ package backend.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import backend.dto.HallDTO;
 import backend.exceptions.ResourceNotFoundException;
@@ -28,11 +29,13 @@ public class HallService {
 		return hallRepository.save(b);
 	}
 
+	@Transactional
 	public Hall findOne(Long id) throws ResourceNotFoundException {
 		return hallRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested hall"));
 	}
 
+	@javax.transaction.Transactional
 	public Hall findOneNotDeleted(Long id) throws ResourceNotFoundException {
 		return hallRepository.findByIdAndDeleted(id, false)
 				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested hall"));
@@ -54,21 +57,23 @@ public class HallService {
 		return hallRepository.findAll(page);
 	}
 
-	@Transactional
-	public void remove(Long id) {
-		hallRepository.deleteById(id);
-	}
+	/*
+	 * @Transactional public void remove(Long id) { hallRepository.deleteById(id); }
+	 */
 
+	@Transactional
 	public void delete(Long id) throws ResourceNotFoundException {
 		Hall h = findOneNotDeleted(id);
 		h.setDeleted(true);
-		for (Sector s : h.getSectors()) {
-			sectorService.delete(s.getId());
+		if (h.getSectors() != null) {
+			for (Sector s : h.getSectors()) {
+				sectorService.delete(s.getId());
+			}
 		}
 		save(h);
 	}
 
-	public Hall update(Long id, HallDTO h) throws ResourceNotFoundException {
+	public Hall update(Long id, Hall h) throws ResourceNotFoundException {
 		Hall hall = findOneNotDeleted(id);
 
 		if (!h.getName().trim().equals("")) {

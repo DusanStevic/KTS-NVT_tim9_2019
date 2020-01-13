@@ -4,7 +4,22 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-public class SectorDTO {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+
+import backend.model.SittingSector;
+import backend.model.StandingSector;
+
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME, 
+		  include = JsonTypeInfo.As.PROPERTY, 
+		  property = "type")
+		@JsonSubTypes({ 
+		  @Type(value = SittingSectorDTO.class, name = "sittingDTO"), 
+		  @Type(value = StandingSectorDTO.class, name = "standingDTO") 
+		})
+public abstract class SectorDTO {
 	//private Long id;
 	@NotNull(message = "Sector name is mandatory")
 	@Length(min=1, message="Sector name is mandatory")

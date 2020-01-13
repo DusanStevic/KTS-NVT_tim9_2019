@@ -15,12 +15,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.converters.HallConverter;
 import backend.dto.HallDTO;
+import backend.dto.HallUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.service.HallService;
@@ -37,27 +40,20 @@ public class HallController {
 	@Autowired
 	HallService hallService;
 
+	@Autowired
+	HallConverter hallConverter;
+	
 	/* saving hall */
-	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Hall createHall(@Valid @RequestBody HallDTO hallDTO) {
-		Hall hall = new Hall();
-
-
-		if (!hallDTO.getName().trim().equals("")) {
-			hall.setName(hallDTO.getName());
-		}
-		if (hallDTO.getNumber_of_sectors() > 0) {
-		hall.setNumberOfSectors(hallDTO.getNumber_of_sectors());
-		}
-		hall.setLocation(locationService.findOne(hallDTO.getLocation_id()));
-		
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PostMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Hall createHall(@PathVariable(value = "id") Long locationId, @Valid @RequestBody HallDTO hallDTO) throws ResourceNotFoundException {
+		Hall hall = hallConverter.HallDTO2Hall(hallDTO, locationId);
 		return hallService.save(hall);
-	}*/
+	}
 
 	/* get all halls, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Hall> getAllHalles() {
+	public List<Hall> getAllHalls() {
 		return hallService.findAllNotDeleted();
 	}
 
@@ -74,8 +70,8 @@ public class HallController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hall> updateHall(
 			@PathVariable(value = "id") Long hallId,
-			@Valid @RequestBody HallDTO h) throws ResourceNotFoundException {
-
+			@Valid @RequestBody HallUpdateDTO dto) throws ResourceNotFoundException {
+		Hall h = hallConverter.HallDTO2Hall(dto);
 		return new ResponseEntity<>(hallService.update(hallId, h), HttpStatus.OK);
 	}
 

@@ -37,8 +37,10 @@ import backend.dto.LocationDTO;
 import backend.dto.LocationUpdateDTO;
 import backend.dto.SectorDTO;
 import backend.dto.SittingSectorDTO;
+import backend.dto.StandingSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Address;
+import backend.model.Hall;
 import backend.model.Location;
 import backend.model.UserTokenState;
 import backend.security.auth.JwtAuthenticationRequest;
@@ -130,11 +132,14 @@ public class LocationControllerIntegrationTest {
 	}
 	
 	@Test
+	@Transactional
 	public void testCreate() throws ResourceNotFoundException {
 		int size = locationService.findAllNotDeleted().size(); //sve neobrisane lokacije
 		ArrayList<SectorDTO> sectors = new ArrayList<>();
-		SittingSectorDTO sector = new SittingSectorDTO("sector dto ime", 6, 9);
-		sectors.add(sector);
+		SittingSectorDTO sit = new SittingSectorDTO("sit dto ime", 6, 9);
+		sectors.add(sit);
+		StandingSectorDTO stand = new StandingSectorDTO("stand dto ime", 9000);
+		sectors.add(stand);
 		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
 		HallDTO hall = new HallDTO("ime hall dto", sectors);
 		halls.add(hall);
@@ -151,6 +156,12 @@ public class LocationControllerIntegrationTest {
 		assertEquals(DTO_NEW_LOCATION.getDescription(), created.getDescription());
 		assertEquals(DTO_NEW_LOCATION.getAddress_id(), created.getAddress().getId());
 		assertEquals(FIRST_TIMESTAMP, created.getDeleted());
+		assertFalse(created.getHalls().isEmpty());
+		assertEquals(1, created.getHalls().size());
+		for(Hall h : created.getHalls()) {
+			assertFalse(h.getSectors().isEmpty());
+			assertEquals(2, h.getSectors().size());
+		}
 		
 		Location found = locationService.findOne(created.getId());
 		assertNotNull(found);
@@ -159,6 +170,12 @@ public class LocationControllerIntegrationTest {
 		assertEquals(DTO_NEW_LOCATION.getAddress_id(), found.getAddress().getId());
 		assertEquals(FIRST_TIMESTAMP, found.getDeleted());
 		assertEquals(size+1, locationService.findAllNotDeleted().size());
+		assertFalse(found.getHalls().isEmpty());
+		assertEquals(1, found.getHalls().size());
+		for(Hall h : found.getHalls()) {
+			assertFalse(h.getSectors().isEmpty());
+			assertEquals(2, h.getSectors().size());
+		}
 	}
 	
 	@Test
