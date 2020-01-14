@@ -46,9 +46,9 @@ public class HallController {
 	/* saving hall */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Hall createHall(@PathVariable(value = "id") Long locationId, @Valid @RequestBody HallDTO hallDTO) throws ResourceNotFoundException {
+	public ResponseEntity<Hall> createHall(@PathVariable(value = "id") Long locationId, @Valid @RequestBody HallDTO hallDTO) throws ResourceNotFoundException {
 		Hall hall = hallConverter.HallDTO2Hall(hallDTO, locationId);
-		return hallService.save(hall);
+		return new ResponseEntity<Hall>(hallService.save(hall), HttpStatus.OK);
 	}
 
 	/* get all halls, permitted for all */

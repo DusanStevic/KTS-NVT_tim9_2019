@@ -22,6 +22,15 @@ public class StandingSector extends Sector {
 		this.capacity = capacity;
 	}
 
+	public StandingSector(Long id, String name, int capacity, Hall h, boolean deleted) {
+		super(id, name, h, deleted);
+		this.capacity = capacity;
+	}
+	
+	public StandingSector(String name, int capacity) {
+		super(name);
+		this.capacity = capacity;
+	}
 	public int getCapacity() {
 		return capacity;
 	}
