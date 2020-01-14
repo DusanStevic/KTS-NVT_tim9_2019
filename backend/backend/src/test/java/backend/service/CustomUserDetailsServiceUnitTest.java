@@ -1,4 +1,5 @@
 package backend.service;
+import static backend.constants.UserConstants.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,10 +13,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import backend.model.Administrator;
 import backend.model.Authority;
 import backend.model.RegisteredUser;
 import backend.model.Role;
@@ -31,6 +38,38 @@ public class CustomUserDetailsServiceUnitTest {
 	
 	@MockBean
 	private UserRepository userRepositoryMocked;
+	
+	@MockBean
+	SecurityContext securityContextMocked;
+
+	@MockBean
+	Authentication authenticationMocked;
+	
+	@MockBean
+	AuthenticationManager authenticationManagerMocked;
+	
+	@Test
+	public void changePassword_successfully() {
+		User user = new RegisteredUser();
+		when(securityContextMocked.getAuthentication()).thenReturn(authenticationMocked);
+		SecurityContextHolder.setContext(securityContextMocked);
+		when(authenticationMocked.getName()).thenReturn(MOCKED_NAME);
+		when(authenticationManagerMocked.authenticate(new UsernamePasswordAuthenticationToken(MOCKED_USERNAME, MOCKED_PASSWORD))).thenReturn(authenticationMocked);
+		when(userRepositoryMocked.findByUsername(MOCKED_USERNAME)).thenReturn(user);
+		customUserDetailsService.changePassword(MOCKED_OLD_PASSWORD, MOCKED_NEW_PASSWORD);
+	}
+	
+	@Test
+	public void changePassword_unsuccessfully() {
+		User user = new Administrator();
+		when(securityContextMocked.getAuthentication()).thenReturn(authenticationMocked);
+		SecurityContextHolder.setContext(securityContextMocked);
+		when(authenticationMocked.getName()).thenReturn(MOCKED_NAME);
+		when(authenticationManagerMocked.authenticate(new UsernamePasswordAuthenticationToken(MOCKED_USERNAME, MOCKED_PASSWORD))).thenReturn(null);
+		when(userRepositoryMocked.findByUsername(MOCKED_USERNAME)).thenReturn(user);
+		customUserDetailsService.changePassword(MOCKED_OLD_PASSWORD, MOCKED_NEW_PASSWORD);
+		
+	}
 	
 	
 /*	@Test
