@@ -47,7 +47,7 @@ public class HallRepositoryIntegrationTest {
 		assertEquals(DB_HALL_NAME, h.getName());
 		assertEquals(DB_HALL_LOCATION_ID, h.getLocation().getId());
 		assertTrue(!h.getSectors().isEmpty());
-		assertEquals(2, h.getSectors().size());
+		assertEquals(6, h.getSectors().size());
 	}
 	
 	@Test

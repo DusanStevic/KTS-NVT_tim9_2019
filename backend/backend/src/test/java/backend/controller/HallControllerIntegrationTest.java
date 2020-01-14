@@ -56,9 +56,6 @@ public class HallControllerIntegrationTest {
 	@Autowired
 	LocationService locationService;
 	
-	@Autowired
-	SectorService sectorService;
-	
 	private String accessToken;
 	private HttpHeaders headers = new HttpHeaders();
 	
