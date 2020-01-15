@@ -67,6 +67,7 @@ public class SectorService {
 	public void delete(Long id) throws ResourceNotFoundException {
 		Sector s = findOneNotDeleted(id);
 		s.setDeleted(true);
+		s.setHall(null);
 		save(s);
 	}
 

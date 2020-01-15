@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventDay;
+import backend.model.EventStatus;
 import backend.repository.EventDayRepository;
 
 @Service
@@ -55,10 +56,17 @@ public class EventDayService {
 
 	public void delete(Long ID) throws ResourceNotFoundException {
 		EventDay ed = findOneNotDeleted(ID);
+		//ed.setStatus(EventStatus.CANCELED);
 		ed.setDeleted(true);
+		ed.setEvent(null);
 		save(ed);
 	}
 
+	public void cancel(Long id) throws ResourceNotFoundException {
+		EventDay ed = findOneNotDeleted(id);
+		ed.setStatus(EventStatus.CANCELED);
+		save(ed);
+	}
 	public EventDay update(Long id, EventDay e) throws ResourceNotFoundException {
 		EventDay eventDay = findOneNotDeleted(id);
 		eventDay.setDescription(e.getDescription());

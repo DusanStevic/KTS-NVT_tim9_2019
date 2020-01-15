@@ -49,13 +49,15 @@ public class EventSectorService {
 		return eventSectorRepository.findAll(page);
 	}
 
-	@Transactional
+	/*@Transactional
 	public void remove(Long id) {
 		eventSectorRepository.deleteById(id);
-	}
+	}*/
 
 	public void delete(Long ID) throws ResourceNotFoundException {
 		EventSector es = findOneNotDeleted(ID);
+		es.setDeleted(true);
+		es.setEvent(null);
 		save(es);
 	}
 
