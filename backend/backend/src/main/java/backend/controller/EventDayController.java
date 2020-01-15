@@ -84,4 +84,14 @@ public class EventDayController {
 		logger.info("Deleted eventday with id " + eventDayId);
 		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
 	}
+	
+	/* cancel event day */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> cancelEventDay(
+			@PathVariable(value = "id") Long eventDayId) throws ResourceNotFoundException {
+		eventDayService.cancel(eventDayId);
+		logger.info("Canceled eventday with id " + eventDayId);
+		return new ResponseEntity<>("Successfully canceled a day of an event", HttpStatus.OK);
+	}
 }

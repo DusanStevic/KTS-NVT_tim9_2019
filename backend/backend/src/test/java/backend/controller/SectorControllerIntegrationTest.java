@@ -170,7 +170,9 @@ public class SectorControllerIntegrationTest {
 		assertEquals(NEW_SECTOR_HALL_ID, found.getHall().getId());
 		assertEquals(NEW_STAND_DTO.getCapacity(), found.getCapacity());
 		assertEquals(size + 1, sectorService.findAllNotDeleted().size());
-
+		for(Sector s : hallService.findOneNotDeleted(NEW_SECTOR_HALL_ID).getSectors()) {
+			System.out.println("-"+s.getName());
+		}
 	}
 
 	@Test

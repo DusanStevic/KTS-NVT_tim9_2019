@@ -14,11 +14,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.converters.EventSectorConverter;
 import backend.dto.EventSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventSector;
@@ -40,16 +43,16 @@ public class EventSectorController {
 	@Autowired
 	SectorService sectorService;
 	
+	@Autowired
+	EventSectorConverter eventSectorConverter;
+	
 	/* saving event sector */
-	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventSector> createEventSector(@Valid @RequestBody EventSectorDTO eventSectorDTO) {
-		EventSector eventSector = new EventSector();
-		eventSector.setEvent(eventService.findOne(eventSectorDTO.getEvent_id()));
-		eventSector.setPrice(eventSectorDTO.getPrice());
-		eventSector.setSector(sectorService.findOne(eventSectorDTO.getSector_id()));
+	public ResponseEntity<EventSector> createEventSector(@Valid @RequestBody EventSectorDTO eventSectorDTO) throws ResourceNotFoundException {
+		EventSector eventSector = eventSectorConverter.EventSectorDTO2EventSector2(eventSectorDTO);
 		return new ResponseEntity<>(eventSectorService.save(eventSector), HttpStatus.OK);
-	}*/
+	}
 
 	/* get all event sectors, permitted for all */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,9 +73,9 @@ public class EventSectorController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventSector> updateEventSector(
 			@PathVariable(value = "id") Long eventSectorId,
-			@Valid @RequestBody EventSectorDTO es) throws ResourceNotFoundException {
+			@RequestParam double price) throws ResourceNotFoundException {
 
-		return new ResponseEntity<>(eventSectorService.update(eventSectorId, es.getPrice()), HttpStatus.OK);
+		return new ResponseEntity<>(eventSectorService.update(eventSectorId, price), HttpStatus.OK);
 		
 	}
 

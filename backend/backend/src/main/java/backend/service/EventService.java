@@ -53,23 +53,30 @@ public class EventService {
 	public void delete(Long eventID) throws ResourceNotFoundException {
 		Event e = findOneNotDeleted(eventID);
 		e.setDeleted(true);
-		for (EventDay ed : e.getEventDays()) {
-			eventDayService.delete(ed.getId());
-		}
-		for (EventSector es : e.getEventSectors()) {
-			eventSectorService.delete(es.getId());
+		if (e.getEventDays() != null) {
+			for (EventDay ed : e.getEventDays()) {
+				eventDayService.delete(ed.getId());
+			}
 		}
 
+		if (e.getEventSectors() != null) {
+			for (EventSector es : e.getEventSectors()) {
+				eventSectorService.delete(es.getId());
+			}
+		}
 		save(e);
 	}
 
-	
-
 	public Event update(Long eventId, Event event) throws ResourceNotFoundException {
 		Event e = findOneNotDeleted(eventId);
-			e.setEvent(event);
-			return save(e);
-		
+		// e.setEvent(event);
+		e.setDescription(event.getDescription());
+		e.setName(event.getName());
+		e.setEventType(event.getEventType());
+		e.setMaxTickets(event.getMaxTickets());
+		// lokacija?
+		return save(e);
+
 	}
 
 	public List<Event> findByInterval(@Valid DateIntervalDTO interval) {
