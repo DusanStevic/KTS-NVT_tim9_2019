@@ -44,7 +44,7 @@ public class Ticket {
 		super();
 	}
 
-	public Ticket(Long id, boolean hasSeat, int numRow, int numCol,
+	public Ticket(Long id, boolean hasSeat, Integer numRow, Integer numCol,
 			EventDay eventDay, Reservation reservation, EventSector sector) {
 		super();
 		this.id = id;
@@ -72,19 +72,19 @@ public class Ticket {
 		this.hasSeat = hasSeat;
 	}
 
-	public int getNumRow() {
+	public Integer getNumRow() {
 		return numRow;
 	}
 
-	public void setNumRow(int numRow) {
+	public void setNumRow(Integer numRow) {
 		this.numRow = numRow;
 	}
 
-	public int getNumCol() {
+	public Integer getNumCol() {
 		return numCol;
 	}
 
-	public void setNumCol(int numCol) {
+	public void setNumCol(Integer numCol) {
 		this.numCol = numCol;
 	}
 

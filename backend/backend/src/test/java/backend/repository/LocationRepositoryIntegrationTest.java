@@ -1,7 +1,17 @@
 package backend.repository;
 
-import static backend.constants.LocationConstants.*;
-import static org.junit.Assert.*;
+import static backend.constants.LocationConstants.DB_LOCATION_ADDRESS_ID;
+import static backend.constants.LocationConstants.DB_LOCATION_ID;
+import static backend.constants.LocationConstants.DB_LOCATION_ID_DELETED;
+import static backend.constants.LocationConstants.FIRST_TIMESTAMP;
+import static backend.constants.LocationConstants.LOCATION_ID_NON_EXISTENT;
+import static backend.constants.LocationConstants.PAGE_SIZE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -22,7 +32,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import backend.model.Address;
+
 import backend.model.Location;
 
 @RunWith(SpringRunner.class)
@@ -114,46 +124,32 @@ public class LocationRepositoryIntegrationTest {
 		}
 	}
 	
-//	@Test
-//	public void testFindAllByDeletedPageable_False() {
-//		/*PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
-//		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
-//		assertNotNull(found);
-//		for(Address a: found) {
-//			System.out.println("*********************************************************");
-//			System.out.println(a.getStreetName());
-//			System.out.println("*********************************************************");
-//			assertFalse(a.isDeleted());
-//		}
-//		
-//		assertEquals(PAGE_SIZE, found.getSize());*/
-//		/*
-//		 * isto je kao u integr testu za service, samo sto se direktno poziva repository
-//		 * medjutim, ne radi
-//		 */
-//		PageRequest pageRequest = PageRequest.of(1, 5); //druga strana
-//		Page<Address> found = addressRepository.findAllByDeleted(false, pageRequest);
-//		System.out.println("*********************************************************");
-//		for(Address a : found.getContent()) {
-//			System.out.println(a.getStreetName());
-//			assertFalse(a.isDeleted());
-//		}
-//		System.out.println("*********************************************************");
-//		assertEquals(PAGE_SIZE, found.getSize());
-//	}
-//	
-//	
-//	@Test
-//	public void testFindAllByDeletedPageable_True() {
-//		PageRequest pageRequest = PageRequest.of(1, PAGE_SIZE); //druga strana
-//		Page<Address> found = addressRepository.findAllByDeleted(true, pageRequest);
-//		assertNotNull(found);
-//		for(Address a: found) {
-//			System.out.println("*********************************************************");
-//			System.out.println(a.getStreetName());
-//			System.out.println("*********************************************************");
-//			assertTrue(a.isDeleted());
-//		}
-//		assertEquals(PAGE_SIZE, found.getSize());
-//	}
+	@Test
+	public void testFindAllByDeletedPageable_False() {
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
+		Page<Location> found = locationRepository.findAllByDeleted(FIRST_TIMESTAMP, pageRequest);
+		assertNotNull(found);
+		assertFalse(found.isEmpty());
+		System.out.println("Deleted false");
+		for(Location loc: found) {
+			System.out.println(loc.getName());
+			assertEquals(FIRST_TIMESTAMP, loc.getDeleted());
+		}
+		
+		assertEquals(PAGE_SIZE, found.getSize());
+	}
+	
+	
+	@Test
+	public void testFindAllByDeletedPageable_True() {
+		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
+		Page<Location> found = locationRepository.findAllByDeleted(deletedTimestamp, pageRequest);
+		assertNotNull(found);
+		System.out.println("Deleted true");
+		for(Location loc: found) {
+			System.out.println(loc.getName());
+			assertEquals(deletedTimestamp, loc.getDeleted());
+		}
+		assertEquals(PAGE_SIZE, found.getSize());
+	}
 }
