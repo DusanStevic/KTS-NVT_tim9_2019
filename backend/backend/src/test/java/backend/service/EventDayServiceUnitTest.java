@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,71 +26,71 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Event;
-import backend.repository.EventRepository;
+import backend.model.EventDay;
+import backend.repository.EventDayRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class EventServiceUnitTest {
+public class EventDayServiceUnitTest {
 	
 	@Autowired
-	EventService eventService;
+	EventDayService eventService;
 
 	@MockBean
-	EventRepository eventRepositoryMocked;
+	EventDayRepository eventRepositoryMocked;
 
 	public static final Long eventId = 3L;
-	public static final Long deletedEventId = 4L;
+	public static final Long deletedEventDayId = 4L;
 	public static final Long nonExistentId = 666L;
-	public static final Event event = new Event(eventId, "naziv", "opis", false);
-	public static final Event event_deleted = new Event(deletedEventId, "naziv deleted","opis deleted", true);
+	public static final EventDay event = new EventDay(eventId, "naziv", "opis",new Date(),null,null,null, false);
+	public static final EventDay event_deleted = new EventDay(deletedEventDayId, "naziv deleted","opis deleted", true);
 	@Before
 	public void setup() {
-		List<Event> events = new ArrayList<>();
+		List<EventDay> events = new ArrayList<>();
 		events.add(event);
 		events.add(event_deleted);
 
-		Page<Event> eventsPage = new PageImpl<>(events);
+		Page<EventDay> eventsPage = new PageImpl<>(events);
 
 		when(eventRepositoryMocked.findAll()).thenReturn(events);
 		when(eventRepositoryMocked.findAll(pageRequest)).thenReturn(eventsPage);
 		when(eventRepositoryMocked.findAllByDeleted(false)).thenReturn(events);
 		when(eventRepositoryMocked.findAllByDeleted(false, pageRequest)).thenReturn(eventsPage);
 		when(eventRepositoryMocked.findById(eventId)).thenReturn(Optional.of(event));
-		when(eventRepositoryMocked.findById(deletedEventId)).thenReturn(Optional.of(event_deleted));
+		when(eventRepositoryMocked.findById(deletedEventDayId)).thenReturn(Optional.of(event_deleted));
 	}
 
 	@Test
 	public void testFindAll() {
-		List<Event> found = eventService.findAll();
+		List<EventDay> found = eventService.findAll();
 		assertNotNull(found);
 		verify(eventRepositoryMocked, times(1)).findAll();
 	}
 
 	@Test
 	public void testFindAllPageable() {
-		Page<Event> found = eventService.findAll(pageRequest);
+		Page<EventDay> found = eventService.findAll(pageRequest);
 		assertNotNull(found);
 		verify(eventRepositoryMocked, times(1)).findAll(pageRequest);
 	}
 
 	@Test
 	public void testFindAllNotDeleted() {
-		List<Event> found = eventService.findAllNotDeleted();
+		List<EventDay> found = eventService.findAllNotDeleted();
 		assertNotNull(found);
 		verify(eventRepositoryMocked, times(1)).findAllByDeleted(false);
 	}
 
 	@Test
 	public void testFindAllNotDeletedPageable() {
-		Page<Event> found = eventService.findAllNotDeleted(pageRequest);
+		Page<EventDay> found = eventService.findAllNotDeleted(pageRequest);
 		assertNotNull(found);
 		verify(eventRepositoryMocked, times(1)).findAllByDeleted(false, pageRequest);
 	}
 
 	@Test
 	public void testFindOne() throws ResourceNotFoundException {
-		Event found = eventService.findOne(eventId);
+		EventDay found = eventService.findOne(eventId);
 		assertNotNull(found);
 		assertTrue(eventId == found.getId());
 		assertFalse(found.isDeleted());
@@ -103,17 +104,17 @@ public class EventServiceUnitTest {
 
 	@Test
 	public void testFindOneDeleted_shouldFindDeletedAddress() throws ResourceNotFoundException {
-		Event found = eventService.findOne(deletedEventId);
+		EventDay found = eventService.findOne(deletedEventDayId);
 		assertNotNull(found);
-		assertTrue(deletedEventId == found.getId());
+		assertTrue(deletedEventDayId == found.getId());
 		assertTrue(found.isDeleted());
-		verify(eventRepositoryMocked, times(1)).findById(deletedEventId);
+		verify(eventRepositoryMocked, times(1)).findById(deletedEventDayId);
 	}
 
 	@Test
 	public void testFindOneNotDeleted() throws ResourceNotFoundException {
 		when(eventRepositoryMocked.findByIdAndDeleted(eventId, false)).thenReturn(Optional.of(event));
-		Event found = eventService.findOneNotDeleted(eventId);
+		EventDay found = eventService.findOneNotDeleted(eventId);
 		assertNotNull(found);
 		assertTrue(eventId == found.getId());
 		assertFalse(found.isDeleted());
@@ -129,7 +130,7 @@ public class EventServiceUnitTest {
 	@Test
 	public void testSave() {
 		when(eventRepositoryMocked.save(event)).thenReturn(event);
-		Event saved = eventService.save(event);
+		EventDay saved = eventService.save(event);
 		assertNotNull(saved);
 		assertFalse(saved.isDeleted());
 		assertEquals(event.getName(), saved.getName());
@@ -154,9 +155,9 @@ public class EventServiceUnitTest {
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		when(eventRepositoryMocked.findByIdAndDeleted(eventId, false)).thenReturn(Optional.of(event));
-		Event upd = new Event(eventId, "blaa", null, false);
+		EventDay upd = new EventDay(eventId, "blablaa", "opisBLAA",new Date(),null,null,null, false);
 		when(eventRepositoryMocked.save(upd)).thenReturn(upd);
-		Event updated = eventService.update(eventId, upd);
+		EventDay updated = eventService.update(eventId, upd);
 		
 		verify(eventRepositoryMocked, times(1)).findByIdAndDeleted(eventId, false);
 		verify(eventRepositoryMocked, times(1)).save(upd); //ovde nesto ne radi, kaze da su razliciti argumenti

@@ -59,7 +59,7 @@ public class EventControllerIntegrationTest {
 		accessToken = login.getBody().getAccessToken();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
-	/*
+/*
 	@Test
 	public void testGetAllEvents() {
 		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
@@ -71,8 +71,7 @@ public class EventControllerIntegrationTest {
 		assertEquals(7, events.length);
 		assertEquals(DB_EVENT_ID, e0.getId());
 		assertEquals(DB_EVENT_NAME, e0.getName());
-	}
-	*/
+	}*/
 	/*
 	@Test
 	public void testGetEvent() {
@@ -84,8 +83,7 @@ public class EventControllerIntegrationTest {
 		assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
 	}
-	 */
-	
+	*/
 	@Test
 	public void testGetAddressNonExistent() {
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity("/api/event/"+EVENT_ID_NON_EXISTENT, String.class);
@@ -152,8 +150,6 @@ public class EventControllerIntegrationTest {
 		assertFalse(found.getSectors().isEmpty());
 		assertEquals(sectors.size(), found.getSectors().size());
 		assertEquals(size+1, hallService.findAllNotDeleted().size());
-		
-		
 	}
 	
 	@Test
