@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.EventDay;
 import backend.model.EventStatus;
+import backend.model.Hall;
 import backend.repository.EventDayRepository;
 
 @Service
@@ -74,7 +75,6 @@ public class EventDayService {
 		// eventDay.setStatus(e.getStatus());
 		// eventDay.setDate(e.getDate());
 		return save(eventDay);
-
 	}
 
 }

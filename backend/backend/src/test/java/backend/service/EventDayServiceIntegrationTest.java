@@ -1,8 +1,8 @@
 package backend.service;
 
-import static backend.constants.EventConstants.DB_EVENT_LOCATION_ID;
-import static backend.constants.EventConstants.*;
-import static backend.constants.AddressConstants.*;
+import static backend.constants.AddressConstants.PAGE_SIZE;
+import static backend.constants.AddressConstants.pageRequest;
+import static backend.constants.EventDayConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -24,36 +24,37 @@ import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
+import backend.model.EventDay;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class EventServiceIntegrationTest {
-	
+public class EventDayServiceIntegrationTest {
+
 	@Autowired
-	EventService eventService;
+	EventDayService eventService;
 	
 	@Autowired
 	LocationService locationService;
 	
 	@Test
 	public void testFindAll() {
-		List<Event> found = eventService.findAll();
+		List<EventDay> found = eventService.findAll();
 		assertFalse(found.isEmpty());
-		assertEquals(DB_EVENT_COUNT, found.size());
+		assertEquals(DB_EVENTDAY_COUNT, found.size());
 	}
 	
 	@Test
 	public void testFindAllPageable() {
-		Page<Event> found = eventService.findAll(pageRequest);
+		Page<EventDay> found = eventService.findAll(pageRequest);
 		assertEquals(PAGE_SIZE, found.getSize());
 	}
 	
 	@Test
 	public void testFindAllNotDeleted() {
-		List<Event> found = eventService.findAllNotDeleted();
+		List<EventDay> found = eventService.findAllNotDeleted();
 		assertFalse(found.isEmpty());
-		for(Event e : found) {
+		for(EventDay e : found) {
 			assertFalse(e.isDeleted());
 		}
 	}
@@ -61,8 +62,8 @@ public class EventServiceIntegrationTest {
 	@Test
 	public void testFindAllNotDeletedPageable() {
 		PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE); //prva strana
-		Page<Event> found = eventService.findAllNotDeleted(pageRequest);
-		for(Event e : found) {
+		Page<EventDay> found = eventService.findAllNotDeleted(pageRequest);
+		for(EventDay e : found) {
 			assertFalse(e.isDeleted());
 		}
 		assertEquals(PAGE_SIZE, found.getSize());
@@ -70,48 +71,46 @@ public class EventServiceIntegrationTest {
 	
 	@Test
 	public void testFindOne() throws ResourceNotFoundException {
-		Event found = eventService.findOne(DB_EVENT_ID);
+		EventDay found = eventService.findOne(DB_EVENTDAY_ID);
 		assertNotNull(found);
-		assertTrue(DB_EVENT_ID == found.getId());
-		assertEquals(DB_EVENT_NAME, found.getName());
-		assertEquals(DB_EVENT_LOCATION_ID, found.getLocation().getId());
+		assertTrue(DB_EVENTDAY_ID == found.getId());
+		assertEquals(DB_EVENTDAY_NAME, found.getName());
 		assertFalse(found.isDeleted());
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNonExistent() throws ResourceNotFoundException {
 		@SuppressWarnings("unused")
-		Event found = eventService.findOne(EVENT_ID_NON_EXISTENT);
+		EventDay found = eventService.findOne(EVENTDAY_ID_NON_EXISTENT);
 		
 	}
 	
 	@Test
 	public void testFindOneDeleted_shouldFindDeletedHall() throws ResourceNotFoundException {
-		Event found = eventService.findOne(DB_EVENT_DELETED);
+		EventDay found = eventService.findOne(DB_EVENTDAY_DELETED);
 		assertNotNull(found);
-		assertTrue(DB_EVENT_DELETED == found.getId());
-		assertEquals(DB_EVENT_DELETED_NAME, found.getName());
+		assertTrue(DB_EVENTDAY_DELETED == found.getId());
+		assertEquals(DB_EVENTDAY_DELETED_NAME, found.getName());
 		assertTrue(found.isDeleted());
 	}
 	
 	@Test
 	public void testFindOneNotDeleted() throws ResourceNotFoundException {
-		Event found = eventService.findOneNotDeleted(DB_EVENT_ID);
+		EventDay found = eventService.findOneNotDeleted(DB_EVENTDAY_ID);
 		assertNotNull(found);
-		assertTrue(DB_EVENT_ID == found.getId());
-		assertEquals(DB_EVENT_NAME, found.getName());
-		assertEquals(DB_EVENT_LOCATION_ID, found.getLocation().getId());
+		assertTrue(DB_EVENTDAY_ID == found.getId());
+		assertEquals(DB_EVENTDAY_NAME, found.getName());
 		assertFalse(found.isDeleted());
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindDeletedHall() throws ResourceNotFoundException {
-		eventService.findOneNotDeleted(DB_EVENT_DELETED);
+		eventService.findOneNotDeleted(DB_EVENTDAY_DELETED);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindNonExistingHall() throws ResourceNotFoundException {
-		eventService.findOneNotDeleted(EVENT_ID_NON_EXISTENT);
+		eventService.findOneNotDeleted(EVENTDAY_ID_NON_EXISTENT);
 	}
 	
 	@Test
@@ -119,16 +118,11 @@ public class EventServiceIntegrationTest {
 	public void testSave() throws ResourceNotFoundException {
 		
 		int dbSizeBeforeAdd = eventService.findAll().size();
-		NEW_EVENT.setStartDate(new Date());
-		NEW_EVENT.setEndDate(new Date());
-		NEW_EVENT.setLocation(locationService.findOneNotDeleted(DB_EVENT_LOCATION_ID));
-		System.out.println("AAAAAAAAAAAAAAAAA" + NEW_EVENT.toString());
-		Event found = eventService.save(NEW_EVENT);
+		EventDay found = eventService.save(NEW_EVENTDAY);
 		
 		assertNotNull(found);
 		assertEquals(dbSizeBeforeAdd+1, eventService.findAll().size());
-		assertEquals(NEW_EVENT.getName(), found.getName());
-		assertEquals(NEW_EVENT.getLocation().getId(), found.getLocation().getId());
+		assertEquals(NEW_EVENTDAY.getName(), found.getName());
 		assertFalse(found.isDeleted());
 		assertTrue((long) (dbSizeBeforeAdd+1) == found.getId());
 		
@@ -138,11 +132,11 @@ public class EventServiceIntegrationTest {
 	public void testDelete() throws ResourceNotFoundException {
 		int db_size_before_delete = eventService.findAll().size();
 		
-		eventService.delete(DB_EVENT_TO_BE_DELETED);
+		eventService.delete(DB_EVENTDAY_TO_BE_DELETED);
 		
 		int db_size_after_delete = eventService.findAll().size();
 		
-		Event found = eventService.findOne(DB_EVENT_TO_BE_DELETED);
+		EventDay found = eventService.findOne(DB_EVENTDAY_TO_BE_DELETED);
 		assertEquals(db_size_before_delete, db_size_after_delete); //nije se promenio broj zbog logickog brisanja
 		assertNotNull(found); //nije null zbog logickog brisanja
 		assertTrue(found.isDeleted()); //samo se indikator deleted postavio na true
@@ -150,21 +144,22 @@ public class EventServiceIntegrationTest {
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testDeleteException() throws ResourceNotFoundException {
-		eventService.delete(DB_EVENT_DELETED); //dvorana je vec obrisana i nece biti pronadjena
+		eventService.delete(DB_EVENTDAY_DELETED); //dvorana je vec obrisana i nece biti pronadjena
 	}
 	
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		int dbSizeBeforeUpd = eventService.findAll().size();
-		Event updated = eventService.update(DB_EVENT_TO_BE_UPDATED, UPD_EVENT);
+		EventDay updated = eventService.update(DB_EVENTDAY_TO_BE_UPDATED, UPD_EVENTDAY);
 		assertNotNull(updated);
-		assertEquals(UPD_EVENT.getName(), updated.getName());
+		assertEquals(UPD_EVENTDAY.getName(), updated.getName());
 		
-		Event found = eventService.findOneNotDeleted(DB_EVENT_TO_BE_UPDATED);
+		EventDay found = eventService.findOneNotDeleted(DB_EVENTDAY_TO_BE_UPDATED);
 		assertNotNull(found);
 		assertEquals(dbSizeBeforeUpd, eventService.findAll().size());  //ne bi trebalo da se promeni broj dvorana u bazi
-		assertEquals(UPD_EVENT.getName(), found.getName());
+		assertEquals(UPD_EVENTDAY.getName(), found.getName());
 		assertFalse(found.isDeleted());
+		
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
@@ -173,6 +168,6 @@ public class EventServiceIntegrationTest {
 		 * nece pronaci dvoranu sa prosledjenim id-em pa nije potrebno slati stvarnu dvoranu
 		 * dovoljno je samo null
 		 */
-		eventService.update(DB_EVENT_DELETED, null); 
+		eventService.update(DB_EVENTDAY_DELETED, null); 
 	} 
 }

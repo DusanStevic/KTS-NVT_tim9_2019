@@ -21,9 +21,9 @@ public class EventConstants {
 	public static final String DB_EVENT_NAME = "Event";
 	public static final Long DB_EVENT_LOCATION_ID = 1L;
 	
-	public static final String DB_EVENT_DELETED_NAME = "EventDay deleted";
+	public static final String DB_EVENT_DELETED_NAME = "Event deleted";
 	
-	public static Event NEW_EVENT = new Event("Novi EventDay", "novi",EventType.CONCERT,22,null);
-	public static Event UPD_EVENT = new Event("UPD EventDay", "apdejtovani",EventType.CULTURE,55);
+	public static Event NEW_EVENT = new Event("Novi Event", "novi",EventType.CONCERT,22,null);
+	public static Event UPD_EVENT = new Event("UPD Event", "apdejtovani",EventType.CULTURE,55);
 	//public static EventDTO NEW_EVENT_DTO = new EventDTO("Novo", null);
 }

@@ -74,6 +74,18 @@ public class EventDay {
 		this.deleted = deleted;
 	}
 
+	public EventDay(Long eventid, String name, String description, boolean b) {
+		this.id=eventid;
+		this.name = name;
+		this.description = description;
+		this.deleted = b;
+	}
+
+	public EventDay(String name, String description) {
+		this.name = name; 
+		this.description = description;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -143,6 +155,23 @@ public class EventDay {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventDay other = (EventDay) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

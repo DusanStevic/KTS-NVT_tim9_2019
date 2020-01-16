@@ -1,5 +1,10 @@
 package backend.constants;
 
+import java.util.Date;
+
+import backend.model.Event;
+import backend.model.EventDay;
+import backend.model.EventStatus;
 
 public class EventDayConstants {
 	public static final int DB_EVENTDAY_COUNT = 7; //koliko ih ima u bazi
@@ -15,6 +20,6 @@ public class EventDayConstants {
 	
 	public static final String DB_EVENTDAY_DELETED_NAME = "EventDay deleted";
 	
-	//public static Event NEW_EVENTDAY = new Event("Novi EventDay", "novi",EventType.CONCERT,22,null);
-	//public static Event UPD_EVENTDAY = new Event("UPD EventDay", "apdejtovani",EventType.CULTURE,55);
+	public static EventDay NEW_EVENTDAY = new EventDay(null, "Novi EventDay", "novi",new Date(),EventStatus.ACTIVE,null,null,false);
+	public static EventDay UPD_EVENTDAY = new EventDay("UPD EventDay","apdejtovani");
 }
