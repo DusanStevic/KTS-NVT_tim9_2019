@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -26,7 +27,7 @@ public class EventSector {
 	private double price;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("eventSectors")
+	@JsonBackReference
 	private Event event;
 
 	@JoinColumn(name = "sector_id", unique = false)

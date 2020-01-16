@@ -60,10 +60,10 @@ public class Event {
 	 * 
 	 * @JsonIgnoreProperties("event") check how to make oneway list
 	 */
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> imagePaths = new HashSet<>();
 	
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> videoPaths = new HashSet<>();
 	
 	/*//TO DO: PREBACI SE NA SET 
@@ -71,11 +71,11 @@ public class Event {
 	private String videoPath;*/
 	
 
-	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("event")
 	private Set<EventSector> eventSectors = new HashSet<>();
 
-	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("event")
 	private Set<EventDay> eventDays = new HashSet<>();
 
@@ -103,6 +103,36 @@ public class Event {
 		this.eventSectors = eventSectors;
 		this.eventDays = eventDays;
 		this.deleted = deleted;
+	}
+	
+	
+	//za unit testiranje servisa
+	public Event(Long id, String name, String description, boolean deleted) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.deleted = deleted;
+	}
+
+	public Event(String string, String description) {
+		this.name = string;
+		this.description = description;
+	}
+
+	public Event(String name, String description, EventType type, int max,Location location) {
+		this.name = name;
+		this.description = description;
+		this.eventType = type;
+		this.maxTickets = max;
+		this.location = location;
+	}
+	
+	public Event(String name, String description, EventType type, int max) {
+		this.name = name;
+		this.description = description;
+		this.eventType = type;
+		this.maxTickets = max;
 	}
 
 	public void setEvent(Event e) {
@@ -168,9 +198,6 @@ public class Event {
 		this.endDate = endDate;
 	}
 	
-
-	
-
 	public int getMaxTickets() {
 		return maxTickets;
 	}
@@ -178,8 +205,6 @@ public class Event {
 	public void setMaxTickets(int maxTickets) {
 		this.maxTickets = maxTickets;
 	}
-
-	
 
 	public Location getLocation() {
 		return location;
@@ -212,7 +237,6 @@ public class Event {
 	public void setEventDays(Set<EventDay> eventDays) {
 		this.eventDays = eventDays;
 	}
-
 
 	@Override
 	public String toString() {
@@ -247,5 +271,4 @@ public class Event {
 	public void setVideoPaths(Set<String> videoPaths) {
 		this.videoPaths = videoPaths;
 	}
-
 }

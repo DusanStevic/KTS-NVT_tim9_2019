@@ -89,5 +89,24 @@ insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, re
 	values (4, true,1, 2, 2, 4, 4);
 insert into tickets (id, has_seat, event_day_id, sector_id, reservation_id )
 	values (5, false, 2, 3, 4);
-        
-        
+
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (3, "Event", "2020-05-08", "2020-05-08", 0, 3, 5, "Event", 1, false);	
+
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (4, "Event deleted", "2020-05-07", "2020-05-07", 0, 3, 5, "Event deleted", 1, true);
+	
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (5, "Event update", "2020-05-09", "2020-05-09", 0, 3, 5, "Event update", 1, false);
+	
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (6, "Event to be deleted", "2020-05-10", "2020-05-10", 0, 3, 5, "Event to be deleted", 3, false);
+	
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
+	values (7, "Event to be deleted2", "2020-05-09", "2020-05-09", 0, 3, 5, "Event to be deleted2", 3, false);
+	
+insert into event_days (id, day_date,name, description,  status, event_id , deleted) values(3,"2020-06-03", "EventDay", "Status1", 0,2, false);
+insert into event_days (id, day_date,name, description,  status, event_id , deleted) values(4,"2020-07-03", "EventDay deleted", "Status2", 0,2, true);
+insert into event_days (id, day_date, name, description, status, event_id , deleted) values(5,"2020-08-03", "EventDay update", "Status3", 0,3, false);
+insert into event_days (id, day_date,  name, description,status, event_id , deleted) values(6,"2020-09-03", "EventDay to be deleted", "Status4", 0,3, false);
+insert into event_days (id, day_date, name,description,  status, event_id , deleted) values(7,"2020-10-03", "EventDay to be deleted2", "Status5", 0,3, false);
