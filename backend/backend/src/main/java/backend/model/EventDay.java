@@ -40,13 +40,13 @@ public class EventDay {
 	@Column(name = "status", nullable = true)
 	private EventStatus status;
 
-	@OneToMany(mappedBy = "eventDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "eventDay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("eventDay")
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("eventDays")
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JsonBackReference
 	private Event event;
 
 	@Column(name = "deleted", nullable = false)

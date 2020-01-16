@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "reservations")
@@ -30,8 +31,8 @@ public class Reservation {
 	private Date reservationDate;
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	// @JsonIgnoreProperties("reservation")
-	@JsonBackReference
+	@JsonIgnoreProperties("reservation")
+	//@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
