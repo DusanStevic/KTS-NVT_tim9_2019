@@ -13,14 +13,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @Table(name = "sectors")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "sector_type", discriminatorType = DiscriminatorType.STRING)
-@JsonTypeInfo(
-		  use = JsonTypeInfo.Id.NAME, 
-		  include = JsonTypeInfo.As.PROPERTY, 
-		  property = "type")
-		@JsonSubTypes({ 
-		  @Type(value = SittingSector.class, name = "sitting"), 
-		  @Type(value = StandingSector.class, name = "standing") 
-		})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({ @Type(value = SittingSector.class, name = "sitting"),
+		@Type(value = StandingSector.class, name = "standing") })
 public abstract class Sector implements Serializable {
 	private static final long serialVersionUID = -4864142627042418170L;
 
@@ -39,7 +34,7 @@ public abstract class Sector implements Serializable {
 
 	@Column(name = "deleted", nullable = false)
 	private boolean deleted = false;
-	
+
 	public Sector() {
 		super();
 	}
@@ -49,6 +44,18 @@ public abstract class Sector implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.hall = hall;
+	}
+
+	public Sector(Long id, String name, Hall hall, boolean deleted) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.hall = hall;
+		this.deleted = deleted;
+	}
+	
+	public Sector(String name) {
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -76,12 +83,16 @@ public abstract class Sector implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+	public String toString() {
+		return "Sector [id=" + id + ", name=" + name + "]";
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	@Override
@@ -98,25 +109,7 @@ public abstract class Sector implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Sector [id=" + id + ", name=" + name + "]";
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
 	}
 
 }

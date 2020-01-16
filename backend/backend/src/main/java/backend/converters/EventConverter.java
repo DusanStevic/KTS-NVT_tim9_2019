@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import backend.dto.EventDTO;
 import backend.dto.EventDayDTO;
 import backend.dto.EventSectorDTO;
+import backend.dto.EventUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
 import backend.model.EventDay;
@@ -29,7 +30,15 @@ public class EventConverter {
 	EventSectorConverter eventSectorConverter;
 	
 	
-	
+	public Event EventUpdateDTO2Event(EventUpdateDTO dto) {
+		Event e = new Event();
+		e.setDescription(dto.getDescription());
+		e.setName(dto.getName());
+		e.setMaxTickets(dto.getMax_tickets());
+		e.setEventType(EventType.values()[dto.getType()]);
+		
+		return e;
+	}
 	public Event EventDTO2Event(EventDTO dto) throws ResourceNotFoundException {
 		Event e = new Event();
 		e.setDescription(dto.getDescription());

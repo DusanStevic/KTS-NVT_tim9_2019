@@ -1,54 +1,41 @@
 package backend.dto;
 
-public class TicketDTO {
-	private int numRow;
-	private int numCol;
-	private boolean hasSeat;
-	private Long eventDay_id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME, 
+		  include = JsonTypeInfo.As.PROPERTY, 
+		  property = "type")
+		@JsonSubTypes({ 
+		  @Type(value = SittingTicketDTO.class, name = "sittingTicketDTO"), 
+		  @Type(value = StandingTicketDTO.class, name = "standingTicketDTO") 
+		})
+public abstract class TicketDTO {
+
+	@NotNull(message = "Sector is mandatory")
+	@Min(value = 1, message = "Invalid sector")
 	private Long eventSector_id;
-	public TicketDTO(int numRow, int numCol, boolean hasSeat, Long eventDay_id, Long eventSector_id) {
+
+	public TicketDTO(Long eventSector_id) {
 		super();
-		this.numRow = numRow;
-		this.numCol = numCol;
-		this.hasSeat = hasSeat;
-		this.eventDay_id = eventDay_id;
 		this.eventSector_id = eventSector_id;
 	}
+
 	public TicketDTO() {
 		super();
 	}
-	public int getNumRow() {
-		return numRow;
-	}
-	public void setNumRow(int numRow) {
-		this.numRow = numRow;
-	}
-	public int getNumCol() {
-		return numCol;
-	}
-	public void setNumCol(int numCol) {
-		this.numCol = numCol;
-	}
-	public boolean isHasSeat() {
-		return hasSeat;
-	}
-	public void setHasSeat(boolean hasSeat) {
-		this.hasSeat = hasSeat;
-	}
-	public Long getEventDay_id() {
-		return eventDay_id;
-	}
-	public void setEventDay_id(Long eventDay_id) {
-		this.eventDay_id = eventDay_id;
-	}
+
 	public Long getEventSector_id() {
 		return eventSector_id;
 	}
+
 	public void setEventSector_id(Long eventSector_id) {
 		this.eventSector_id = eventSector_id;
 	}
-	
-	
-	
-	
+
 }

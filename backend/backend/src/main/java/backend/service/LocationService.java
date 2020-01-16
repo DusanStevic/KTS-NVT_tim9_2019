@@ -105,6 +105,7 @@ public class LocationService {
 				hallService.delete(h.getId());
 			}
 		}
+		
 		save(loc);
 
 	}

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.EventConverter;
 import backend.dto.EventDTO;
+import backend.dto.EventUpdateDTO;
 import backend.dto.UrlDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
@@ -79,8 +80,8 @@ public class EventController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> updateEvent(
 			@PathVariable(value = "id") Long eventId,
-			@Valid @RequestBody EventDTO dto) throws ResourceNotFoundException {
-		Event e = eventConverter.EventDTO2Event(dto);
+			@Valid @RequestBody EventUpdateDTO dto) throws ResourceNotFoundException {
+		Event e = eventConverter.EventUpdateDTO2Event(dto);
 		
 		return new ResponseEntity<>(eventService.update(eventId, e), HttpStatus.OK);
 	}

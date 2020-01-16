@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Address;
 import backend.model.Hall;
 
 @RunWith(SpringRunner.class)
@@ -83,7 +82,7 @@ public class HallServiceIntegrationTest {
 	}
 	
 	@Test
-	public void testFindOneDeleted_shouldFindDeletedAddress() throws ResourceNotFoundException {
+	public void testFindOneDeleted_shouldFindDeletedHall() throws ResourceNotFoundException {
 		Hall found = hallService.findOne(DB_HALL_DELETED);
 		assertNotNull(found);
 		assertTrue(DB_HALL_DELETED == found.getId());
@@ -102,12 +101,12 @@ public class HallServiceIntegrationTest {
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
-	public void testFindOneNotDeleted_shouldNotFindDeletedAddress() throws ResourceNotFoundException {
+	public void testFindOneNotDeleted_shouldNotFindDeletedHall() throws ResourceNotFoundException {
 		hallService.findOneNotDeleted(DB_HALL_DELETED);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
-	public void testFindOneNotDeleted_shouldNotFindNonExistingAddress() throws ResourceNotFoundException {
+	public void testFindOneNotDeleted_shouldNotFindNonExistingHall() throws ResourceNotFoundException {
 		hallService.findOneNotDeleted(HALL_ID_NON_EXISTENT);
 	}
 	
@@ -154,6 +153,7 @@ public class HallServiceIntegrationTest {
 		int dbSizeBeforeUpd = hallService.findAll().size();
 		Hall updated = hallService.update(DB_HALL_TO_BE_UPDATED, UPD_HALL);
 		assertNotNull(updated);
+		assertEquals(UPD_HALL.getName(), updated.getName());
 		
 		Hall found = hallService.findOneNotDeleted(DB_HALL_TO_BE_UPDATED);
 		assertNotNull(found);

@@ -26,6 +26,17 @@ public class SittingSector extends Sector {
 		this.numCols = cols;
 	}
 
+	public SittingSector(Long id, String name, int rows, int cols, Hall h, boolean deleted) {
+		super(id, name, h, deleted);
+		this.numRows = rows;
+		this.numCols = cols;
+	}
+	
+	public SittingSector(String name, int rows, int cols) {
+		super(name);
+		this.numRows = rows;
+		this.numCols = cols;
+	}
 	public int getNumRows() {
 		return numRows;
 	}

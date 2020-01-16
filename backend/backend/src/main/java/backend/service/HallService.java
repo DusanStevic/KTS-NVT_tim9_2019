@@ -65,6 +65,7 @@ public class HallService {
 	public void delete(Long id) throws ResourceNotFoundException {
 		Hall h = findOneNotDeleted(id);
 		h.setDeleted(true);
+		h.setLocation(null);
 		if (h.getSectors() != null) {
 			for (Sector s : h.getSectors()) {
 				sectorService.delete(s.getId());

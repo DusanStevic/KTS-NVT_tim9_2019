@@ -41,7 +41,7 @@ public class ReservationController {
 		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
 
-		return new ResponseEntity<>(reservationService.createReservation(reservationDTO, user), HttpStatus.OK);
+		return new ResponseEntity<>(reservationService.createReservation(reservationDTO, user.getName()), HttpStatus.OK);
 	}
 
 	/* get all reservations, permitted for all */
