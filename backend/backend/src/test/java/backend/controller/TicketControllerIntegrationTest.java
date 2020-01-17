@@ -11,4 +11,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource("classpath:application-test.properties")
 public class TicketControllerIntegrationTest {
 
+	
 }

@@ -53,13 +53,11 @@ public class TicketService {
 		return ticketRepository.findAllByLocation(id);
 	}
 
-	/*public void delete(Long ID) {
-		// Arpad: Izbacio sam logicko brisanje, nema smisla kod ticketa
-		ticketRepository.deleteById(ID);
-
-	}*/
-
 	public List<Ticket> findAllByEvent(Long event_id) {
 		return ticketRepository.findAllByEvent(event_id);
+	}
+	
+	public List<Ticket> findAllByReservation(Long reservation_id) {
+		return ticketRepository.findAllByReservation(reservation_id);
 	}
 }

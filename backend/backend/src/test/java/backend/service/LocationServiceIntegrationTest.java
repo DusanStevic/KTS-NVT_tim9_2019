@@ -1,38 +1,48 @@
 package backend.service;
 
+import static backend.constants.AddressConstants.pageRequest;
+import static backend.constants.LocationConstants.DB_DELETED_LOCATION_ADDRESS_ID;
+import static backend.constants.LocationConstants.DB_DELETED_LOCATION_NAME;
+import static backend.constants.LocationConstants.DB_LOCATION_ADDRESS_ID;
+import static backend.constants.LocationConstants.DB_LOCATION_COUNT;
+import static backend.constants.LocationConstants.DB_LOCATION_ID;
+import static backend.constants.LocationConstants.DB_LOCATION_ID_DELETED;
+import static backend.constants.LocationConstants.DB_LOCATION_ID_TO_BE_DELETED;
+import static backend.constants.LocationConstants.DB_LOCATION_ID_TO_BE_UPDATED;
+import static backend.constants.LocationConstants.DB_LOCATION_NAME;
+import static backend.constants.LocationConstants.FIRST_TIMESTAMP;
+import static backend.constants.LocationConstants.LOCATION_ID_NON_EXISTENT;
+import static backend.constants.LocationConstants.NEW_LOCATION;
+import static backend.constants.LocationConstants.NEW_LOCATION_ADDRESS_ID;
+import static backend.constants.LocationConstants.PAGE_SIZE;
+import static backend.constants.LocationConstants.UPD_LOCATION;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static backend.constants.LocationConstants.*;
-import static backend.constants.AddressConstants.*;
-import static backend.constants.AddressConstants.PAGE_SIZE;
-import static backend.constants.AddressConstants.pageRequest;
-import static backend.constants.LocationConstants.*;
-import static org.junit.Assert.*;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Ignore;
-
+import backend.constants.LocationConstants;
 import backend.converters.LocationConverter;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.exceptions.SavingException;
-import backend.model.Address;
-import backend.model.Hall;
 import backend.model.Location;
-import backend.repository.AddressRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -59,7 +69,7 @@ public class LocationServiceIntegrationTest {
 	public void testFindAllPageable() {
 		Page<Location> found = locationService.findAll(pageRequest);
 
-		assertEquals(PAGE_SIZE, found.getSize());
+		assertEquals(LocationConstants.PAGE_SIZE, found.getSize());
 	}
 
 	@Test
@@ -120,12 +130,12 @@ public class LocationServiceIntegrationTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindDeletedLocation() throws ResourceNotFoundException {
-		Location found = locationService.findOneNotDeleted(DB_LOCATION_ID_DELETED);
+		locationService.findOneNotDeleted(DB_LOCATION_ID_DELETED);
 	}
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_shouldNotFindNonExistingLocation() throws ResourceNotFoundException {
-		Location found = locationService.findOneNotDeleted(LOCATION_ID_NON_EXISTENT);
+		locationService.findOneNotDeleted(LOCATION_ID_NON_EXISTENT);
 	}
 
 	@Test
@@ -151,6 +161,8 @@ public class LocationServiceIntegrationTest {
 
 		NEW_LOCATION.setAddress(addressService.findOneNotDeleted(DB_LOCATION_ADDRESS_ID));
 		Location found = locationService.save(NEW_LOCATION);
+		
+		System.out.println(found.toString());
 	}
 
 	@Test
@@ -209,15 +221,16 @@ public class LocationServiceIntegrationTest {
 		locationService.update(DB_LOCATION_ID_DELETED, null);
 	}
 
-	@Test(expected = SavingException.class)
+	@Test(expected = DataIntegrityViolationException.class)
 	public void testUpdate_SavingException() throws ResourceNotFoundException, SavingException {
 		// pokusaj izmene adrese lokacije na adresu na kojoj se nalazi neka druga
 		// lokacija
 		//ocekiva se da ne moze da sacuva jer postoji duplikat address_id + location.deleted
 		//sto znaci da ne mogu postojati dve lokacije koje nisu obrisane na istoj adresi
 		System.out.println("servis upd sav exc");
-		
+		//3L 3L
 		UPD_LOCATION.setAddress(addressService.findOneNotDeleted(DB_LOCATION_ADDRESS_ID));
 		Location updated = locationService.update(DB_LOCATION_ID_TO_BE_UPDATED, UPD_LOCATION);
+		System.out.println(updated.toString());
 	}
 }
