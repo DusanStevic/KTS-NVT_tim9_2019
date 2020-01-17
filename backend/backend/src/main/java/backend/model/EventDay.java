@@ -40,13 +40,13 @@ public class EventDay {
 	@Column(name = "status", nullable = true)
 	private EventStatus status;
 
-	@OneToMany(mappedBy = "eventDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "eventDay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("eventDay")
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Ticket> tickets = new HashSet<>();
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("eventDays")
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JsonBackReference
 	private Event event;
 
 	@Column(name = "deleted", nullable = false)
@@ -72,6 +72,18 @@ public class EventDay {
 		this.tickets = tickets;
 		this.event = event;
 		this.deleted = deleted;
+	}
+
+	public EventDay(Long eventid, String name, String description, boolean b) {
+		this.id=eventid;
+		this.name = name;
+		this.description = description;
+		this.deleted = b;
+	}
+
+	public EventDay(String name, String description) {
+		this.name = name; 
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -143,6 +155,23 @@ public class EventDay {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventDay other = (EventDay) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }
