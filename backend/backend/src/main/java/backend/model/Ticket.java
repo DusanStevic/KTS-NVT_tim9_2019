@@ -29,16 +29,17 @@ public class Ticket {
 	private Integer numCol;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonBackReference
+	@JsonBackReference(value = "eventday")
 	private EventDay eventDay;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("tickets")
-	@JsonBackReference
+
+	@JsonBackReference(value = "reservation")
 	private Reservation reservation;
 
 	@ManyToOne
 	@JoinColumn(name = "sector_id")
+
 	private EventSector eventSector;
 
 	public Ticket() {

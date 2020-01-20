@@ -25,7 +25,7 @@ public class TicketService {
 
 	public Ticket findOne(Long id) throws ResourceNotFoundException {
 		return ticketRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested address"));
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested ticket"));
 	}
 
 	public List<Ticket> findAll() {
