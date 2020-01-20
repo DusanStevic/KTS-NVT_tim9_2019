@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tickets")
@@ -30,23 +29,24 @@ public class Ticket {
 	private Integer numCol;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonBackReference
+	@JsonBackReference(value = "eventday")
 	private EventDay eventDay;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("tickets")
-	@JsonBackReference
+
+	@JsonBackReference(value = "reservation")
 	private Reservation reservation;
 
 	@ManyToOne
 	@JoinColumn(name = "sector_id")
+
 	private EventSector eventSector;
 
 	public Ticket() {
 		super();
 	}
 
-	public Ticket(Long id, boolean hasSeat, int numRow, int numCol,
+	public Ticket(Long id, boolean hasSeat, Integer numRow, Integer numCol,
 			EventDay eventDay, Reservation reservation, EventSector sector) {
 		super();
 		this.id = id;
@@ -74,19 +74,19 @@ public class Ticket {
 		this.hasSeat = hasSeat;
 	}
 
-	public int getNumRow() {
+	public Integer getNumRow() {
 		return numRow;
 	}
 
-	public void setNumRow(int numRow) {
+	public void setNumRow(Integer numRow) {
 		this.numRow = numRow;
 	}
 
-	public int getNumCol() {
+	public Integer getNumCol() {
 		return numCol;
 	}
 
-	public void setNumCol(int numCol) {
+	public void setNumCol(Integer numCol) {
 		this.numCol = numCol;
 	}
 

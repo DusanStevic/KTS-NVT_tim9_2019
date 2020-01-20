@@ -29,6 +29,8 @@ public class ChartConstants {
 	public static final double TICKETS_SOLD_LOCATION1 = 5.0;
 	public static final double INCOME_LOCATION1_INTERVAL = 1400.0;
 	public static final double TICKETS_SOLD_LOCATION1_INTERVAL = 2.0;
+	public static final double INCOME_LOCATION_AVG = 460.0;
+	public static final double TICKETS_SOLD_LOCATION_AVG = 1.0;
 	
 	//Intervals - Good, good but empty, bad
 	public static final String START_DATE_GOOD = "2020-01-01";
