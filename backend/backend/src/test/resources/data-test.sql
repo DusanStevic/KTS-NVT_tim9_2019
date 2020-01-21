@@ -112,3 +112,9 @@ insert into event_days (id, day_date,name, description,  status, event_id , dele
 insert into event_days (id, day_date, name, description, status, event_id , deleted) values(5,"2020-08-03", "EventDay update", "Status3", 0,3, false);
 insert into event_days (id, day_date,  name, description,status, event_id , deleted) values(6,"2020-09-03", "EventDay to be deleted", "Status4", 0,3, false);
 insert into event_days (id, day_date, name,description,  status, event_id , deleted) values(7,"2020-10-03", "EventDay to be deleted2", "Status5", 0,3, false);
+
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (5, 300, 2, 2, false);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (6, 350, 2, 2, true);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (7, 400, 2, 2, false);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (8, 420, 2, 2, false);
+insert into event_sectors (id, price, event_id, sector_id, deleted) values (9, 270, 2, 2, false);

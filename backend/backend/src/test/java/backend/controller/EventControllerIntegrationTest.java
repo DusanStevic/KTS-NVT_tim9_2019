@@ -1,16 +1,12 @@
 package backend.controller;
 
 import static backend.constants.EventConstants.DB_EVENT_DELETED;
-import static backend.constants.EventConstants.DB_EVENT_ID;
-import static backend.constants.EventConstants.DB_EVENT_NAME;
+import static backend.constants.EventConstants.*;
 import static backend.constants.EventConstants.DB_EVENT_TO_BE_DELETED2;
-import static backend.constants.EventConstants.EVENT_ID_NON_EXISTENT;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+
 
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
@@ -76,14 +73,15 @@ public class EventControllerIntegrationTest {
 	@Test
 	public void testGetEvent() {
 		ResponseEntity<Event> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, Event.class);
-		System.out.println("aaaaaaaaaaaaaaaaa: "+responseEntity.getBody());
+		//System.out.println("aaaaaaaaaaaaaaaaa: "+);
+		
 		Event found = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(found);
 		assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
-	}
-	*/
+	}*/
+	
 	@Test
 	public void testGetAddressNonExistent() {
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity("/api/event/"+EVENT_ID_NON_EXISTENT, String.class);

@@ -25,7 +25,7 @@ public class EventSector {
 	@Column(name = "price", nullable = false)
 	private double price;
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JsonBackReference
 	private Event event;
 
@@ -47,6 +47,11 @@ public class EventSector {
 		this.event = event;
 		this.sector = sector;
 		this.deleted = deleted;
+	}
+
+	public EventSector(Long dbEventsectorToBeUpdated, int i) {
+		this.id = dbEventsectorToBeUpdated;
+		this.price = i;
 	}
 
 	public Long getId() {
@@ -95,4 +100,23 @@ public class EventSector {
 		this.deleted = deleted;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventSector other = (EventSector) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	
+	
 }
