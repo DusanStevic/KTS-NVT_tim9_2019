@@ -1,9 +1,7 @@
 package backend.service;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import backend.dto.ReservationDTO;
-import backend.dto.SeatDTO;
 import backend.dto.SittingTicketDTO;
 import backend.dto.StandingTicketDTO;
 import backend.dto.TicketDTO;
@@ -219,6 +216,14 @@ public class ReservationService {
 		System.out.println(r.toString());
 		remove(ID);
 	}
+	
+	//za svrhe testiranja, samo logicko brisanje
+	public void delete1(Long ID) throws ResourceNotFoundException {
+		Reservation r = findOne(ID);
+		//System.out.println(r.toString());
+		r.setCanceled(true);
+		save(r);
+	}
 
 	public Reservation cancelReservation(Long id) throws BadRequestException, ResourceNotFoundException {
 		Reservation r = findOne(id);
@@ -248,6 +253,30 @@ public class ReservationService {
 
 	public List<Reservation> findByEvent(Long event_id) {
 		return reservationRepository.findByEvent(event_id);
+	}
+	
+	public List<Reservation> findAllNotCanceled() {
+		return reservationRepository.findAllByCanceled(false);
+	}
+
+	public Page<Reservation> findAllNotCanceled(Pageable page) {
+		return reservationRepository.findAllByCanceled(false, page);
+	}
+
+	public Reservation findOneNotCanceled(Long reservationid) throws ResourceNotFoundException {
+		return reservationRepository.findByIdAndCanceled(reservationid, false)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested event day"));
+	}
+
+	public Reservation update(Long reservationid, Reservation upd) throws ResourceNotFoundException {
+		Reservation res = findOneNotCanceled(reservationid);
+		res.setBuyer(upd.getBuyer());
+		res.setCanceled(upd.isCanceled());
+		res.setPurchased(upd.isPurchased());
+		res.setReservationDate(upd.getReservationDate());
+		res.setTickets(upd.getTickets());
+		return save(res);
+		
 	}
 
 }

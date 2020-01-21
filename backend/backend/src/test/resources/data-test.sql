@@ -118,3 +118,9 @@ insert into event_sectors (id, price, event_id, sector_id, deleted) values (6, 3
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (7, 400, 2, 2, false);
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (8, 420, 2, 2, false);
 insert into event_sectors (id, price, event_id, sector_id, deleted) values (9, 270, 2, 2, false);
+
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (5, false, "2019-11-05", 4, false);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (6, false, "2019-11-06", 4, true);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (7, false, "2019-11-07", 4, false);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (8, false, "2019-11-08", 4, false);
+insert into reservations (id, purchased, reservation_date, buyer_id, canceled) values (9, false, "2019-11-09", 4, false);
