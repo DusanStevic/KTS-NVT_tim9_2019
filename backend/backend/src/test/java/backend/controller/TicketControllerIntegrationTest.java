@@ -4,7 +4,6 @@ import static backend.constants.TicketConstants.DB_COUNT;
 import static backend.constants.TicketConstants.TICKET1_COL;
 import static backend.constants.TicketConstants.TICKET1_EVENTDAY_ID;
 import static backend.constants.TicketConstants.TICKET1_EV_SECTOR_ID;
-import static backend.constants.TicketConstants.TICKET1_HAS_SEAT;
 import static backend.constants.TicketConstants.TICKET1_ID;
 import static backend.constants.TicketConstants.TICKET1_RESERVATION_ID;
 import static backend.constants.TicketConstants.TICKET1_ROW;
@@ -27,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import backend.model.Ticket;
+import backend.dto.SimpleTicketDTO;
 import backend.model.UserTokenState;
 import backend.security.auth.JwtAuthenticationRequest;
 
@@ -53,54 +52,48 @@ public class TicketControllerIntegrationTest {
 	@Test
 	public void testGetAllTickets()
 	{
-		ResponseEntity<Ticket[]> responseEntity = restTemplate.getForEntity("/api/ticket/", Ticket[].class);
-		Ticket[] tickets = responseEntity.getBody();
+		ResponseEntity<SimpleTicketDTO[]> responseEntity = restTemplate.getForEntity("/api/ticket/", SimpleTicketDTO[].class);
+		SimpleTicketDTO[] tickets = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(tickets);
 		assertTrue(DB_COUNT == tickets.length);
 		
-		Ticket t1 = tickets[0];
+		SimpleTicketDTO t1 = tickets[0];
 		assertThat(t1).isNotNull();
-		assertThat(t1.getId()).isEqualTo(TICKET1_ID);
+		assertTrue(t1.isHasSeat());
 		assertThat(t1.getNumCol()).isEqualTo(TICKET1_COL);
 		assertThat(t1.getNumRow()).isEqualTo(TICKET1_ROW);
-		assertThat(t1.getReservation().getId()).isEqualTo(TICKET1_RESERVATION_ID);
-		assertThat(t1.getEventDay().getId()).isEqualTo(TICKET1_EVENTDAY_ID);
-		assertThat(t1.getEventSector().getId()).isEqualTo(TICKET1_EV_SECTOR_ID);
+		assertThat(t1.getReservationID()).isEqualTo(TICKET1_RESERVATION_ID);
 	}
 	
 	@Test
 	public void testGetAllTicketsEventDayIDEventSectorID()
 	{
-		ResponseEntity<Ticket[]> responseEntity = restTemplate.getForEntity("/api/ticket/" + TICKET1_EVENTDAY_ID +  "/" + TICKET1_EV_SECTOR_ID, Ticket[].class);
-		Ticket[] found = responseEntity.getBody();
+		ResponseEntity<SimpleTicketDTO[]> responseEntity = restTemplate.getForEntity("/api/ticket/" + TICKET1_EVENTDAY_ID +  "/" + TICKET1_EV_SECTOR_ID, SimpleTicketDTO[].class);
+		SimpleTicketDTO[] found = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(found);
 		assertTrue(2 == found.length);
 	
-		Ticket t1 = found[0];
+		SimpleTicketDTO t1 = found[0];
 		assertNotNull(t1);
-		assertEquals(TICKET1_ID, t1.getId());
-		assertTrue(TICKET1_HAS_SEAT);
+		assertTrue(t1.isHasSeat());
 		assertEquals(TICKET1_COL, t1.getNumCol());
 		assertEquals(TICKET1_ROW, t1.getNumRow());
-		assertEquals(TICKET1_EVENTDAY_ID, t1.getEventDay().getId());
-		assertEquals(TICKET1_EV_SECTOR_ID, t1.getEventSector().getId());
+		assertThat(t1.getReservationID()).isEqualTo(TICKET1_RESERVATION_ID);
 	}
 	
 	@Test
 	public void testGetTicket()
 	{
-		ResponseEntity<Ticket> responseEntity = restTemplate.getForEntity("/api/ticket/" + TICKET1_ID, Ticket.class);
+		ResponseEntity<SimpleTicketDTO> responseEntity = restTemplate.getForEntity("/api/ticket/" + TICKET1_ID, SimpleTicketDTO.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		Ticket t1 = responseEntity.getBody();
+		SimpleTicketDTO t1 = responseEntity.getBody();
 		assertNotNull(t1);
-		assertEquals(TICKET1_ID, t1.getId());
-		assertTrue(TICKET1_HAS_SEAT);
+		assertTrue(t1.isHasSeat());
 		assertEquals(TICKET1_COL, t1.getNumCol());
 		assertEquals(TICKET1_ROW, t1.getNumRow());
-		assertEquals(TICKET1_EVENTDAY_ID, t1.getEventDay().getId());
-		assertEquals(TICKET1_EV_SECTOR_ID, t1.getEventSector().getId());
+		assertThat(t1.getReservationID()).isEqualTo(TICKET1_RESERVATION_ID);
 	}
 	
 	@Test

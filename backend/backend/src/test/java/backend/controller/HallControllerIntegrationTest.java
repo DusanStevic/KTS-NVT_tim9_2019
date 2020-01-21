@@ -1,13 +1,23 @@
 package backend.controller;
 
-import static backend.constants.HallConstants.*;
+import static backend.constants.HallConstants.DB_HALL_DELETED;
+import static backend.constants.HallConstants.DB_HALL_ID;
+import static backend.constants.HallConstants.DB_HALL_NAME;
+import static backend.constants.HallConstants.DB_HALL_TO_BE_DELETED2;
+import static backend.constants.HallConstants.DB_HALL_TO_BE_UPDATED;
+import static backend.constants.HallConstants.HALL_ID_NON_EXISTENT;
+import static backend.constants.HallConstants.NEW_HALL_DTO;
+import static backend.constants.HallConstants.NEW_HALL_LOCATION_ID;
 import static backend.constants.LocationConstants.LOCATION_ID_NON_EXISTENT;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +33,17 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import backend.converters.AddressConverter;
-import backend.dto.AddressDTO;
 import backend.dto.HallDTO;
 import backend.dto.HallUpdateDTO;
 import backend.dto.SectorDTO;
 import backend.dto.SittingSectorDTO;
 import backend.dto.StandingSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Address;
 import backend.model.Hall;
-import backend.model.Location;
-import backend.model.Sector;
 import backend.model.UserTokenState;
 import backend.security.auth.JwtAuthenticationRequest;
-import backend.service.AddressService;
 import backend.service.HallService;
 import backend.service.LocationService;
-import backend.service.SectorService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
@@ -167,7 +170,7 @@ public class HallControllerIntegrationTest {
 	public void testCreate_LocationNotFound() {
 		ArrayList<SectorDTO> sectors = new ArrayList<>();
 		SittingSectorDTO sit = new SittingSectorDTO("sit123", 9, 12);
-		StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
+		//StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
 		sectors.add(sit);
 		sectors.add(sit);
 		NEW_HALL_DTO.setSectors(sectors);

@@ -192,6 +192,7 @@ public class LocationServiceIntegrationTest {
 	}
 
 	@Test
+	@Transactional
 	public void testUpdate() throws ResourceNotFoundException, SavingException {
 		// lokacija 2L koja je na adresi DB_DELETED_LOCATION_ADDRESS_ID = 4L je logicki
 		// obrisana
@@ -213,6 +214,7 @@ public class LocationServiceIntegrationTest {
 	}
 
 	@Test(expected = ResourceNotFoundException.class)
+	@Transactional
 	public void testUpdate_NotFoundException() throws ResourceNotFoundException, SavingException {
 		/*
 		 * nece pronaci lokaciju sa prosledjenim id-em pa nije potrebno slati stvarnu

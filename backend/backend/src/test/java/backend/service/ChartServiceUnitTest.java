@@ -237,7 +237,7 @@ public class ChartServiceUnitTest {
 	public void testSystemInformations() {
 		SystemInformationsDTO info = chartService.systemInformations();
 		assertNotNull(info);
-		assertEquals(INFO_NUM_EVENTS, info.getNumberOfEvents());
+		assertEquals(INFO_NUM_EVENTS_UNIT, info.getNumberOfEvents());
 		assertEquals(INFO_NUM_ADMIN, info.getNumberOfAdmins());
 		assertEquals(INFO_NUM_USERS, info.getNumberOfUsers());
 		assertTrue(INFO_ALLTIME_INCOME == info.getAllTimeIncome());
@@ -257,7 +257,7 @@ public class ChartServiceUnitTest {
 		assertTrue(INCOME_EVENT2 == info.get(1).getIncome());
 		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getEventName()
 				.toLowerCase());
-		assertTrue(INCOME_EVENT_AVERAGE == info.get(info.size()-1).getIncome());
+		assertTrue(INCOME_EVENT_AVERAGE_UNIT == info.get(info.size()-1).getIncome());
 	}
 
 	@Test
@@ -311,7 +311,7 @@ public class ChartServiceUnitTest {
 		assertTrue(TICKETS_SOLD_EVENT2 == info.get(1).getTicketsSold());
 		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getEventName()
 				.toLowerCase());
-		assertTrue(TICKETS_SOLD_AVERAGE == info.get(info.size()-1).getTicketsSold());
+		assertTrue(TICKETS_SOLD_AVERAGE_UNIT == info.get(info.size()-1).getTicketsSold());
 	}
 
 	@Test

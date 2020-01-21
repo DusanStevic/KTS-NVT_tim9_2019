@@ -233,16 +233,11 @@ public class AddressControllerIntegrationTest {
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
 	}
+	/*
 	@Test
 	public void testUpdateInvalidParameters() {
 		
 	}
-	
-	@Test
-	@Ignore
-	public void testGetAllAddressesPageable() {
-		
-	}
-	
+	*/
 	
 }

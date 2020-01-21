@@ -20,7 +20,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -71,7 +70,6 @@ public class Location {
 		super();
 		this.name = name;
 		this.description = description;
-		this.halls = halls;
 		this.address = address;
 		this.deleted = deleted;
 	}
