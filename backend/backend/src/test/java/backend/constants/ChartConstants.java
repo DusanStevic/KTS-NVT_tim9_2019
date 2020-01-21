@@ -3,7 +3,8 @@ package backend.constants;
 public class ChartConstants {
 	
 	//System Informations
-	public static final int INFO_NUM_EVENTS = 2;
+	public static final int INFO_NUM_EVENTS = 7;
+	public static final int INFO_NUM_EVENTS_UNIT = 2;
 	public static final int INFO_NUM_ADMIN = 1;
 	public static final int INFO_NUM_USERS = 2;
 	public static final double INFO_ALLTIME_INCOME = 2300.0;
@@ -19,8 +20,10 @@ public class ChartConstants {
 	public static final double TICKETS_SOLD_EVENT2 = 3.0;
 	
 	public static final String AVERAGE_NAME = "Average";
-	public static final double INCOME_EVENT_AVERAGE = 1150.0;
-	public static final double TICKETS_SOLD_AVERAGE = 2.5;
+	public static final double INCOME_EVENT_AVERAGE = 328.57;
+	public static final double INCOME_EVENT_AVERAGE_UNIT = 1150.0;
+	public static final double TICKETS_SOLD_AVERAGE = 0.71;
+	public static final double TICKETS_SOLD_AVERAGE_UNIT = 2.5;
 	
 	//Incomes and no. of tickets sold by locations
 

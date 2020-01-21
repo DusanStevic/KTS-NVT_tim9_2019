@@ -1,5 +1,7 @@
 package backend.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +98,8 @@ public class ChartService {
 			sum += income[0];
 			info.add(new ChartIncomeEventsDTO(event.getName(), income[0]));
 		}
-		info.add(new ChartIncomeEventsDTO("Average", sum / (double) events.size()));
+		 BigDecimal bd = new BigDecimal(sum / (double) events.size()).setScale(2, RoundingMode.HALF_UP);
+		info.add(new ChartIncomeEventsDTO("Average", bd.doubleValue()));
 		return info;
 	}
 
@@ -118,8 +121,8 @@ public class ChartService {
 			sum += soldTickets;
 			info.add(new ChartEventTicketsSoldDTO(event.getName(), soldTickets));
 		}
-		info.add(new ChartEventTicketsSoldDTO("Average", sum
-				/ (double) events.size()));
+		BigDecimal bd = new BigDecimal(sum/(double) events.size()).setScale(2, RoundingMode.HALF_UP);
+		info.add(new ChartEventTicketsSoldDTO("Average", bd.doubleValue()));
 		return info;
 	}
 

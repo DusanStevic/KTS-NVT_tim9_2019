@@ -16,6 +16,6 @@ import backend.service.AddressServiceUnitTest;
 	AddressServiceIntegrationTest.class,
 	AddressControllerIntegrationTest.class
 })
-public class SuiteAddress {
+public class AddressSuite {
 
 }

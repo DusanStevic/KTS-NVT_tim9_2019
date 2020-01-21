@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +62,13 @@ public class LocationController {
 	public ResponseEntity<List<Location>> getAllLocations() {
 		return new ResponseEntity<>(locationService.findAllNotDeleted(), HttpStatus.OK);
 	}
+	/*
+	@GetMapping(value="/page", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<Location>> getAllLocationsPage() {
+		PageRequest pageRequest = PageRequest.of(0, 5); //druga strana
+		return new ResponseEntity<>(locationService.findAllNotDeleted(pageRequest), HttpStatus.OK);
+	}
+	*/
 
 	/* get a location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

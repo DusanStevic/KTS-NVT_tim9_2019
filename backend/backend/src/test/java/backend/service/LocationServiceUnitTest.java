@@ -2,8 +2,13 @@ package backend.service;
 
 import static backend.constants.AddressConstants.pageRequest;
 import static backend.constants.LocationConstants.FIRST_TIMESTAMP;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +114,7 @@ public class LocationServiceUnitTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNonExistent() throws ResourceNotFoundException {
-		Location found = locationService.findOne(nonExistentId);
+		locationService.findOne(nonExistentId);
 	}
 
 	@Test
@@ -136,7 +140,7 @@ public class LocationServiceUnitTest {
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testFindOneNotDeleted_nonExistentLocation() throws ResourceNotFoundException {
-		Location found = locationService.findOneNotDeleted(nonExistentId);
+		locationService.findOneNotDeleted(nonExistentId);
 	}
 	
 	@Test

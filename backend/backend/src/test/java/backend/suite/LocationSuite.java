@@ -16,6 +16,6 @@ import backend.service.LocationServiceUnitTest;
 	LocationServiceIntegrationTest.class,
 	LocationControllerIntegrationTest.class
 })
-public class SuiteLocation {
+public class LocationSuite {
 
 }
