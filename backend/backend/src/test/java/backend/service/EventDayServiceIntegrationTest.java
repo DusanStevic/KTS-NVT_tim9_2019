@@ -8,7 +8,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -23,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Event;
 import backend.model.EventDay;
 
 @RunWith(SpringRunner.class)

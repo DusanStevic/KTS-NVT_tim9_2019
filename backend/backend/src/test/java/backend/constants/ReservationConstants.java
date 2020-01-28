@@ -2,8 +2,6 @@ package backend.constants;
 
 import java.util.Date;
 
-import backend.model.EventDay;
-import backend.model.EventStatus;
 import backend.model.Reservation;
 
 public class ReservationConstants {
