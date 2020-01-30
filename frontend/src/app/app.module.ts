@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MaterialModule } from './material/material.module';
-import { AuthModule } from './auth/auth.module';
 import { AddAddressComponent } from './address/add-address/add-address.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       positionClass: 'toast-top-right',
       preventDuplicates: true
     }),
-    AuthModule
+    AuthenticationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
