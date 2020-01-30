@@ -56,7 +56,7 @@ public class EventControllerIntegrationTest {
 		accessToken = login.getBody().getAccessToken();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
-/*
+	/*
 	@Test
 	public void testGetAllEvents() {
 		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
@@ -69,7 +69,7 @@ public class EventControllerIntegrationTest {
 		assertEquals(DB_EVENT_ID, e0.getId());
 		assertEquals(DB_EVENT_NAME, e0.getName());
 	}*/
-	/*
+	
 	@Test
 	public void testGetEvent() {
 		ResponseEntity<Event> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, Event.class);
@@ -80,7 +80,7 @@ public class EventControllerIntegrationTest {
 		assertNotNull(found);
 		assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
-	}*/
+	}
 	
 	@Test
 	public void testGetAddressNonExistent() {

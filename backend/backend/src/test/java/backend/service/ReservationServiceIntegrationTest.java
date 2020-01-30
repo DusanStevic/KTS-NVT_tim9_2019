@@ -2,7 +2,6 @@ package backend.service;
 
 import static backend.constants.AddressConstants.PAGE_SIZE;
 import static backend.constants.AddressConstants.pageRequest;
-import static backend.constants.EventSectorConstants.DB_EVENTSECTOR_ID;
 import static backend.constants.ReservationConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -69,9 +68,9 @@ public class ReservationServiceIntegrationTest {
 	
 	@Test
 	public void testFindOne() throws ResourceNotFoundException {
-		Reservation found = reservationService.findOne(DB_EVENTSECTOR_ID);
+		Reservation found = reservationService.findOne(DB_RESERVATION_ID);
 		assertNotNull(found);
-		assertTrue(DB_EVENTSECTOR_ID == found.getId());
+		assertTrue(DB_RESERVATION_ID == found.getId());
 		assertFalse(found.isCanceled());
 	}
 	

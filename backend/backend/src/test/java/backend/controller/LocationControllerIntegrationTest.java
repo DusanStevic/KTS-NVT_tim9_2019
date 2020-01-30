@@ -17,21 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
 import static backend.constants.AddressConstants.DB_ADDRESS_ID;
-import static backend.constants.AddressConstants.DB_ADDRESS_ID_DELETED;
-import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_DELETED;
-import static backend.constants.AddressConstants.DB_ADDRESS_ID_TO_BE_UPDATED;
-import static backend.constants.AddressConstants.NEW_ADDRESS_DTO;
-import static backend.constants.AddressConstants.UPD_ADDRESS;
 import static backend.constants.LocationConstants.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
 
-import backend.dto.AddressDTO;
 import backend.dto.HallDTO;
 import backend.dto.LocationDTO;
 import backend.dto.LocationUpdateDTO;
@@ -39,7 +32,6 @@ import backend.dto.SectorDTO;
 import backend.dto.SittingSectorDTO;
 import backend.dto.StandingSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Address;
 import backend.model.Hall;
 import backend.model.Location;
 import backend.model.UserTokenState;

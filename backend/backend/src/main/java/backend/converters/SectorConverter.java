@@ -3,11 +3,9 @@ package backend.converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import backend.dto.SectorDTO;
 import backend.dto.SittingSectorDTO;
 import backend.dto.StandingSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Sector;
 import backend.model.SittingSector;
 import backend.model.StandingSector;
 import backend.service.HallService;

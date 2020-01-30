@@ -9,10 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import backend.dto.SectorDTO;
-import backend.dto.SittingSectorDTO;
-import backend.dto.StandingSectorDTO;
-import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Sector;
 import backend.model.SittingSector;
@@ -24,8 +20,6 @@ public class SectorService {
 	@Autowired
 	private SectorRepository sectorRepository;
 
-	@Autowired
-	private HallService hallService;
 
 	public Sector save(Sector b) {
 		return sectorRepository.save(b);
