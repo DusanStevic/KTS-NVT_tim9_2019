@@ -9,6 +9,8 @@ import { MaterialModule } from './material/material.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule,
+    SharedModule
 
   ],
   providers: [],
