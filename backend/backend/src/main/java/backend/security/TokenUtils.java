@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,8 +49,13 @@ public class TokenUtils {
 
 	// Functions for generating new JWT token
 
-	public String generateToken(String username, Device device) {
+	public String generateToken(String username, String role, Device device) {
+		Map<String, Object> claims = new HashMap<>();	
+        claims.put("sub", username);	
+        claims.put("role", role);	
+        claims.put("created", timeProvider.now());
 		return Jwts.builder()
+				.setClaims(claims)
 				.setIssuer(APP_NAME)
 				.setSubject(username)
 				.setAudience(generateAudience(device))

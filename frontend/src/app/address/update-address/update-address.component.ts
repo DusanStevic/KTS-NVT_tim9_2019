@@ -22,30 +22,32 @@ export class UpdateAddressComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.address = {
-      streetName: 'ulica',
-      streetNumber: 123,
-      city: 'grad',
-      country: 'drzava',
-      latitude: 22.2,
-      longitude: 33.3
+      streetName: '',
+      streetNumber: NaN,
+      city: '',
+      country: '',
+      latitude: NaN,
+      longitude: NaN
     };
+
     this.createForm();
   }
 
   ngOnInit() {
     console.log(localStorage.getItem('selectedAddress'));
-    /*this.addressService.get(localStorage.getItem('selectedAddress')).subscribe(
-      result => {
-        this.toastr.success(result);
-        console.log(result);
-        this.address = result.body as Address;
-      }
-    );*/
-
+    this.initAddress();
   }
 
   createForm() {
     console.log(localStorage.getItem('selectedAddress'));
+    /*this.addressUpdForm = this.fb.group({
+      streetName: ['', Validators.required],
+      streetNumber: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required]
+    });*/
     this.addressUpdForm = this.fb.group({
       streetName: [this.address.streetName, Validators.required],
       streetNumber: [this.address.streetNumber, Validators.required],
@@ -56,6 +58,16 @@ export class UpdateAddressComponent implements OnInit {
     });
   }
 
+  initAddress() {
+    this.addressService.get(localStorage.getItem('selectedAddress')).subscribe(
+      result => {
+        console.log(result);
+        this.address = result;
+        console.log(this.address);
+        this.createForm();
+      }
+    );
+  }
   onAddressSubmit(e) {
     e.preventDefault();
     console.log('update address');
@@ -71,9 +83,10 @@ export class UpdateAddressComponent implements OnInit {
   }
 
   onReset(e) {
-    // e.preventDefault();
     console.log('upd on reset');
     // this.router.navigate(['address/update']);
+    console.log(this.addressUpdForm.value);
     this.createForm();
+    console.log(this.addressUpdForm.value);
   }
 }

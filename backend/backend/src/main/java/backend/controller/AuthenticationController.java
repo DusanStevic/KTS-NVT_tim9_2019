@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,7 +68,8 @@ public class AuthenticationController {
     private UserService userService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+	@CrossOrigin()
+	public ResponseEntity<String> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
 		System.out.println("ULETEO SAM U LOGOVANJE");
 		if (device == null) {
@@ -92,25 +94,25 @@ public class AuthenticationController {
 
 		// Kreiraj token
 		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername(), device);
+		
 		int expiresIn = tokenUtils.getExpiredIn(device);
-		Role userType = null;
+		Role role = null;
 		//zajedno sa tokenom salje se i uloga na front pa u zavisnosti od tipa korisnika
 		//na frontu ce ce otvarati posebno strana za usera, admina i sys-admina
 	
 		if (user instanceof Administrator) {
-			userType = Role.ROLE_ADMIN;
+			role = Role.ROLE_ADMIN;
 		}
 		else if (user instanceof SysAdmin) {
-			userType = Role.ROLE_SYS_ADMIN;
+			role = Role.ROLE_SYS_ADMIN;
 		}
 		else {
-			userType = Role.ROLE_REGISTERED_USER;
+			role = Role.ROLE_REGISTERED_USER;
 		}
 
-
+		String jwt = tokenUtils.generateToken(user.getUsername(), role.toString(), device);
 		// Vrati token kao odgovor na uspesno autentifikaciju
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, userType));
+		return new ResponseEntity<String>(jwt, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/refresh")

@@ -8,5 +8,26 @@ import { Observable } from 'rxjs';
 })
 export class AuthenticationService {
 
-  constructor() { }
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  login(auth: any): Observable<any> {
+    return this.http.post('http://localhost:8080/auth/login',
+    {username: auth.username, password: auth.password}, {headers: this.headers, responseType: 'text'});
+  }
+
+  logout(): Observable<any> {
+    return this.http.get('http://localhost:8080/auth/logout', {headers: this.headers, responseType: 'text'});
+  }
+
+  isLoggedIn(): boolean {
+    if (localStorage.getItem('user')) {
+        return true;
+    }
+    return false;
+  }
+
 }

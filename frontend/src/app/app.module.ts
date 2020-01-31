@@ -7,11 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MaterialModule } from './material/material.module';
 import { AddAddressComponent } from './address/add-address/add-address.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UpdateAddressComponent } from './address/update-address/update-address.component';
 import { AddressFormComponent } from './address/address-form/address-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -35,7 +35,11 @@ import { AddressFormComponent } from './address/address-form/address-form.compon
       positionClass: 'toast-top-right',
       preventDuplicates: true
     }),
-    AuthenticationModule
+    AuthenticationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

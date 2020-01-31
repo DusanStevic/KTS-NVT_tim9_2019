@@ -35,7 +35,7 @@ import backend.service.AddressService;
 
 @RestController
 @RequestMapping("/api/address")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin()
 public class AddressController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

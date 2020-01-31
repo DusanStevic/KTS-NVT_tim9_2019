@@ -1,10 +1,62 @@
 import { NgModule } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import {
+  MatIconModule,
+  MatSnackBarModule,
+  MatButtonModule,
+  MatCardModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatTooltipModule,
+  MatToolbarModule,
+  MatSliderModule,
+  MatGridListModule,
+  MatExpansionModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSelectModule,
+  MatListModule,
+  MatCheckboxModule,
+  MatTabsModule,
+  MatDialogModule,
+  MatTableModule,
+  MatSlideToggleModule,
+  MatPaginatorModule,
+  MatAutocompleteModule,
+  MatSortModule,
+  MatRadioModule
+} from '@angular/material';
+import { CommonModule } from '@angular/common';
+
 const MaterialComponents = [
   MatButtonModule,
+  MatCheckboxModule,
+  MatInputModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatMenuModule,
+  MatTableModule,
+  MatSlideToggleModule,
+  MatCardModule,
+  MatTooltipModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatAutocompleteModule,
+  MatDialogModule,
+  MatListModule,
+  MatTabsModule,
+  MatSnackBarModule,
+  MatSidenavModule,
   MatFormFieldModule,
-  MatInputModule
+  MatSliderModule,
+  MatGridListModule,
+  MatExpansionModule,
+  MatSortModule,
+  MatRadioModule,
+
 ];
 
 
