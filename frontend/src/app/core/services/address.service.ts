@@ -21,7 +21,7 @@ export class AddressService {
     return this.http.get('api/address/'.concat(addressId), {headers: this.headers, responseType: 'json'});
   }
 
-  update(updAddress: Address): Observable<any> {
-    return this.http.put('api/address/', updAddress, {headers: this.headers, responseType: 'json'});
+  update(updAddress: Address, addressId: string): Observable<any> {
+    return this.http.put('api/address/'.concat(addressId), updAddress, {headers: this.headers, responseType: 'json'});
   }
 }

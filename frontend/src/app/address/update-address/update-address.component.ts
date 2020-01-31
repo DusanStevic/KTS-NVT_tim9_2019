@@ -61,7 +61,7 @@ export class UpdateAddressComponent implements OnInit {
     console.log('update address');
     this.address = this.addressUpdForm.value;
     console.log(this.address);
-    this.addressService.update(this.address as Address).subscribe(
+    this.addressService.update(this.address as Address, localStorage.getItem('selectedAddress')).subscribe(
       result => {
         this.toastr.success(result);
         console.log(result);
