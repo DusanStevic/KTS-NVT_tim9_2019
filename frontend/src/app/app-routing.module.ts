@@ -5,6 +5,7 @@ import { UpdateAddressComponent } from './address/update-address/update-address.
 import { AppComponent } from './app.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
+import { AddressListComponent } from './address/address-list/address-list.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
     path: 'address/update',
     component: UpdateAddressComponent,
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'address/all',
+    component: AddressListComponent
   }
 ];
 @NgModule({

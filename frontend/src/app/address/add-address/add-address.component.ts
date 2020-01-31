@@ -29,7 +29,8 @@ export class AddAddressComponent implements OnInit {
       city: '',
       country: '',
       latitude: NaN,
-      longitude: NaN
+      longitude: NaN,
+      id: ''
     };
   }
 
@@ -51,12 +52,12 @@ export class AddAddressComponent implements OnInit {
     console.log(this.address);
     this.addressService.add(this.address as Address).subscribe(
       result => {
-        this.toastr.success(result);
+        this.toastr.success('Successfully added address');
         console.log(result);
-        // this.router.navigate(['address/add']);
+        this.router.navigate(['address/all']);
       }
     );
-    this.addressForm.reset();
+    // this.addressForm.reset();
   }
 
   onReset() {

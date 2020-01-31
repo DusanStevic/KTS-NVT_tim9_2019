@@ -5,4 +5,5 @@ export class Address {
     country: string;
     latitude: number;
     longitude: number;
+    id: string;
 }

@@ -23,9 +23,16 @@ export class AddressService {
     return this.http.get('http://localhost:8080/api/address/'.concat(addressId), {headers: this.headers, responseType: 'json'});
   }
 
+  getAll(): Observable<any> {
+    return this.http.get('http://localhost:8080/api/address', {headers: this.headers, responseType: 'json'});
+  }
   update(updAddress: Address, addressId: string): Observable<any> {
     // const item = localStorage.getItem('user');
     // const decodedItem = JSON.parse(item);
     return this.http.put('http://localhost:8080/api/address/'.concat(addressId), updAddress, {headers: this.headers, responseType: 'json'});
+  }
+
+  delete(addressId: string): Observable<any> {
+    return this.http.delete('http://localhost:8080/api/address/'.concat(addressId), {headers: this.headers, responseType: 'text'});
   }
 }
