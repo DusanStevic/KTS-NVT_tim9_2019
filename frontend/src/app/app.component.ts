@@ -35,4 +35,8 @@ export class AppComponent {
     this.router.navigate(['address/add']);
   }
 
+  showUpdateAddressForm() {
+    localStorage.setItem('selectedAddress', '1');
+    this.router.navigate(['address/update']);
+  }
 }

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
-
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 const MaterialComponents = [
-  MatButtonModule
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule
 ];
 
 

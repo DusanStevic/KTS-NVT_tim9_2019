@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Address } from '../../models/address.model';
+import { Address } from '../../shared/models/address.model';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AddressService } from '../../services/address.service';
+import { AddressService } from '../../core/services/address.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,10 +23,17 @@ export class AddAddressComponent implements OnInit {
   ) { this.createForm(); }
 
   ngOnInit() {
+    this.address = {
+      streetName: '',
+      streetNumber: NaN,
+      city: '',
+      country: '',
+      latitude: NaN,
+      longitude: NaN
+    };
   }
 
   createForm() {
-    console.log('blavla');
     this.addressForm = this.fb.group({
       streetName: ['', Validators.required],
       streetNumber: ['', Validators.required],
@@ -37,7 +44,8 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  onAddAddressSubmit() {
+  onAddressSubmit(e) {
+    e.preventDefault();
     console.log('add address');
     this.address = this.addressForm.value;
     console.log(this.address);
@@ -49,5 +57,9 @@ export class AddAddressComponent implements OnInit {
       }
     );
     this.addressForm.reset();
-    }
+  }
+
+  onReset() {
+    this.addressForm.reset();
+  }
 }

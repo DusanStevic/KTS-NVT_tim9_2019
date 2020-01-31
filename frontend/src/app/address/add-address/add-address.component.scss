@@ -1,39 +1,39 @@
-$bg-color: lightblue;
-$border-color: blue;
+// $bg-color: lightblue;
+// $border-color: blue;
 
-$pixel-value: 10px;
-$padding: $pixel-value*2;
+// $pixel-value: 10px;
+// $padding: $pixel-value*2;
 
-.form-group {
-    padding: $padding;
-}
-.formcontent{
-    background-color: $bg-color;
-}
-div {
+// .form-group {
+//     padding: $padding;
+// }
+// .formcontent{
+//     background-color: $bg-color;
+// }
+// div {
     
-    div {
-        padding: $pixel-value;
+//     div {
+//         padding: $pixel-value;
     
-        input[type=text], input[type=number] {
-            border: {
-                style: solid;
-                width: 2px;
-                color: $border-color;
-            }
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
+//         input[type=text], input[type=number] {
+//             border: {
+//                 style: solid;
+//                 width: 2px;
+//                 color: $border-color;
+//             }
+//             width: 100%;
+//             padding: 12px 20px;
+//             margin: 8px 0;
+//             box-sizing: border-box;
 
-            &:focus{
-                background-color: lightblue;
-                border: 3px solid #555;
-            }
-        }
-    }
-}
+//             &:focus{
+//                 background-color: lightblue;
+//                 border: 3px solid #555;
+//             }
+//         }
+//     }
+// }
 
-.col-center{
-    width: 50%;
-}
+// .col-center{
+//     width: 50%;
+// }
