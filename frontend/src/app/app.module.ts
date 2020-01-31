@@ -12,6 +12,8 @@ import { UpdateAddressComponent } from './address/update-address/update-address.
 import { AddressFormComponent } from './address/address-form/address-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddressTableComponent } from './address/address-table/address-table.component';
+import { AddressListComponent } from './address/address-list/address-list.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     AddAddressComponent,
     UpdateAddressComponent,
-    AddressFormComponent
+    AddressFormComponent,
+    AddressTableComponent,
+    AddressListComponent
   ],
   imports: [
     BrowserModule,

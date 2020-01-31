@@ -27,7 +27,8 @@ export class UpdateAddressComponent implements OnInit {
       city: '',
       country: '',
       latitude: NaN,
-      longitude: NaN
+      longitude: NaN,
+      id: ''
     };
 
     this.createForm();
@@ -64,6 +65,7 @@ export class UpdateAddressComponent implements OnInit {
         console.log(result);
         this.address = result;
         console.log(this.address);
+        console.log(this.address.id);
         this.createForm();
       }
     );
@@ -72,17 +74,19 @@ export class UpdateAddressComponent implements OnInit {
     e.preventDefault();
     console.log('update address');
     this.address = this.addressUpdForm.value;
+    // this.address.id = 1;
+    console.log(this.address.id);
     console.log(this.address);
     this.addressService.update(this.address as Address, localStorage.getItem('selectedAddress')).subscribe(
       result => {
-        this.toastr.success(result);
+        this.toastr.success('Successfully updated address');
         console.log(result);
-        // this.router.navigate(['address/add']);
+        this.router.navigate(['address/all']);
       }
     );
   }
 
-  onReset(e) {
+  onReset(e: Event) {
     console.log('upd on reset');
     // this.router.navigate(['address/update']);
     console.log(this.addressUpdForm.value);
