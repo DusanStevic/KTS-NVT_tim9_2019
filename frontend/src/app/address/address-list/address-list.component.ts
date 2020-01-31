@@ -19,6 +19,7 @@ export class AddressListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('ng on init address list ');
     this.addressService.getAll().subscribe(
       result => {
         console.log(result);

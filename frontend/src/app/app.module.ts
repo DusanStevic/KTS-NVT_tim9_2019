@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AddressTableComponent } from './address/address-table/address-table.component';
 import { AddressListComponent } from './address/address-list/address-list.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { AddressListComponent } from './address/address-list/address-list.compon
     AuthenticationModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule,
+    SharedModule
 
   ],
   providers: [],
