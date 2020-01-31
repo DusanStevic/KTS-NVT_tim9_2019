@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +12,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+    this.form = this.fb.group({
+      username : [null, Validators.required],
+      password: [null, Validators.required]
+    });
+  }
 
   ngOnInit() {
   }
+
+  submit() {
+    const auth: any = {};
+    const jwt: JwtHelperService = new JwtHelperService();
+    auth.username = this.form.value.username;
+    auth.password = this.form.value.password;
+
+    this.authenticationService.login(auth).subscribe(
+      result => {
+        this.toastr.success('Successful login!');
+        localStorage.setItem('user', result);
+        this.router.navigate(['register']);
+      },
+      error => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
 
 }
