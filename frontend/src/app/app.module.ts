@@ -6,20 +6,29 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MaterialModule } from './material/material.module';
+import { AddAddressComponent } from './address/add-address/add-address.component';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { UpdateAddressComponent } from './address/update-address/update-address.component';
+import { AddressFormComponent } from './address/address-form/address-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AddAddressComponent,
+    UpdateAddressComponent,
+    AddressFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

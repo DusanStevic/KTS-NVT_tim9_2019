@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,9 @@ export class AppComponent {
 
   title = 'frontend';
 
-  constructor(private toastr: ToastrService) {}
+  constructor(
+    private toastr: ToastrService,
+    private router: Router) {}
 
   showSuccess() {
     this.toastr.success('Hello world!', 'Success');
@@ -26,5 +29,14 @@ export class AppComponent {
 
   showInfo() {
     this.toastr.info('Hello world!', 'Info');
+  }
+
+  showAddAddressForm() {
+    this.router.navigate(['address/add']);
+  }
+
+  showUpdateAddressForm() {
+    localStorage.setItem('selectedAddress', '1');
+    this.router.navigate(['address/update']);
   }
 }
