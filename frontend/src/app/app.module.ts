@@ -12,6 +12,8 @@ import { UpdateAddressComponent } from './address/update-address/update-address.
 import { AddressFormComponent } from './address/address-form/address-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule,
+    SharedModule
 
   ],
   providers: [],
