@@ -2,16 +2,25 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // service
 import { AuthenticationService } from './services/authentication.service';
+import { AddressService } from './services/address.service';
+// component
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MaterialModule } from '../material/material.module';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [NavbarComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule,
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    AddressService
+  ],
+  exports: [
+    NavbarComponent
   ]
 
 })
