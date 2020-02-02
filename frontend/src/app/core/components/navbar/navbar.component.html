@@ -22,7 +22,7 @@
   
     <!-- REGISTERED USER NAVBAR -->
     <div *ngIf="isAuthenticated && role==='ROLE_REGISTERED_USER'">
-      <button mat-button routerLink="/my-reservations">My Reservations</button>
+      <button mat-button routerLink="/my-reservations">ROLE_REGISTERED_USER</button>
       <button mat-button routerLink="/profile">Profile</button>
       <button mat-button (click)="logout()" id="logout-btn">
         <mat-icon>account_circle</mat-icon>
@@ -32,7 +32,7 @@
   
     <!-- SYS ADMIN NAVBAR -->
     <div *ngIf="isAuthenticated && role==='ROLE_SYS_ADMIN'">
-      <button mat-button routerLink="/events/new">Add Event</button>
+      <button mat-button routerLink="/events/new">ROLE_SYS_ADMIN</button>
       <button mat-button routerLink="/venues/list">Venues</button>
       <button mat-button (click)="logout()" id="logout-btn">
         <mat-icon>account_circle</mat-icon>
@@ -42,7 +42,7 @@
 
     <!-- ADMIN NAVBAR -->
     <div *ngIf="isAuthenticated && role==='ROLE_ADMIN'">
-        <button mat-button routerLink="/events/new">Add Event</button>
+        <button mat-button routerLink="/events/new">ROLE_ADMIN</button>
         <button mat-button routerLink="/venues/list">Venues</button>
         <button mat-button (click)="logout()" id="logout-btn">
             <mat-icon>account_circle</mat-icon>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable({
@@ -32,6 +33,18 @@ export class AuthenticationService {
 
   getToken(): string {
     return localStorage.getItem('user');
+  }
+
+  getRole(): string {
+    const token = this.getToken();
+    console.log(token);
+    const jwt: JwtHelperService = new JwtHelperService();
+
+    if (!token) {
+      return 'NO_ROLE';
+    }
+    console.log(jwt.decodeToken(token).role);
+    return jwt.decodeToken(token).role;
   }
 
 }

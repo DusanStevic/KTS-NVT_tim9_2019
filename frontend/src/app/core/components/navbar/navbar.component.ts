@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +8,16 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  public role: string;
+  public isAuthenticated: boolean;
 
-  constructor(private router: Router, private t: ToastrService) {
-  }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService) {}
 
   ngOnInit() {
+    this.isAuthenticated = this.authenticationService.isLoggedIn();
+    this.role = this.authenticationService.getRole();
   }
 
   login(): void {
@@ -21,6 +26,11 @@ export class NavbarComponent implements OnInit {
 
   register(): void {
     this.router.navigate(['/register']);
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
   }
 
 
