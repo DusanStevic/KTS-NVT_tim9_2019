@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(auth).subscribe(
       result => {
         this.toastr.success('Successful login!');
-        localStorage.setItem('user', result);
+        localStorage.setItem('user', JSON.stringify(result));
         this.router.navigate(['register']);
       },
       error => {
