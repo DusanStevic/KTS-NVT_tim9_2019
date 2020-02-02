@@ -11,11 +11,12 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { UpdateAddressComponent } from './address/update-address/update-address.component';
 import { AddressFormComponent } from './address/address-form/address-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddressTableComponent } from './address/address-table/address-table.component';
 import { AddressListComponent } from './address/address-list/address-list.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
 
 
 @NgModule({
@@ -49,7 +50,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule
 
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

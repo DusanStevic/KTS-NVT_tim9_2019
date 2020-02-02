@@ -30,4 +30,8 @@ export class AuthenticationService {
     return false;
   }
 
+  getToken(): string {
+    return localStorage.getItem('user');
+  }
+
 }
