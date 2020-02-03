@@ -17,6 +17,14 @@ import { AddressListComponent } from './address/address-list/address-list.compon
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { GoogleChartsComponent } from './charts/google-charts/google-charts.component';
+import { IncomeByEventsComponent } from './charts/income-by-events/income-by-events.component';
+import { IncomeByLocationsComponent } from './charts/income-by-locations/income-by-locations.component';
+import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/tickets-sold-by-events.component';
+import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
+import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
+import { EventListComponent } from './events/event-list/event-list.component';
 
 
 @NgModule({
@@ -26,7 +34,14 @@ import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor'
     UpdateAddressComponent,
     AddressFormComponent,
     AddressTableComponent,
-    AddressListComponent
+    AddressListComponent,
+    GoogleChartsComponent,
+    IncomeByEventsComponent,
+    IncomeByLocationsComponent,
+    TicketsSoldByEventsComponent,
+    TicketsSoldByLocationsComponent,
+    SystemInformationsComponent,
+    EventListComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +62,8 @@ import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor'
     ReactiveFormsModule,
     HttpClientModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    GoogleChartsModule.forRoot()
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],

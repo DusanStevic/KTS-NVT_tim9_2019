@@ -1,0 +1,10 @@
+
+<div layout="row" layout-fill layout-align="center center">
+        <button mat-button color="warn" (click)="renderCharts()">Render charts</button>
+
+        <app-system-informations [sysInfo]='chart1'></app-system-informations>
+        <app-income-by-events></app-income-by-events>
+        <app-tickets-sold-by-events></app-tickets-sold-by-events>
+        <app-income-by-locations></app-income-by-locations>
+        <app-tickets-sold-by-locations></app-tickets-sold-by-locations>
+</div>

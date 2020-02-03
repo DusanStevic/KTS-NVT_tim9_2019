@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-root',
@@ -10,25 +11,24 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class AppComponent {
 
   title = 'frontend';
+  
+	public role: string;
 
   constructor(
     private toastr: ToastrService,
     private router: Router) {}
 
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Success');
-  }
+  checkRole() {
+    const item = localStorage.getItem('user');
 
-  showError() {
-    this.toastr.error('Hello world!', 'Error');
-  }
+    if (!item) {
+      this.role = undefined;
+      return;
+    }
 
-  showWarning() {
-    this.toastr.warning('Hello world!', 'Warning');
-  }
-
-  showInfo() {
-    this.toastr.info('Hello world!', 'Info');
+    const jwt: JwtHelperService = new JwtHelperService();
+    this.role = jwt.decodeToken(item).role;
+    console.log(this.role);
   }
 
   showAddAddressForm() {
