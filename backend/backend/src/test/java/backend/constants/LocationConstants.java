@@ -29,5 +29,5 @@ public class LocationConstants {
 	public static final Long UPD_LOCATION_ADDRESS_ID = 5L;
 	
 	public static Location UPD_LOCATION = new Location("UPDATED", "Azurirana lokacija je u gradu", null, FIRST_TIMESTAMP);
-	public static LocationDTO DTO_NEW_LOCATION = new LocationDTO("NOVA", "Nova lokacija je u gradu", NEW_LOCATION_ADDRESS_ID, null);
+	public static LocationDTO DTO_NEW_LOCATION = new LocationDTO("NOVA", "Nova lokacija je u gradu", NEW_LOCATION_ADDRESS_ID);
 }

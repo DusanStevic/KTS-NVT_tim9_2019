@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AddressService {
-  private headers = new HttpHeaders({'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1ZCI6IndlYiIsInJvbGUiOiJST0xFX0FETUlOIiwiY3JlYXRlZCI6MTU4MDQ3NDAwNzI0NiwiaXNzIjoic3ByaW5nLXNlY3VyaXR5LWRlbW8iLCJleHAiOjE1ODA1MTAwMDcsImlhdCI6MTU4MDQ3NDAwN30.OTam0h0I8hKTF-zqc6HkJ5YtmBK5EftisLognJHpHphZImeRuP1cKyiqk9R-1YrWDvNp-KNRDDhSxD6ZZ2IOsg'
-});
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(
     private http: HttpClient

@@ -8,6 +8,9 @@ import { AddressListComponent } from './address/address-list/address-list.compon
 import { GoogleChartsComponent } from './charts/google-charts/google-charts.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 import { RoleGuard } from 'src/app/core/guards/role.guard';
+import { AddLocationComponent } from './location/add-location/add-location.component';
+import { LocationListComponent } from './location/location-list/location-list.component';
+import { UpdateLocationComponent } from './location/update-location/update-location.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -36,6 +39,22 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   },
+  {
+    path: 'location/add',
+    component: AddLocationComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'location/update',
+    component: UpdateLocationComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'location/all',
+    component: LocationListComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

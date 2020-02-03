@@ -145,8 +145,8 @@ public class LocationControllerIntegrationTest {
 		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
 		HallDTO hall = new HallDTO("ime hall dto", sectors);
 		halls.add(hall);
-		DTO_NEW_LOCATION.setHalls(halls);
-		DTO_NEW_LOCATION.setAddress_id(2L);
+		//DTO_NEW_LOCATION.setHalls(halls);
+		DTO_NEW_LOCATION.setAddressId(2L);
 		
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		
@@ -156,7 +156,7 @@ public class LocationControllerIntegrationTest {
 		assertNotNull(created);
 		assertEquals(DTO_NEW_LOCATION.getName(), created.getName());
 		assertEquals(DTO_NEW_LOCATION.getDescription(), created.getDescription());
-		assertEquals(DTO_NEW_LOCATION.getAddress_id(), created.getAddress().getId());
+		assertEquals(DTO_NEW_LOCATION.getAddressId(), created.getAddress().getId());
 		assertEquals(FIRST_TIMESTAMP, created.getDeleted());
 		assertFalse(created.getHalls().isEmpty());
 		assertEquals(1, created.getHalls().size());
@@ -169,7 +169,7 @@ public class LocationControllerIntegrationTest {
 		assertNotNull(found);
 		assertEquals(DTO_NEW_LOCATION.getName(), found.getName());
 		assertEquals(DTO_NEW_LOCATION.getDescription(), found.getDescription());
-		assertEquals(DTO_NEW_LOCATION.getAddress_id(), found.getAddress().getId());
+		assertEquals(DTO_NEW_LOCATION.getAddressId(), found.getAddress().getId());
 		assertEquals(FIRST_TIMESTAMP, found.getDeleted());
 		assertEquals(size+1, locationService.findAllNotDeleted().size());
 		assertFalse(found.getHalls().isEmpty());
@@ -188,8 +188,8 @@ public class LocationControllerIntegrationTest {
 		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
 		HallDTO hall = new HallDTO("ime hall dto", sectors);
 		halls.add(hall);
-		DTO_NEW_LOCATION.setHalls(halls);
-		DTO_NEW_LOCATION.setAddress_id(ADDRESS_ID_NON_EXISTENT);
+		//DTO_NEW_LOCATION.setHalls(halls);
+		DTO_NEW_LOCATION.setAddressId(ADDRESS_ID_NON_EXISTENT);
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -198,7 +198,7 @@ public class LocationControllerIntegrationTest {
 	
 	@Test
 	public void testCreate_SavingException() {
-		DTO_NEW_LOCATION.setAddress_id(DB_ADDRESS_ID);
+		DTO_NEW_LOCATION.setAddressId(DB_ADDRESS_ID);
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
 		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -215,14 +215,14 @@ public class LocationControllerIntegrationTest {
 		Location updated = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(updated);
-		assertEquals(dto.getAddress_id(), updated.getAddress().getId());
+		assertEquals(dto.getAddressId(), updated.getAddress().getId());
 		assertEquals(dto.getName(), updated.getName());
 		assertEquals(dto.getDescription(), updated.getDescription());
 		assertTrue(DB_LOCATION_ID_TO_BE_UPDATED == updated.getId());
 		
 		Location found = locationService.findOne(DB_LOCATION_ID_TO_BE_UPDATED);
 		assertNotNull(found);
-		assertEquals(dto.getAddress_id(), found.getAddress().getId());
+		assertEquals(dto.getAddressId(), found.getAddress().getId());
 		assertEquals(dto.getName(), found.getName());
 		assertEquals(dto.getDescription(), found.getDescription());
 		assertEquals(size, locationService.findAll().size()); //nije se dodavao novi vec je izmenjen postojeci

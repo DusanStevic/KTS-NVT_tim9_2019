@@ -25,12 +25,12 @@ public class LocationConverter {
 		loc.setDescription(dto.getDescription());
 		loc.setName(dto.getName());
 		
-		loc.setAddress(addressService.findOneNotDeleted(dto.getAddress_id()));
-		for(HallDTO hall_dto : dto.getHalls()) {
+		loc.setAddress(addressService.findOneNotDeleted(dto.getAddressId()));
+		/*for(HallDTO hall_dto : dto.getHalls()) {
 			Hall hall = hallConverter.HallDTO2Hall(hall_dto);
 			hall.setLocation(loc);
 			loc.getHalls().add(hall);
-		}
+		}*/
 		return loc;
 	}
 	
@@ -38,7 +38,7 @@ public class LocationConverter {
 		Location loc = new Location();
 		loc.setName(dto.getName());
 		loc.setDescription(dto.getDescription());
-		loc.setAddress(addressService.findOneNotDeleted(dto.getAddress_id()));
+		loc.setAddress(addressService.findOneNotDeleted(dto.getAddressId()));
 		return loc;
 	}
 }
