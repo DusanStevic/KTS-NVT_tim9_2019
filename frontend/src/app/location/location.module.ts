@@ -7,7 +7,8 @@ import { UpdateLocationComponent } from './update-location/update-location.compo
 import { AddLocationComponent } from './add-location/add-location.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AgmCoreModule } from '@agm/core';
+import { MapComponent } from './map/map.component';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 
 
 
@@ -17,21 +18,23 @@ import { AgmCoreModule } from '@agm/core';
     UpdateLocationComponent,
     LocationTableComponent,
     LocationFormComponent,
-    LocationListComponent
+    LocationListComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    AgmCoreModule
+    AngularYandexMapsModule
   ],
   exports: [
     UpdateLocationComponent,
     LocationFormComponent,
     LocationTableComponent,
     LocationListComponent,
-    AddLocationComponent
+    AddLocationComponent,
+    MapComponent
   ]
 })
 export class LocationModule { }

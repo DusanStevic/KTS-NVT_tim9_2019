@@ -20,9 +20,10 @@ import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/ti
 import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
 import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
 import { EventListComponent } from './events/event-list/event-list.component';
-import { AgmCoreModule } from '@agm/core';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { AddressModule } from './address/address.module';
 import { LocationModule } from './location/location.module';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { LocationModule } from './location/location.module';
     TicketsSoldByEventsComponent,
     TicketsSoldByLocationsComponent,
     SystemInformationsComponent,
-    EventListComponent
+    EventListComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,9 +59,7 @@ import { LocationModule } from './location/location.module';
     AddressModule,
     LocationModule,
     GoogleChartsModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBL7WKObmd-cmlYZu7Hg87T8CHHCprUMAo'
-    })
+    AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0')
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
