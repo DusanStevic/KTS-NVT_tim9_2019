@@ -3,4 +3,7 @@
 <app-navbar-sys-admin *ngIf="role==='ROLE_SYS_ADMIN'"></app-navbar-sys-admin>
 <app-navbar-user *ngIf="!role"></app-navbar-user>
 
+
+<div layout="row" layout-fill layout-align="center center">
 <router-outlet (activate)="checkRole()"></router-outlet>
+</div>

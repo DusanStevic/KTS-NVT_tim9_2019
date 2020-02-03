@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Location } from 'src/app/shared/models/location.model';
+import { Location } from '../../shared/models/location.model';
 import { Observable } from 'rxjs';
 
 @Injectable({

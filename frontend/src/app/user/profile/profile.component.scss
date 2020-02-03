@@ -1,0 +1,87 @@
+.grid-container, .grid-container1 {
+	display: grid;
+	align-self: right;
+	grid-template-columns: 400px 400px;
+	margin-left: 100px;
+	float: left;
+}
+.grid-container2{
+	display: grid;
+	align-self: left;
+	grid-template-columns: 200px 200px;
+	font-size: 12px;
+	float: right;
+}
+.grid-item {
+	padding: 10px;
+	font-size: 18px;
+	text-align: left;
+	margin-top: 10px;
+}
+
+.grid-item.nereg, .grid-item.invited{
+	font-size: 12px;
+}
+.quick-container{
+	margin-left:0px;
+	float:none;
+	grid-template-columns: 50% 50%;
+}
+div.imagePicker {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%
+}
+
+img:not(.zvezde) {
+	height: inherit;
+	width: inherit;
+	object-fit: cover;
+	border-radius: inherit
+}
+
+#imgContainer {
+	float: left;
+	width: 30%
+}
+
+
+input[type=submit] {
+	margin-left: 68px;
+	margin-top: 10px
+}
+
+input[type=text]:not(#locName, #rentName), input[type=email], input[type=password], textarea{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	background: #f1f1f1;
+}
+
+#textarea {
+	grid-column: 1/-1;
+}
+
+.cancelBtn, #editHotelSbm, #buttonSbm,#editRentSbm,#editAvioSbm {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 50%;
+	opacity: 0.9;
+}
+
+#buttonSbm:hover, #editHotelSbm:hover, .cancelBtn:hover ,#editRentSbm:hover,#editAvioSbm:hover{
+  opacity: 1;
+}
+
+/* Extra styles for the cancel button */
+.cancelBtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
