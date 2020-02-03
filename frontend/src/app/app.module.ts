@@ -12,41 +12,34 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
-import { GoogleChartsModule } from 'angular-google-charts';
-import { GoogleChartsComponent } from './charts/google-charts/google-charts.component';
-import { IncomeByEventsComponent } from './charts/income-by-events/income-by-events.component';
-import { IncomeByLocationsComponent } from './charts/income-by-locations/income-by-locations.component';
-import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/tickets-sold-by-events.component';
-import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
-import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
 import { EventListComponent } from './events/event-list/event-list.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AddressModule } from './address/address.module';
 import { LocationModule } from './location/location.module';
+import { ChartsModule } from './charts/charts.module';
+import { UserModule } from './user/user.module';
+import { BootstrapModule } from './material/bootstrap/bootstrap.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GoogleChartsComponent,
-    IncomeByEventsComponent,
-    IncomeByLocationsComponent,
-    TicketsSoldByEventsComponent,
-    TicketsSoldByLocationsComponent,
-    SystemInformationsComponent,
-    EventListComponent
+    EventListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    BootstrapModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      progressBar: true,
+      timeOut: 2500,
       closeButton: true,
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
     AuthenticationModule,
@@ -57,7 +50,9 @@ import { LocationModule } from './location/location.module';
     SharedModule,
     AddressModule,
     LocationModule,
+    UserModule,
     GoogleChartsModule.forRoot(),
+    ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBL7WKObmd-cmlYZu7Hg87T8CHHCprUMAo'
     })

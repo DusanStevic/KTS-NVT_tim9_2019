@@ -1,0 +1,53 @@
+<form id="editProfileForma" [formGroup]="userForm">
+    <div id="imgContainer" style="margin-left: 15px;margin-top: 15px">
+    <h1 id="imePrezime">Ime Prezime</h1>
+        <div class="imagePicker">
+            <img id="profile_img" src="{{user.imageUrl}}" alt="Image preview..."> <br>
+        </div>
+        <div class="upload-btn-wrapper">
+            <button class="upload-file-btn">Upload a file</button>
+            <input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+                onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
+        </div><br>
+        <div style="margin-top: 10px">
+            <a class="btn btn-primary" [routerLink]="[ '/changePassword']">Change changePassword</a>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item">
+            First Name <br> <input type="text" id="firstName" placeholder="First name"
+            formControlName="firstName" value="{{user.firstName}}">
+        </div>
+        <div class="grid-item">
+            Last Name <br> <input type="text" id="lastName" placeholder="Last Name"
+            formControlName= "lastName" value="{{user.lastName}}">
+        </div>
+        <div class="grid-item">
+            E-mail <br> <input type="email" id="email" placeholder="E-mail"  
+            formControlName = "email" value="{{user.email}}"> 
+        </div>
+        <div class="grid-item">
+            Username <br> <input type="text" id="username" placeholder="Username"  
+            formControlName="username" value="{{user.username}}">
+        </div>
+        <div class="grid-item">
+            Password changed <br> <input type="text" id="address" placeholder="Password changed" disabled 
+            formControlName="lastPasswordResetDate" value="{{user.lastPasswordResetDate  | date:medium }}">
+        </div>
+        <div class="grid-item">
+            Phone number <br> <input type="text" id="phoneNumber" placeholder="Phone number"
+            formControlName= "phoneNumber"  value="{{user.phoneNumber}}">
+        </div>
+
+        <div class="grid-item">
+            <input type="button" id="buttonSbm" value="Confirm changes" (click)="onUserSubmit()">
+        </div>
+        <div class="grid-item">
+            <button id="cancel_profile" class="cancelBtn" (click)="onReset()">Cancel</button>
+        </div>
+        <div class="grid-item">
+            <input type="hidden" id="userId" value="{{user.id}}">
+        </div>
+
+    </div>
+</form>
