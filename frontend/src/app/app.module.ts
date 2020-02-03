@@ -15,12 +15,17 @@ import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor'
 import { EventListComponent } from './events/event-list/event-list.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { AgmCoreModule } from '@agm/core';
 import { AddressModule } from './address/address.module';
 import { LocationModule } from './location/location.module';
 import { ChartsModule } from './charts/charts.module';
 import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
+import { GoogleChartsComponent } from './charts/google-charts/google-charts.component';
+import { IncomeByEventsComponent } from './charts/income-by-events/income-by-events.component';
+import { IncomeByLocationsComponent } from './charts/income-by-locations/income-by-locations.component';
+import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/tickets-sold-by-events.component';
+import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
+import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
 
 
 @NgModule({
@@ -62,7 +67,6 @@ import { BootstrapModule } from './material/bootstrap/bootstrap.module';
     GoogleChartsModule.forRoot(),
     ChartsModule,
     AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0')
-  
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
