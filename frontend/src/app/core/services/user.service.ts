@@ -15,7 +15,7 @@ export class UserService {
 
   ) { }
 
-  whoAmI(): Observable<any>{
+  whoAmI(): Observable<any> {
     return this.http.get( this.constantsService.userPath + '/whoami', {headers: this.headers, responseType: 'json'});
 
   }
