@@ -9,35 +9,33 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 public class LocationDTO {
-	
+
 	@NotNull(message = "Location name is mandatory")
-	@Length(min=1, message="Location name is mandatory")
+	@Length(min = 1, message = "Location name is mandatory")
 	private String name;
-	
+
 	private String description;
-	
+
 	@NotNull(message = "Address is mandatory")
-	@Min(value=1, message="Address not valid")
-	private Long address_id;
-	
-	@NotNull(message = "Halls are mandatory")
-	@NotEmpty(message="Halls are mandatory")
-	private ArrayList<HallDTO> halls;
-	
+	@Min(value = 1, message = "Address not valid")
+	private Long addressId;
+
+	/*
+	 * @NotNull(message = "Halls are mandatory")
+	 * 
+	 * @NotEmpty(message="Halls are mandatory") private ArrayList<HallDTO> halls;
+	 */
+
 	public LocationDTO() {
 		super();
 	}
 
-	public LocationDTO(String name, String description, Long address_id,ArrayList<HallDTO> halls) {
+	public LocationDTO(String name, String description, Long addressId) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.address_id = address_id;
-		this.halls = halls;
+		this.addressId = addressId;
 	}
-
-	
-	
 
 	public String getName() {
 		return name;
@@ -55,20 +53,14 @@ public class LocationDTO {
 		this.description = description;
 	}
 
-	public Long getAddress_id() {
-		return address_id;
+	public Long getAddressId() {
+		return addressId;
 	}
 
-	public void setAddress_id(Long address_id) {
-		this.address_id = address_id;
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
 	}
 
-	public ArrayList<HallDTO> getHalls() {
-		return halls;
-	}
-
-	public void setHalls(ArrayList<HallDTO> halls) {
-		this.halls = halls;
-	}
+	
 
 }
