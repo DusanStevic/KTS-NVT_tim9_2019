@@ -6,14 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MaterialModule } from './material/material.module';
-import { AddAddressComponent } from './address/add-address/add-address.component';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { UpdateAddressComponent } from './address/update-address/update-address.component';
-import { AddressFormComponent } from './address/address-form/address-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AddressTableComponent } from './address/address-table/address-table.component';
-import { AddressListComponent } from './address/address-list/address-list.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
@@ -25,23 +20,20 @@ import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/ti
 import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
 import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
 import { EventListComponent } from './events/event-list/event-list.component';
-
+import { AgmCoreModule } from '@agm/core';
+import { AddressModule } from './address/address.module';
+import { LocationModule } from './location/location.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddAddressComponent,
-    UpdateAddressComponent,
-    AddressFormComponent,
-    AddressTableComponent,
-    AddressListComponent,
     GoogleChartsComponent,
     IncomeByEventsComponent,
     IncomeByLocationsComponent,
     TicketsSoldByEventsComponent,
     TicketsSoldByLocationsComponent,
     SystemInformationsComponent,
-    EventListComponent,
+    EventListComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +55,12 @@ import { EventListComponent } from './events/event-list/event-list.component';
     HttpClientModule,
     CoreModule,
     SharedModule,
-    GoogleChartsModule.forRoot()
+    AddressModule,
+    LocationModule,
+    GoogleChartsModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBL7WKObmd-cmlYZu7Hg87T8CHHCprUMAo'
+    })
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
