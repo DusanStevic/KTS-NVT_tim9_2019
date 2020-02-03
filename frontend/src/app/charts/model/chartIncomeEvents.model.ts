@@ -1,5 +1,5 @@
-export class ChartIncomeEvents{
-    eventName : string;
-    income : number;
-    style : string;
+export class ChartIncomeEvents {
+    eventName: string;
+    income: number;
+    style: string;
 }

@@ -6,20 +6,20 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tickets-sold-by-events.component.scss']
 })
 export class TicketsSoldByEventsComponent implements OnInit {
-  title = 'Number of tickets sold by events';  
-  type = 'BarChart';  
-  data = [  
-    ["Loc1", 10, ''],  
-    ["Loc2", 8, ''],  
-    ["Loc3", 90, ''],  
-    ["Loc4", 2, ''],  
-    ["Average", 42.3, 'color: red']  
-  ];  
-  columnNames = ['Event', 'Tickets sold',{ role: 'style' }];  
+  title = 'Number of tickets sold by events';
+  type = 'BarChart';
+  data = [
+    ['Loc1', 10, ''],
+    ['Loc2', 8, ''],
+    ['Loc3', 90, ''],
+    ['Loc4', 2, ''],
+    ['Average', 42.3, 'color: red']
+  ];
+  columnNames = ['Event', 'Tickets sold', { role: 'style' }];
   options = {
     hAxis: {
       title: 'Tickets sold',
-      minValue:0,
+      minValue: 0,
         titleTextStyle: {
           fontSize: 15,
           bold : true
@@ -36,9 +36,9 @@ export class TicketsSoldByEventsComponent implements OnInit {
         fontSize: 15
       }
     },
-  };  
-  width = 600;  
-  height = 400;  
+  };
+  width = 600;
+  height = 400;
 
   constructor() { }
 

@@ -1,5 +1,5 @@
-export class ChartTicketsSoldLocations{
-    locationName : string;
-    ticketsSold : number;
-    style : string;
+export class ChartTicketsSoldLocations {
+    locationName: string;
+    ticketsSold: number;
+    style: string;
 }
