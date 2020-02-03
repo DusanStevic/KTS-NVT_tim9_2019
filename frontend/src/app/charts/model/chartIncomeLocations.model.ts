@@ -1,5 +1,5 @@
-export class ChartIncomeLocations{
-    locationName : string;
-    income : number;
-    style : string;
+export class ChartIncomeLocations {
+    locationName: string;
+    income: number;
+    style: string;
 }

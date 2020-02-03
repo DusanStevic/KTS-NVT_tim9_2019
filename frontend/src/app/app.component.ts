@@ -11,8 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AppComponent {
 
   title = 'frontend';
-  
-	public role: string;
+  public role: string;
 
   constructor(
     private toastr: ToastrService,

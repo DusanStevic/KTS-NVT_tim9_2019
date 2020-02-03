@@ -6,20 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./income-by-events.component.scss']
 })
 export class IncomeByEventsComponent implements OnInit {
-  title = 'Income by events';  
-  type = 'BarChart';  
-  data = [  
-    ["Event1", 500, ''],  
-    ["Event2", 430, ''],  
-    ["Event3", 600, ''],  
-    ["Event4", 150, ''],  
-    ["Event5", 700, 'color: red']  
-  ];  
-  columnNames = ['Event', 'Incomes',{ role: 'style' }];  
+  title = 'Income by events';
+  type = 'BarChart';
+  data = [
+    ['Event1', 500, ''],
+    ['Event2', 430, ''],
+    ['Event3', 600, ''],
+    ['Event4', 150, ''],
+    ['Event5', 700, 'color: red']
+  ];
+  columnNames = ['Event', 'Incomes', { role: 'style' }];
   options = {
     hAxis: {
       title: 'Income',
-      minValue:0,
+      minValue: 0,
         titleTextStyle: {
           fontSize: 15,
           bold : true
@@ -36,10 +36,10 @@ export class IncomeByEventsComponent implements OnInit {
         fontSize: 15
       }
     },
-  };  
-  width = 600;  
-  height = 400;  
-  
+  };
+  width = 600;
+  height = 400;
+
   constructor() { }
 
   ngOnInit() {

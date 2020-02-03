@@ -19,7 +19,7 @@ export class NavbarSysAdminComponent implements OnInit {
 
   logOut(): void {
     localStorage.removeItem('user');
-    this.toastr.success("Succesful logout!");
+    this.toastr.success('Succesful logout!');
     this.router.navigate(['']);
     location.reload();
   }
