@@ -1,4 +1,0 @@
-export const ROLE_REGISTERED_USER = 'ROLE_REGISTERED_USER';
-export const ROLE_ADMIN = 'ROLE_ADMIN';
-export const ROLE_SYS_ADMIN = 'ROLE_SYS_ADMIN';
-

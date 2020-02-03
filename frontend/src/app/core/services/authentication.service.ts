@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConstantsService } from './constants.service';
 
 
 @Injectable({
@@ -12,16 +13,17 @@ export class AuthenticationService {
   private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private constantsService: ConstantsService
   ) { }
 
   login(auth: any): Observable<any> {
-    return this.http.post('http://localhost:8080/auth/login',
+    return this.http.post(this.constantsService.authenticationPath + '/login',
     {username: auth.username, password: auth.password}, {headers: this.headers, responseType: 'text'});
   }
 
   logout(): Observable<any> {
-    return this.http.get('http://localhost:8080/auth/logout', {headers: this.headers, responseType: 'text'});
+    return this.http.get(this.constantsService.authenticationPath + '/logout', {headers: this.headers, responseType: 'text'});
   }
 
   isLoggedIn(): boolean {
