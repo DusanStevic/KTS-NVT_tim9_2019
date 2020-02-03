@@ -10,6 +10,8 @@ import { NavbarRegisteredUserComponent } from './components/navbar-registered-us
 import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
 import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
 import { NavbarSysAdminComponent } from './components/navbar-sys-admin/navbar-sys-admin.component';
+import { ChartService } from './services/chart.service';
+import { ConstantsService } from './services/constants.service';
 
 
 
@@ -22,7 +24,9 @@ import { NavbarSysAdminComponent } from './components/navbar-sys-admin/navbar-sy
   ],
   providers: [
     AuthenticationService,
-    AddressService
+    AddressService,
+    ChartService,
+    ConstantsService
   ],
   exports: [
      NavbarRegisteredUserComponent, NavbarUserComponent, NavbarAdminComponent, NavbarSysAdminComponent
