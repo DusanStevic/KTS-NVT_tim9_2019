@@ -30,7 +30,7 @@ public class ChartController {
 	@Autowired
 	ChartService chartService;
 
-	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN')")
 	@GetMapping(path = "/sysinfo", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SystemInformationsDTO> getSysInfo() {
 		SystemInformationsDTO info = chartService.systemInformations();
