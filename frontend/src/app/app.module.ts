@@ -26,18 +26,12 @@ import { IncomeByLocationsComponent } from './charts/income-by-locations/income-
 import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/tickets-sold-by-events.component';
 import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
 import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
+import { EventsModule } from './events/events.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    GoogleChartsComponent,
-    IncomeByEventsComponent,
-    IncomeByLocationsComponent,
-    TicketsSoldByEventsComponent,
-    TicketsSoldByLocationsComponent,
-    SystemInformationsComponent,
-    EventListComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +60,8 @@ import { SystemInformationsComponent } from './charts/system-informations/system
     UserModule,
     GoogleChartsModule.forRoot(),
     ChartsModule,
-    AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0')
+    AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0'),
+    EventsModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
