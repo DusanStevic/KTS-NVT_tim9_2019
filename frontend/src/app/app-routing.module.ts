@@ -12,12 +12,26 @@ import { AddLocationComponent } from './location/add-location/add-location.compo
 import { LocationListComponent } from './location/location-list/location-list.component';
 import { UpdateLocationComponent } from './location/update-location/update-location.component';
 import { LocationDetailsComponent } from './location/location-details/location-details.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'events', component: EventListComponent},
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN|ROLE_REGISTERED_USER'}
+  },
+  {
+    path: 'changePassword',
+    component: ChangePasswordComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN|ROLE_REGISTERED_USER'}
+  },
   {
     path: 'address/add',
     component: AddAddressComponent,

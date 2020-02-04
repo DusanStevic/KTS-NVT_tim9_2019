@@ -7,9 +7,10 @@ import { UpdateLocationComponent } from './update-location/update-location.compo
 import { AddLocationComponent } from './add-location/add-location.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AgmCoreModule } from '@agm/core';
 import { LocationDetailsComponent } from './location-details/location-details.component';
 import { HallFormComponent } from './hall-form/hall-form.component';
+import { MapComponent } from './map/map.component';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 
 
 
@@ -21,14 +22,15 @@ import { HallFormComponent } from './hall-form/hall-form.component';
     LocationFormComponent,
     LocationListComponent,
     LocationDetailsComponent,
-    HallFormComponent
+    HallFormComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    AgmCoreModule
+    AngularYandexMapsModule
   ],
   exports: [
     UpdateLocationComponent,
@@ -37,7 +39,8 @@ import { HallFormComponent } from './hall-form/hall-form.component';
     LocationListComponent,
     AddLocationComponent,
     LocationDetailsComponent,
-    HallFormComponent
+    HallFormComponent,
+    MapComponent
   ]
 })
 export class LocationModule { }

@@ -1,10 +1,8 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-// service
 import { AuthenticationService } from './services/authentication.service';
 import { AddressService } from './services/address.service';
-// component
 import { MaterialModule } from '../material/material.module';
 import { NavbarRegisteredUserComponent } from './components/navbar-registered-user/navbar-registered-user.component';
 import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
@@ -12,6 +10,9 @@ import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.com
 import { NavbarSysAdminComponent } from './components/navbar-sys-admin/navbar-sys-admin.component';
 import { ChartService } from './services/chart.service';
 import { ConstantsService } from './services/constants.service';
+import { LocationService } from './services/location.service';
+import { UserService } from './services/user.service';
+import { MapService } from './services/map.service';
 
 
 
@@ -26,7 +27,10 @@ import { ConstantsService } from './services/constants.service';
     AuthenticationService,
     AddressService,
     ChartService,
-    ConstantsService
+    ConstantsService,
+    LocationService,
+    UserService,
+    MapService
   ],
   exports: [
      NavbarRegisteredUserComponent, NavbarUserComponent, NavbarAdminComponent, NavbarSysAdminComponent
