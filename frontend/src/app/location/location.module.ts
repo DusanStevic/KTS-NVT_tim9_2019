@@ -35,6 +35,7 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
     LocationListComponent,
     AddLocationComponent,
     MapComponent
-  ]
+  ],
+  entryComponents: [MapComponent],
 })
 export class LocationModule { }
