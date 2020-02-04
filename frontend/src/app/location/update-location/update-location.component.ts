@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/services/location.service';
 import { ToastrService } from 'ngx-toastr';
+import { Hall } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-update-location',
@@ -14,6 +15,8 @@ export class UpdateLocationComponent implements OnInit {
 
   location: Location;
   locationUpdForm: FormGroup;
+  hall: Hall;
+  hallForm: FormGroup;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -26,7 +29,12 @@ export class UpdateLocationComponent implements OnInit {
       addressId: NaN,
       id: ''
     };
-    this.createForm();
+    this.hall = {
+      id: '',
+      name: ''
+    };
+    this.createLocationForm();
+    this.createHallForm();
   }
 
   ngOnInit() {
@@ -34,12 +42,18 @@ export class UpdateLocationComponent implements OnInit {
     this.initLocation();
   }
 
-  createForm() {
+  createLocationForm() {
     console.log(localStorage.getItem('selectedLocation'));
     this.locationUpdForm = this.fb.group({
       name: [this.location.name, Validators.required],
       description: [this.location.description],
       addressId: [this.location.addressId]
+    });
+  }
+
+  createHallForm() {
+    this.hallForm = this.fb.group({
+      name: ['', Validators.required]
     });
   }
 
@@ -50,7 +64,7 @@ export class UpdateLocationComponent implements OnInit {
         this.location = result;
         console.log(this.location);
         console.log(this.location.id);
-        this.createForm();
+        this.createLocationForm();
       }
     );
   }
@@ -66,7 +80,7 @@ export class UpdateLocationComponent implements OnInit {
       result => {
         this.toastr.success('Successfully updated location');
         console.log(result);
-        // this.router.navigate(['location/all']);
+        this.router.navigate(['location/all']);
       }
     );
   }
@@ -75,7 +89,20 @@ export class UpdateLocationComponent implements OnInit {
     console.log('upd on reset');
     // this.router.navigate(['location/update']);
     console.log(this.locationUpdForm.value);
-    this.createForm();
+    this.createLocationForm();
     console.log(this.locationUpdForm.value);
+  }
+
+  onHallSubmit(e: Event) {
+    e.preventDefault();
+    this.hall = this.hallForm.value;
+    this.locationService.addHall(localStorage.getItem('selectedLocation'), this.hall).subscribe(
+      result => {
+        this.toastr.success('Successfully added hall');
+      }
+    );
+  }
+  onResetHall(e) {
+    this.hallForm.reset();
   }
 }

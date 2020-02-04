@@ -8,6 +8,8 @@ import { AddLocationComponent } from './add-location/add-location.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { LocationDetailsComponent } from './location-details/location-details.component';
+import { HallFormComponent } from './hall-form/hall-form.component';
 
 
 
@@ -17,7 +19,9 @@ import { AgmCoreModule } from '@agm/core';
     UpdateLocationComponent,
     LocationTableComponent,
     LocationFormComponent,
-    LocationListComponent
+    LocationListComponent,
+    LocationDetailsComponent,
+    HallFormComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,9 @@ import { AgmCoreModule } from '@agm/core';
     LocationFormComponent,
     LocationTableComponent,
     LocationListComponent,
-    AddLocationComponent
+    AddLocationComponent,
+    LocationDetailsComponent,
+    HallFormComponent
   ]
 })
 export class LocationModule { }

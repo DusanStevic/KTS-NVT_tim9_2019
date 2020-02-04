@@ -19,9 +19,9 @@ public class HallDTO {
 	 */
 	//private Long location_id;
 
-	@NotNull(message = "Sectors are mandatory")
+	/*@NotNull(message = "Sectors are mandatory")
 	@NotEmpty(message = "Sectors are mandatory")
-	private ArrayList<SectorDTO> sectors;
+	private ArrayList<SectorDTO> sectors;*/
 
 	public HallDTO() {
 		super();
@@ -32,13 +32,13 @@ public class HallDTO {
 		this.name = name;
 		this.number_of_sectors = number_of_sectors;
 		//this.location_id = location_id;
-		this.sectors = sectors;
+		//this.sectors = sectors;
 	}
 
-	public HallDTO(String name, ArrayList<SectorDTO> sectors) {
+	public HallDTO(String name) {
 		super();
 		this.name = name;
-		this.sectors = sectors;
+		//this.sectors = sectors;
 	}
 
 	public String getName() {
@@ -65,12 +65,6 @@ public class HallDTO {
 		this.location_id = location_id;
 	}*/
 
-	public ArrayList<SectorDTO> getSectors() {
-		return sectors;
-	}
-
-	public void setSectors(ArrayList<SectorDTO> sectors) {
-		this.sectors = sectors;
-	}
+	
 
 }

@@ -4,4 +4,8 @@
 		<app-location-form [locationForm]="locationUpdForm" [location]="location" 
 		(submit)="onLocationSubmit($event)" (resetClicked)="onReset($event)"></app-location-form>
 	</div>
+	<div class="col">
+		<app-hall-form [hallForm]="hallForm" [hall]="hall" (submit)="onHallSubmit($event)" 
+		(resetHallClicked)="onResetHall($event)"></app-hall-form>
+	</div>
 </div>

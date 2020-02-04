@@ -12,7 +12,7 @@ export class LocationTableComponent implements OnInit {
 
   @Input() locations: Location[];
   @Output() deleteLocClicked: EventEmitter<any>;
-  displayedColumns: string[] = ['Name', 'Description', 'Update', 'Delete'];
+  displayedColumns: string[] = ['Name', 'Description', 'Edit', 'Delete'];
   constructor(
     private router: Router,
     private locationService: LocationService
@@ -28,6 +28,11 @@ export class LocationTableComponent implements OnInit {
     localStorage.setItem('selectedLocation', id);
     this.router.navigate(['location/update']);
   }
+
+  /*addHallsToLocation(id: string) {
+    localStorage.setItem('selectedLocation', id);
+    this.router.navigate(['hall/add']);
+  }*/
 
   deleteLocation(id: string) {
     console.log(id);

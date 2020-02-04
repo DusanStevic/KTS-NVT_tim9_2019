@@ -139,8 +139,8 @@ public class HallControllerIntegrationTest {
 		StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
 		sectors.add(sit);
 		sectors.add(stand);
-		NEW_HALL_DTO.setSectors(sectors);
-		System.out.println(NEW_HALL_DTO.getSectors().size());
+		//NEW_HALL_DTO.setSectors(sectors);
+		//System.out.println(NEW_HALL_DTO.getSectors().size());
 		HttpEntity<HallDTO> httpEntity = new HttpEntity<HallDTO>(NEW_HALL_DTO, headers);
 		
 		ResponseEntity<Hall> responseEntity = restTemplate.exchange("/api/hall/"+NEW_HALL_LOCATION_ID, HttpMethod.POST, httpEntity, Hall.class);
@@ -173,7 +173,7 @@ public class HallControllerIntegrationTest {
 		//StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
 		sectors.add(sit);
 		sectors.add(sit);
-		NEW_HALL_DTO.setSectors(sectors);
+		//NEW_HALL_DTO.setSectors(sectors);
 		HttpEntity<HallDTO> httpEntity = new HttpEntity<HallDTO>(NEW_HALL_DTO, headers);
 		
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/hall/"+LOCATION_ID_NON_EXISTENT, HttpMethod.POST, httpEntity, String.class);

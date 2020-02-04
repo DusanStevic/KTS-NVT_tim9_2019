@@ -28,7 +28,7 @@ public class HallConverter {
 		Hall hall = new Hall();
 		hall.setName(dto.getName());
 		
-		for(SectorDTO sec_dto : dto.getSectors()) {
+		/*for(SectorDTO sec_dto : dto.getSectors()) {
 			if(sec_dto instanceof SittingSectorDTO) {
 				SittingSector sit = sectorConverter.SittingSectorDTO2SittingSector((SittingSectorDTO)sec_dto);
 				sit.setHall(hall);
@@ -40,7 +40,7 @@ public class HallConverter {
 			}else {
 				//greska
 			}
-		}
+		}*/
 		
 		return hall;
 	}
@@ -57,7 +57,7 @@ public class HallConverter {
 		Location loc = locationService.findOneNotDeleted(locationId);
 		loc.getHalls().add(hall);
 		hall.setLocation(loc);
-		for(SectorDTO sec_dto : dto.getSectors()) {
+		/*for(SectorDTO sec_dto : dto.getSectors()) {
 			if(sec_dto instanceof SittingSectorDTO) {
 				SittingSector sit = sectorConverter.SittingSectorDTO2SittingSector((SittingSectorDTO)sec_dto);
 				sit.setHall(hall);
@@ -71,7 +71,7 @@ public class HallConverter {
 				System.out.println("nije ni jedan od tipova??");
 				System.out.println(sec_dto.getClass());
 			}
-		}
+		}*/
 		return hall;
 	}
 }

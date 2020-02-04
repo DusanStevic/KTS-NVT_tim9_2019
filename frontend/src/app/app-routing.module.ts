@@ -11,6 +11,7 @@ import { RoleGuard } from 'src/app/core/guards/role.guard';
 import { AddLocationComponent } from './location/add-location/add-location.component';
 import { LocationListComponent } from './location/location-list/location-list.component';
 import { UpdateLocationComponent } from './location/update-location/update-location.component';
+import { LocationDetailsComponent } from './location/location-details/location-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -54,6 +55,10 @@ const routes: Routes = [
   {
     path: 'location/all',
     component: LocationListComponent
+  },
+  {
+    path: 'location/details',
+    component: LocationDetailsComponent
   }
 ];
 @NgModule({
