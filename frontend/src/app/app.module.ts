@@ -12,7 +12,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
-import { EventListComponent } from './events/event-list/event-list.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { AddressModule } from './address/address.module';
@@ -20,18 +19,12 @@ import { LocationModule } from './location/location.module';
 import { ChartsModule } from './charts/charts.module';
 import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
-import { GoogleChartsComponent } from './charts/google-charts/google-charts.component';
-import { IncomeByEventsComponent } from './charts/income-by-events/income-by-events.component';
-import { IncomeByLocationsComponent } from './charts/income-by-locations/income-by-locations.component';
-import { TicketsSoldByEventsComponent } from './charts/tickets-sold-by-events/tickets-sold-by-events.component';
-import { TicketsSoldByLocationsComponent } from './charts/tickets-sold-by-locations/tickets-sold-by-locations.component';
-import { SystemInformationsComponent } from './charts/system-informations/system-informations.component';
 import { EventsModule } from './events/events.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
