@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
+import backend.dto.UserUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.User;
@@ -69,8 +71,12 @@ public class UserService {
 		return result;
 	}
 
-	public User save(User user) {
-		return userRepository.save(user);
+	public User save(User user) throws SavingException {
+		try {
+			return userRepository.save(user);
+		} catch (Exception e) {
+			throw new SavingException("Couldn't save user. Username or email is taken!");
+		}
 	}
 
 	public RegisteredUser registerUser(RegistrationDTO registrationDTO,MultipartFile file) {
@@ -99,5 +105,16 @@ public class UserService {
 		}
 		return administrator;
 
+	}
+
+	public User update(UserUpdateDTO userDetails) throws ResourceNotFoundException, SavingException {
+		User user = findById(userDetails.getId());
+		user.setFirstName(userDetails.getFirstName());
+		user.setLastName(userDetails.getLastName());
+		user.setPhoneNumber(userDetails.getPhoneNumber());
+		user.setUsername(userDetails.getUsername());
+		user.setEmail(userDetails.getEmail());
+		User updateUser = save(user); 
+		return updateUser;
 	}
 }
