@@ -7,8 +7,13 @@ import { UpdateLocationComponent } from './update-location/update-location.compo
 import { AddLocationComponent } from './add-location/add-location.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LocationDetailsComponent } from './location-details/location-details.component';
+import { HallFormComponent } from './hall-form/hall-form.component';
 import { MapComponent } from './map/map.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { HallTableComponent } from './hall-table/hall-table.component';
+import { UpdateHallComponent } from './update-hall/update-hall.component';
+import { SectorFormComponent } from './sector-form/sector-form.component';
 
 
 
@@ -19,7 +24,12 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
     LocationTableComponent,
     LocationFormComponent,
     LocationListComponent,
-    MapComponent
+    LocationDetailsComponent,
+    HallFormComponent,
+    MapComponent,
+    HallTableComponent,
+    UpdateHallComponent,
+    SectorFormComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +44,8 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
     LocationTableComponent,
     LocationListComponent,
     AddLocationComponent,
+    LocationDetailsComponent,
+    HallFormComponent,
     MapComponent
   ],
   entryComponents: [MapComponent],

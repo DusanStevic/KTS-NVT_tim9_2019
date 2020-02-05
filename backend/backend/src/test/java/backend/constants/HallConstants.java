@@ -24,5 +24,5 @@ public class HallConstants {
 	
 	public static Hall NEW_HALL = new Hall("Nova Dvodarna", null);
 	public static Hall UPD_HALL = new Hall("UPD Dvodarna", null);
-	public static HallDTO NEW_HALL_DTO = new HallDTO("Novo", null);
+	public static HallDTO NEW_HALL_DTO = new HallDTO("Novo");
 }

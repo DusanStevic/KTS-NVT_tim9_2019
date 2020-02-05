@@ -2,23 +2,19 @@ package backend.service;
 
 import static backend.constants.Constants.FIRST_TIMESTAMP;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import backend.dto.LocationDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.DeletingException;
 import backend.exceptions.ResourceNotFoundException;

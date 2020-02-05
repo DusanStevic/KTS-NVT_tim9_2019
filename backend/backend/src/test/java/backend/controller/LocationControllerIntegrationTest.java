@@ -143,8 +143,8 @@ public class LocationControllerIntegrationTest {
 		StandingSectorDTO stand = new StandingSectorDTO("stand dto ime", 9000);
 		sectors.add(stand);
 		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
-		HallDTO hall = new HallDTO("ime hall dto", sectors);
-		halls.add(hall);
+		//HallDTO hall = new HallDTO("ime hall dto", sectors);
+		//halls.add(hall);
 		//DTO_NEW_LOCATION.setHalls(halls);
 		DTO_NEW_LOCATION.setAddressId(2L);
 		
@@ -186,8 +186,8 @@ public class LocationControllerIntegrationTest {
 		SittingSectorDTO sector = new SittingSectorDTO("sector dto ime", 6, 9);
 		sectors.add(sector);
 		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
-		HallDTO hall = new HallDTO("ime hall dto", sectors);
-		halls.add(hall);
+		//HallDTO hall = new HallDTO("ime hall dto", sectors);
+		//halls.add(hall);
 		//DTO_NEW_LOCATION.setHalls(halls);
 		DTO_NEW_LOCATION.setAddressId(ADDRESS_ID_NON_EXISTENT);
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);

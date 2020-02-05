@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.UserConverter;
 import backend.dto.UserDTO;
+import backend.exceptions.SavingException;
 import backend.model.User;
 import backend.service.FileUploadService;
 import backend.service.UserService;
@@ -32,7 +33,7 @@ public class FileUploadController {
 	 //update slike usera razbijanje requesta na multipart i json deo
 		@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_REGISTERED_USER')")
 		@PutMapping(value = "/image",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-		public ResponseEntity<User> updateImage(@RequestParam("file")MultipartFile file, Principal principal) {
+		public ResponseEntity<User> updateImage(@RequestParam("file")MultipartFile file, Principal principal) throws SavingException {
 			User user = userService.findByUsername(principal.getName());
 			user.setImageUrl(fileUploadService.imageUpload(file));
 			userService.save(user);
@@ -42,7 +43,7 @@ public class FileUploadController {
 	@PostMapping(value = "/profile-image", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_REGISTERED_USER', 'ROLE_ADMIN', 'ROLE_SYS_ADMIN')")
 	@CrossOrigin()
-	public ResponseEntity<UserDTO> updateProfileImage(@RequestParam("file") MultipartFile file,Principal principal) {
+	public ResponseEntity<UserDTO> updateProfileImage(@RequestParam("file") MultipartFile file,Principal principal) throws SavingException {
 		User user = userService.findByUsername(principal.getName());
 		user.setImageUrl(fileUploadService.imageUpload(file));
 		userService.save(user);
