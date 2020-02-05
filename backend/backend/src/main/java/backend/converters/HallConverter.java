@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 
 import backend.dto.HallDTO;
 import backend.dto.HallUpdateDTO;
-import backend.dto.SectorDTO;
-import backend.dto.SittingSectorDTO;
-import backend.dto.StandingSectorDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Hall;
 import backend.model.Location;

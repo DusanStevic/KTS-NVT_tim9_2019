@@ -3,11 +3,9 @@ package backend.converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import backend.dto.HallDTO;
 import backend.dto.LocationDTO;
 import backend.dto.LocationUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Hall;
 import backend.model.Location;
 import backend.service.AddressService;
 

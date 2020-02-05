@@ -34,6 +34,7 @@ import backend.converters.UserConverter;
 import backend.dto.RegistrationDTO;
 import backend.dto.UserDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.Role;
@@ -95,6 +96,7 @@ public class AuthenticationController {
 		// Kreiraj token
 		User user = (User) authentication.getPrincipal();
 		
+		@SuppressWarnings("unused")
 		int expiresIn = tokenUtils.getExpiredIn(device);
 		Role role = null;
 		//zajedno sa tokenom salje se i uloga na front pa u zavisnosti od tipa korisnika
@@ -188,7 +190,7 @@ public class AuthenticationController {
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
 	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
-			throws UnsupportedEncodingException, ResourceNotFoundException {
+			throws UnsupportedEncodingException, ResourceNotFoundException, SavingException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
 		String str = new String(bytes);

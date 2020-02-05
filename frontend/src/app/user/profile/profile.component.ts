@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective, Ng
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorStateMatcher} from '@angular/material/core';
+import { FileUploadService } from 'src/app/core/services/file-upload.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -20,11 +21,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  selectedFile: File = null;
   user: User;
   userForm: FormGroup;
 
   loading = false;
   submitted = false;
+  oldUsername: string;
 
   matcher = new MyErrorStateMatcher();
 
@@ -33,7 +36,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private toastr: ToastrService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private fileUploadService: FileUploadService
   ) {
     this.user = {
       id: NaN,
@@ -59,6 +63,7 @@ export class ProfileComponent implements OnInit {
       result => {
         console.log(result);
         this.user = result;
+        this.oldUsername = result.username;
         if (!result.imageUrl) {
           this.user.imageUrl = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
         }
@@ -95,21 +100,63 @@ export class ProfileComponent implements OnInit {
       this.toastr.warning('Data is not valid');
       return;
     }
+
+    let isUsernameChanged = true;
+
+    if (this.oldUsername === this.userForm.value.username) {
+      isUsernameChanged = false;
+    }
+
     this.loading = true;
-    this.userService.updateUser(this.user).subscribe (
+    const updUser: User = new User();
+    updUser.id = this.user.id;
+    updUser.username = this.userForm.value.username;
+    updUser.firstName = this.userForm.value.firstName;
+    updUser.lastName = this.userForm.value.lastName;
+    updUser.email = this.userForm.value.email;
+    updUser.phoneNumber = this.userForm.value.phoneNumber;
+    updUser.imageUrl = this.user.imageUrl;
+    updUser.enabled = this.user.enabled;
+    updUser.lastPasswordResetDate = this.user.lastPasswordResetDate;
+    updUser.firstTime = this.user.firstTime;
+    console.log(updUser);
+    this.userService.updateUser(updUser).subscribe (
       success => {
-        console.log('');
+        this.loading = false;
+        this.toastr.success('Profile updated succesfully!', 'Succes');
+        if(isUsernameChanged) {
+          this.toastr.success('Log in with new username!', 'Username changed');
+          localStorage.removeItem('user');
+          this.router.navigate(['/login']);
+        }
       },
       error => {
         // dodaj warning ako same email ili ako same username
-        this.toastr.error('Error while updating user!');
+        this.toastr.error('Username or email is taken!');
+        this.userForm.value.email = this.user.email;
+        this.userForm.value.username = this.user.username;
         this.loading = false;
       }
     );
   }
 
-  changeProfilePic(){
+  changeProfilePic() {
     this.toastr.info('Changing profile pic');
+  }
+
+  onFileSelected(event): void {
+    this.selectedFile = event.target.files[0] as File;
+  }
+
+  onUpload() {
+    const formData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+    this.fileUploadService.updateProfileImage(formData).subscribe(respons => {
+      this.toastr.success('Your image has been successfully updated.');
+    }, error => {
+      this.toastr.error('There was an error while uploading your new profile image.');
+    });
+
   }
 
   reset(event: any) {
