@@ -57,6 +57,10 @@ public class UserController {
 	@RequestMapping("/whoami")
 	//@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	public User user(Principal user) {
+		if(user == null){
+			System.out.println("principal is null");
+		}
+		
 		return this.userService.findByUsername(user.getName());
 	}
 	

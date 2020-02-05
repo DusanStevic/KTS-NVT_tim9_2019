@@ -37,7 +37,7 @@ import { EventsModule } from './events/events.module';
     HttpClientModule,
     ToastrModule.forRoot({
       progressBar: true,
-      timeOut: 2500,
+      timeOut: 4000,
       closeButton: true,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
