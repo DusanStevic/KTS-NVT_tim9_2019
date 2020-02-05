@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Hall } from 'src/app/shared/models/hall.model';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/services/location.service';

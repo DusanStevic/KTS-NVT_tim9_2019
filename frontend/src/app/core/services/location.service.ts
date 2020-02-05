@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Location } from '../../shared/models/location.model';
 import { Observable } from 'rxjs';
-import { HallDTO } from 'src/app/shared/models/hall.model';
+import { HallDTO, Sector } from 'src/app/shared/models/hall.model';
 import { ConstantsService } from './constants.service';
 @Injectable({
   providedIn: 'root'
@@ -57,6 +57,12 @@ export class LocationService {
 
   updateHall(hallId: string, updHall: HallDTO): Observable<any> {
     return this.http.put(this.constantsService.hallPath + '/' + hallId, updHall,
+    {headers: this.headers, responseType: 'json'});
+  }
+
+  addSector(hallId: string, newSector: Sector): Observable<any> {
+    console.log(newSector);
+    return this.http.post(this.constantsService.sectorPath + '/' + hallId, newSector,
     {headers: this.headers, responseType: 'json'});
   }
 }

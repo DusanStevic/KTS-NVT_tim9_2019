@@ -1,1 +1,72 @@
-<p>sector-form works!</p>
+<div class="div-container">
+    <div class="col-left"></div>
+<div class="formcontent col-center example-container">
+<form id="sector-form" class="example-container" [formGroup]="sectorForm" (submit)="onSectorSubmit( )">
+    <div class="form-group ">
+        <div class="col-1">
+            <mat-form-field appearance="legacy">
+                <mat-label>Sector Name</mat-label>
+                <input matInput class="form-control" type="text" id="sector-name-input" 
+                 placeholder="Name" 
+                formControlName="name">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-1">
+                <mat-label>Type: </mat-label>
+                <mat-radio-group formControlName="type" >
+                  <mat-radio-button value="sittingDTO" (click)="disable('sittingDTO')">Sitting</mat-radio-button>
+                  <mat-radio-button value="standingDTO" (click)="disable('standingDTO')">Standing</mat-radio-button>
+                </mat-radio-group>
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <div class="col-1">
+            <mat-form-field appearance="legacy">
+                <mat-label>Nr. of Rows:</mat-label>
+                <input matInput class="form-control" min="0" type="number" id="nr-rows-input" 
+                placeholder="Nr. of Rows" 
+                formControlName="numRows">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <div class="col-1">
+            <mat-form-field appearance="legacy">
+                <mat-label>Nr. of Cols:</mat-label>
+                <input matInput class="form-control" min="0" type="number" id="nr-cols-input" 
+                placeholder="Nr. of Cols" 
+                formControlName="numCols">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <div class="col-1">
+            <mat-form-field appearance="legacy">
+                <mat-label>Capacity:</mat-label>
+                <input matInput class="form-control" min="0" type="number" id="capacity-input" 
+                placeholder="Capacity" 
+                formControlName="capacity">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="form-group ">
+		<div class="col-12">
+			<button mat-raised-button color="accent" id="submit-sector-btn" class="btn btn-primary" type="submit"
+				 >Submit</button>
+		</div>
+	</div>
+</form>
+<div>
+        <button mat-raised-button color="primary" id="reset-sector" id="reset-sector-btn" class="resetSectorBtn" (click)="onResetSector()">Reset</button>
+    </div>
+</div>
+<div class="col-right">
+
+</div>
+</div>
