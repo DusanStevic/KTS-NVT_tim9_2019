@@ -1,6 +1,6 @@
 <form id="editProfileForma" [formGroup]="userForm">
     <div id="imgContainer" style="margin-left: 15px;margin-top: 15px">
-    <h1 id="imePrezime">Ime Prezime</h1>
+    <h1 id="imePrezime">{{user.firstName}} {{user.lastName}}</h1>
         <div class="imagePicker">
             <img id="profile_img" src="{{user.imageUrl}}" alt="Image preview..."> <br>
         </div>
@@ -10,7 +10,7 @@
                 onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
         </div><br>
         <div style="margin-top: 10px">
-            <a class="btn btn-primary" [routerLink]="[ '/changePassword']">Change changePassword</a>
+            <a class="btn btn-primary" [routerLink]="[ '/changePassword']">Change Password</a>
         </div>
     </div>
     <div class="grid-container">

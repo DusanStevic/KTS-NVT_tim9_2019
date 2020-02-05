@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ConstantsService } from './constants.service';
+import { PasswordChanger } from 'src/app/shared/models/passwordChanger.model';
 
 
 @Injectable({
@@ -24,6 +25,11 @@ export class AuthenticationService {
 
   logout(): Observable<any> {
     return this.http.get(this.constantsService.authenticationPath + '/logout', {headers: this.headers, responseType: 'text'});
+  }
+
+  changePassword(changePw: PasswordChanger): Observable<any>{
+    return this.http.post(this.constantsService.authenticationPath + '/change-password', changePw,
+      {headers: this.headers, responseType: 'json'});
   }
 
   isLoggedIn(): boolean {

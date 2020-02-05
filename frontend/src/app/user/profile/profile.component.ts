@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../shared/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
-import { Location } from 'src/app/shared/models/location.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -45,10 +44,13 @@ export class ProfileComponent implements OnInit {
       result => {
         console.log(result);
         this.user = result;
-        if (result.imageUrl === null) {
+        if (!result.imageUrl) {
           this.user.imageUrl = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
         }
         this.createForm();
+      },
+      error => {
+        this.toastr.error('Please log in again to resolve errors!', 'An error accured')
       }
     );
   }

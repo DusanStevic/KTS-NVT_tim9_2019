@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['events']);
       },
       error => {
-        this.toastr.error(error.error);
+        this.toastr.error('Incorrect username or password!');
       }
     );
   }
