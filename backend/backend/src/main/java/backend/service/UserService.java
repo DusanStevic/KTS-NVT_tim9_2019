@@ -87,9 +87,9 @@ public class UserService {
 	}
 
 
-	public Administrator registerAdmin(RegistrationDTO registrationDTO,MultipartFile file) {
+	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
 		Administrator administrator = RegistrationConverter.RegistrationDTO2Administrator(registrationDTO);
-		administrator.setImageUrl(fileUploadService.imageUpload(file));
+		administrator.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		userRepository.save(administrator);
 		try {
 			emailService.sendRegistrationConfirmationEmail(administrator);
