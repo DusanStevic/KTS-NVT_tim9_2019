@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.authenticationService.isLoggedIn()){
+    if (this.authenticationService.isLoggedIn()) {
       this.router.navigate(['events']);
     }
   }
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['events']);
       },
       error => {
-        this.toastr.error(error.error);
+        this.toastr.error('Incorrect username or password!');
       }
     );
   }

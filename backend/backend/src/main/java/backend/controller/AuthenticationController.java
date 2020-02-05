@@ -176,9 +176,9 @@ public class AuthenticationController {
 
 	/*Prilikom slanja sa fronta mora se poslati default slika ako korisnik nece da uploduje neku
 	 * simultano slanje json+multipart-data*/
-	@PostMapping(value = "/registerAdmin",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {"multipart/form-data"})
-	public ResponseEntity<UserDTO> registerAdmin(@RequestPart("obj") RegistrationDTO registrationDTO, @RequestPart("file") MultipartFile file) {
-		Administrator administrator = userService.registerAdmin(registrationDTO,file);
+	@PostMapping(value = "/registerAdmin",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
+		Administrator administrator = userService.registerAdmin(registrationDTO);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(administrator), HttpStatus.OK);
 	}
 	

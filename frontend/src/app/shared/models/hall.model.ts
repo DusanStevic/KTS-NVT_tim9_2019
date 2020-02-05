@@ -4,6 +4,10 @@ export class HallDTO {
     standingNr: number;
     sittingNr: number;
 }
+
+export class HallUpdDTO {
+    name: string;
+}
 export class Location {
     id: string;
     name: string;

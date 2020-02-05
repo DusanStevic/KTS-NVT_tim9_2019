@@ -57,6 +57,10 @@ public class UserController {
 	@RequestMapping("/whoami")
 	//@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	public User user(Principal user) {
+		if(user == null){
+			System.out.println("principal is null");
+		}
+		
 		return this.userService.findByUsername(user.getName());
 	}
 	
@@ -141,15 +145,7 @@ public class UserController {
 	
 	
 	
-	 //update slike usera razbijanje requesta na multipart i json deo
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_REGISTERED_USER')")
-	@PutMapping(value = "/image",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<User> updateImage(@RequestParam("file")MultipartFile file, Principal principal) {
-		User user = userService.findByUsername(principal.getName());
-		user.setImageUrl(fileUploadService.imageUpload(file));
-		userService.save(user);
-		return new ResponseEntity<>(user, HttpStatus.OK);
-	}
+	
 	
 	
 	

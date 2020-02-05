@@ -14,6 +14,7 @@ import { UpdateLocationComponent } from './location/update-location/update-locat
 import { LocationDetailsComponent } from './location/location-details/location-details.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
+import { UpdateHallComponent } from './location/update-hall/update-hall.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -73,6 +74,12 @@ const routes: Routes = [
   {
     path: 'location/details',
     component: LocationDetailsComponent
+  },
+  {
+    path: 'hall/update',
+    component: UpdateHallComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   }
 ];
 @NgModule({

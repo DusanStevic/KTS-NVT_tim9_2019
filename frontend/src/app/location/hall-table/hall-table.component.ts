@@ -29,7 +29,7 @@ export class HallTableComponent implements OnInit {
   updateHall(id: string) {
     console.log(id);
     localStorage.setItem('selectedHall', id);
-    // this.router.navigate(['location/update']);
+    this.router.navigate(['hall/update']);
   }
 
   deleteHall(id: string) {

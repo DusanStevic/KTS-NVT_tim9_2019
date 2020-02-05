@@ -1,0 +1,20 @@
+<div class="row head-row">
+    <div class="col">
+        <h1>Edit Hall</h1>
+    </div>
+    <div class="float-right ">
+        <button mat-raised-button color="accent" (click)="goBack()">Back</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <app-hall-form [hallForm]="hallUpdForm" [hall]="hall"
+        (submit)="onHallSubmit($event)" (resetHallClicked)="onReset($event)"></app-hall-form>
+    </div>
+    <div class="col">
+        <h2>Add Sector</h2>
+    </div>
+    <div class="col">
+        <h2>All Sectors</h2>
+    </div>
+</div>

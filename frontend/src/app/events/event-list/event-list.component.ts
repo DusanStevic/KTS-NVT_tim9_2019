@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MapService } from 'src/app/core/services/map.service';
 
 @Component({
   selector: 'app-event-list',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventListComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private mapService: MapService
+  ) { }
 
   ngOnInit() {
   }
+
+  activateYandexMaps(addressId: string) {
+    this.mapService.activateYandexMaps(addressId);
+  }
+
 
 }
