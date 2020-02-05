@@ -22,8 +22,7 @@ import backend.service.FileUploadService;
 import backend.service.UserService;
 
 @RestController
-@RequestMapping(value = "/media-files", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin()
+@RequestMapping(value = "/media", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FileUploadController {
 	@Autowired
 	private FileUploadService fileUploadService;
@@ -40,8 +39,9 @@ public class FileUploadController {
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 	
-	@PostMapping(value = "/update-profile-image", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/profile-image", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_REGISTERED_USER', 'ROLE_ADMIN', 'ROLE_SYS_ADMIN')")
+	@CrossOrigin()
 	public ResponseEntity<UserDTO> updateProfileImage(@RequestParam("file") MultipartFile file,Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		user.setImageUrl(fileUploadService.imageUpload(file));

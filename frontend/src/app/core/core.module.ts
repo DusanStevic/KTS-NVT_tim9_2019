@@ -13,6 +13,7 @@ import { ConstantsService } from './services/constants.service';
 import { LocationService } from './services/location.service';
 import { UserService } from './services/user.service';
 import { MapService } from './services/map.service';
+import { FileUploadService } from './services/file-upload.service';
 
 
 
@@ -30,7 +31,8 @@ import { MapService } from './services/map.service';
     ConstantsService,
     LocationService,
     UserService,
-    MapService
+    MapService,
+    FileUploadService
   ],
   exports: [
      NavbarRegisteredUserComponent, NavbarUserComponent, NavbarAdminComponent, NavbarSysAdminComponent

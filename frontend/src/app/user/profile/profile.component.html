@@ -2,12 +2,22 @@
     <div id="imgContainer" style="margin-left: 15px;margin-top: 15px">
     <h1 id="imePrezime">{{user.firstName}} {{user.lastName}}</h1>
         <div class="imagePicker">
-            <img id="profile_img" src="{{user.imageUrl}}" alt="Image preview..."> <br>
+            <img id="profile_img" src="{{user.imageUrl}}" alt="Image preview..." > <br>
+            
         </div>
         <div class="upload-btn-wrapper">
-            <button class="upload-file-btn" style="width: 250px; margin-top: 8px;" (click)="changeProfilePic()">Upload new picture</button>
-            <input id="choosePicture" type="file" accept="image/*" title="Choose picture"
+            <input id="choosePicture" type="file"  (change)="onFileSelected($event)" #fileInput multiple="multiple" accept="image/*" title="Choose picture"
             name="myfile" style="width: 250px; margin-top: 10px;" />
+            <button type="button" (click)="onUpload()" class="upload-file-btn" style="width: 250px; margin-top: 8px;" >Upload new picture</button>
+            <!--input id="choosePicture" type="file"   #fileInput multiple="multiple" accept="image/*" title="Choose picture"
+            name="myfile" style="width: 250px; margin-top: 10px;" /-->
+            <!--input
+            id="image-input"
+            style="display: none"
+            type="file" (change)="onClickImageChange($event)"
+            #fileInput
+            accept="image/x-png,image/gif,image/jpeg"
+        /-->
         </div><br>
         <div style="margin-top: 5px">
             <a class="btn btn-primary" [routerLink]="[ '/changePassword']">Change Password</a>
