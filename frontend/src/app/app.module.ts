@@ -12,19 +12,19 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor.interceptor';
-import { EventListComponent } from './events/event-list/event-list.component';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { AgmCoreModule } from '@agm/core';
 import { AddressModule } from './address/address.module';
 import { LocationModule } from './location/location.module';
 import { ChartsModule } from './charts/charts.module';
 import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
+import { EventsModule } from './events/events.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventListComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,9 +53,8 @@ import { BootstrapModule } from './material/bootstrap/bootstrap.module';
     UserModule,
     GoogleChartsModule.forRoot(),
     ChartsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBL7WKObmd-cmlYZu7Hg87T8CHHCprUMAo'
-    })
+    AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0'),
+    EventsModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
