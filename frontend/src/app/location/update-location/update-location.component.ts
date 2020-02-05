@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/services/location.service';
 import { ToastrService } from 'ngx-toastr';
-import { Hall } from 'src/app/shared/models/hall.model';
+import { HallDTO, Hall } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-update-location',
@@ -15,8 +15,9 @@ export class UpdateLocationComponent implements OnInit {
 
   location: Location;
   locationUpdForm: FormGroup;
-  hall: Hall;
+  hallDto: HallDTO;
   hallForm: FormGroup;
+  hallList: Hall[];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -26,12 +27,14 @@ export class UpdateLocationComponent implements OnInit {
     this.location = {
       name: '',
       description: '',
-      addressId: NaN,
-      id: ''
-    };
-    this.hall = {
       id: '',
-      name: ''
+      addressId: NaN
+    };
+    this.hallDto = {
+      id: '',
+      name: '',
+      standingNr: NaN,
+      sittingNr: NaN
     };
     this.createLocationForm();
     this.createHallForm();
@@ -39,7 +42,7 @@ export class UpdateLocationComponent implements OnInit {
 
   ngOnInit() {
     console.log(localStorage.getItem('selectedLocation'));
-    this.initLocation();
+    this.init();
   }
 
   createLocationForm() {
@@ -47,23 +50,28 @@ export class UpdateLocationComponent implements OnInit {
     this.locationUpdForm = this.fb.group({
       name: [this.location.name, Validators.required],
       description: [this.location.description],
-      addressId: [this.location.addressId]
+      addressId: ['']
     });
   }
 
   createHallForm() {
     this.hallForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      sittingNr: [''],
+      standingNr: ['']
     });
   }
 
-  initLocation() {
+  init() {
     this.locationService.get(localStorage.getItem('selectedLocation')).subscribe(
       result => {
         console.log(result);
         this.location = result;
+        console.log(result.halls);
+        this.hallList = result.halls;
         console.log(this.location);
         console.log(this.location.id);
+        console.log(this.hallList);
         this.createLocationForm();
       }
     );
@@ -95,14 +103,30 @@ export class UpdateLocationComponent implements OnInit {
 
   onHallSubmit(e: Event) {
     e.preventDefault();
-    this.hall = this.hallForm.value;
-    this.locationService.addHall(localStorage.getItem('selectedLocation'), this.hall).subscribe(
+    this.hallDto = this.hallForm.value;
+    this.locationService.addHall(localStorage.getItem('selectedLocation'), this.hallDto).subscribe(
       result => {
         this.toastr.success('Successfully added hall');
+        this.hallList.push(result);
+        // console.log(this.hallList);
+        this.hallList = this.hallList.filter(hall => 1 === 1);
       }
     );
   }
   onResetHall(e) {
     this.hallForm.reset();
+  }
+
+  onDelete(id: string) {
+    console.log(id);
+    this.locationService.deleteHall(id).subscribe(
+      result => {
+        this.toastr.success(result);
+        console.log(result);
+        console.log(result.body);
+        this.hallList = this.hallList.filter(hall => hall.id !== id);
+        console.log(this.hallList);
+      }
+    );
   }
 }

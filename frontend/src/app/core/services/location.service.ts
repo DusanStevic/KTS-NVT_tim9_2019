@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Location } from '../../shared/models/location.model';
 import { Observable } from 'rxjs';
-import { Hall } from 'src/app/shared/models/hall.model';
+import { HallDTO } from 'src/app/shared/models/hall.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,8 +38,13 @@ export class LocationService {
     {headers: this.headers, responseType: 'text'});
   }
 
-  addHall(locationId: string, newHall: Hall): Observable<any> {
+  addHall(locationId: string, newHall: HallDTO): Observable<any> {
     return this.http.post('http://localhost:8080/api/hall/'.concat(locationId), newHall,
     {headers: this.headers, responseType: 'json'});
+  }
+
+  deleteHall(hallId: string): Observable<any> {
+    return this.http.delete('http://localhost:8080/api/hall/'.concat(hallId),
+    {headers: this.headers, responseType: 'text'});
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Hall } from 'src/app/shared/models/hall.model';
+import { HallDTO } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-hall-form',
@@ -9,7 +9,7 @@ import { Hall } from 'src/app/shared/models/hall.model';
 })
 export class HallFormComponent implements OnInit {
 
-  @Input() hall: Hall;
+  @Input() hall: HallDTO;
   @Input() hallForm: FormGroup;
   @Output() resetHallClicked: EventEmitter<any>;
   constructor() {
@@ -19,7 +19,7 @@ export class HallFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onHallSubmit(){
+  onHallSubmit() {
     console.log('submit');
   }
 

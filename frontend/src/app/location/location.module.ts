@@ -11,6 +11,7 @@ import { LocationDetailsComponent } from './location-details/location-details.co
 import { HallFormComponent } from './hall-form/hall-form.component';
 import { MapComponent } from './map/map.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { HallTableComponent } from './hall-table/hall-table.component';
 
 
 
@@ -23,7 +24,8 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
     LocationListComponent,
     LocationDetailsComponent,
     HallFormComponent,
-    MapComponent
+    MapComponent,
+    HallTableComponent
   ],
   imports: [
     CommonModule,
