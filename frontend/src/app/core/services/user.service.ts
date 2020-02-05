@@ -15,15 +15,11 @@ export class UserService {
 
   ) { }
 
-<<<<<<< HEAD
   updateUser(updUser: User): Observable<any> {
     return this.http.put( this.constantsService.userPath, updUser, {headers: this.headers, responseType: 'json'});
   }
 
   whoAmI(): Observable<any>{
-=======
-  whoAmI(): Observable<any> {
->>>>>>> c87e160c3031df45be0e883378b736c53a4d0043
     return this.http.get( this.constantsService.userPath + '/whoami', {headers: this.headers, responseType: 'json'});
 
   }
