@@ -20,6 +20,7 @@ import { ChartsModule } from './charts/charts.module';
 import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
 import { EventsModule } from './events/events.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { EventsModule } from './events/events.module';
     GoogleChartsModule.forRoot(),
     ChartsModule,
     AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0'),
-    EventsModule
+    EventsModule,
+    ReservationModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
