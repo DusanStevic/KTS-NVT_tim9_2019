@@ -47,7 +47,7 @@ public abstract class User implements UserDetails {
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
 
-	@JsonBackReference
+	//@JsonBackReference
 	@Column(name = "password", nullable = false, length = 80)
 	private String password;
 

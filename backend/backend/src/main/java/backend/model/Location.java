@@ -20,7 +20,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "locations", uniqueConstraints = {
@@ -38,9 +39,8 @@ public class Location {
 	@Column(name = "description", nullable = true)
 	private String description;
 
-	@OneToMany(mappedBy = "location", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("location")
-	//@JsonBackReference
+	@OneToMany(mappedBy = "location", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference("halls")
 	private Set<Hall> halls = new HashSet<>();
 
 	@JoinColumn(name = "address_id")

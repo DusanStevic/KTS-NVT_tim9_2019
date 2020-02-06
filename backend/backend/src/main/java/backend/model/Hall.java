@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "halls")
@@ -32,14 +32,11 @@ public class Hall {
 	private int numberOfSectors;*/
 
 	@OneToMany(mappedBy = "hall", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("hall")
-
-	//@JsonBackReference
+	@JsonManagedReference("hall")
 	private Set<Sector> sectors = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("halls")
-	@JsonBackReference
+	@JsonBackReference("halls")
 	private Location location;
 	
 	@Column(name = "deleted", nullable = false)

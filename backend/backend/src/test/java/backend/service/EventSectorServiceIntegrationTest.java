@@ -2,9 +2,6 @@ package backend.service;
 
 import static backend.constants.AddressConstants.PAGE_SIZE;
 import static backend.constants.AddressConstants.pageRequest;
-import static backend.constants.EventConstants.DB_EVENT_DELETED;
-import static backend.constants.EventConstants.DB_EVENT_TO_BE_UPDATED;
-import static backend.constants.EventConstants.UPD_EVENT;
 import static backend.constants.EventSectorConstants.DB_EVENTSECTOR_COUNT;
 import static backend.constants.EventSectorConstants.DB_EVENTSECTOR_DELETED;
 import static backend.constants.EventSectorConstants.DB_EVENTSECTOR_ID;
@@ -33,7 +30,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Event;
 import backend.model.EventSector;
 import backend.model.EventType;
 

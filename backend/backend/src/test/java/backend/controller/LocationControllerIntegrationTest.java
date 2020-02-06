@@ -34,6 +34,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import static backend.constants.AddressConstants.ADDRESS_ID_NON_EXISTENT;
+import static backend.constants.AddressConstants.DB_ADDRESS_ID;
+import static backend.constants.LocationConstants.*;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Ignore;
+
 import backend.dto.HallDTO;
 import backend.dto.LocationDTO;
 import backend.dto.LocationUpdateDTO;

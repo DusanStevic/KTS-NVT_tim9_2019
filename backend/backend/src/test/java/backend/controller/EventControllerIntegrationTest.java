@@ -56,7 +56,7 @@ public class EventControllerIntegrationTest {
 		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
-/*
+	/*
 	@Test
 	public void testGetAllEvents() {
 		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
