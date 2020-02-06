@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import backend.dto.EventDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
 import backend.model.UserTokenState;
@@ -49,11 +49,11 @@ public class EventControllerIntegrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("admin", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
 /*
@@ -69,18 +69,18 @@ public class EventControllerIntegrationTest {
 		assertEquals(DB_EVENT_ID, e0.getId());
 		assertEquals(DB_EVENT_NAME, e0.getName());
 	}*/
-	/*
+	
 	@Test
 	public void testGetEvent() {
-		ResponseEntity<Event> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, Event.class);
+		ResponseEntity<EventDTO> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, EventDTO.class);
 		//System.out.println("aaaaaaaaaaaaaaaaa: "+);
 		
-		Event found = responseEntity.getBody();
+		EventDTO found = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(found);
-		assertEquals(DB_EVENT_ID, found.getId());
+		//assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
-	}*/
+	}
 	
 	@Test
 	public void testGetAddressNonExistent() {

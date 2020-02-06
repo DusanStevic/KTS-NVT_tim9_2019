@@ -47,11 +47,11 @@ public class ChartControllerIntergrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("sys", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 		df = new SimpleDateFormat("yyyy-MM-dd");
 	}

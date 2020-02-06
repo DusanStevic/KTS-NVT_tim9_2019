@@ -64,11 +64,11 @@ public class HallControllerIntegrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("admin", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
 	@Test
