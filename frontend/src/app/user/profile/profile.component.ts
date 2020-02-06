@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective, Ng
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorStateMatcher} from '@angular/material/core';
+import { FileUploadService } from 'src/app/core/services/file-upload.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -20,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  selectedFile: File = null;
   user: User;
   userForm: FormGroup;
 
@@ -34,7 +36,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private toastr: ToastrService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private fileUploadService: FileUploadService
   ) {
     this.user = {
       id: NaN,
@@ -139,6 +142,21 @@ export class ProfileComponent implements OnInit {
 
   changeProfilePic() {
     this.toastr.info('Changing profile pic');
+  }
+
+  onFileSelected(event): void {
+    this.selectedFile = event.target.files[0] as File;
+  }
+
+  onUpload() {
+    const formData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+    this.fileUploadService.updateProfileImage(formData).subscribe(respons => {
+      this.toastr.success('Your image has been successfully updated.');
+    }, error => {
+      this.toastr.error('There was an error while uploading your new profile image.');
+    });
+
   }
 
   reset(event: any) {
