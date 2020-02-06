@@ -1,0 +1,16 @@
+
+<div style="margin-left: 20%; width: 60%; margin-right: 20%;">
+<div *ngIf="!paidFor">
+    <h3>{{product.description}} - ${{ product.price }}</h3> <br/>
+    <img src="{{product.img}}" style="width: 400px; height: 400px;" /> <br/>
+    
+</div>
+  
+<div *ngIf=paidFor>
+<h1>Yay, you bought a sweet couch!</h1>
+</div>
+
+
+<div #paypal style="width: 400px;"></div>
+
+</div>
