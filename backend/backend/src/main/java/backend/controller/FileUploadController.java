@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,17 +29,8 @@ public class FileUploadController {
 	@Autowired
 	private UserService userService;
 	
-	 //update slike usera razbijanje requesta na multipart i json deo
-		@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_REGISTERED_USER')")
-		@PutMapping(value = "/image",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-		public ResponseEntity<User> updateImage(@RequestParam("file")MultipartFile file, Principal principal) throws SavingException {
-			User user = userService.findByUsername(principal.getName());
-			user.setImageUrl(fileUploadService.imageUpload(file));
-			userService.save(user);
-			return new ResponseEntity<>(user, HttpStatus.OK);
-		}
 	
-	@PostMapping(value = "/profile-image", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PutMapping(value = "/profile-image", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_REGISTERED_USER', 'ROLE_ADMIN', 'ROLE_SYS_ADMIN')")
 	@CrossOrigin()
 	public ResponseEntity<UserDTO> updateProfileImage(@RequestParam("file") MultipartFile file,Principal principal) throws SavingException {
@@ -48,6 +38,7 @@ public class FileUploadController {
 		user.setImageUrl(fileUploadService.imageUpload(file));
 		userService.save(user);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(user), HttpStatus.OK);
+		
     }
 
 }

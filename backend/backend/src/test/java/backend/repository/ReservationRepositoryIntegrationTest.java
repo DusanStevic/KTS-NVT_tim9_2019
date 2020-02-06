@@ -2,7 +2,6 @@ package backend.repository;
 
 import static backend.constants.AddressConstants.PAGE_SIZE;
 import static backend.constants.ReservationConstants.*;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import backend.model.Reservation;
 
@@ -130,6 +130,18 @@ public class ReservationRepositoryIntegrationTest {
 			assertTrue(e.isCanceled());
 		}
 		assertEquals(PAGE_SIZE, found.getSize());
+	}
+	
+	@Test
+	@Transactional
+	public void testFindMyReservations() {
+		List<Reservation> found = reservationRepository.findMyReservations(DB_PRINCIPAL_USER_USERNAME);
+		assertNotNull(found);
+		assertFalse(found.isEmpty());
+		for(Reservation e: found) {
+			assertFalse(e.isCanceled());
+			assertTrue(e.getBuyer().getUsername().equals(DB_PRINCIPAL_USER_USERNAME));
+		}
 	}
 	
 }

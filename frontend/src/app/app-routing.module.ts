@@ -16,6 +16,7 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { UpdateHallComponent } from './location/update-hall/update-hall.component';
 import { UpdateSectorComponent } from './location/update-sector/update-sector.component';
+import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -27,6 +28,12 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN|ROLE_REGISTERED_USER'}
+  },
+  {
+    path: 'myReservations',
+    component: MyReservationsComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_REGISTERED_USER'}
   },
   {
     path: 'changePassword',

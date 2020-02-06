@@ -10,5 +10,6 @@ export class ConstantsService {
     readonly locationPath = 'http://localhost:8080/api/location';
     readonly hallPath = 'http://localhost:8080/api/hall';
     readonly sectorPath = 'http://localhost:8080/api/sector';
+    readonly reservationPath = 'http://localhost:8080/api/reservation';
 }
 

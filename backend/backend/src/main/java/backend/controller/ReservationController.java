@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.dto.ReservationDTO;
+import backend.dto.ReservationDetailedDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Reservation;
@@ -45,19 +46,11 @@ public class ReservationController {
 	}
 
 	/* get all reservations, permitted for all */
-	//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Reservation> getAllReservations() {
 		return reservationService.findAll();
 	}
-
-	//Nema smisla jer nema logicko brisanje
-	/* get all addresses, permitted for all */ 
-	/*
-	@GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Reservation> getAllActiveReservations() {
-		return reservationService.findAllActive();
-	}*/
 
 	/* get an address by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,7 +60,7 @@ public class ReservationController {
 		return new ResponseEntity<Reservation>(reservation, HttpStatus.OK);
 	}
 
-	/* update reservation by id */
+	/* update reservation by id - NE TREBA */ 
 	/*@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> updateReservation(
@@ -78,9 +71,6 @@ public class ReservationController {
 		if (reservation == null) {
 			return ResponseEntity.notFound().build();
 		}
-
-		
-
 		Reservation updateReservation = reservationService.save(reservation);
 		return ResponseEntity.ok().body(updateReservation);
 	}*/
@@ -105,6 +95,12 @@ public class ReservationController {
 	@PutMapping(value = "purchase/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Reservation> purchaseReservation(@PathVariable(value = "id") Long reservationId, Principal user) throws BadRequestException, ResourceNotFoundException{
 		return new ResponseEntity<>(reservationService.purchaseReservation(reservationId), HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	@GetMapping(value="myReservations", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ReservationDetailedDTO>> myReservations(Principal user){
+		return new ResponseEntity<List<ReservationDetailedDTO>>(reservationService.findMyReservations(user.getName()), HttpStatus.OK);
 	}
 	
 }
