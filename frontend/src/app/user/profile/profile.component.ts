@@ -124,7 +124,7 @@ export class ProfileComponent implements OnInit {
       success => {
         this.loading = false;
         this.toastr.success('Profile updated succesfully!', 'Succes');
-        if(isUsernameChanged) {
+        if ( isUsernameChanged) {
           this.toastr.success('Log in with new username!', 'Username changed');
           localStorage.removeItem('user');
           this.router.navigate(['/login']);
@@ -140,10 +140,6 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  changeProfilePic() {
-    this.toastr.info('Changing profile pic');
-  }
-
   onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
   }
@@ -151,10 +147,12 @@ export class ProfileComponent implements OnInit {
   onUpload() {
     const formData = new FormData();
     formData.append('file', this.selectedFile, this.selectedFile.name);
-    this.fileUploadService.updateProfileImage(formData).subscribe(respons => {
-      this.toastr.success('Your image has been successfully updated.');
+    this.fileUploadService.updateProfileImage(formData).subscribe(response => {
+      console.log(response);
+      this.toastr.success('You successfully updated profile image.');
+      this.user.imageUrl = response.imageUrl;
     }, error => {
-      this.toastr.error('There was an error while uploading your new profile image.');
+      this.toastr.error('There was an error while updating profile image.');
     });
 
   }
