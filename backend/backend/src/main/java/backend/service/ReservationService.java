@@ -1,5 +1,6 @@
 package backend.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import backend.dto.ReservationDTO;
+import backend.dto.ReservationDetailedDTO;
 import backend.dto.SittingTicketDTO;
 import backend.dto.StandingTicketDTO;
 import backend.dto.TicketDTO;
@@ -277,6 +279,22 @@ public class ReservationService {
 		res.setTickets(upd.getTickets());
 		return save(res);
 		
+	}
+	
+	public List<ReservationDetailedDTO> findMyReservations(String username){
+		List<ReservationDetailedDTO> myReservations = new ArrayList<ReservationDetailedDTO>();
+
+		List<Reservation> reservations = reservationRepository.findMyReservations(username);
+		
+		reservations.forEach((Reservation r) -> {
+			try {
+				myReservations.add(new ReservationDetailedDTO(r));
+			} catch (Exception e) {
+				System.out.println("ups");
+			}
+		});
+		
+		return myReservations;
 	}
 
 }
