@@ -14,6 +14,8 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { HallTableComponent } from './hall-table/hall-table.component';
 import { UpdateHallComponent } from './update-hall/update-hall.component';
 import { SectorFormComponent } from './sector-form/sector-form.component';
+import { SectorTableComponent } from './sector-table/sector-table.component';
+import { UpdateSectorComponent } from './update-sector/update-sector.component';
 
 
 
@@ -29,7 +31,9 @@ import { SectorFormComponent } from './sector-form/sector-form.component';
     MapComponent,
     HallTableComponent,
     UpdateHallComponent,
-    SectorFormComponent
+    SectorFormComponent,
+    SectorTableComponent,
+    UpdateSectorComponent
   ],
   imports: [
     CommonModule,

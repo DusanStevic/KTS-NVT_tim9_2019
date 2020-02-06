@@ -15,6 +15,7 @@ import { LocationDetailsComponent } from './location/location-details/location-d
 import { ProfileComponent } from './user/profile/profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { UpdateHallComponent } from './location/update-hall/update-hall.component';
+import { UpdateSectorComponent } from './location/update-sector/update-sector.component';
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
 
 const routes: Routes = [
@@ -85,6 +86,12 @@ const routes: Routes = [
   {
     path: 'hall/update',
     component: UpdateHallComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'sector/update',
+    component: UpdateSectorComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   }

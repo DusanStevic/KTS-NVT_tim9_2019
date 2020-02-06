@@ -107,7 +107,7 @@ export class UpdateLocationComponent implements OnInit {
     this.locationService.addHall(localStorage.getItem('selectedLocation'), this.hallDto).subscribe(
       result => {
         this.toastr.success('Successfully added hall');
-        this.hallList.push(result);
+        this.hallList.unshift(result);
         // console.log(this.hallList);
         this.hallList = this.hallList.filter(hall => 1 === 1);
       }
