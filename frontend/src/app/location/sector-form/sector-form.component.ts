@@ -29,16 +29,20 @@ export class SectorFormComponent implements OnInit {
   }
 
   disable(type: string) {
-    console.log('disablee');
-    console.log(type);
-    if (type === 'sittingDTO') {
-      this.sectorForm.get('capacity').disable();
-      this.sectorForm.get('numRows').enable();
-      this.sectorForm.get('numCols').enable();
-    } else if (type === 'standingDTO') {
-      this.sectorForm.get('capacity').enable();
-      this.sectorForm.get('numRows').disable();
-      this.sectorForm.get('numCols').disable();
+    if (!this.sectorForm.get('type').disabled) {
+      console.log('disablee');
+      console.log(type);
+      if (type === 'sittingDTO') {
+        this.sectorForm.get('capacity').disable();
+        this.sectorForm.get('numRows').enable();
+        this.sectorForm.get('numCols').enable();
+      } else if (type === 'standingDTO') {
+        this.sectorForm.get('capacity').enable();
+        this.sectorForm.get('numRows').disable();
+        this.sectorForm.get('numCols').disable();
+      }
+    } else {
+      console.log('ne moze');
     }
   }
 }

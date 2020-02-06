@@ -19,5 +19,8 @@
     </div>
     <div class="col">
         <h2>All Sectors</h2>
+        <div class="table-sector" id="table-sector">
+			<app-sector-table [sectors]="sectorList" (deleteSectorClicked)="onDelete($event)"></app-sector-table>
+		</div>
     </div>
 </div>

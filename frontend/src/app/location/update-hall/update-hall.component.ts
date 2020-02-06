@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HallUpdDTO, HallDTO, SittingSector, StandingSector } from 'src/app/shared/models/hall.model';
+import { HallUpdDTO, HallDTO, SittingSector, StandingSector, Sector } from 'src/app/shared/models/hall.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/services/location.service';
@@ -17,6 +17,7 @@ export class UpdateHallComponent implements OnInit {
   sittingSector: SittingSector;
   standingSector: StandingSector;
   sectorForm: FormGroup;
+  sectorList: Sector[];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -75,6 +76,7 @@ export class UpdateHallComponent implements OnInit {
         console.log(result);
         this.hall = result;
         console.log(this.hall);
+        this.sectorList = result.sectors;
         this.createHallForm();
       }
     );
@@ -84,11 +86,11 @@ export class UpdateHallComponent implements OnInit {
     e.preventDefault();
     this.hall = this.hallUpdForm.value;
     this.locationService.updateHall(localStorage.getItem('selectedHall'), this.hall).subscribe(
-      result => {
+      success => {
         this.toastr.success('Successfully updated hall');
-        // this.hallList.push(result);
-        // console.log(this.hallList);
-        // this.hallList = this.hallList.filter(hall => 1 === 1);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }
@@ -103,21 +105,33 @@ export class UpdateHallComponent implements OnInit {
       this.sittingSector = this.sectorForm.value;
       console.log(this.sittingSector);
       this.locationService.addSector(localStorage.getItem('selectedHall'), this.sittingSector).subscribe(
-        result => {
-          console.log(result);
+        success => {
+          console.log(success);
           this.toastr.success('Successfully added sitting sector');
+          this.sectorList.unshift(success);
+        // console.log(this.hallList);
+          this.sectorList = this.sectorList.filter(s => 1 === 1);
           // this.hallList.unshift(result);
           // this.hallList = this.hallList.filter(hall => 1 === 1);
+        },
+        error => {
+          this.toastr.error(error);
         }
       );
     } else if (this.sectorForm.value.type === 'standingDTO') {
       this.standingSector = this.sectorForm.value;
       this.locationService.addSector(localStorage.getItem('selectedHall'), this.standingSector).subscribe(
-        result => {
-          console.log(result);
+        success => {
+          console.log(success);
           this.toastr.success('Successfully added standing sector');
+          this.sectorList.unshift(success);
+        // console.log(this.hallList);
+          this.sectorList = this.sectorList.filter(s => 1 === 1);
           // this.hallList.unshift(result);
           // this.hallList = this.hallList.filter(hall => 1 === 1);
+        },
+        error => {
+          this.toastr.error(error);
         }
       );
     }
@@ -128,5 +142,18 @@ export class UpdateHallComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['location/update']);
+  }
+
+  onDelete(id: string) {
+    console.log(id);
+    this.locationService.deleteSector(id).subscribe(
+      success => {
+        this.toastr.success(success);
+        console.log(success);
+        console.log(success.body);
+        this.sectorList = this.sectorList.filter(sector => sector.id !== id);
+        console.log(this.sectorList);
+      }
+    );
   }
 }

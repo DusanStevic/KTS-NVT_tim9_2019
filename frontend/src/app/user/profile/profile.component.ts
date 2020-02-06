@@ -124,7 +124,7 @@ export class ProfileComponent implements OnInit {
       success => {
         this.loading = false;
         this.toastr.success('Profile updated succesfully!', 'Succes');
-        if(isUsernameChanged) {
+        if (isUsernameChanged) {
           this.toastr.success('Log in with new username!', 'Username changed');
           localStorage.removeItem('user');
           this.router.navigate(['/login']);

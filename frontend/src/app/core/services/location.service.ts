@@ -65,4 +65,19 @@ export class LocationService {
     return this.http.post(this.constantsService.sectorPath + '/' + hallId, newSector,
     {headers: this.headers, responseType: 'json'});
   }
+
+  deleteSector(sectorId: string): Observable<any> {
+    return this.http.delete(this.constantsService.sectorPath + '/' + sectorId,
+    {headers: this.headers, responseType: 'text'});
+  }
+
+  getSector(sectorId: string): Observable<any> {
+    return this.http.get(this.constantsService.sectorPath + '/' + sectorId,
+    {headers: this.headers, responseType: 'json'});
+  }
+
+  updateSector(sectorId: string, updSector: Sector): Observable<any> {
+    return this.http.put(this.constantsService.sectorPath + '/' + sectorId, updSector,
+    {headers: this.headers, responseType: 'json'});
+  }
 }
