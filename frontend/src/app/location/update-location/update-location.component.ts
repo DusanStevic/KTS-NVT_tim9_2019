@@ -28,7 +28,9 @@ export class UpdateLocationComponent implements OnInit {
       name: '',
       description: '',
       id: '',
-      addressId: NaN
+      address: '',
+      latitude: NaN,
+      longitude: NaN
     };
     this.hallDto = {
       id: '',
@@ -50,7 +52,9 @@ export class UpdateLocationComponent implements OnInit {
     this.locationUpdForm = this.fb.group({
       name: [this.location.name, Validators.required],
       description: [this.location.description],
-      addressId: ['']
+      address: [this.location.address, Validators.required],
+      latitude: [this.location.latitude, Validators.required],
+      longitude: [this.location.longitude, Validators.required]
     });
   }
 
@@ -120,12 +124,15 @@ export class UpdateLocationComponent implements OnInit {
   onDelete(id: string) {
     console.log(id);
     this.locationService.deleteHall(id).subscribe(
-      result => {
-        this.toastr.success(result);
-        console.log(result);
-        console.log(result.body);
+      success => {
+        this.toastr.success(success);
+        console.log(success);
+        console.log(success.body);
         this.hallList = this.hallList.filter(hall => hall.id !== id);
         console.log(this.hallList);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }

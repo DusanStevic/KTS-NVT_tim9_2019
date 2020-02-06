@@ -79,8 +79,8 @@ public class LocationController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Location> updateLocation(
 			@PathVariable(value = "id") Long locationId,
-			@Valid @RequestBody LocationUpdateDTO dto) throws SavingException, ResourceNotFoundException {
-		Location loc = locationConverter.LocationUpdateDTO2Location(dto);
+			@Valid @RequestBody LocationDTO dto) throws SavingException, ResourceNotFoundException {
+		Location loc = locationConverter.LocationDTO2Location(dto);
 		return new ResponseEntity<>(locationService.update(locationId, loc), HttpStatus.OK);
 	}
 

@@ -20,8 +20,6 @@ public class SectorService {
 	@Autowired
 	private SectorRepository sectorRepository;
 
-	@Autowired
-	private HallService hallService;
 
 	public Sector save(Sector b) {
 		return sectorRepository.save(b);

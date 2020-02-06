@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "reservations")
@@ -31,13 +31,11 @@ public class Reservation {
 	private Date reservationDate;
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("reservation")
-	//@JsonBackReference
+	@JsonManagedReference("ticketsForReservation")
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	// @JsonIgnoreProperties("reservations")
-	@JsonBackReference
+	@JsonBackReference("buyer")
 	private RegisteredUser buyer;
 
 

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.EventConverter;
+import backend.dto.CreateEventDTO;
 import backend.dto.EventDTO;
 import backend.dto.EventUpdateDTO;
 import backend.dto.UrlDTO;
@@ -50,8 +51,8 @@ public class EventController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO dto) throws ResourceNotFoundException {
-		Event event = eventConverter.EventDTO2Event(dto);
+	public ResponseEntity<Event> createEvent(@Valid @RequestBody CreateEventDTO dto) throws ResourceNotFoundException {
+		Event event = eventConverter.CreateEventDTO2Event(dto);
 		return new ResponseEntity<>(eventService.save(event), HttpStatus.OK);
 	}
 	
@@ -72,7 +73,8 @@ public class EventController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(
 			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(eventService.findOneNotDeleted(eventId), HttpStatus.OK);
+		Event e = eventService.findOneNotDeleted(eventId);
+		return new ResponseEntity<>(e, HttpStatus.OK);
 	}
 	
 	/* update event by id */

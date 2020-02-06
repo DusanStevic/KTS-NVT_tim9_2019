@@ -25,8 +25,10 @@ export class AddLocationComponent implements OnInit {
     this.location = {
       name: '',
       description: '',
-      addressId: 1,
-      id: ''
+      address: '',
+      id: '',
+      latitude: NaN,
+      longitude: NaN
     };
   }
 
@@ -35,7 +37,9 @@ export class AddLocationComponent implements OnInit {
     this.locationForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-      addressId: [1, Validators.required]
+      address: ['', Validators.required],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required]
     });
   }
 
@@ -44,12 +48,15 @@ export class AddLocationComponent implements OnInit {
     this.location = this.locationForm.value;
     console.log(this.location);
     this.locationService.add(this.location).subscribe(
-      result => {
+      success => {
         this.toastr.success('Successfully added location');
-        console.log(result);
-        console.log(result.id);
-        localStorage.setItem('selectedLocation', result.id);
-        this.router.navigate(['location/details']);
+        console.log(success);
+        console.log(success.id);
+        localStorage.setItem('selectedLocation', success.id);
+        this.router.navigate(['location/update']);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }

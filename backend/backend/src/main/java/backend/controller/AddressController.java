@@ -61,6 +61,7 @@ public class AddressController {
 
 	@GetMapping(value="/page", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Address>> getAllAddressesPage() {
+		System.out.println("*****************page");
 		PageRequest pageRequest = PageRequest.of(0, 5); //druga strana
 		return new ResponseEntity<>(addressService.findAllNotDeleted(pageRequest), HttpStatus.OK);
 	}
@@ -69,6 +70,7 @@ public class AddressController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getAddress(
 			@PathVariable(value = "id") Long addressId) throws ResourceNotFoundException {
+		System.out.println("*****************get:"+addressId);
 		return new ResponseEntity<>(addressService.findOneNotDeleted(addressId), HttpStatus.OK);
 	}
 
