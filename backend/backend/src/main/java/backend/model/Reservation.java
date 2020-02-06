@@ -117,8 +117,6 @@ public class Reservation {
 				+ tickets + ", buyer=" + buyer + "]";
 	}
 
-
-
 	public boolean isCanceled() {
 		return canceled;
 	}

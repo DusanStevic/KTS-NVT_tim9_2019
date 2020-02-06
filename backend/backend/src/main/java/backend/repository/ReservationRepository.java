@@ -24,4 +24,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	public List<Reservation> findAllByCanceled(boolean b);
 
 	public Page<Reservation> findAllByCanceled(boolean b, Pageable pageable);
+	
+	@Query("select r from Reservation r where r.buyer.username = ?1 and r.canceled = false")
+	public List<Reservation> findMyReservations(String username);
 }
