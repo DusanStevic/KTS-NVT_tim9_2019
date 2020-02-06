@@ -3,7 +3,7 @@ package backend.controller;
 import static backend.constants.EventConstants.DB_EVENT_DELETED;
 import static backend.constants.EventConstants.*;
 import static backend.constants.EventConstants.DB_EVENT_TO_BE_DELETED2;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -56,7 +56,7 @@ public class EventControllerIntegrationTest {
 		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
-	/*
+	
 	@Test
 	public void testGetAllEvents() {
 		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
@@ -68,17 +68,17 @@ public class EventControllerIntegrationTest {
 		assertEquals(7, events.length);
 		assertEquals(DB_EVENT_ID, e0.getId());
 		assertEquals(DB_EVENT_NAME, e0.getName());
-	}*/
+	}
 	
 	@Test
 	public void testGetEvent() {
-		ResponseEntity<EventDTO> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, EventDTO.class);
+		ResponseEntity<Event> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, Event.class);
 		//System.out.println("aaaaaaaaaaaaaaaaa: "+);
 		
-		EventDTO found = responseEntity.getBody();
+		Event found = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(found);
-		//assertEquals(DB_EVENT_ID, found.getId());
+		assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
 	}
 	
