@@ -22,10 +22,13 @@ export class LocationListComponent implements OnInit {
     console.log('list init');
     console.log('ng on init loc list ');
     this.locationService.getAll().subscribe(
-      result => {
-        console.log(result);
-        this.locationList = result;
+      success => {
+        console.log(success);
+        this.locationList = success;
         console.log(this.locationList);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }
@@ -33,12 +36,15 @@ export class LocationListComponent implements OnInit {
   onDelete(id: string) {
     console.log(id);
     this.locationService.delete(id).subscribe(
-      result => {
-        this.toastr.success(result);
-        console.log(result);
-        console.log(result.body);
+      success => {
+        this.toastr.success(success);
+        console.log(success);
+        console.log(success.body);
         this.locationList = this.locationList.filter(location => location.id !== id);
         console.log(this.locationList);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }

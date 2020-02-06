@@ -21,11 +21,13 @@ import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
 import { EventsModule } from './events/events.module';
 import { ReservationModule } from './reservation/reservation.module';
+import { SeatChartComponent } from './seat-chart/seat-chart.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SeatChartComponent
   ],
   imports: [
     BrowserModule,
