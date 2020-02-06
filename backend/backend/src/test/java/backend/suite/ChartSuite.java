@@ -16,6 +16,6 @@ import backend.service.ChartServiceUnitTest;
 	ChartServiceIntegrationTest.class,
 	ChartControllerIntergrationTest.class
 })
-public class SuiteChart {
+public class ChartSuite {
 
 }

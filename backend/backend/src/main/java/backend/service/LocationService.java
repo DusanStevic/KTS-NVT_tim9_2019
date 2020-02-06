@@ -5,6 +5,7 @@ import static backend.constants.Constants.FIRST_TIMESTAMP;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -63,8 +64,14 @@ public class LocationService {
 
 	@javax.transaction.Transactional
 	public Location findOneNotDeleted(Long id) throws ResourceNotFoundException {
-		return locationRepository.findByIdAndDeleted(id, FIRST_TIMESTAMP)
-				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));
+		/*return locationRepository.findByIdAndDeleted(id, FIRST_TIMESTAMP)
+				.orElseThrow(() -> new ResourceNotFoundException("Could not find requested location"));*/
+		try {
+			Optional<Location> retVal = locationRepository.findByIdAndDeleted(id, FIRST_TIMESTAMP);
+			return retVal.get();
+		} catch (Exception e) {
+			throw new ResourceNotFoundException("Could not find requested location");
+		}
 	}
 
 	public List<Location> findAllNotDeleted() {

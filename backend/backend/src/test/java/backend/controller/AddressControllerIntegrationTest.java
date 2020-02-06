@@ -56,11 +56,11 @@ public class AddressControllerIntegrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("admin", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
 	@Test
@@ -233,16 +233,11 @@ public class AddressControllerIntegrationTest {
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
 	}
+	/*
 	@Test
 	public void testUpdateInvalidParameters() {
 		
 	}
-	
-	@Test
-	@Ignore
-	public void testGetAllAddressesPageable() {
-		
-	}
-	
+	*/
 	
 }

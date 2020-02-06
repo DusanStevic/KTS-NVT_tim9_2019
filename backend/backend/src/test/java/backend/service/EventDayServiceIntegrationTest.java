@@ -2,7 +2,16 @@ package backend.service;
 
 import static backend.constants.AddressConstants.PAGE_SIZE;
 import static backend.constants.AddressConstants.pageRequest;
-import static backend.constants.EventDayConstants.*;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_COUNT;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_DELETED;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_DELETED_NAME;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_ID;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_NAME;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_TO_BE_DELETED;
+import static backend.constants.EventDayConstants.DB_EVENTDAY_TO_BE_UPDATED;
+import static backend.constants.EventDayConstants.EVENTDAY_ID_NON_EXISTENT;
+import static backend.constants.EventDayConstants.NEW_EVENTDAY;
+import static backend.constants.EventDayConstants.UPD_EVENTDAY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

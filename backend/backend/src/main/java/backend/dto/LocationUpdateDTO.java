@@ -4,12 +4,12 @@ public class LocationUpdateDTO {
 
 	private String name;
 	private String description;
-	private Long address_id;
-	public LocationUpdateDTO(String name, String description, Long address_id) {
+	private Long addressId;
+	public LocationUpdateDTO(String name, String description, Long addressId) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.address_id = address_id;
+		this.addressId = addressId;
 	}
 	public LocationUpdateDTO() {
 		super();
@@ -26,12 +26,11 @@ public class LocationUpdateDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getAddress_id() {
-		return address_id;
+	public Long getAddressId() {
+		return addressId;
 	}
-	public void setAddress_id(Long address_id) {
-		this.address_id = address_id;
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
 	}
-	
 	
 }

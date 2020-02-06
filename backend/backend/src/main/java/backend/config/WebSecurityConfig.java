@@ -108,6 +108,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 			
 			// za neautorizovane zahteve posalji 401 gresku
 			.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
+			// za cors
+			.cors().and()
 			
 			// svim korisnicima dopusti da pristupe putanjama /auth/** i /h2-console/**
 			.authorizeRequests()

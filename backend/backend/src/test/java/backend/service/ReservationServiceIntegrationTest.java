@@ -21,6 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import backend.dto.ReservationDetailedDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Reservation;
 
@@ -164,5 +165,16 @@ public class ReservationServiceIntegrationTest {
 		 */
 		reservationService.update(DB_RESERVATION_DELETED, null); 
 	} 
+	
+	@Test
+	@Transactional
+	public void testFindMyReservations() {
+		List<ReservationDetailedDTO> found = reservationService.findMyReservations(DB_PRINCIPAL_USER_USERNAME);
+		assertNotNull(found);
+		assertFalse(found.isEmpty());
+		for(ReservationDetailedDTO e: found) {
+			assertTrue(e.getUsername().equals(DB_PRINCIPAL_USER_USERNAME));
+		}
+	}
 	
 }

@@ -16,7 +16,9 @@ public class ReservationConstants {
 	public static final Long RESERVATION_ID_NON_EXISTENT = 666L;
 	
 	public static final String DB_RESERVATION_NAME = "Reservation";
-	
+
+    public static final String DB_PRINCIPAL_USER_USERNAME = "user";
+    
 	public static final String DB_RESERVATION_DELETED_NAME = "Reservation deleted";
 	
 	public static Reservation NEW_RESERVATION = new Reservation(null,false,new Date(),null ,null,false);

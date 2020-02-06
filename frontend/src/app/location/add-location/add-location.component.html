@@ -1,0 +1,7 @@
+<h1>Add new location</h1>
+<div class="row">
+	<div class="col">
+		<app-location-form [locationForm]="locationForm" [location]="location" 
+		(submit)="onLocationSubmit($event)" (resetClicked)="onReset($event)"></app-location-form>
+	</div>
+</div>

@@ -1,6 +1,5 @@
 package backend.controller;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +59,13 @@ public class LocationController {
 	public ResponseEntity<List<Location>> getAllLocations() {
 		return new ResponseEntity<>(locationService.findAllNotDeleted(), HttpStatus.OK);
 	}
+	/*
+	@GetMapping(value="/page", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<Location>> getAllLocationsPage() {
+		PageRequest pageRequest = PageRequest.of(0, 5); //druga strana
+		return new ResponseEntity<>(locationService.findAllNotDeleted(pageRequest), HttpStatus.OK);
+	}
+	*/
 
 	/* get a location by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

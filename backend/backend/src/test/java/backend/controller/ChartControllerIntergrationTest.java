@@ -1,30 +1,6 @@
 package backend.controller;
 
-import static backend.constants.ChartConstants.AVERAGE_NAME;
-import static backend.constants.ChartConstants.END_DATE_BAD;
-import static backend.constants.ChartConstants.END_DATE_EMPTY;
-import static backend.constants.ChartConstants.END_DATE_GOOD;
-import static backend.constants.ChartConstants.EVENT1_NAME;
-import static backend.constants.ChartConstants.EVENT2_NAME;
-import static backend.constants.ChartConstants.INCOME_EVENT1;
-import static backend.constants.ChartConstants.INCOME_EVENT2;
-import static backend.constants.ChartConstants.INCOME_EVENT_AVERAGE;
-import static backend.constants.ChartConstants.INCOME_LOCATION1;
-import static backend.constants.ChartConstants.INCOME_LOCATION1_INTERVAL;
-import static backend.constants.ChartConstants.INFO_ALLTIME_INCOME;
-import static backend.constants.ChartConstants.INFO_ALLTIME_TICKETS;
-import static backend.constants.ChartConstants.INFO_NUM_ADMIN;
-import static backend.constants.ChartConstants.INFO_NUM_EVENTS;
-import static backend.constants.ChartConstants.INFO_NUM_USERS;
-import static backend.constants.ChartConstants.LOCATION1_NAME;
-import static backend.constants.ChartConstants.START_DATE_BAD;
-import static backend.constants.ChartConstants.START_DATE_EMPTY;
-import static backend.constants.ChartConstants.START_DATE_GOOD;
-import static backend.constants.ChartConstants.TICKETS_SOLD_AVERAGE;
-import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT1;
-import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT2;
-import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1;
-import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1_INTERVAL;
+import static backend.constants.ChartConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -71,11 +47,11 @@ public class ChartControllerIntergrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("sys", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 		df = new SimpleDateFormat("yyyy-MM-dd");
 	}
@@ -141,12 +117,13 @@ public class ChartControllerIntergrationTest {
 		
 		ChartIncomeEventsDTO[] info = responseEntity.getBody();
 		assertNotNull(info);
+		assertTrue(info.length>0);
 		assertEquals(EVENT1_NAME.toLowerCase(), info[0].getEventName().toLowerCase());
 		assertTrue(INCOME_EVENT1 == info[0].getIncome());
 		assertEquals(EVENT2_NAME.toLowerCase(), info[1].getEventName().toLowerCase());
 		assertTrue(INCOME_EVENT2 == info[1].getIncome());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info[2].getEventName().toLowerCase());
-		assertTrue(INCOME_EVENT_AVERAGE == info[2].getIncome());
+		assertEquals(AVERAGE_NAME.toLowerCase(), info[info.length - 1].getEventName().toLowerCase());
+		assertTrue(INCOME_EVENT_AVERAGE == info[info.length - 1].getIncome());
 	}
 	
 
@@ -208,12 +185,13 @@ public class ChartControllerIntergrationTest {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		ChartEventTicketsSoldDTO[] info = responseEntity.getBody();
 		assertNotNull(info);
+		assertTrue(info.length>0);
 		assertEquals(EVENT1_NAME.toLowerCase(), info[0].getEventName().toLowerCase());
 		assertTrue(TICKETS_SOLD_EVENT1 == info[0].getTicketsSold());
 		assertEquals(EVENT2_NAME.toLowerCase(), info[1].getEventName().toLowerCase());
 		assertTrue(TICKETS_SOLD_EVENT2 == info[1].getTicketsSold());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info[2].getEventName().toLowerCase());
-		assertTrue(TICKETS_SOLD_AVERAGE == info[2].getTicketsSold());
+		assertEquals(AVERAGE_NAME.toLowerCase(), info[info.length - 1].getEventName().toLowerCase());
+		assertTrue(TICKETS_SOLD_AVERAGE == info[info.length - 1].getTicketsSold());
 	}
 	
 	@Test
@@ -274,10 +252,11 @@ public class ChartControllerIntergrationTest {
 		
 		ChartIncomeLocationsDTO[] info = responseEntity.getBody();
 		assertNotNull(info);
+		assertTrue(info.length>0);
 		assertEquals(LOCATION1_NAME.toLowerCase(), info[0].getLocationName().toLowerCase());
 		assertTrue(INCOME_LOCATION1 == info[0].getIncome());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info[1].getLocationName().toLowerCase());
-		assertTrue(INCOME_LOCATION1 == info[1].getIncome());
+		assertEquals(AVERAGE_NAME.toLowerCase(), info[info.length - 1].getLocationName().toLowerCase());
+		assertTrue(INCOME_LOCATION_AVG == info[info.length - 1].getIncome());
 	}
 	
 
@@ -338,10 +317,11 @@ public class ChartControllerIntergrationTest {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		ChartLocationTicketsSoldDTO[] info = responseEntity.getBody();
 		assertNotNull(info);
+		assertTrue(info.length>0);
 		assertEquals(LOCATION1_NAME.toLowerCase(), info[0].getLocationName().toLowerCase());
 		assertTrue(TICKETS_SOLD_LOCATION1 == info[0].getTicketsSold());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info[1].getLocationName().toLowerCase());
-		assertTrue(TICKETS_SOLD_LOCATION1 == info[1].getTicketsSold());
+		assertEquals(AVERAGE_NAME.toLowerCase(), info[info.length - 1].getLocationName().toLowerCase());
+		assertTrue(TICKETS_SOLD_LOCATION_AVG == info[info.length - 1].getTicketsSold());
 	}
 	
 

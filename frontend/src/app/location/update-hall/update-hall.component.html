@@ -1,0 +1,26 @@
+<div class="row head-row">
+    <div class="col">
+        
+    </div>
+    <div class="float-right ">
+        <button mat-raised-button color="accent" (click)="goBack()">Back</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h2>Edit Hall</h2>
+        <app-hall-form [hallForm]="hallUpdForm" [hall]="hall"
+        (submit)="onHallSubmit($event)" (resetHallClicked)="onReset($event)"></app-hall-form>
+    </div>
+    <div class="col">
+        <h2>Add Sector</h2>
+        <app-sector-form [sectorForm]="sectorForm" [sector]="sector" 
+        (submit)="onSectorSubmit($event)" (resetSectorClicked)="onResetSector($event)"></app-sector-form>
+    </div>
+    <div class="col">
+        <h2>All Sectors</h2>
+        <div class="table-sector" id="table-sector">
+			<app-sector-table [sectors]="sectorList" (deleteSectorClicked)="onDelete($event)"></app-sector-table>
+		</div>
+    </div>
+</div>

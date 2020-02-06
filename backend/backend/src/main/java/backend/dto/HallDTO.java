@@ -1,8 +1,5 @@
 package backend.dto;
 
-import java.util.ArrayList;
-
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -12,33 +9,36 @@ public class HallDTO {
 	@Length(min = 1, message = "Hall name is mandatory")
 	private String name;
 
-	private int number_of_sectors;
+	private int standingNr;
+	private int sittingNr;
 
 	/*
 	 * ne prosledjuje se prilikom kreiranja lokacije
 	 */
-	//private Long location_id;
+	// private Long location_id;
 
-	@NotNull(message = "Sectors are mandatory")
-	@NotEmpty(message = "Sectors are mandatory")
-	private ArrayList<SectorDTO> sectors;
+	/*
+	 * @NotNull(message = "Sectors are mandatory")
+	 * 
+	 * @NotEmpty(message = "Sectors are mandatory") private ArrayList<SectorDTO>
+	 * sectors;
+	 */
 
 	public HallDTO() {
 		super();
 	}
 
-	public HallDTO(String name, int number_of_sectors, ArrayList<SectorDTO> sectors) {
+	public HallDTO(String name, int sittingNr, int standingNr) {
 		super();
 		this.name = name;
-		this.number_of_sectors = number_of_sectors;
-		//this.location_id = location_id;
-		this.sectors = sectors;
+		this.sittingNr = sittingNr;
+		this.standingNr = standingNr;
 	}
 
-	public HallDTO(String name, ArrayList<SectorDTO> sectors) {
+	public HallDTO(String name) {
 		super();
 		this.name = name;
-		this.sectors = sectors;
+		// this.sectors = sectors;
 	}
 
 	public String getName() {
@@ -49,28 +49,20 @@ public class HallDTO {
 		this.name = name;
 	}
 
-	public int getNumber_of_sectors() {
-		return number_of_sectors;
+	public int getStandingNr() {
+		return standingNr;
 	}
 
-	public void setNumber_of_sectors(int number_of_sectors) {
-		this.number_of_sectors = number_of_sectors;
+	public void setStandingNr(int standingNr) {
+		this.standingNr = standingNr;
 	}
 
-	/*public Long getLocation_id() {
-		return location_id;
+	public int getSittingNr() {
+		return sittingNr;
 	}
 
-	public void setLocation_id(Long location_id) {
-		this.location_id = location_id;
-	}*/
-
-	public ArrayList<SectorDTO> getSectors() {
-		return sectors;
-	}
-
-	public void setSectors(ArrayList<SectorDTO> sectors) {
-		this.sectors = sectors;
+	public void setSittingNr(int sittingNr) {
+		this.sittingNr = sittingNr;
 	}
 
 }

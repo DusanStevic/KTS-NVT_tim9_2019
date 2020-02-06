@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+
 @Entity
 @Table(name = "locations", uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"address_id", "deleted"}) })
@@ -69,7 +70,6 @@ public class Location {
 		super();
 		this.name = name;
 		this.description = description;
-		this.halls = halls;
 		this.address = address;
 		this.deleted = deleted;
 	}

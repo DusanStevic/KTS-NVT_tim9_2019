@@ -1,0 +1,19 @@
+
+<div class="row">
+	<div class="col">
+		<h2>Edit location</h2>
+		<app-location-form [locationForm]="locationUpdForm" [location]="location" 
+		(submit)="onLocationSubmit($event)" (resetClicked)="onReset($event)"></app-location-form>
+	</div>
+	<div class="col">
+		<h2>Add Hall</h2>
+		<app-hall-form [hallForm]="hallForm" [hall]="hall" (submit)="onHallSubmit($event)" 
+		(resetHallClicked)="onResetHall($event)"></app-hall-form>
+	</div>
+	<div class="col">
+		<h2>All halls</h2>
+		<div class="table-hall" id="table-hall">
+			<app-hall-table [halls]="hallList" (deleteHallClicked)="onDelete($event)"></app-hall-table>
+		</div>
+	</div>
+</div>

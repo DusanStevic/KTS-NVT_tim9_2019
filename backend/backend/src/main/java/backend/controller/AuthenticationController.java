@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ import backend.converters.UserConverter;
 import backend.dto.RegistrationDTO;
 import backend.dto.UserDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.Role;
@@ -49,6 +51,7 @@ import backend.service.UserService;
 //Kontroler zaduzen za autentifikaciju korisnika
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
 	@Autowired
@@ -67,7 +70,8 @@ public class AuthenticationController {
     private UserService userService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+	@CrossOrigin()
+	public ResponseEntity<String> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
 		System.out.println("ULETEO SAM U LOGOVANJE");
 		if (device == null) {
@@ -92,25 +96,26 @@ public class AuthenticationController {
 
 		// Kreiraj token
 		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername(), device);
+		
+		@SuppressWarnings("unused")
 		int expiresIn = tokenUtils.getExpiredIn(device);
-		Role userType = null;
+		Role role = null;
 		//zajedno sa tokenom salje se i uloga na front pa u zavisnosti od tipa korisnika
 		//na frontu ce ce otvarati posebno strana za usera, admina i sys-admina
 	
 		if (user instanceof Administrator) {
-			userType = Role.ROLE_ADMIN;
+			role = Role.ROLE_ADMIN;
 		}
 		else if (user instanceof SysAdmin) {
-			userType = Role.ROLE_SYS_ADMIN;
+			role = Role.ROLE_SYS_ADMIN;
 		}
 		else {
-			userType = Role.ROLE_REGISTERED_USER;
+			role = Role.ROLE_REGISTERED_USER;
 		}
 
-
+		String jwt = tokenUtils.generateToken(user.getUsername(), role.toString(), device);
 		// Vrati token kao odgovor na uspesno autentifikaciju
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, userType));
+		return new ResponseEntity<String>(jwt, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/refresh")
@@ -174,9 +179,9 @@ public class AuthenticationController {
 
 	/*Prilikom slanja sa fronta mora se poslati default slika ako korisnik nece da uploduje neku
 	 * simultano slanje json+multipart-data*/
-	@PostMapping(value = "/registerAdmin",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {"multipart/form-data"})
-	public ResponseEntity<UserDTO> registerAdmin(@RequestPart("obj") RegistrationDTO registrationDTO, @RequestPart("file") MultipartFile file) {
-		Administrator administrator = userService.registerAdmin(registrationDTO,file);
+	@PostMapping(value = "/registerAdmin",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> registerAdmin(@RequestBody RegistrationDTO registrationDTO) {
+		Administrator administrator = userService.registerAdmin(registrationDTO);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(administrator), HttpStatus.OK);
 	}
 	
@@ -186,7 +191,7 @@ public class AuthenticationController {
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
 	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
-			throws UnsupportedEncodingException, ResourceNotFoundException {
+			throws UnsupportedEncodingException, ResourceNotFoundException, SavingException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
 		String str = new String(bytes);
