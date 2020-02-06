@@ -17,6 +17,6 @@ export class FileUploadService {
   ) { }
 
   updateProfileImage(image: FormData): Observable<any> {
-    return this.http.post(this.constantsService.filePath + '/profile-image', image, {headers: this.headers, responseType: 'json'});
+    return this.http.put(this.constantsService.filePath + '/profile-image', image);
   }
 }
