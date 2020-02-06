@@ -70,9 +70,10 @@ public class EventController {
 
 	/* get an event by id, permitted for all */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getEvent(
+	public ResponseEntity<EventDTO> getEvent(
 			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(eventService.findOneNotDeleted(eventId), HttpStatus.OK);
+		Event e = eventService.findOneNotDeleted(eventId);
+		return new ResponseEntity<>(eventConverter.Event2EventDTO(e), HttpStatus.OK);
 	}
 	
 	/* update event by id */
