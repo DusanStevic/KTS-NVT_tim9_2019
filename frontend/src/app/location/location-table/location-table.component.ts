@@ -12,7 +12,7 @@ export class LocationTableComponent implements OnInit {
 
   @Input() locations: Location[];
   @Output() deleteLocClicked: EventEmitter<any>;
-  displayedColumns: string[] = ['Name', 'Description', 'Edit', 'Delete'];
+  displayedColumns: string[] = ['Name', 'Description', 'Address', 'Edit', 'Delete'];
   constructor(
     private router: Router,
     private locationService: LocationService

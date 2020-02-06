@@ -51,9 +51,9 @@ public class LocationServiceUnitTest {
 	public static final Long locationId = 1L;
 	public static final Long deletedLocationId = 2L;
 	public static final Long nonExistentId = 666L;
-	public static final Location location = new Location(locationId, "Naziv", "Opis", null, null, FIRST_TIMESTAMP);
-	public static final Location deletedLocation = new Location(deletedLocationId, "Naziv deleted", "Opis deleted", null, null, null);
-	public static final Location locationToBeDeleted = new Location(locationId, "Naziv", "Opis", null, null, FIRST_TIMESTAMP);
+	public static final Location location = new Location(locationId, "Naziv", "Opis", null, FIRST_TIMESTAMP, "adr", 0.0, 0.0);
+	public static final Location deletedLocation = new Location(deletedLocationId, "Naziv deleted", "Opis deleted", null, null, "", 0, 0);
+	public static final Location locationToBeDeleted = new Location(locationId, "Naziv", "Opis", null, FIRST_TIMESTAMP, "", 0, 0);
 	@Before
 	public void setup() {
 		//Address address_deleted = new Address(deletedAddressId, "Street1", 223, "City", "Country", 22.2, 33.3);
@@ -189,9 +189,9 @@ public class LocationServiceUnitTest {
 	@Test
 	public void testUpdate() throws ResourceNotFoundException, SavingException {
 		when(locationRepositoryMocked.findByIdAndDeleted(locationId, FIRST_TIMESTAMP)).thenReturn(Optional.of(location));
-		Address adr = new Address();
-		adr.setId(1L);
-		Location upd = new Location(locationId, "blaa", "mjau", null, adr, null);
+		//Address adr = new Address();
+		//adr.setId(1L);
+		Location upd = new Location(locationId, "blaa", "mjau", null, null, "", 0, 0);
 		when(locationRepositoryMocked.save(upd)).thenReturn(upd);
 		Location updated = locationService.update(locationId, upd);
 		
@@ -199,7 +199,7 @@ public class LocationServiceUnitTest {
 		assertTrue(locationId == updated.getId());
 		assertEquals(upd.getName(), updated.getName());
 		assertEquals(upd.getDescription(), updated.getDescription());
-		assertEquals(upd.getAddress().getId(), updated.getAddress().getId());
+		//assertEquals(upd.getAddress().getId(), updated.getAddress().getId());
 		verify(locationRepositoryMocked, times(1)).findByIdAndDeleted(locationId, FIRST_TIMESTAMP);
 		verify(locationRepositoryMocked, times(1)).save(upd);
 	}

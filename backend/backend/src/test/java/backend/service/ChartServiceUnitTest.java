@@ -123,8 +123,7 @@ public class ChartServiceUnitTest {
 		Set<Ticket> res3 = new HashSet<Ticket>();
 		Set<Ticket> res4 = new HashSet<Ticket>();
 
-		location = new Location(1L, "SPENS NS", "", halls, new Address(),
-				new Timestamp(15L));
+		location = new Location(1L, "SPENS NS", "", halls, new Timestamp(15L), "", 0, 0);
 
 		h1 = new Hall(1L, "Main hall", sectors, location, false);
 

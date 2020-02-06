@@ -21,7 +21,7 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system admi
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 
-INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, "1970-01-01 01:00:00");
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", "1970-01-01 01:00:00", "Street 2 Novi Sad Serbia", 45.267136, 19.833549);
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);
 

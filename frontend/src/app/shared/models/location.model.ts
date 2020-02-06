@@ -1,6 +1,8 @@
 export class Location {
+    id: string;
     name: string;
     description: string;
-    addressId: number;
-    id: string;
+    address: string;
+    latitude: number;
+    longitude: number;
 }
