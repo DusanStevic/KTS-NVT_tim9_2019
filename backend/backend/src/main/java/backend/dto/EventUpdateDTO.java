@@ -21,19 +21,19 @@ public class EventUpdateDTO {
 	@Max(value=4, message="Invalid type of an event")
 	private int type;
 	
-	@NotNull(message = "Maximum number of tickets per reservation is mandatory")
+	/*@NotNull(message = "Maximum number of tickets per reservation is mandatory")
 	@Min(value=1, message="Maximum number of tickets per reservation must be greater than or equal to {value}")
-	private int max_tickets;
+	private int max_tickets;*/
 	
 	public EventUpdateDTO() {
 		super();
 	}
-	public EventUpdateDTO(String name, String description, int type, int max_tickets) {
+	public EventUpdateDTO(String name, String description, int type) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.type = type;
-		this.max_tickets = max_tickets;
+		//this.max_tickets = max_tickets;
 	}
 	public String getName() {
 		return name;
@@ -53,12 +53,12 @@ public class EventUpdateDTO {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public int getMax_tickets() {
-		return max_tickets;
-	}
-	public void setMax_tickets(int max_tickets) {
-		this.max_tickets = max_tickets;
-	}
+//	public int getMax_tickets() {
+//		return max_tickets;
+//	}
+//	public void setMax_tickets(int max_tickets) {
+//		this.max_tickets = max_tickets;
+//	}
 	
 	
 }
