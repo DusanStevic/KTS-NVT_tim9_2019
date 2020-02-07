@@ -3,7 +3,7 @@ package backend.controller;
 import static backend.constants.EventConstants.DB_EVENT_DELETED;
 import static backend.constants.EventConstants.*;
 import static backend.constants.EventConstants.DB_EVENT_TO_BE_DELETED2;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import backend.dto.EventDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
 import backend.model.UserTokenState;
@@ -49,14 +49,14 @@ public class EventControllerIntegrationTest {
 	
 	@Before
 	public void login() {
-		ResponseEntity<UserTokenState> login = 
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("admin", "admin"), 
-						UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+						String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer "+accessToken);
 	}
-/*
+	
 	@Test
 	public void testGetAllEvents() {
 		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
@@ -68,8 +68,8 @@ public class EventControllerIntegrationTest {
 		assertEquals(7, events.length);
 		assertEquals(DB_EVENT_ID, e0.getId());
 		assertEquals(DB_EVENT_NAME, e0.getName());
-	}*/
-	/*
+	}
+	
 	@Test
 	public void testGetEvent() {
 		ResponseEntity<Event> responseEntity = restTemplate.getForEntity("/api/event/"+DB_EVENT_ID, Event.class);
@@ -80,7 +80,7 @@ public class EventControllerIntegrationTest {
 		assertNotNull(found);
 		assertEquals(DB_EVENT_ID, found.getId());
 		assertEquals(DB_EVENT_NAME, found.getName());
-	}*/
+	}
 	
 	@Test
 	public void testGetAddressNonExistent() {

@@ -43,9 +43,9 @@ public class TicketControllerIntegrationTest {
 	@Before
 	public void login() {
 
-		ResponseEntity<UserTokenState> login = restTemplate.postForEntity("/auth/login",
-				new JwtAuthenticationRequest("admin", "admin"), UserTokenState.class);
-		accessToken = login.getBody().getAccessToken();
+		ResponseEntity<String> login = restTemplate.postForEntity("/auth/login",
+				new JwtAuthenticationRequest("admin", "admin"), String.class);
+		accessToken = login.getBody();
 		headers.add("Authorization", "Bearer " + accessToken);
 	}
 	

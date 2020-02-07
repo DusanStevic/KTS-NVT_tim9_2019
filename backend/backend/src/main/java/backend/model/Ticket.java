@@ -29,12 +29,19 @@ public class Ticket {
 	private Integer numCol;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JsonBackReference("tickets")
+	private EventDay eventDay;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JsonBackReference("ticketsForReservation")
+/*
 	@JsonBackReference(value = "eventday")
 	private EventDay eventDay;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 
 	@JsonBackReference(value = "reservation")
+>>>>>>> master*/
 	private Reservation reservation;
 
 	@ManyToOne

@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import backend.dto.EventDayDTO;
 
@@ -41,12 +41,11 @@ public class EventDay {
 	private EventStatus status;
 
 	@OneToMany(mappedBy = "eventDay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("eventDay")
-	//@JsonBackReference
+	@JsonManagedReference("tickets")
 	private Set<Ticket> tickets = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JsonBackReference
+	@JsonBackReference("days")
 	private Event event;
 
 	@Column(name = "deleted", nullable = false)

@@ -18,6 +18,9 @@ import { UpdateHallComponent } from './location/update-hall/update-hall.componen
 import { UpdateSectorComponent } from './location/update-sector/update-sector.component';
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
 import { AddAdminComponent } from './user/add-admin/add-admin.component';
+import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
+import { SeatChartComponent } from './seat-chart/seat-chart.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -33,6 +36,12 @@ const routes: Routes = [
   {
     path: 'myReservations',
     component: MyReservationsComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_REGISTERED_USER'}
+  },
+  {
+    path: 'reservationDetail/:id',
+    component: ViewReservationComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_REGISTERED_USER'}
   },
@@ -101,6 +110,10 @@ const routes: Routes = [
     component: UpdateSectorComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'seatChart',
+    component: SeatChartComponent
   }
 ];
 @NgModule({

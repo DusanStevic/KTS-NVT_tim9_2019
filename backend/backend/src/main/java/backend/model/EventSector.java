@@ -26,7 +26,7 @@ public class EventSector {
 	private double price;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JsonBackReference
+	@JsonBackReference("sectors")
 	private Event event;
 
 	@JoinColumn(name = "sector_id", unique = false)

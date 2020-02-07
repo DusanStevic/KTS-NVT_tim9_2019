@@ -72,12 +72,15 @@ export class UpdateHallComponent implements OnInit {
   }
   init() {
     this.locationService.getHall(localStorage.getItem('selectedHall')).subscribe(
-      result => {
-        console.log(result);
-        this.hall = result;
+      success => {
+        console.log(success);
+        this.hall = success;
         console.log(this.hall);
-        this.sectorList = result.sectors;
+        this.sectorList = success.sectors;
         this.createHallForm();
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }
@@ -153,6 +156,9 @@ export class UpdateHallComponent implements OnInit {
         console.log(success.body);
         this.sectorList = this.sectorList.filter(sector => sector.id !== id);
         console.log(this.sectorList);
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }

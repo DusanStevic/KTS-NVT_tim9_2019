@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "events")
@@ -72,11 +72,11 @@ public class Event {
 	
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("event")
+	@JsonManagedReference("sectors")
 	private Set<EventSector> eventSectors = new HashSet<>();
 
 	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("event")
+	@JsonManagedReference("days")
 	private Set<EventDay> eventDays = new HashSet<>();
 
 	public Event() {

@@ -82,6 +82,9 @@ export class UpdateSectorComponent implements OnInit {
         }
         this.sectorType = success.type + 'DTO';
         this.createForm(success.type + 'DTO');
+      },
+      error => {
+        this.toastr.error(error);
       }
     );
   }
