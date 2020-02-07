@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.converters.LocationConverter;
 import backend.dto.LocationDTO;
-import backend.dto.LocationUpdateDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
 import backend.exceptions.SavingException;

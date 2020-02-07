@@ -5,11 +5,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AddAdminComponent } from './add-admin/add-admin.component';
 
 
 
 @NgModule({
-  declarations: [ChangePasswordComponent, ProfileComponent],
+  declarations: [ChangePasswordComponent, ProfileComponent, AddAdminComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -19,7 +20,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   ],
   exports: [
     ChangePasswordComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddAdminComponent
   ],
 })
 export class UserModule { }

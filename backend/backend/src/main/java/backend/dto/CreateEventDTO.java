@@ -70,6 +70,10 @@ public class CreateEventDTO {
 		super();
 	}
 
+	public CreateEventDTO(String string) {
+		this.name = string;
+	}
+
 	@Override
 	public String toString() {
 		return "CreateEventDTO [name=" + name + ", description=" + description + ", event_type=" + event_type

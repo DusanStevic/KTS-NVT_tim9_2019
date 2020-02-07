@@ -231,7 +231,10 @@ public class ReservationService {
 		Reservation r = findOne(id);
 		if (r.isCanceled()) {
 			throw new BadRequestException("Reservation has already been canceled.");
-		} else {
+		}else if (r.isPurchased()) {
+			throw new BadRequestException("Cannot cancel bought reservation");
+		}else {
+			
 			r.setCanceled(true);
 
 			return save(r);
@@ -295,6 +298,13 @@ public class ReservationService {
 		});
 		
 		return myReservations;
+	}
+	
+	public ReservationDetailedDTO findMyReservation(String username, Long reservationId){
+		Reservation reservation = reservationRepository.findMyReservation(username, reservationId);
+		ReservationDetailedDTO retVal = new ReservationDetailedDTO(reservation);
+		
+		return retVal;
 	}
 
 }

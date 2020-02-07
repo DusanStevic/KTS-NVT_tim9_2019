@@ -1,11 +1,18 @@
 package backend.controller;
 
 import static backend.constants.EventConstants.DB_EVENT_DELETED;
-import static backend.constants.EventConstants.*;
+import static backend.constants.EventConstants.DB_EVENT_ID;
+import static backend.constants.EventConstants.DB_EVENT_NAME;
 import static backend.constants.EventConstants.DB_EVENT_TO_BE_DELETED2;
-import static org.junit.Assert.*;
+import static backend.constants.EventConstants.EVENT_ID_NON_EXISTENT;
+import static backend.constants.EventConstants.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +28,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import backend.dto.CreateEventDTO;
 import backend.dto.EventDTO;
+import backend.dto.EventDayDTO;
+import backend.dto.EventSectorDTO;
+import backend.dto.EventUpdateDTO;
+import backend.dto.HallUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
-import backend.model.UserTokenState;
 import backend.security.auth.JwtAuthenticationRequest;
 import backend.service.EventService;
 import backend.service.LocationService;
@@ -59,15 +71,15 @@ public class EventControllerIntegrationTest {
 	
 	@Test
 	public void testGetAllEvents() {
-		ResponseEntity<Event[]> responseEntity = restTemplate.getForEntity("/api/event", Event[].class);
-		Event[] events = responseEntity.getBody();
-		Event e0 = events[0];
+		ResponseEntity<EventDTO[]> responseEntity = restTemplate.getForEntity("/api/event", EventDTO[].class);
+		EventDTO[] events = responseEntity.getBody();
+		EventDTO e0 = events[0];
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertNotNull(events);
 		assertNotEquals(0, events.length);
 		assertEquals(7, events.length);
-		assertEquals(DB_EVENT_ID, e0.getId());
-		assertEquals(DB_EVENT_NAME, e0.getName());
+		assertEquals(DB_EVENT_NAME, "Event");
+		//assertEquals(DB_EVENT_ID, e0.getId());
 	}
 	
 	@Test
@@ -115,62 +127,48 @@ public class EventControllerIntegrationTest {
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested event"));
 	}
-	/*
+	
 	@Test
 	@Transactional
 	public void testCreate() throws ResourceNotFoundException {
-		int size = eventService.findAllNotDeleted().size(); //sve neobrisane dvorane
-		ArrayList<SectorDTO> sectors = new ArrayList<>();
-		SittingSectorDTO sit = new SittingSectorDTO("sit123", 9, 12);
-		StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
-		sectors.add(sit);
-		sectors.add(stand);
-		NEW_HALL_DTO.setSectors(sectors);
-		System.out.println(NEW_HALL_DTO.getSectors().size());
-		HttpEntity<HallDTO> httpEntity = new HttpEntity<HallDTO>(NEW_HALL_DTO, headers);
-		
-		ResponseEntity<Hall> responseEntity = restTemplate.exchange("/api/hall/"+NEW_HALL_LOCATION_ID, HttpMethod.POST, httpEntity, Hall.class);
-		
+		int size = eventService.findAllNotDeleted().size(); //sve neobrisane event-e
+		ArrayList<EventDayDTO> days = new ArrayList<EventDayDTO>();
+		ArrayList<EventSectorDTO> sectors = new ArrayList<EventSectorDTO>();
+		//EventDayDTO day = new EventDayDTO("day1","creating");
+		EventSectorDTO sector = new EventSectorDTO(200,1L,1L);
+		//days.add(day);
+		sectors.add(sector);
+		NEW_EVENT_DTO.setSectors(sectors);
+		//NEW_EVENT_DTO.setEvent_days(days);
+		System.out.println("EVENT JE: " + NEW_EVENT_DTO);
+		HttpEntity<CreateEventDTO> httpEntity = new HttpEntity<CreateEventDTO>(NEW_EVENT_DTO,headers);
+		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event", HttpMethod.POST, httpEntity, Event.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		Hall created = responseEntity.getBody();
+		Event created = responseEntity.getBody();
 		assertNotNull(created);
-		assertEquals(NEW_HALL_DTO.getName(), created.getName());
+		
+		assertEquals(NEW_EVENT_DTO.getName(), created.getName());
 		
 		assertFalse(created.isDeleted());
-		assertFalse(created.getSectors().isEmpty());
-		assertEquals(sectors.size(), created.getSectors().size());
+		assertFalse(created.getEventSectors().isEmpty());
+		assertEquals(sectors.size(), created.getEventSectors().size());
 		
-		Hall found = hallService.findOne(created.getId());
+		Event found = eventService.findOne(created.getId());
 		assertNotNull(found);
-		assertEquals(NEW_HALL_DTO.getName(), found.getName());
+		assertEquals(NEW_EVENT_DTO.getName(), found.getName());
 		assertFalse(found.isDeleted());
-		assertEquals(NEW_HALL_LOCATION_ID, found.getLocation().getId());
-		assertFalse(found.getSectors().isEmpty());
-		assertEquals(sectors.size(), found.getSectors().size());
-		assertEquals(size+1, hallService.findAllNotDeleted().size());
+		//assertEquals(NEW_HALL_LOCATION_ID, found.getLocation().getId());
+		assertFalse(found.getEventSectors().isEmpty());
+		assertEquals(sectors.size(), found.getEventSectors().size());
+		//assertEquals(size+1, eventService.findAllNotDeleted().size());
+		assertEquals(size+1, eventService.findAllNotDeleted().size());
 	}
-	
-	@Test
-	public void testCreate_LocationNotFound() {
-		ArrayList<SectorDTO> sectors = new ArrayList<>();
-		SittingSectorDTO sit = new SittingSectorDTO("sit123", 9, 12);
-		StandingSectorDTO stand = new StandingSectorDTO("stand123", 1000);
-		sectors.add(sit);
-		sectors.add(sit);
-		NEW_HALL_DTO.setSectors(sectors);
-		HttpEntity<HallDTO> httpEntity = new HttpEntity<HallDTO>(NEW_HALL_DTO, headers);
-		
-		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/hall/"+LOCATION_ID_NON_EXISTENT, HttpMethod.POST, httpEntity, String.class);
-		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-		assertTrue(responseEntity.getBody().contains("Could not find requested location"));
-	}*/
 
-	/*
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		int size = eventService.findAll().size();
-		HallUpdateDTO dto = new HallUpdateDTO("novo ime");
-		HttpEntity<HallUpdateDTO> httpEntity = new HttpEntity<HallUpdateDTO>(dto, headers);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","opis",1);
+		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
 		
 		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+DB_EVENT_TO_BE_UPDATED, HttpMethod.PUT, httpEntity, Event.class);
 		Event updated = responseEntity.getBody();
@@ -184,16 +182,15 @@ public class EventControllerIntegrationTest {
 		assertEquals(dto.getName(), found.getName());
 		assertFalse(found.isDeleted());
 		assertEquals(size, eventService.findAll().size()); //nije se dodavao novi vec je izmenjen postojeci
-	}*/
-	/*
+	}
+	
 	@Test 
 	public void testUpdate_NotFoundException() {
-		HallUpdateDTO dto = new HallUpdateDTO("novo ime");
-		HttpEntity<HallUpdateDTO> httpEntity = new HttpEntity<HallUpdateDTO>(dto, headers);
-		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/event/"+EVENT_ID_NON_EXISTENT, HttpMethod.PUT, httpEntity, String.class);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","novi opis",2);
+		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
+		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+EVENT_ID_NON_EXISTENT, HttpMethod.PUT, httpEntity, Event.class);
 		System.out.println("******upd not found");
 		System.out.println(responseEntity.getBody());
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-		assertTrue(responseEntity.getBody().contains("Could not find requested hall"));
-	}*/
+	}
 }

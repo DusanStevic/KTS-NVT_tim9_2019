@@ -1,0 +1,41 @@
+
+<mat-card style="width: 80%; margin-left: 10%;margin-top: 10px; ">
+    <mat-card-title style="color: red;">
+        Reservation for {{this.reservation.eventName}}
+    </mat-card-title>
+    
+    <mat-card-content>
+        <div>
+            <mat-list> <h5>Name of event: {{this.reservation.eventName}}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>Date of event is {{this.reservation.tickets[0].dateED | date: medium }}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list> <h5>Location of event is '{{this.reservation.tickets[0].locationName}}' in hall '{{this.reservation.tickets[0].hallName}}'</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>Reserved on: {{this.reservation.reservationDate | date:medium }}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list> <h5>Number of tickets reserved: {{this.reservation.tickets.length}}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-grid-list cols="3" >
+                <mat-grid-tile *ngFor="let ticket of this.reservation.tickets">
+                    <mat-card>
+                        <mat-list><h6>Ticket for day " {{ticket.nameED}} "</h6></mat-list>
+                        <mat-list><h6>Sector: "{{ticket.sectorName}}"</h6></mat-list>
+                        <mat-list *ngIf="ticket.hasSeat"><h6>Row: {{ticket.numRow}} &nbsp; Col: {{ticket.numCol}}</h6></mat-list>
+                        <mat-list *ngIf="!ticket.hasSeat"><h6>Standing card"</h6></mat-list>
+                        <mat-list><h6>Ticket price {{ticket.price}}RSD</h6></mat-list>
+                    </mat-card>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5 style="margin-left: 80%;">Total price: {{this.reservation.fullPrice}}RSD</h5></mat-list>
+            
+        </div>
+    </mat-card-content>
+
+    
+    <mat-card-actions>
+        <div #paypal style="margin-left: 35%; width: 30%;"></div>
+        <button mat-stroked-button color="warn" style="margin-left: 35%; width: 30%;" *ngIf="canCancel" (click)="openDialog()">CANCEL RESERVATION</button>
+    </mat-card-actions>
+</mat-card>

@@ -177,4 +177,14 @@ public class ReservationServiceIntegrationTest {
 		}
 	}
 	
+	@Test
+	@Transactional
+	public void testFindMyReservation() {
+		ReservationDetailedDTO found = reservationService.findMyReservation(DB_PRINCIPAL_USER_USERNAME, 1L);
+		assertNotNull(found);
+		assertTrue(1L == found.getId());
+		assertEquals(DB_PRINCIPAL_USER_USERNAME, found.getUsername());
+	}
+	
+	
 }

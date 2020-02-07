@@ -15,8 +15,8 @@ export class EventListComponent implements OnInit {
   ngOnInit() {
   }
 
-  activateYandexMaps(addressId: string) {
-    this.mapService.activateYandexMaps(addressId);
+  activateYandexMaps(locationId: string) {
+    this.mapService.activateYandexMaps(locationId);
   }
 
 
