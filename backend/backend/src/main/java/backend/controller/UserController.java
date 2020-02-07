@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.dto.UserUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.exceptions.SavingException;
 import backend.model.User;
-import backend.service.FileUploadService;
 import backend.service.UserService;
 
 @RestController
@@ -35,18 +33,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private FileUploadService fileUploadService;
-
-	// Za pristup ovoj metodi neophodno je da ulogovani korisnik ima ADMIN ulogu
-	// Ukoliko nema, server ce vratiti gresku 403 Forbidden
-	// Korisnik jeste autentifikovan, ali nije autorizovan da pristupi resursu
-	/*
-	 * @RequestMapping(method = GET, value = "/user/{userId}")
-	 * 
-	 * @PreAuthorize("hasRole('ROLE_ADMIN')") public User loadById(@PathVariable
-	 * Long userId) { return this.userService.findById(userId); }
-	 */
 
 	@RequestMapping(method = GET, value = "/user/all")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -64,38 +50,8 @@ public class UserController {
 		return this.userService.findByUsername(user.getName());
 	}
 
-	/*
-	 * @RequestMapping(method = GET, value = "/user/{userId}")
-	 * 
-	 * @PreAuthorize("hasRole('ROLE_ADMIN')") public ResponseEntity<?>
-	 * loadById(@PathVariable Long userId) throws UserNotFoundException{ User
-	 * korisnik = userService.pronadjiKorisnika(userId);
-	 * 
-	 * if (korisnik==null) { throw new UserNotFoundException(userId); } return
-	 * new ResponseEntity<>(korisnik, HttpStatus.OK);
-	 * 
-	 * 
-	 * return repository.findById(userId) .orElseThrow(() -> new
-	 * BookNotFoundException(id));
-	 * 
-	 * 
-	 * }
-	 */
 
-	/*
-	 * @GetMapping("/user/{id}")
-	 * 
-	 * @PreAuthorize("hasRole('ROLE_ADMIN')") User findOne(@PathVariable Long
-	 * id) throws UserNotFoundException{ return repository.findById(id)
-	 * .orElseThrow(() -> new UserNotFoundException(id)); }
-	 */
 
-	/*
-	 * Drugi nacin greska se hvata na nivou GlobalExceptioinHandler vrsi se
-	 * propagacija greske navise sa controllera na GlobalExceptionHandler +
-	 * imamo CustomErrorREsponse takodje ispravan nacin rada
-	 */
-	// OVO RADI
 	@GetMapping("/{userId}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	User findOne(@PathVariable Long userId) throws ResourceNotFoundException {
@@ -103,13 +59,6 @@ public class UserController {
 
 	}
 
-	/* ovo je primer query param */
-	@GetMapping
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public User loadById2(@RequestParam Long userId)
-			throws ResourceNotFoundException {
-		return this.userService.findById(userId);
-	}
 
 	/* update korisnika po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN', 'ROLE_ADMIN', 'ROLE_REGISTERED_USER')")

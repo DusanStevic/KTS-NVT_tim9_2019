@@ -7,7 +7,6 @@ import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
@@ -28,35 +27,12 @@ public class UserService {
 	@Autowired
 	private EmailService emailService;
 	
-	@Autowired
-	private FileUploadService fileUploadService;
 
 	public User findByUsername(String username)
 			throws UsernameNotFoundException {
 		User u = userRepository.findByUsername(username);
 		return u;
 	}
-
-	/*
-	 * @Override public User pronadjiKorisnika(Long id) throws
-	 * UserNotFoundException {
-	 * 
-	 * User u = userRepository.getOne(id); if (u==null) { throw new
-	 * UserNotFoundException(id); } else { return u; }
-	 * 
-	 * }
-	 */
-
-	// OVO RADI
-	/*
-	 * @Override public User pronadjiKorisnika(Long id) throws
-	 * UserNotFoundException { return userRepository.findById(id)
-	 * .orElseThrow(() -> new UserNotFoundException(id));
-	 * 
-	 * 
-	 * }
-	 */
-
 
 
 	public User findById(Long id) throws ResourceNotFoundException {
@@ -79,9 +55,9 @@ public class UserService {
 		}
 	}
 
-	public RegisteredUser registerUser(RegistrationDTO registrationDTO,MultipartFile file) {
+	public RegisteredUser registerUser(RegistrationDTO registrationDTO) {
 		RegisteredUser registeredUser = RegistrationConverter.RegistrationDTO2RegisteredUser(registrationDTO);
-		registeredUser.setImageUrl(fileUploadService.imageUpload(file));
+		registeredUser.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		userRepository.save(registeredUser);
 		try {
 			emailService.sendRegistrationConfirmationEmail(registeredUser);

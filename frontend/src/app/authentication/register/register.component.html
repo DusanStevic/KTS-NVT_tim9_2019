@@ -1,1 +1,65 @@
-<p>register works!</p>
+<div class="container" style="margin-top: 10px; width: 35%;">
+    <mat-card>
+      <div class="row justify-content-center align-items-center registrationForm">
+        <form class="col-md-12 box" [formGroup]="registrationForm" (submit)="submit()">
+          <fieldset>
+            <legend>Register</legend>
+            <div class="form-group row">
+                <label for="firstName" class="control-label col-md-3"><b>Firstname:</b></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="firstname-input" name="firstName" placeholder="First name" formControlName="firstName">
+                  <small class="text-danger"  *ngIf="registrationForm.controls.firstName.touched && registrationForm.controls.firstName.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="lastName" class="control-label col-md-3"><b>Lastname:</b></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="lastname-input" name="lastName" placeholder="Last name" formControlName="lastName">
+                  <small class="text-danger"  *ngIf="registrationForm.controls.lastName.touched && registrationForm.controls.lastName.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="email" class="control-label col-md-3"><b>Email:</b></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="email-input" name="email" placeholder="Email" formControlName="email">
+                  <small class="text-danger"  *ngIf="registrationForm.controls.email.touched && registrationForm.controls.email.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+  
+            <div class="form-group row">
+              <label for="username" class="control-label col-md-3"><b>Username:</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="username-input" name="username" placeholder="Username" formControlName="username">
+                <small class="text-danger"  *ngIf="registrationForm.controls.username.touched && registrationForm.controls.username.errors?.required">
+                  This field can't be empty!</small>
+              </div>
+            </div>
+  
+            <div class="form-group row">
+              <label for="password" class="control-label col-md-3"><b>Password:</b></label>
+              <div class="col-md-9">
+                <input type="password" class="form-control" id="password-input" name="password" placeholder="Password" formControlName="password">
+                <small class="text-danger"  *ngIf="registrationForm.controls.password.touched && registrationForm.controls.password.errors?.required">
+                  This field can't be empty!</small>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-9">
+                <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid">Register</button>
+              </div>
+            </div>
+  
+          </fieldset>
+        </form>
+      </div>
+    </mat-card>
+  </div>
+
+  
