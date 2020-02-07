@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 import backend.model.Event;
 
 public class EventDTO {
-	//private Long id;
+	private Long id;
 	@NotNull(message = "Event name is mandatory")
 	@Length(min=1, message="Event name is mandatory")
 	private String name;
@@ -55,7 +55,7 @@ public class EventDTO {
 	private ArrayList<EventDayDTO> event_days;
 	
 	public EventDTO(Event event){
-		//this.id = event.getId();
+		this.id = event.getId();
 		this.name = event.getName();
 		this.description =event.getDescription();
 		this.event_type = event.getEventType().ordinal();
@@ -184,6 +184,14 @@ public class EventDTO {
 
 	public void setVideo_paths(ArrayList<String> video_paths) {
 		this.video_paths = video_paths;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

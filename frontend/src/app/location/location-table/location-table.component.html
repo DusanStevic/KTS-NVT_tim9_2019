@@ -16,6 +16,12 @@
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
+    <!-- Address Column -->
+    <ng-container matColumnDef="Address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    </ng-container>
+
     <!-- Edit Column -->
     <ng-container matColumnDef="Edit">
         <th mat-header-cell *matHeaderCellDef> Edit </th>

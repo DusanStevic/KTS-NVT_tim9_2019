@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import backend.dto.CreateEventDTO;
 import backend.dto.EventDTO;
 import backend.dto.EventDayDTO;
 import backend.dto.EventSectorDTO;
@@ -14,6 +15,7 @@ import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventSector;
+import backend.model.EventStatus;
 import backend.model.EventType;
 import backend.service.LocationService;
 
@@ -29,12 +31,42 @@ public class EventConverter {
 	@Autowired
 	EventSectorConverter eventSectorConverter;
 	
-	
+	public Event CreateEventDTO2Event(CreateEventDTO dto) throws ResourceNotFoundException {
+		Event e = new Event();
+		e.getImagePaths().add("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg");
+		e.setDescription(dto.getDescription());
+		e.setName(dto.getName());
+		e.setStartDate(dto.getStart_date());
+		e.setEndDate(dto.getEnd_date());
+		e.setNumDays(dto.getNum_days());
+		e.setMaxTickets(dto.getMax_tickets());
+		e.setEventType(EventType.values()[dto.getEvent_type()]);
+		e.setLocation(locationService.findOne(dto.getLocation_id()));
+		int diff = (int) ((dto.getEnd_date().getTime() - dto.getStart_date().getTime()) 
+				/ (1000 * 60 * 60 * 24));
+		for(int i = 0; i <= diff; i++) {
+			EventDay ed = new EventDay();
+			ed.setName(e.getName() + "Day " + (i+1));
+			ed.setDescription(e.getDescription() + "Day "+ (i+1));
+			ed.setStatus(EventStatus.ACTIVE);
+			ed.setEvent(e);
+			ed.setDate(new Date(dto.getStart_date().getTime() + TimeUnit.DAYS.toMillis(i)));
+			e.getEventDays().add(ed);
+		}
+		
+		for(EventSectorDTO es_dto : dto.getSectors()) {
+			EventSector es = eventSectorConverter.EventSectorDTO2EventSector(es_dto);
+			es.setEvent(e);
+			e.getEventSectors().add(es);
+		}
+		
+		return e;
+	}
 	public Event EventUpdateDTO2Event(EventUpdateDTO dto) {
 		Event e = new Event();
 		e.setDescription(dto.getDescription());
 		e.setName(dto.getName());
-		e.setMaxTickets(dto.getMax_tickets());
+		//e.setMaxTickets(dto.getMax_tickets());
 		e.setEventType(EventType.values()[dto.getType()]);
 		
 		return e;

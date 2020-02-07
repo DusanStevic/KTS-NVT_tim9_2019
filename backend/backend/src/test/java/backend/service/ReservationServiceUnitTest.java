@@ -24,10 +24,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import backend.constants.ReservationConstants;
 import backend.dto.ReservationDetailedDTO;
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.RegisteredUser;
 import backend.model.Reservation;
 import backend.repository.ReservationRepository;
 

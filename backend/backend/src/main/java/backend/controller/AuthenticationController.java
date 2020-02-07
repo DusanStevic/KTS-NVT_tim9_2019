@@ -25,9 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import backend.common.DeviceProvider;
 import backend.converters.UserConverter;
@@ -170,9 +169,9 @@ public class AuthenticationController {
 	
 	/*Prilikom slanja sa fronta mora se poslati default slika ako korisnik nece da uploduje neku
 	 * simultano slanje json+multipart-data*/
-	@PostMapping(value = "/registerUser",produces = MediaType.APPLICATION_JSON_VALUE, consumes = {"multipart/form-data"})
-	public ResponseEntity<UserDTO> registerUser(@RequestPart("obj") RegistrationDTO registrationDTO, @RequestPart("file") MultipartFile file) {
-		RegisteredUser registeredUser = userService.registerUser(registrationDTO,file);
+	@PostMapping(value = "/registerUser",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> registerUser(@RequestBody RegistrationDTO registrationDTO) {
+		RegisteredUser registeredUser = userService.registerUser(registrationDTO);
 		return new ResponseEntity<>(UserConverter.UserToUserDTO(registeredUser), HttpStatus.OK);
 	}
 	
@@ -190,31 +189,21 @@ public class AuthenticationController {
 	
 	//prilikom potvrdjivanja konfirmacionog registracionog mail-a account se aktivira
 	@GetMapping(value = "/confirmRegistration/{encodedId}")
-	public ResponseEntity<String> confirmRegistration(@PathVariable("encodedId") String encodedId)
+	public RedirectView confirmRegistration(@PathVariable("encodedId") String encodedId)
 			throws UnsupportedEncodingException, ResourceNotFoundException, SavingException {
 		
 		byte[] bytes = Base64.getDecoder().decode(encodedId);
 		String str = new String(bytes);
 		Long decodedId = Long.valueOf(str);
 		User user = userService.findById(decodedId);
-		/*TO DO : Kada se bude radio front vidi da li ces :
-		 * 1.Preko flaga otvarati stranice
-		 * 2.Raditi redirekciju pomocu public RedirectView se prebacivati na stranice*/
 		if (user == null) {
-			//return new RedirectView("/index.html");
-			return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
+			return null;
 		}
 		user.setEnabled(true);
 		userService.save(user);
-		//return new RedirectView("/index.html");
-		return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
+		return new RedirectView("http://localhost:4200/auth/login");
 		
-		//ALTERNATIVA SA FLAGOM
-		//public ResponseEntity<String>
-		//return new ResponseEntity<>("Niste se uspesno registrovali", HttpStatus.NOT_ACCEPTABLE);
-		//return new ResponseEntity<>("Uspesno ste se registrovali", HttpStatus.OK);
-		
-		
+			
 	}
 
 	

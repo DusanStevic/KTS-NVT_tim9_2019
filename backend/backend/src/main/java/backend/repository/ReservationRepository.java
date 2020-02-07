@@ -27,4 +27,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	
 	@Query("select r from Reservation r where r.buyer.username = ?1 and r.canceled = false")
 	public List<Reservation> findMyReservations(String username);
+	
+
+	@Query("select r from Reservation r where r.buyer.username = ?1 and r.canceled = false  and r.id = ?2")
+	public Reservation findMyReservation(String username, Long reservationId);
 }

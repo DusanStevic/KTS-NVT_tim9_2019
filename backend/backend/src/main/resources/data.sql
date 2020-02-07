@@ -21,7 +21,7 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3); -- system admi
 
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (1, "Street", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 
-INSERT INTO locations (id, name, description, address_id, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", 1, "1970-01-01 01:00:00");
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", "1970-01-01 01:00:00", "Street 2 Novi Sad Serbia", 45.267136, 19.833549);
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);
 
@@ -33,10 +33,10 @@ INSERT INTO events (id, description, start_date, end_date, event_type, num_days,
 INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
 	values (2, "Folk fest", "2020-05-03", "2020-05-03", 0, 3, 5, "FolkFest", 1, false);
 	
-insert into event_image_paths (event_id, image_paths) values(1, "e1picture1");
+insert into event_image_paths (event_id, image_paths) values(1, "https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg");
 insert into event_video_paths (event_id, video_paths) values(1, "e1video1");
 insert into event_image_paths (event_id, image_paths) values(2, "e1picture1");
-insert into event_video_paths (event_id, video_paths) values(2, "e1video1");
+insert into event_video_paths (event_id, video_paths) values(2, "https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg");
 
 insert into event_days ( id, day_date, description, name, status, event_id , deleted) values(1,"2020-03-03", "Dubioza 21:00, Sars 23:00", "Uniparty Day 1.", 0,1, false);
 insert into event_days ( id, day_date, description, name, status, event_id , deleted) values(2,"2020-05-03", "Medjunarodni folk festival", "FolkFest Day 1.", 0,2, false);
