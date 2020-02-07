@@ -41,6 +41,12 @@ public class EventDayDTO {
 	}
 
 
+	public EventDayDTO(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+
+
 	public String getName() {
 		return name;
 	}

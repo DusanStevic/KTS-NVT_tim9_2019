@@ -108,6 +108,10 @@ public class EventDTO {
 	public EventDTO() {
 		super();
 	}
+	public EventDTO(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}
