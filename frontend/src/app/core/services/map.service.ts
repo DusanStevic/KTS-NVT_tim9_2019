@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MapComponent } from 'src/app/location/map/map.component';
 import { MatDialog } from '@angular/material';
-import { AddressService } from './address.service';
 import { ToastrService } from 'ngx-toastr';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,12 @@ export class MapService {
 
   constructor(
     public dialog: MatDialog,
-    private addressService: AddressService,
+    private locationService: LocationService,
     private toastr: ToastrService
   ) { }
 
-  activateYandexMaps(addressId: string) {
-    this.addressService.get(addressId).subscribe(
+  activateYandexMaps(locationId: string) {
+    this.locationService.get(locationId).subscribe(
       (response => {
 
         if (response != null) {

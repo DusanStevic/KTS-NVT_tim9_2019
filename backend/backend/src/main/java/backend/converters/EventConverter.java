@@ -33,6 +33,7 @@ public class EventConverter {
 	
 	public Event CreateEventDTO2Event(CreateEventDTO dto) throws ResourceNotFoundException {
 		Event e = new Event();
+		e.getImagePaths().add("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg");
 		e.setDescription(dto.getDescription());
 		e.setName(dto.getName());
 		e.setStartDate(dto.getStart_date());
