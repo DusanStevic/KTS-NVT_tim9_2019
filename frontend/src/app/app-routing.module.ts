@@ -17,6 +17,7 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
 import { UpdateHallComponent } from './location/update-hall/update-hall.component';
 import { UpdateSectorComponent } from './location/update-sector/update-sector.component';
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
+import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
 import { SeatChartComponent } from './seat-chart/seat-chart.component';
 
 const routes: Routes = [
@@ -33,6 +34,12 @@ const routes: Routes = [
   {
     path: 'myReservations',
     component: MyReservationsComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_REGISTERED_USER'}
+  },
+  {
+    path: 'reservationDetail/:id',
+    component: ViewReservationComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_REGISTERED_USER'}
   },

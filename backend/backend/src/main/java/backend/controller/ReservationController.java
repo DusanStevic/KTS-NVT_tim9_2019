@@ -103,4 +103,10 @@ public class ReservationController {
 		return new ResponseEntity<List<ReservationDetailedDTO>>(reservationService.findMyReservations(user.getName()), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_REGISTERED_USER')")
+	@GetMapping(value="myReservations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ReservationDetailedDTO> myReservations(@PathVariable(value = "id") Long reservationId,Principal user){
+		return new ResponseEntity<ReservationDetailedDTO>(reservationService.findMyReservation(user.getName(), reservationId), HttpStatus.OK);
+	}
+	
 }
