@@ -29,11 +29,11 @@ INSERT INTO adresses (id, street_name, street_number, city, country, latitude, l
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (8, "Street8", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, true);
 INSERT INTO adresses (id, street_name, street_number, city, country, latitude, longitude, deleted) VALUES (9, "Street9", 2, "Novi Sad" , "Serbia", 45.267136, 19.833549, false);
 
-INSERT INTO locations (id, name, description, deleted) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 2 Novi Sad Serbia", 45.267136, 19.833549); 
-INSERT INTO locations (id, name, description, deleted) values (2, "SPENS NS deleted", "Biggest location for sports in Vojvodina", "2019-11-26 00:00:00", "Street 3 Novi Sad Serbia", 45.267136, 19.833549);--deleted
-INSERT INTO locations (id, name, description, deleted) values (3, "SPENS NS update", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 4 Novi Sad Serbia", 45.267136, 19.833549);
-INSERT INTO locations (id, name, description, deleted) values (4, "SPENS NS to be deleted", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 5 Novi Sad Serbia", 45.267136, 19.833549);
-INSERT INTO locations (id, name, description, deleted) values (5, "SPENS NS to be deleted2", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 6 Novi Sad Serbia", 45.267136, 19.833549);
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (1, "SPENS NS", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 2 Novi Sad Serbia", 45.267136, 19.833549); 
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (2, "SPENS NS deleted", "Biggest location for sports in Vojvodina", "2019-11-26 00:00:00", "Street 3 Novi Sad Serbia", 45.267136, 19.833549);--deleted
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (3, "SPENS NS update", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 4 Novi Sad Serbia", 45.267136, 19.833549);
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (4, "SPENS NS to be deleted", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 5 Novi Sad Serbia", 45.267136, 19.833549);
+INSERT INTO locations (id, name, description, deleted, address, latitude, longitude) values (5, "SPENS NS to be deleted2", "Biggest location for sports in Vojvodina", "1970-01-01 00:00:00", "Street 6 Novi Sad Serbia", 45.267136, 19.833549);
 
 INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, false);
 INSERT INTO halls (id, name, location_id, deleted) values (2, "Main Hall deleted", 1, true);
