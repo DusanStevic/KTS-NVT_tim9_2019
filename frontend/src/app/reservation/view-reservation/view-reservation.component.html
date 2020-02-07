@@ -35,7 +35,7 @@
 
     
     <mat-card-actions>
-        <div #paypal style="margin-left: 35%; width: 30%;"></div>
-        <button mat-stroked-button color="warn" style="margin-left: 35%; width: 30%;" *ngIf="canCancel" (click)="openDialog()">CANCEL RESERVATION</button>
+        <div #paypal id="paypal" style="margin-left: 35%; width: 30%;"></div>
+        <button mat-stroked-button id="cancelBtn" color="warn" style="margin-left: 35%; width: 30%;" *ngIf="canCancel" (click)="openDialog()">CANCEL RESERVATION</button>
     </mat-card-actions>
 </mat-card>
