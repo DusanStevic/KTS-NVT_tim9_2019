@@ -147,12 +147,12 @@ public class LocationControllerIntegrationTest {
 	@Transactional
 	public void testCreate() throws ResourceNotFoundException {
 		int size = locationService.findAllNotDeleted().size(); //sve neobrisane lokacije
-		ArrayList<SectorDTO> sectors = new ArrayList<>();
-		SittingSectorDTO sit = new SittingSectorDTO("sit dto ime", 6, 9);
-		sectors.add(sit);
-		StandingSectorDTO stand = new StandingSectorDTO("stand dto ime", 9000);
-		sectors.add(stand);
-		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
+//		ArrayList<SectorDTO> sectors = new ArrayList<>();
+//		SittingSectorDTO sit = new SittingSectorDTO("sit dto ime", 6, 9);
+//		sectors.add(sit);
+//		StandingSectorDTO stand = new StandingSectorDTO("stand dto ime", 9000);
+//		sectors.add(stand);
+//		ArrayList<HallDTO> halls = new ArrayList<HallDTO>();
 		//HallDTO hall = new HallDTO("ime hall dto", sectors);
 		//halls.add(hall);
 		//DTO_NEW_LOCATION.setHalls(halls);
@@ -190,7 +190,7 @@ public class LocationControllerIntegrationTest {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testCreate_AddressNotFound() {
 		ArrayList<SectorDTO> sectors = new ArrayList<>();
 		SittingSectorDTO sector = new SittingSectorDTO("sector dto ime", 6, 9);
@@ -204,11 +204,11 @@ public class LocationControllerIntegrationTest {
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
-	}
+	}*/
 	
 	@Test
 	public void testCreate_SavingException() {
-		//DTO_NEW_LOCATION.setAddressId(DB_ADDRESS_ID);
+		DTO_NEW_LOCATION.setAddress("Street 2 Novi Sad Serbia");
 		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(DTO_NEW_LOCATION, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location", HttpMethod.POST, httpEntity, String.class);
 		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -217,8 +217,8 @@ public class LocationControllerIntegrationTest {
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		int size = locationService.findAll().size();
-		LocationUpdateDTO dto = new LocationUpdateDTO("upd", "desc", DB_DELETED_LOCATION_ADDRESS_ID);
-		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
+		LocationDTO dto = new LocationDTO("upd", "desc", "adr", 0.0, 0.0);
+		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(dto, headers);
 		
 		ResponseEntity<Location> responseEntity = restTemplate.exchange("/api/location/"+DB_LOCATION_ID_TO_BE_UPDATED, 
 				HttpMethod.PUT, httpEntity, Location.class);
@@ -238,7 +238,7 @@ public class LocationControllerIntegrationTest {
 		assertEquals(size, locationService.findAll().size()); //nije se dodavao novi vec je izmenjen postojeci
 	}
 	
-	@Test
+	/*@Test
 	public void testUpdate_AddressNotFound() {
 		LocationUpdateDTO dto = new LocationUpdateDTO("upd", "desc", ADDRESS_ID_NON_EXISTENT);
 		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
@@ -246,12 +246,12 @@ public class LocationControllerIntegrationTest {
 				HttpMethod.PUT, httpEntity, String.class);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody().contains("Could not find requested address"));
-	}
+	}*/
 	
 	@Test
 	public void testUpdate_LocationNotFound() {
-		LocationUpdateDTO dto = new LocationUpdateDTO("upd", "desc", UPD_LOCATION_ADDRESS_ID);
-		HttpEntity<LocationUpdateDTO> httpEntity = new HttpEntity<LocationUpdateDTO>(dto, headers);
+		LocationDTO dto = new LocationDTO("upd", "desc", "adr", .0, .0);
+		HttpEntity<LocationDTO> httpEntity = new HttpEntity<LocationDTO>(dto, headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange("/api/location/"+LOCATION_ID_NON_EXISTENT, 
 				HttpMethod.PUT, httpEntity, String.class);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());

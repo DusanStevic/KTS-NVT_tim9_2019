@@ -160,6 +160,7 @@ public class LocationServiceIntegrationTest {
 	public void testSave_SavingException() throws ResourceNotFoundException, SavingException {
 
 		//NEW_LOCATION.setAddress(addressService.findOneNotDeleted(DB_LOCATION_ADDRESS_ID));
+		NEW_LOCATION.setAddress("Street 2 Novi Sad Serbia");
 		Location found = locationService.save(NEW_LOCATION);
 		
 		System.out.println(found.toString());
@@ -197,7 +198,7 @@ public class LocationServiceIntegrationTest {
 		// lokacija 2L koja je na adresi DB_DELETED_LOCATION_ADDRESS_ID = 4L je logicki
 		// obrisana
 		// pa zbog toga mogu da stavim neku drugu lokaciju na tu adresu
-		//UPD_LOCATION.setAddress(addressService.findOneNotDeleted(DB_DELETED_LOCATION_ADDRESS_ID));
+		UPD_LOCATION.setAddress("Street 3 Novi Sad Serbia");
 		int dbSizeBeforeUpd = locationService.findAll().size();
 		Location updated = locationService.update(DB_LOCATION_ID_TO_BE_UPDATED, UPD_LOCATION);
 		assertNotNull(updated);
@@ -231,7 +232,7 @@ public class LocationServiceIntegrationTest {
 		//sto znaci da ne mogu postojati dve lokacije koje nisu obrisane na istoj adresi
 		System.out.println("servis upd sav exc");
 		//3L 3L
-		//UPD_LOCATION.setAddress(addressService.findOneNotDeleted(DB_LOCATION_ADDRESS_ID));
+		UPD_LOCATION.setAddress("Street 2 Novi Sad Serbia");
 		Location updated = locationService.update(DB_LOCATION_ID_TO_BE_UPDATED, UPD_LOCATION);
 		System.out.println(updated.toString());
 	}

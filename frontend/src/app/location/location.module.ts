@@ -16,9 +16,9 @@ import { UpdateHallComponent } from './update-hall/update-hall.component';
 import { SectorFormComponent } from './sector-form/sector-form.component';
 import { SectorTableComponent } from './sector-table/sector-table.component';
 import { UpdateSectorComponent } from './update-sector/update-sector.component';
-
-
-
+import { SectorChartComponent } from './sector-chart/sector-chart.component';
+import { TooltipModule } from 'ngx-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AddLocationComponent,
@@ -33,14 +33,17 @@ import { UpdateSectorComponent } from './update-sector/update-sector.component';
     UpdateHallComponent,
     SectorFormComponent,
     SectorTableComponent,
-    UpdateSectorComponent
+    UpdateSectorComponent,
+    SectorChartComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularYandexMapsModule
+    AngularYandexMapsModule,
+    NgbModule,
+    TooltipModule.forRoot()
   ],
   exports: [
     UpdateLocationComponent,

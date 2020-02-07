@@ -19,7 +19,6 @@ import { UpdateSectorComponent } from './location/update-sector/update-sector.co
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
 import { AddAdminComponent } from './user/add-admin/add-admin.component';
 import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
-import { SeatChartComponent } from './seat-chart/seat-chart.component';
 
 
 const routes: Routes = [
@@ -111,10 +110,6 @@ const routes: Routes = [
     component: UpdateSectorComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
-  },
-  {
-    path: 'seatChart',
-    component: SeatChartComponent
   }
 ];
 @NgModule({
