@@ -22,7 +22,8 @@ import { ViewReservationComponent } from './reservation/view-reservation/view-re
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/events', pathMatch: 'full' },
+  // {path: '', redirectTo: '/events', pathMatch: 'full' },
+  {path: '', component: EventListComponent },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'events', component: EventListComponent},

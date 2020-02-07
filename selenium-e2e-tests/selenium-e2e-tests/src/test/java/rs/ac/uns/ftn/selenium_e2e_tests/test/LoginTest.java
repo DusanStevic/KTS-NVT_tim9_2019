@@ -1,85 +1,114 @@
 package rs.ac.uns.ftn.selenium_e2e_tests.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static rs.ac.uns.ftn.selenium_e2e_tests.constants.SeleniumChromeWebDriverPaths.*;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.support.PageFactory;
 
-import rs.ac.uns.ftn.selenium_e2e_tests.pages.HomePage;
-import rs.ac.uns.ftn.selenium_e2e_tests.pages.SingInPage;
-
-
-
+import rs.ac.uns.ftn.selenium_e2e_tests.pages.HomePageUnregistered;
+import rs.ac.uns.ftn.selenium_e2e_tests.pages.LoginPage;
 
 public class LoginTest {
-
 	private WebDriver browser;
-
-	HomePage homePage;
-	SingInPage singInPage;
-
+	
+	HomePageUnregistered homePage;
+	LoginPage loginPage;
+	
 	@Before
-	public void setupSelenium() {
-		// instantiate browser
-		System.setProperty("webdriver.chrome.driver",CHROME_WEB_DRIVER_PATH_MARIETA);
+	public void setupSelenium(){
+		//System.setProperty("webdriver.chrome.driver",CHROME_WEB_DRIVER_PATH_MARIETA);
+		//System.setProperty("webdriver.chrome.driver",CHROME_WEB_DRIVER_PATH_NIKOLA);
+		//System.setProperty("webdriver.chrome.driver",CHROME_WEB_DRIVER_PATH_DULE);
+		System.setProperty("webdriver.chrome.driver",CHROME_WEB_DRIVER_PATH_ARPAD);
+		
 		browser = new ChromeDriver();
-		// maximize window
 		browser.manage().window().maximize();
-		// navigate
-		browser.navigate().to("http://automationpractice.com/index.php");
+		browser.navigate().to("http://localhost:4200/");
 
-		homePage = PageFactory.initElements(browser, HomePage.class);
-		singInPage = PageFactory.initElements(browser, SingInPage.class);
+		browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		browser.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+
+		browser.manage().deleteAllCookies();
+
+		
+		homePage = PageFactory.initElements(browser, HomePageUnregistered.class);
+		loginPage = PageFactory.initElements(browser, LoginPage.class);
 	}
-
+	
 	@Test
-	public void singInTest() {
-		homePage.ensureSingInIsDisplayed();
-		homePage.getSingInLink().click();
+	public void loginTest() throws InterruptedException{
+		homePage.ensureLoginIsDisplayed();
+		homePage.getLoginNavBtn().click();
+		
+		assertEquals("http://localhost:4200/login", browser.getCurrentUrl());
+		
+		//check if login is disabled for empty fields
+		assertFalse(loginPage.getLoginButton().isEnabled());
 
-		assertEquals("http://automationpractice.com/index.php?controller=authentication&back=my-account",
-				browser.getCurrentUrl());
+		//check if login is disabled when one field is empty
+		loginPage.getUsernameInput().sendKeys("asd");
+		assertFalse(loginPage.getLoginButton().isEnabled());
+		
+		//set invalid uname+pw
+		loginPage.setUsernameInput("asd");
+		loginPage.setPasswordInput("asd");
+		assertTrue(loginPage.getLoginButton().isEnabled());
+		loginPage.getLoginButton().click();
+		
+		Thread.sleep(1000);
+		String message = loginPage.getHiddentError().getAttribute("value");
+		assertEquals("Incorrect username or password!", message.trim());
+		
+		//set correct username
+		loginPage.setUsernameInput("user");
+		loginPage.setPasswordInput("asd");
+		assertTrue(loginPage.getLoginButton().isEnabled());
+		loginPage.getLoginButton().click();
 
-		// all fields empty
-		singInPage.ensureSubmitButtonIsDisplayed();
-		singInPage.getSubmitButton().click();
-		String errorMessage1 = singInPage.getAlertDivText().getText();
-		assertEquals("An email address required.", errorMessage1);
+		message = loginPage.getHiddentError().getAttribute("value");
+		assertEquals("Incorrect username or password!", message.trim());
 
-		// set invalid email
-		singInPage.setEmailInput("aaa");
-		singInPage.getSubmitButton().click();
-		String errorMessage2 = singInPage.getAlertDivText().getText();
-		assertEquals("Invalid email address.", errorMessage2);
+		//set correct password
+		loginPage.setUsernameInput("asd");
+		loginPage.setPasswordInput("user");
+		assertTrue(loginPage.getLoginButton().isEnabled());
+		loginPage.getLoginButton().click();
 
-		// set email
-		singInPage.setEmailInput("test@kts.com");
-		singInPage.getSubmitButton().click();
-		String errorMessage3 = singInPage.getAlertDivText().getText();
-		assertEquals("Password is required.", errorMessage3);
-
-		// set wrong pass
-		singInPage.setPasswordInput("wrong");
-		singInPage.getSubmitButton().click();
-		String errorMessage4 = singInPage.getAlertDivText().getText();
-		assertEquals("Authentication failed.", errorMessage4);
-
-		// set correct pass
-		singInPage.setPasswordInput("johnsmith");
-		singInPage.getSubmitButton().click();
-
-		assertEquals("http://automationpractice.com/index.php?controller=my-account", browser.getCurrentUrl());
-
+		message = loginPage.getHiddentErrorValue();
+		assertEquals("Incorrect username or password!", message.trim());
+		
+		//succesful login
+		loginPage.setUsernameInput("user");
+		loginPage.setPasswordInput("user");
+		assertTrue(loginPage.getLoginButton().isEnabled());
+		loginPage.getLoginButton().click();
+		
+		Thread.sleep(2000);
+		assertEquals("http://localhost:4200/events", browser.getCurrentUrl());
+		
+        WebStorage webStorage = (WebStorage) browser;
+        LocalStorage localStorage = webStorage.getLocalStorage();
+		String token = localStorage.getItem("user");
+		System.out.println(token);
+		assertNotNull(token);
+		assertNotEquals("", token);
 	}
-
+	
 	@After
 	public void closeSelenium() {
-		// Shutdown the browser
 		browser.quit();
 	}
+
 }

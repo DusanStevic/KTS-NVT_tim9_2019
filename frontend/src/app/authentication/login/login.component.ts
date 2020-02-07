@@ -13,6 +13,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -40,12 +41,14 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.login(auth).subscribe(
       result => {
+        this.errorMessage = '';
         this.toastr.success('Successful login!');
         localStorage.setItem('user', JSON.stringify(result));
         this.router.navigate(['events']);
       },
       error => {
         this.toastr.error('Incorrect username or password!');
+        this.errorMessage = 'Incorrect username or password!';
       }
     );
   }

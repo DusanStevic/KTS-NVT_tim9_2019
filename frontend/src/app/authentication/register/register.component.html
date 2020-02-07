@@ -28,6 +28,7 @@
                   <input type="text" class="form-control" id="email-input" name="email" placeholder="Email" formControlName="email">
                   <small class="text-danger"  *ngIf="registrationForm.controls.email.touched && registrationForm.controls.email.errors?.required">
                     This field can't be empty!</small>
+                  <small class="text-danger"  *ngIf="registrationForm.controls.email.touched && registrationForm.controls.email.errors?.email">Email is not valid format!</small>
                 </div>
             </div>
   
@@ -52,13 +53,15 @@
             <div class="row">
               <div class="col-lg-3"></div>
               <div class="col-lg-9">
-                <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid">Register</button>
+                <button type="submit" id="submitRegistrationBtn" class="btn btn-primary" [disabled]="!registrationForm.valid">Register</button>
               </div>
             </div>
   
           </fieldset>
         </form>
       </div>
+      
+    <input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
     </mat-card>
   </div>
 
