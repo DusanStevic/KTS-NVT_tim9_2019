@@ -23,7 +23,8 @@ import { SeatChartComponent } from './seat-chart/seat-chart.component';
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/events', pathMatch: 'full' },
+  // {path: '', redirectTo: '/events', pathMatch: 'full' },
+  {path: '', component: EventListComponent },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'events', component: EventListComponent},

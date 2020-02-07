@@ -26,12 +26,13 @@
           <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-9">
-              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Login</button>
+              <button type="submit" id="loginInputBtn" class="btn btn-primary" [disabled]="!form.valid">Login</button>
             </div>
           </div>
-
         </fieldset>
       </form>
     </div>
+    
+    <input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
   </mat-card>
 </div>

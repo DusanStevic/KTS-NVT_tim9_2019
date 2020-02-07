@@ -22,7 +22,7 @@
                         <mat-list><h6>Ticket for day " {{ticket.nameED}} "</h6></mat-list>
                         <mat-list><h6>Sector: "{{ticket.sectorName}}"</h6></mat-list>
                         <mat-list *ngIf="ticket.hasSeat"><h6>Row: {{ticket.numRow}} &nbsp; Col: {{ticket.numCol}}</h6></mat-list>
-                        <mat-list *ngIf="!ticket.hasSeat"><h6>Standing card"</h6></mat-list>
+                        <mat-list *ngIf="!ticket.hasSeat"><h6>Standing card</h6></mat-list>
                         <mat-list><h6>Ticket price {{ticket.price}}RSD</h6></mat-list>
                     </mat-card>
                 </mat-grid-tile>
