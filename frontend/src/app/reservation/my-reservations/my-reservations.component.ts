@@ -17,7 +17,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class MyReservationsComponent implements OnInit {
   reservationList: ReservationDetailed[];
-  displayedColumns: string[] = ['eventName', 'reservationDate', 'ticketsNumber', 'fullPrice', 'pay', 'cancel'];
+  displayedColumns: string[] = ['eventName', 'reservationDate', 'ticketsNumber', 'fullPrice', 'details'];
   dataSource: MatTableDataSource<ReservationDetailed>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import backend.dto.LocationDTO;
-import backend.dto.LocationUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Location;
 import backend.service.AddressService;

@@ -144,4 +144,13 @@ public class ReservationRepositoryIntegrationTest {
 		}
 	}
 	
+	@Test
+	@Transactional
+	public void testFindMyReservation() {
+		Reservation found = reservationRepository.findMyReservation(DB_PRINCIPAL_USER_USERNAME, 1L);
+		assertNotNull(found);
+		assertTrue(1L == found.getId());
+		assertEquals(DB_PRINCIPAL_USER_USERNAME, found.getBuyer().getUsername());
+	}
+	
 }
