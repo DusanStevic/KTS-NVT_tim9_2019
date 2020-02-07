@@ -21,13 +21,11 @@ import { UserModule } from './user/user.module';
 import { BootstrapModule } from './material/bootstrap/bootstrap.module';
 import { EventsModule } from './events/events.module';
 import { ReservationModule } from './reservation/reservation.module';
-import { SeatChartComponent } from './seat-chart/seat-chart.component';
-
+import { TooltipModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SeatChartComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +56,8 @@ import { SeatChartComponent } from './seat-chart/seat-chart.component';
     ChartsModule,
     AngularYandexMapsModule.forRoot('18116907-79b6-47b3-97aa-0db7c335b7e0'),
     EventsModule,
-    ReservationModule
+    ReservationModule,
+    TooltipModule.forRoot()
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
