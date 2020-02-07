@@ -17,8 +17,10 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
 import { UpdateHallComponent } from './location/update-hall/update-hall.component';
 import { UpdateSectorComponent } from './location/update-sector/update-sector.component';
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
+import { AddAdminComponent } from './user/add-admin/add-admin.component';
 import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
 import { SeatChartComponent } from './seat-chart/seat-chart.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -54,6 +56,12 @@ const routes: Routes = [
     component: AddAddressComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'admin/add',
+    component: AddAdminComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN'}
   },
   {
     path: 'address/update',
