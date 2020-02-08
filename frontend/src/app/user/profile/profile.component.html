@@ -20,8 +20,8 @@
         <div class="grid-item">
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <input id="firstname-input" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': f.firstName.touched && f.firstName.errors }" />
+                <div *ngIf="f.firstName.touched && f.firstName.errors" class="invalid-feedback">
                     <div *ngIf="f.firstName.errors.required">First Name is required</div>
                 </div>
             </div>
@@ -29,8 +29,8 @@
         <div class="grid-item">
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <input type="text" id="lastname-input" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': f.lastName.touched && f.lastName.errors }" />
+                <div *ngIf="f.lastName.touched && f.lastName.errors" class="invalid-feedback">
                     <div *ngIf="f.lastName.errors.required">Last Name is required</div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
         <div class="grid-item">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <input type="text" id="email-input" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.email">Please enter a valid email</div>
                     <div *ngIf="f.email.errors.required">Email is required</div>
@@ -48,7 +48,7 @@
         <div class="grid-item">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                <input type="text" id="username-input" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                     <div *ngIf="f.username.errors.required">Username is required</div>
                     <div *ngIf="f.username.errors.minlength">Username must be at least 3 characters</div>
@@ -65,7 +65,7 @@
         <div class="grid-item">
             <div class="form-group">
                 <label for="phoneNumber">Phone number</label>
-                <input type="text" formControlName="phoneNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" />
+                <input type="text" id="phonenumber-input" formControlName="phoneNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" />
                 <div *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
                     <div *ngIf="f.phoneNumber.errors.required">Phone number is required</div>
                 </div>
@@ -74,11 +74,11 @@
 
         <div class="grid-item">
             <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
+                <button [disabled]="loading" id="updateUserBtn" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     Save changes
                 </button>
-                <button id= "cancelUserUpd" class="btn btn-link" (click)="reset($event)">Revert changes</button>
+                <button id= "cancelUserBtn" class="btn btn-link" (click)="reset($event)">Revert changes</button>
             </div>
         </div>
         
@@ -86,3 +86,5 @@
 
     </div>
 </form>
+
+<input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
