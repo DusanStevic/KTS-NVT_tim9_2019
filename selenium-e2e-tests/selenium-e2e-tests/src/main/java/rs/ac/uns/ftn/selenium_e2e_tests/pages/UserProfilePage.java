@@ -34,6 +34,9 @@ public class UserProfilePage {
 	@FindBy(id = "cancelUserBtn")
 	private WebElement cancelButton;
 
+	@FindBy(id = "changePasswordLink")
+	private WebElement passwordChangeButton;
+
 	@FindBy(id = "hiddenErrorMessage")
 	private WebElement hiddentError;
 
@@ -106,6 +109,14 @@ public class UserProfilePage {
 
 	public void setCancelButton(WebElement cancelButton) {
 		this.cancelButton = cancelButton;
+	}
+
+	public WebElement getPasswordChangeButton() {
+		return passwordChangeButton;
+	}
+
+	public void setPasswordChangeButton(WebElement passwordChangeButton) {
+		this.passwordChangeButton = passwordChangeButton;
 	}
 
 	public void ensureUpdateButtonDisplayed() {
