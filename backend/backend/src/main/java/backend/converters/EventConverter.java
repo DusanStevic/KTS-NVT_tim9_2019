@@ -36,29 +36,29 @@ public class EventConverter {
 		e.getImagePaths().add("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108286/lf4ddnka9rqe62creizz.jpg");
 		e.setDescription(dto.getDescription());
 		e.setName(dto.getName());
-		e.setStartDate(dto.getStart_date());
-		e.setEndDate(dto.getEnd_date());
-		e.setNumDays(dto.getNum_days());
-		e.setMaxTickets(dto.getMax_tickets());
-		e.setEventType(EventType.values()[dto.getEvent_type()]);
-		e.setLocation(locationService.findOne(dto.getLocation_id()));
-		int diff = (int) ((dto.getEnd_date().getTime() - dto.getStart_date().getTime()) 
+		e.setStartDate(dto.getStartDate());
+		e.setEndDate(dto.getEndDate());
+		e.setNumDays(dto.getNumDays());
+		e.setMaxTickets(dto.getMaxTickets());
+		e.setEventType(EventType.values()[dto.getEventType()]);
+		e.setLocation(locationService.findOne(dto.getLocationId()));
+		int diff = (int) ((dto.getEndDate().getTime() - dto.getStartDate().getTime()) 
 				/ (1000 * 60 * 60 * 24));
 		for(int i = 0; i <= diff; i++) {
 			EventDay ed = new EventDay();
-			ed.setName(e.getName() + "Day " + (i+1));
-			ed.setDescription(e.getDescription() + "Day "+ (i+1));
+			ed.setName(e.getName() + " Day " + (i+1));
+			ed.setDescription(e.getDescription() + " Day "+ (i+1));
 			ed.setStatus(EventStatus.ACTIVE);
 			ed.setEvent(e);
-			ed.setDate(new Date(dto.getStart_date().getTime() + TimeUnit.DAYS.toMillis(i)));
+			ed.setDate(new Date(dto.getStartDate().getTime() + TimeUnit.DAYS.toMillis(i)));
 			e.getEventDays().add(ed);
 		}
 		
-		for(EventSectorDTO es_dto : dto.getSectors()) {
+		/*for(EventSectorDTO es_dto : dto.getSectors()) {
 			EventSector es = eventSectorConverter.EventSectorDTO2EventSector(es_dto);
 			es.setEvent(e);
 			e.getEventSectors().add(es);
-		}
+		}*/
 		
 		return e;
 	}

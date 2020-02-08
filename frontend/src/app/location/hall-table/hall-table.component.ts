@@ -12,7 +12,7 @@ export class HallTableComponent implements OnInit {
 
   @Input() halls: Hall[];
   @Output() deleteHallClicked: EventEmitter<any>;
-  displayedColumns: string[] = ['Name', 'Sitting Sectors', 'Standing Sectors', 'Edit', 'Delete'];
+  displayedColumns: string[] = ['Name', 'Sitting Sec.', 'Standing Sec.', 'Edit', 'Add Event', 'Delete'];
   constructor(
     private router: Router,
     private locationService: LocationService
@@ -35,5 +35,9 @@ export class HallTableComponent implements OnInit {
   deleteHall(id: string) {
     console.log(id);
     this.deleteHallClicked.emit(id);
+  }
+
+  addEvent(id: string) {
+    this.router.navigate(['events/add']);
   }
 }

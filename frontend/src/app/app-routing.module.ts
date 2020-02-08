@@ -20,6 +20,9 @@ import { MyReservationsComponent } from './reservation/my-reservations/my-reserv
 import { AddAdminComponent } from './user/add-admin/add-admin.component';
 import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
 import { EventDetailsComponent } from './events/event-details/event-details.component';
+import { MakeReservationComponent } from './reservation/make-reservation/make-reservation.component';
+import { AddEventComponent } from './events/add-event/add-event.component';
+
 
 
 const routes: Routes = [
@@ -112,6 +115,18 @@ const routes: Routes = [
   {
     path: 'sector/update',
     component: UpdateSectorComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'reserve',
+    component: MakeReservationComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_REGISTERED_USER'}
+  },
+  {
+    path: 'events/add',
+    component: AddEventComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   }

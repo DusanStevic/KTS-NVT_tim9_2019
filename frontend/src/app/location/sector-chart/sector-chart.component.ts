@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Sector, SittingSector, StandingSector } from 'src/app/shared/models/hall.model';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-sector-chart',
@@ -10,9 +11,8 @@ export class SectorChartComponent implements OnInit {
 
   @Input() sectors: Sector[];
   private seatConfig: any = [];
-  private sectorConfig: any = [];
   private seatmap = [];
-  private sectormap = [];
+  private role = '';
   private seatChartConfig = {
     showRowsLabel : true,
     showRowWisePricing : true,
@@ -29,51 +29,12 @@ export class SectorChartComponent implements OnInit {
 
 
   title = 'seat-chart-generator';
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit() {
-    // Process a simple bus layout
-    /*this.seatConfig = [
-      {
-        seat_price: 250,
-        seat_map: [
-          {
-            seat_label: '1',
-            layout: '______'
-          },
-          {
-            seat_label: '2',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '3',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '4',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '5',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '6',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '7',
-            layout: 'gg__gg'
-          },
-          {
-            seat_label: '8',
-            layout: 'gggggg'
-          }
-        ]
-      }
-    ];*/
-    // this.processSeatChart(this.seatConfig);
-    // this.blockSeats('7_1');
+    this.role = this.authService.getRole();
   }
 
   generateJson() {
@@ -95,28 +56,17 @@ export class SectorChartComponent implements OnInit {
           seat_label: '',
           layout: '_'.repeat(sit.numCols)
         });
+        this.seatConfig.push({
+          sector_id: sector.id,
+          sector_name: sector.name,
+          sector_type: sector.type,
+          seat_price: 0,
+          seat_map: seatMap
+        });
+        this.processSeatChart(this.seatConfig);
       } else if (sector.type === 'standing') {
         console.log(sector.type);
-        const stand = sector as StandingSector;
-        for (let i = 0; i < 3; i++) {
-          seatMap.push({
-            seat_label: (i + 1).toString(),
-            layout: '_'.repeat(3)
-          });
-        }
-        seatMap.push({
-          seat_label: '',
-          layout: '_'.repeat(3)
-        });
       }
-      this.seatConfig.push({
-        sector_id: sector.id,
-        sector_name: sector.name,
-        sector_type: sector.type,
-        seat_price: 0,
-        seat_map: seatMap
-      });
-      this.processSeatChart(this.seatConfig);
     });
   }
   processSeatChart( mapData: any[] ) {
@@ -154,16 +104,12 @@ export class SectorChartComponent implements OnInit {
               seatNoCounter = 1; // Reset the seat label counter for new row
             }
             let totalItemCounter = 1;
-            let label = '';
-            if (mapData[counter].sector_type === 'standing') {
-              label = 'stand';
-            }
             seatValArr.forEach(item => {
               const seatObj = {
                 key : mapElement.seat_label + '_' + totalItemCounter,
                 price : mapData[counter].seat_price,
                 status : 'available',
-                seatLabel: label,
+                seatLabel: '',
                 seatNo: '',
                 sectorId: mapData[counter].sector_id,
                 sectorName: mapData[counter].sector_name
@@ -191,6 +137,7 @@ export class SectorChartComponent implements OnInit {
 
 public selectSeat( seatObject: any ) {
   console.log( 'Seat to block: ' , seatObject );
+  if (this.role === 'ROLE_REGISTERED_USER') {
   if (seatObject.status === 'available') {
     seatObject.status = 'booked';
     this.cart.selectedSeats.push(seatObject.seatLabel);
@@ -205,6 +152,7 @@ public selectSeat( seatObject: any ) {
       this.cart.totalamount -= seatObject.price;
     }
   }
+}
 }
 
 public blockSeats(seatsToBlock: string) {
