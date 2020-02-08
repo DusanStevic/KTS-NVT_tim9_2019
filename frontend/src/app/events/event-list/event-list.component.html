@@ -1,10 +1,42 @@
-<tr>
-    <td>Location ovde dodaj umesto 1 event.location.addressid: </td>
-    <button></button>
-    <button mat-button (click)="activateYandexMaps(1)" id="map-btn">
-        <mat-icon>highlight_off</mat-icon>
-        <span>Pokazi mapu</span>
-      </button>
+<div class="container">
+  <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
     
-</tr>
+      <!-- Event Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Event name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.startDate | date:medium }} </td>
+      </ng-container>
+
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.endDate | date:medium }} </td>
+      </ng-container>
+    
+      <!-- Event Type Column -->
+      <ng-container matColumnDef="eventType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Event Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.eventType}} </td>
+      </ng-container>
+    
+
+      <!-- Details -->
+      <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef style="align-content: center;"> Details </th>
+          <td mat-cell *matCellDef="let element">
+             <button mat-raised-button color="primary" id="eventDetails{{element.id}}" routerLink="/eventDetail/{{element.id}}" style="width: 30%;">Details</button> 
+          </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
 

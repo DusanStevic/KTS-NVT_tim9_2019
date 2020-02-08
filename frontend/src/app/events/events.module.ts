@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { EventListComponent } from './event-list/event-list.component';
 import { MaterialModule } from '../material/material.module';
 import { EventSearchComponent } from './event-search/event-search.component';
-import { EventDetailsComponent } from './events/event-details/event-details.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 
 
@@ -11,8 +12,9 @@ import { EventDetailsComponent } from './events/event-details/event-details.comp
   declarations: [EventListComponent, EventSearchComponent, EventDetailsComponent],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    AppRoutingModule
   ],
-  exports: [EventListComponent, EventSearchComponent]
+  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent]
 })
 export class EventsModule { }
