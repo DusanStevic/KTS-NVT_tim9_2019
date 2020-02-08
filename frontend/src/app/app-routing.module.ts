@@ -19,8 +19,10 @@ import { UpdateSectorComponent } from './location/update-sector/update-sector.co
 import { MyReservationsComponent } from './reservation/my-reservations/my-reservations.component';
 import { AddAdminComponent } from './user/add-admin/add-admin.component';
 import { ViewReservationComponent } from './reservation/view-reservation/view-reservation.component';
+import { EventDetailsComponent } from './events/event-details/event-details.component';
 import { MakeReservationComponent } from './reservation/make-reservation/make-reservation.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
+
 
 
 const routes: Routes = [
@@ -29,6 +31,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'events', component: EventListComponent},
+  {path: 'eventDetail/:id', component: EventDetailsComponent},
   {
     path: 'profile',
     component: ProfileComponent,
