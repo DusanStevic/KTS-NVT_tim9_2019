@@ -69,7 +69,7 @@ public class LocationListPage {
 	}
 	
 	public int getLocationsTableSize() {
-		return driver.findElements(By.cssSelector("tr")).size();
+		return driver.findElements(By.cssSelector("tr")).size() - 1;
 	}
 
 }
