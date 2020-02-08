@@ -53,7 +53,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AddLocationComponent,
     LocationDetailsComponent,
     HallFormComponent,
-    MapComponent
+    MapComponent,
+    SectorChartComponent
   ],
   entryComponents: [MapComponent],
 })

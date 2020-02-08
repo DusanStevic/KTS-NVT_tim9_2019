@@ -21,28 +21,28 @@ public class CreateEventDTO {
 	@NotNull(message = "Event type is mandatory")
 	@Min(value=0, message="Invalid type of an event")
 	@Max(value=4, message="Invalid type of an event")
-	private int event_type;
+	private int eventType;
 	
 	@NotNull(message = "Event starting date is mandatory")
-	private Date start_date;
+	private Date startDate;
 	
 	@NotNull(message = "Event ending date is mandatory")
-	private Date end_date;
+	private Date endDate;
 	
 	@NotNull(message = "Maximum number of tickets per reservation is mandatory")
 	@Min(value=1, message="Maximum number of tickets per reservation must be greater than or equal to {value}")
-	private int max_tickets; //max tickets per reservation
+	private int maxTickets; //max tickets per reservation
 	
 	@NotNull(message = "Number of days is mandatory")
-	private int num_days; //koliko dana pred manifestaciju vazi rezervacija
+	private int numDays; //koliko dana pred manifestaciju vazi rezervacija
 	
 	@NotNull(message = "Location is mandatory")
 	@Min(value=1, message="Invalid location id")
-	private Long location_id;
+	private Long locationId;
 	
-	@NotNull(message = "Sectors are mandatory")
+	/*@NotNull(message = "Sectors are mandatory")
 	@NotEmpty(message="Sectors are mandatory")
-	private ArrayList<EventSectorDTO> sectors;
+	private ArrayList<EventSectorDTO> sectors;*/
 
 	public CreateEventDTO(
 			@NotNull(message = "Event name is mandatory") @Length(min = 1, message = "Event name is mandatory") String name,
@@ -52,18 +52,17 @@ public class CreateEventDTO {
 			@NotNull(message = "Event ending date is mandatory") Date end_date,
 			@NotNull(message = "Maximum number of tickets per reservation is mandatory") @Min(value = 1, message = "Maximum number of tickets per reservation must be greater than or equal to {value}") int max_tickets,
 			@NotNull(message = "Number of days is mandatory") int num_days,
-			@NotNull(message = "Location is mandatory") @Min(value = 1, message = "Invalid location id") Long location_id,
-			@NotNull(message = "Sectors are mandatory") @NotEmpty(message = "Sectors are mandatory") ArrayList<EventSectorDTO> sectors) {
+			@NotNull(message = "Location is mandatory") @Min(value = 1, message = "Invalid location id") Long location_id) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.event_type = event_type;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.max_tickets = max_tickets;
-		this.num_days = num_days;
-		this.location_id = location_id;
-		this.sectors = sectors;
+		this.eventType = event_type;
+		this.startDate = start_date;
+		this.endDate = end_date;
+		this.maxTickets = max_tickets;
+		this.numDays = num_days;
+		this.locationId = location_id;
+		//this.sectors = sectors;
 	}
 
 	public CreateEventDTO() {
@@ -72,13 +71,6 @@ public class CreateEventDTO {
 
 	public CreateEventDTO(String string) {
 		this.name = string;
-	}
-
-	@Override
-	public String toString() {
-		return "CreateEventDTO [name=" + name + ", description=" + description + ", event_type=" + event_type
-				+ ", start_date=" + start_date + ", end_date=" + end_date + ", max_tickets=" + max_tickets
-				+ ", num_days=" + num_days + ", location_id=" + location_id + ", sectors=" + sectors + "]";
 	}
 
 	public String getName() {
@@ -97,59 +89,66 @@ public class CreateEventDTO {
 		this.description = description;
 	}
 
-	public int getEvent_type() {
-		return event_type;
-	}
-
-	public void setEvent_type(int event_type) {
-		this.event_type = event_type;
-	}
-
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
-
-	public Date getEnd_date() {
-		return end_date;
-	}
-
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
-	}
-
-	public int getMax_tickets() {
-		return max_tickets;
-	}
-
-	public void setMax_tickets(int max_tickets) {
-		this.max_tickets = max_tickets;
-	}
-
-	public int getNum_days() {
-		return num_days;
-	}
-
-	public void setNum_days(int num_days) {
-		this.num_days = num_days;
-	}
-
-	public Long getLocation_id() {
-		return location_id;
-	}
-
-	public void setLocation_id(Long location_id) {
-		this.location_id = location_id;
-	}
-
-	public ArrayList<EventSectorDTO> getSectors() {
+	/*public ArrayList<EventSectorDTO> getSectors() {
 		return sectors;
 	}
 
 	public void setSectors(ArrayList<EventSectorDTO> sectors) {
 		this.sectors = sectors;
+	}*/
+
+	@Override
+	public String toString() {
+		return "CreateEventDTO [name=" + name + ", description=" + description + ", eventType=" + eventType
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", maxTickets=" + maxTickets + ", numDays="
+				+ numDays + ", locationId=" + locationId;
+	}
+
+	public int getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(int eventType) {
+		this.eventType = eventType;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getMaxTickets() {
+		return maxTickets;
+	}
+
+	public void setMaxTickets(int maxTickets) {
+		this.maxTickets = maxTickets;
+	}
+
+	public int getNumDays() {
+		return numDays;
+	}
+
+	public void setNumDays(int numDays) {
+		this.numDays = numDays;
+	}
+
+	public Long getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Long locationId) {
+		this.locationId = locationId;
 	}
 }

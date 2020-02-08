@@ -15,13 +15,13 @@ public class EventSectorDTO {
 	
 	@NotNull(message = "Sector is mandatory")
 	@Min(value=1, message="Invalid sector")
-	private Long sector_id;
+	private Long sectorId;
 	
 	public EventSectorDTO(double price, Long event_id, Long sector_id) {
 		super();
 		this.price = price;
 		this.event_id = event_id;
-		this.sector_id = sector_id;
+		this.sectorId = sector_id;
 	}
 	public EventSectorDTO() {
 		super();
@@ -32,17 +32,17 @@ public class EventSectorDTO {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Long getEvent_id() {
+	public Long getEventId() {
 		return event_id;
 	}
-	public void setEvent_id(Long event_id) {
+	public void setEventId(Long event_id) {
 		this.event_id = event_id;
 	}
-	public Long getSector_id() {
-		return sector_id;
+	public Long getSectorId() {
+		return sectorId;
 	}
-	public void setSector_id(Long sector_id) {
-		this.sector_id = sector_id;
+	public void setSectorId(Long sector_id) {
+		this.sectorId = sector_id;
 	}
 	
 	

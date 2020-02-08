@@ -69,8 +69,8 @@ public class EventDTO {
 		this.sectors = (ArrayList<EventSectorDTO>) event.getEventSectors().stream().map(temp->{
 			EventSectorDTO obj = new EventSectorDTO();
 			obj.setPrice(temp.getPrice());
-			obj.setEvent_id(temp.getEvent().getId());
-			obj.setSector_id(temp.getSector().getId());
+			obj.setEventId(temp.getEvent().getId());
+			obj.setSectorId(temp.getSector().getId());
 			return obj;
 		}).collect(Collectors.toList());
 		this.event_days = (ArrayList<EventDayDTO>) event.getEventDays().stream().map(temp->{

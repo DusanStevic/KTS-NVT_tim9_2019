@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs';
 import { Search } from 'src/app/shared/models/search.model';
+import { CreateEventDTO } from 'src/app/shared/models/create-event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class EventService {
 
   search(search: Search): Observable <any> {
     return this.http.post(this.constantsService.eventPath + '/search', search, {headers: this.headers, responseType: 'json'});
+  }
+
+  add(newEvent: CreateEventDTO): Observable<any> {
+    return this.http.post(this.constantsService.eventPath, newEvent, {headers: this.headers, responseType: 'json'});
   }
 }
