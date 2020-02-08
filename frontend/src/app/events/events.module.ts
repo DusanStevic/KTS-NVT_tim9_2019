@@ -13,7 +13,14 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 
 
 @NgModule({
-  declarations: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent, UpdateEventComponent],
+  declarations: [
+    EventListComponent,
+    EventSearchComponent,
+    EventDetailsComponent,
+    EventFormComponent,
+    AddEventComponent,
+    UpdateEventComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { EventUpdateDTO } from 'src/app/shared/models/create-event.model';
 import { Router } from '@angular/router';
-import { LocationService } from 'src/app/core/services/location.service';
-import { EventService } from 'src/app/core/services/event.service';
 import { ToastrService } from 'ngx-toastr';
+import { LocationService } from 'src/app/core/services/location.service';
+import { EventUpdateDTO } from 'src/app/shared/models/create-event.model';
+import { EventService } from 'src/app/core/services/event.service';
 
 @Component({
   selector: 'app-update-event',
@@ -34,6 +34,7 @@ export class UpdateEventComponent implements OnInit {
   }
 
   createEventForm() {
+    localStorage.setItem('selectedEvent', '1');
     console.log(localStorage.getItem('selectedEvent'));
     this.eventUpdForm = this.fb.group({
       name: [this.event.name, Validators.required],

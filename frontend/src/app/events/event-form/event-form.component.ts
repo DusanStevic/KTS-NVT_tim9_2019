@@ -18,6 +18,7 @@ export class EventFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.hideFormFields);
   }
 
   onEventSubmit() {
