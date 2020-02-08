@@ -15,6 +15,7 @@ export class AddEventComponent implements OnInit {
   event: CreateEventDTO;
   eventForm: FormGroup;
   errorMessage = '';
+  hideFormFields = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,

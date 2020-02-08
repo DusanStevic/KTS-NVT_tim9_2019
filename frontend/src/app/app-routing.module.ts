@@ -22,7 +22,7 @@ import { ViewReservationComponent } from './reservation/view-reservation/view-re
 import { EventDetailsComponent } from './events/event-details/event-details.component';
 import { MakeReservationComponent } from './reservation/make-reservation/make-reservation.component';
 import { AddEventComponent } from './events/add-event/add-event.component';
-
+import { UpdateEventComponent } from './events/update-event/update-event.component';
 
 
 const routes: Routes = [
@@ -127,6 +127,12 @@ const routes: Routes = [
   {
     path: 'events/add',
     component: AddEventComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
+  },
+  {
+    path: 'events/update',
+    component: UpdateEventComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   }

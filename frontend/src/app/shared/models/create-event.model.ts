@@ -13,3 +13,8 @@ export class EventSectorDTO {
     price: number;
     sectorId: string;
 }
+
+export class EventUpdateDTO {
+    name: string;
+    description: string;
+}
