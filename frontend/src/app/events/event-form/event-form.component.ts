@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CreateEventDTO } from 'src/app/shared/models/create-event.model';
+import { Sector } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-event-form',

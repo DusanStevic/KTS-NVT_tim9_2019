@@ -55,10 +55,10 @@ INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, delet
 INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, deleted) VALUES ('sitting', 10, 'Sit to be deleted2', 10, 9, 3, false); --sitting sector
 
 
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, false);
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (2, "Folk fest", "2020-05-03", "2020-05-03", 0, 3, 5, "FolkFest", 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (2, "Folk fest", "2020-05-03", "2020-05-03", 0, 3, 5, "FolkFest", 1, 1, false);
 	
 insert into event_image_paths (event_id, image_paths) values(1, "e1picture1");
 insert into event_video_paths (event_id, video_paths) values(1, "e1video1");
@@ -92,20 +92,20 @@ insert into tickets (id, has_seat, num_col, num_row, event_day_id, sector_id, re
 insert into tickets (id, has_seat, event_day_id, sector_id, reservation_id )
 	values (5, false, 2, 3, 4);
 
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (3, "Event", "2020-05-08", "2020-05-08", 0, 3, 5, "Event", 1, false);	
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (3, "Event", "2020-05-08", "2020-05-08", 0, 3, 5, "Event", 1, 1, false);	
 
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (4, "Event deleted", "2020-05-07", "2020-05-07", 0, 3, 5, "Event deleted", 1, true);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (4, "Event deleted", "2020-05-07", "2020-05-07", 0, 3, 5, "Event deleted", 1, 1, true);
 	
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (5, "Event update", "2020-05-09", "2020-05-09", 0, 3, 5, "Event update", 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (5, "Event update", "2020-05-09", "2020-05-09", 0, 3, 5, "Event update", 1, 1, false);
 	
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (6, "Event to be deleted", "2020-05-10", "2020-05-10", 0, 3, 5, "Event to be deleted", 3, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (6, "Event to be deleted", "2020-05-10", "2020-05-10", 0, 3, 5, "Event to be deleted", 3, 4, false);
 	
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (7, "Event to be deleted2", "2020-05-09", "2020-05-09", 0, 3, 5, "Event to be deleted2", 3, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (7, "Event to be deleted2", "2020-05-09", "2020-05-09", 0, 3, 5, "Event to be deleted2", 3, 4, false);
 	
 insert into event_days (id, day_date,name, description,  status, event_id , deleted) values(3,"2020-06-03", "EventDay", "Status1", 0,2, false);
 insert into event_days (id, day_date,name, description,  status, event_id , deleted) values(4,"2020-07-03", "EventDay deleted", "Status2", 0,2, true);

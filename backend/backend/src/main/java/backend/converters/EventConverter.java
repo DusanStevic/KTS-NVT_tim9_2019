@@ -17,6 +17,7 @@ import backend.model.EventDay;
 import backend.model.EventSector;
 import backend.model.EventStatus;
 import backend.model.EventType;
+import backend.service.HallService;
 import backend.service.LocationService;
 
 @Component
@@ -24,6 +25,9 @@ public class EventConverter {
 
 	@Autowired
 	LocationService locationService;
+	
+	@Autowired
+	HallService hallService;
 	
 	@Autowired
 	EventDayConverter eventDayConverter;
@@ -42,6 +46,7 @@ public class EventConverter {
 		e.setMaxTickets(dto.getMaxTickets());
 		e.setEventType(EventType.values()[dto.getEventType()]);
 		e.setLocation(locationService.findOne(dto.getLocationId()));
+		e.setHall(hallService.findOneNotDeleted(dto.getHallId()));
 		int diff = (int) ((dto.getEndDate().getTime() - dto.getStartDate().getTime()) 
 				/ (1000 * 60 * 60 * 24));
 		for(int i = 0; i <= diff; i++) {

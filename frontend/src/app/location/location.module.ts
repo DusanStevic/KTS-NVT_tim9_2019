@@ -54,7 +54,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     LocationDetailsComponent,
     HallFormComponent,
     MapComponent,
-    SectorChartComponent
+    SectorChartComponent,
+    SectorTableComponent
   ],
   entryComponents: [MapComponent],
 })

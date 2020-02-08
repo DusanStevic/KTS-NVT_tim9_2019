@@ -54,6 +54,9 @@ public class Event {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Location location;
 
+	@JoinColumn(name = "hall_id", unique = false)
+	@OneToOne(cascade = CascadeType.ALL)
+	private Hall hall;
 	/*
 	 * @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade =
 	 * CascadeType.ALL)
@@ -85,7 +88,7 @@ public class Event {
 
 	public Event(Long id, String name, String description, EventType type,
 			Date startDate, Date endDate, int maxTickets,
-			int numDays, Location location,
+			int numDays, Location location, Hall hall,
 			Set<String> imagePaths,Set<String> videoPaths, Set<EventSector> eventSectors,
 			Set<EventDay> eventDays, boolean deleted) {
 		super();
@@ -103,6 +106,7 @@ public class Event {
 		this.eventSectors = eventSectors;
 		this.eventDays = eventDays;
 		this.deleted = deleted;
+		this.hall = hall;
 	}
 	
 	
@@ -287,5 +291,13 @@ public class Event {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
 	}
 }

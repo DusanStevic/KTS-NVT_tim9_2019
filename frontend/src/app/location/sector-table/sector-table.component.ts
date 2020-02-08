@@ -11,16 +11,24 @@ import { LocationService } from 'src/app/core/services/location.service';
 export class SectorTableComponent implements OnInit {
 
   @Input() sectors: Sector[];
+  @Input() isEventUpdate: boolean;
   @Output() deleteSectorClicked: EventEmitter<any>;
-  displayedColumns: string[] = ['Name', 'Type', 'Edit', 'Delete'];
+  @Output() addEventSectorClicked: EventEmitter<any>;
+  displayedColumns: string[];
   constructor(
     private router: Router,
     private locationService: LocationService
   ) {
     this.deleteSectorClicked = new EventEmitter();
+    this.addEventSectorClicked = new EventEmitter();
    }
 
   ngOnInit() {
+    if (this.isEventUpdate) {
+      this.displayedColumns = ['Name', 'Type', 'Add'];
+    } else {
+      this.displayedColumns = ['Name', 'Type', 'Edit', 'Delete'];
+    }
   }
 
   updateSector(id: string) {
@@ -34,4 +42,8 @@ export class SectorTableComponent implements OnInit {
     this.deleteSectorClicked.emit(id);
   }
 
+  addEventSector(id: string, name: string) {
+    console.log('selected sector id: ' + id);
+    this.addEventSectorClicked.emit({sectorId: id, sectorName: name});
+  }
 }

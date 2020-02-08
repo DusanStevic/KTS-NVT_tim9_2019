@@ -3,8 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/core/services/location.service';
-import { EventUpdateDTO } from 'src/app/shared/models/create-event.model';
+import { EventUpdateDTO, EventSectorDTO } from 'src/app/shared/models/create-event.model';
 import { EventService } from 'src/app/core/services/event.service';
+import { Sector } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-update-event',
@@ -15,6 +16,9 @@ export class UpdateEventComponent implements OnInit {
 
   event: EventUpdateDTO;
   eventUpdForm: FormGroup;
+  eventSectorDTO: EventSectorDTO;
+  eventSectorForm: FormGroup;
+  sectorList: Sector[];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -26,7 +30,12 @@ export class UpdateEventComponent implements OnInit {
       name: '',
       description: ''
     };
+    this.eventSectorDTO = {
+      price: NaN,
+      sectorId: ''
+    };
     this.createEventForm();
+    this.createEventSectorForm('');
   }
 
   ngOnInit() {
@@ -34,7 +43,7 @@ export class UpdateEventComponent implements OnInit {
   }
 
   createEventForm() {
-    localStorage.setItem('selectedEvent', '1');
+    // localStorage.setItem('selectedEvent', '1');
     console.log(localStorage.getItem('selectedEvent'));
     this.eventUpdForm = this.fb.group({
       name: [this.event.name, Validators.required],
@@ -42,11 +51,21 @@ export class UpdateEventComponent implements OnInit {
     });
   }
 
+  createEventSectorForm(name: string) {
+    this.eventSectorForm = this.fb.group({
+      name: [{value: name, disabled: true}],
+      price: ['', Validators.required]
+    });
+  }
   init() {
     this.eventService.get(localStorage.getItem('selectedEvent')).subscribe(
       result => {
         console.log(result);
         this.event = result;
+        this.sectorList = result.hall.sectors;
+        result.eventSectors.forEach(es => {
+          this.sectorList = this.sectorList.filter(sector => sector.id !== es.sector.id);
+        });
         this.createEventForm();
       }
     );
@@ -73,5 +92,29 @@ export class UpdateEventComponent implements OnInit {
     console.log(this.eventUpdForm.value);
     this.createEventForm();
     console.log(this.eventUpdForm.value);
+  }
+
+  onAddEventSector(item: any) {
+    console.log(item.sectorId);
+    console.log(item.sectorName);
+    this.eventSectorDTO.sectorId = item.sectorId;
+    this.createEventSectorForm(item.sectorName);
+  }
+
+  onEventSectorSubmit(e: Event) {
+    console.log('es submit');
+    this.eventSectorDTO.price = this.eventSectorForm.get('price').value;
+    console.log(this.eventSectorDTO);
+    this.eventService.addEventSector(localStorage.getItem('selectedEvent'), this.eventSectorDTO).subscribe (
+      success => {
+        this.toastr.success('Successfully added event sector');
+        this.sectorList = this.sectorList.filter(sector => sector.id !== success.sector.id);
+        this.createEventSectorForm('');
+      },
+      error => {
+        this.toastr.error(error.error);
+        console.log(error.error);
+      }
+    );
   }
 }

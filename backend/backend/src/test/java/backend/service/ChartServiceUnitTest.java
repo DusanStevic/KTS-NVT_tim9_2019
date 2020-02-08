@@ -149,11 +149,11 @@ public class ChartServiceUnitTest {
 		eventDays2.add(day2);
 
 		event1 = new Event(1L, "UNIPARTY", "", EventType.CONCERT,
-				df.parse("2020-03-03"), df.parse("2020-03-03"), 5, 3, location,
+				df.parse("2020-03-03"), df.parse("2020-03-03"), 5, 3, location, h1,
 				new HashSet<String>(), new HashSet<String>(), eventSectors1,
 				eventDays1, false);
 		event2 = new Event(2L, "FolkFest", "", EventType.CULTURE,
-				df.parse("2020-05-03"), df.parse("2020-05-03"), 5, 3, location,
+				df.parse("2020-05-03"), df.parse("2020-05-03"), 5, 3, location, h1,
 				new HashSet<String>(), new HashSet<String>(), eventSectors2,
 				eventDays2, false);
 
