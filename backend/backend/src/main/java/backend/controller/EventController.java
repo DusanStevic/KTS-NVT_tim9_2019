@@ -1,4 +1,5 @@
 package backend.controller;
+
 import java.io.IOException;
 //can copypaste everywhere
 import java.util.List;
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,7 @@ import backend.converters.EventConverter;
 import backend.dto.CreateEventDTO;
 import backend.dto.EventDTO;
 import backend.dto.EventUpdateDTO;
+import backend.dto.SearchDTO;
 import backend.dto.UrlDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
@@ -47,6 +51,15 @@ public class EventController {
 
 	@Autowired
 	EventConverter eventConverter;
+	
+	@GetMapping(value = "/search")
+    public ResponseEntity<Page<EventDTO>> search(Pageable pageable,@Valid @RequestBody SearchDTO searchDTO){
+		
+		return new ResponseEntity<>(eventService.search(searchDTO,pageable),HttpStatus.OK);
+	
+	}
+	
+	
 	/* saving event */
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")

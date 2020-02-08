@@ -15,6 +15,7 @@ import { UserService } from './services/user.service';
 import { MapService } from './services/map.service';
 import { FileUploadService } from './services/file-upload.service';
 import { PaypalService } from './services/paypal.service';
+import { EventService } from './services/event.service';
 
 
 
@@ -34,7 +35,8 @@ import { PaypalService } from './services/paypal.service';
     UserService,
     MapService,
     FileUploadService,
-    PaypalService
+    PaypalService,
+    EventService
   ],
   exports: [
      NavbarRegisteredUserComponent, NavbarUserComponent, NavbarAdminComponent, NavbarSysAdminComponent
