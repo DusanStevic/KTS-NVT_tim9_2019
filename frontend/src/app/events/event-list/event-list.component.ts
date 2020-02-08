@@ -26,7 +26,6 @@ export class EventListComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(
-    private mapService: MapService,
     private fb: FormBuilder,
     private router: Router,
     private eventService: EventService,
@@ -76,9 +75,7 @@ export class EventListComponent implements OnInit {
     });
   }
 
-  activateYandexMaps(locationId: string) {
-    this.mapService.activateYandexMaps(locationId);
-  }
+
 
 
 }

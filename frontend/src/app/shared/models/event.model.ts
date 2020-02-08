@@ -5,6 +5,6 @@ export class Event {
     name: string;
     startDate: Date;
     endDate: Date;
-    public eventType: EventType;
+    eventType: EventType;
 
 }

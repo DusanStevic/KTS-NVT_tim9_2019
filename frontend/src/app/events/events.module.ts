@@ -32,6 +32,6 @@ import { EventSectorFormComponent } from './event-sector-form/event-sector-form.
     FormsModule,
     LocationModule
   ],
-  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent]
+  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent]
 })
 export class EventsModule { }

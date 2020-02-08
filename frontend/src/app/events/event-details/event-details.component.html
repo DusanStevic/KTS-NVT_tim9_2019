@@ -1,1 +1,66 @@
-<p>event-details works!</p>
+<mat-card style="width: 80%; margin-left: 10%;margin-top: 10px; ">
+    <mat-card-title style="color: red;">
+        Event details for {{this.eventDetailed.name}}
+    </mat-card-title>
+    
+    <mat-card-content>
+        <div>
+            <mat-list> <h5>Name of event: {{this.eventDetailed.name}}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>Event type of event is: {{this.eventDetailed.eventType}}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>Start date of event is: {{this.eventDetailed.startDate | date: medium }}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>End date of event is: {{this.eventDetailed.endDate | date: medium }}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list style="color: grey;"> <h5>Event description: {{this.eventDetailed.description }}</h5></mat-list>
+            <mat-divider></mat-divider>
+            <mat-list>
+                <button mat-button (click)="activateYandexMaps(this.eventDetailed.location.id)" id="map-btn">
+                    <mat-icon>place</mat-icon>
+                    <span>Show event location on map</span>
+                </button>
+            </mat-list>
+            <mat-list>
+                <button mat-button (click)="activateYandexMaps(this.eventDetailed.location.id)" id="map-btn">
+                    <mat-icon>image</mat-icon>
+                    <span>Show event image gallery  </span>
+                </button>
+            </mat-list>
+            <mat-list>
+                <button mat-button (click)="activateYandexMaps(this.eventDetailed.location.id)" id="map-btn">
+                    <mat-icon>videocam</mat-icon>
+                    <span>Show event video gallery </span>
+                </button>
+            </mat-list>
+
+            <mat-divider></mat-divider>
+
+
+            <mat-grid-list cols="3" >
+                <mat-grid-tile *ngFor="let eventDay of this.eventDetailed.eventDays">
+                    <mat-card>
+                        <mat-list><h6>Event day name: "{{eventDay.name}}" </h6></mat-list>
+                        <mat-list><h6>Event day date: "{{eventDay.date}}" </h6></mat-list>
+                        <mat-list><h6>Event day description: "{{eventDay.description}}" </h6></mat-list>
+                        <mat-list *ngIf="role==='ROLE_REGISTERED_USER'">
+                            <button mat-raised-button color="primary" id="reserve reserve-btn" class="reserveBtn" (click)="reserve(eventDay.id)">Reserve</button>
+                        </mat-list>
+                        
+                    </mat-card>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-divider></mat-divider>
+            <mat-list>
+                <button mat-button (click)="back()" id="back-btn">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                    <span>Back</span>
+                </button>
+            </mat-list>
+
+            <mat-divider></mat-divider>
+            
+        </div>
+    </mat-card-content>
+
+</mat-card>
