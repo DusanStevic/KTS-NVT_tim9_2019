@@ -93,7 +93,7 @@ export class UpdateHallComponent implements OnInit {
         this.toastr.success('Successfully updated hall');
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Cannot update hall.');
       }
     );
   }
@@ -118,7 +118,7 @@ export class UpdateHallComponent implements OnInit {
           // this.hallList = this.hallList.filter(hall => 1 === 1);
         },
         error => {
-          this.toastr.error(error);
+          this.toastr.error('Error while adding sitting sector');
         }
       );
     } else if (this.sectorForm.value.type === 'standingDTO') {
@@ -134,7 +134,7 @@ export class UpdateHallComponent implements OnInit {
           // this.hallList = this.hallList.filter(hall => 1 === 1);
         },
         error => {
-          this.toastr.error(error);
+          this.toastr.error('Error while addind standing sector');
         }
       );
     }
@@ -158,7 +158,7 @@ export class UpdateHallComponent implements OnInit {
         console.log(this.sectorList);
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Cannot delete sector!');
       }
     );
   }

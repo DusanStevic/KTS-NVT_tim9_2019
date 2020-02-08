@@ -132,7 +132,7 @@ export class UpdateLocationComponent implements OnInit {
         console.log(this.hallList);
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Cannot delete hall!');
       }
     );
   }
