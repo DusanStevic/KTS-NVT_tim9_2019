@@ -9,6 +9,8 @@ import { EventFormComponent } from './event-form/event-form.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UpdateEventComponent } from './update-event/update-event.component';
+import { LocationModule } from '../location/location.module';
+import { EventSectorFormComponent } from './event-sector-form/event-sector-form.component';
 
 
 
@@ -19,15 +21,17 @@ import { UpdateEventComponent } from './update-event/update-event.component';
     EventDetailsComponent,
     EventFormComponent,
     AddEventComponent,
-    UpdateEventComponent
+    UpdateEventComponent,
+    EventSectorFormComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    LocationModule
   ],
-  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent]
+  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent]
 })
 export class EventsModule { }

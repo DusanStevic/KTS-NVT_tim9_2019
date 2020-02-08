@@ -4,6 +4,8 @@ import { CreateEventDTO } from 'src/app/shared/models/create-event.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EventService } from 'src/app/core/services/event.service';
+import { LocationService } from 'src/app/core/services/location.service';
+import { Sector } from 'src/app/shared/models/hall.model';
 
 @Component({
   selector: 'app-add-event',
@@ -20,9 +22,9 @@ export class AddEventComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private eventService: EventService,
+    private locationService: LocationService,
     private toastr: ToastrService
   ) {
-    this.createForm();
    }
 
   ngOnInit() {
@@ -34,8 +36,10 @@ export class AddEventComponent implements OnInit {
       numDays: NaN,
       maxTickets: NaN,
       startDate: undefined,
-      endDate: undefined
+      endDate: undefined,
+      hallId: ''
     };
+    this.createForm();
   }
 
   createForm() {
@@ -55,6 +59,7 @@ export class AddEventComponent implements OnInit {
     e.preventDefault();
     this.event = this.eventForm.value;
     this.event.locationId = localStorage.getItem('selectedLocation');
+    this.event.hallId = localStorage.getItem('selectedHall');
     console.log(this.event);
     this.eventService.add(this.event).subscribe(
       success => {
@@ -63,10 +68,11 @@ export class AddEventComponent implements OnInit {
         console.log(success);
         console.log(success.id);
         localStorage.setItem('selectedEvent', success.id);
-        // this.router.navigate(['event/update']);
+        this.router.navigate(['events/update']);
       },
       error => {
-        this.toastr.error(error);
+        console.log(error);
+        this.toastr.error('Please enter valid data!');
         this.errorMessage = 'Please enter valid data!';
 
       }

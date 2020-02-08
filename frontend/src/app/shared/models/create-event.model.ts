@@ -7,6 +7,7 @@ export class CreateEventDTO {
     maxTickets: number;
     numDays: number;
     locationId: string;
+    hallId: string;
 }
 
 export class EventSectorDTO {
