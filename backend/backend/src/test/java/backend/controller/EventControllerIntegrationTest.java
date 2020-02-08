@@ -167,7 +167,7 @@ public class EventControllerIntegrationTest {
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		int size = eventService.findAll().size();
-		EventUpdateDTO dto = new EventUpdateDTO("novo ime","opis",1);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","opis");
 		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
 		
 		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+DB_EVENT_TO_BE_UPDATED, HttpMethod.PUT, httpEntity, Event.class);
@@ -186,7 +186,7 @@ public class EventControllerIntegrationTest {
 	
 	@Test 
 	public void testUpdate_NotFoundException() {
-		EventUpdateDTO dto = new EventUpdateDTO("novo ime","novi opis",2);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","novi opis");
 		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
 		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+EVENT_ID_NON_EXISTENT, HttpMethod.PUT, httpEntity, Event.class);
 		System.out.println("******upd not found");

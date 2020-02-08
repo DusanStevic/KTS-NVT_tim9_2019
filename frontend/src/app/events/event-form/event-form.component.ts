@@ -11,6 +11,7 @@ export class EventFormComponent implements OnInit {
 
   @Input() event: CreateEventDTO;
   @Input() eventForm: FormGroup;
+  @Input() hideFormFields: boolean;
   @Output() resetClicked: EventEmitter<any>;
   constructor() {
     this.resetClicked = new EventEmitter();
