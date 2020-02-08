@@ -14,6 +14,7 @@ export class AddLocationComponent implements OnInit {
 
   location: Location;
   locationForm: FormGroup;
+  errorMessage = '';
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -50,13 +51,16 @@ export class AddLocationComponent implements OnInit {
     this.locationService.add(this.location).subscribe(
       success => {
         this.toastr.success('Successfully added location');
+        this.errorMessage = 'Successfully added location';
         console.log(success);
         console.log(success.id);
         localStorage.setItem('selectedLocation', success.id);
         this.router.navigate(['location/update']);
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Please enter valid data!');
+        this.errorMessage = 'Please enter valid data!';
+
       }
     );
   }

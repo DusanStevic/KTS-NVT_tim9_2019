@@ -12,6 +12,12 @@ public class HomePageAdministrator {
 	@FindBy(id = "myProfileNav")
 	private WebElement profileNavBtn;
 
+	@FindBy(id = "locationsNavBtn")
+	private WebElement locationsNavBtn;
+
+	@FindBy(id = "addLocationsNavBtn")
+	private WebElement addLocationsNavBtn;
+
 	@FindBy(id = "chartNavBtn")
 	private WebElement chartNavBtn;
 
@@ -46,6 +52,22 @@ public class HomePageAdministrator {
 		this.chartNavBtn = chartNavBtn;
 	}
 
+	public WebElement getLocationsNavBtn() {
+		return locationsNavBtn;
+	}
+
+	public void setLocationsNavBtn(WebElement locationsNavBtn) {
+		this.locationsNavBtn = locationsNavBtn;
+	}
+
+	public WebElement getAddLocationsNavBtn() {
+		return addLocationsNavBtn;
+	}
+
+	public void setAddLocationsNavBtn(WebElement addLocationsNavBtn) {
+		this.addLocationsNavBtn = addLocationsNavBtn;
+	}
+
 	public void ensureProfileIsDisplayed() {
 		(new WebDriverWait(driver, 10)).until(ExpectedConditions
 				.elementToBeClickable(profileNavBtn));
@@ -61,4 +83,13 @@ public class HomePageAdministrator {
 				.elementToBeClickable(chartNavBtn));
 	}
 
+	public void ensureLocationsIsDisplayed() {
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions
+				.elementToBeClickable(locationsNavBtn));
+	}
+
+	public void ensureAddLocationsIsDisplayed() {
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions
+				.elementToBeClickable(addLocationsNavBtn));
+	}
 }
