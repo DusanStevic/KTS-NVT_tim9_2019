@@ -28,6 +28,6 @@ import { UpdateEventComponent } from './update-event/update-event.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent]
+  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent]
 })
 export class EventsModule { }

@@ -1,4 +1,5 @@
 import { EventType } from './event-type.enum';
+import { EventDay } from './event-day.model';
 
 export class EventDetailed {
     id: number;
@@ -6,8 +7,10 @@ export class EventDetailed {
     description: string;
     startDate: Date;
     endDate: Date;
-    public imagePaths: string[];
-    public videoPaths: string[];
-    public eventType: EventType;
+    imagePaths: string[];
+    videoPaths: string[];
+    eventType: EventType;
+    eventDays: EventDay[];
+    location: Location;
 
 }
