@@ -12,6 +12,9 @@ public class HomePageAdministrator {
 	@FindBy(id = "myProfileNav")
 	private WebElement profileNavBtn;
 
+	@FindBy(id = "chartNavBtn")
+	private WebElement chartNavBtn;
+
 	@FindBy(id = "logout-btn")
 	private WebElement logoutNavBtn;
 
@@ -35,6 +38,14 @@ public class HomePageAdministrator {
 		this.logoutNavBtn = logoutNavBtn;
 	}
 
+	public WebElement getChartNavBtn() {
+		return chartNavBtn;
+	}
+
+	public void setChartNavBtn(WebElement chartNavBtn) {
+		this.chartNavBtn = chartNavBtn;
+	}
+
 	public void ensureProfileIsDisplayed() {
 		(new WebDriverWait(driver, 10)).until(ExpectedConditions
 				.elementToBeClickable(profileNavBtn));
@@ -43,6 +54,11 @@ public class HomePageAdministrator {
 	public void ensureLogoutIsDisplayed() {
 		(new WebDriverWait(driver, 10)).until(ExpectedConditions
 				.elementToBeClickable(logoutNavBtn));
+	}
+
+	public void ensureChartIsDisplayed() {
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions
+				.elementToBeClickable(chartNavBtn));
 	}
 
 }

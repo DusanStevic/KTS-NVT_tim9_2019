@@ -10,8 +10,14 @@ public class HomePageSysAdmin {
 
 	private WebDriver driver;
 
+	@FindBy(id = "add-admin-btn")
+	private WebElement addAdminNavBtn;
+
 	@FindBy(id = "myProfileNav")
 	private WebElement profileNavBtn;
+
+	@FindBy(id = "chartNavBtn")
+	private WebElement chartNavBtn;
 
 	@FindBy(id = "logout-btn")
 	private WebElement logoutNavBtn;
@@ -37,6 +43,22 @@ public class HomePageSysAdmin {
 		this.logoutNavBtn = logoutNavBtn;
 	}
 
+	public WebElement getAddAdminNavBtn() {
+		return addAdminNavBtn;
+	}
+
+	public void setAddAdminNavBtn(WebElement addAdminNavBtn) {
+		this.addAdminNavBtn = addAdminNavBtn;
+	}
+
+	public WebElement getChartNavBtn() {
+		return chartNavBtn;
+	}
+
+	public void setChartNavBtn(WebElement chartNavBtn) {
+		this.chartNavBtn = chartNavBtn;
+	}
+
 	public void ensureProfileIsDisplayed() {
 		(new WebDriverWait(driver, 10)).until(ExpectedConditions
 				.elementToBeClickable(profileNavBtn));
@@ -47,4 +69,13 @@ public class HomePageSysAdmin {
 				.elementToBeClickable(logoutNavBtn));
 	}
 
+	public void ensureAddAdminIsDisplayed() {
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions
+				.elementToBeClickable(addAdminNavBtn));
+	}
+
+	public void ensureChartIsDisplayed() {
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions
+				.elementToBeClickable(chartNavBtn));
+	}
 }
