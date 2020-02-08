@@ -93,7 +93,9 @@ const routes: Routes = [
   },
   {
     path: 'location/all',
-    component: LocationListComponent
+    component: LocationListComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   },
   {
     path: 'location/details',
