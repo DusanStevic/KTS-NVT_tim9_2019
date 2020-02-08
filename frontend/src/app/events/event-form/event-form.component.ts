@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Location } from 'src/app/shared/models/location.model';
 import { FormGroup } from '@angular/forms';
+import { CreateEventDTO } from 'src/app/shared/models/create-event.model';
 
 @Component({
-  selector: 'app-location-form',
-  templateUrl: './location-form.component.html',
-  styleUrls: ['./location-form.component.scss']
+  selector: 'app-event-form',
+  templateUrl: './event-form.component.html',
+  styleUrls: ['./event-form.component.scss']
 })
-export class LocationFormComponent implements OnInit {
+export class EventFormComponent implements OnInit {
 
-  @Input() location: Location;
-  @Input() locationForm: FormGroup;
+  @Input() event: CreateEventDTO;
+  @Input() eventForm: FormGroup;
   @Output() resetClicked: EventEmitter<any>;
   constructor() {
     this.resetClicked = new EventEmitter();
@@ -19,7 +19,7 @@ export class LocationFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLocationSubmit() {
+  onEventSubmit() {
     console.log('submit');
   }
   onReset() {

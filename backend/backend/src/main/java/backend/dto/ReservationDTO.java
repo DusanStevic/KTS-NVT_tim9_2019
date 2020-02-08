@@ -17,7 +17,7 @@ public class ReservationDTO {
 
 	@NotNull(message = "Event day is mandatory")
 	@Min(value = 1, message = "Invalid event day")
-	private Long eventDay_id;
+	private Long eventDayId;
 
 	public ReservationDTO() {
 		super();
@@ -29,7 +29,7 @@ public class ReservationDTO {
 		super();
 		this.purchased = purchased;
 		this.tickets = tickets;
-		this.eventDay_id = eventDay_id;
+		this.eventDayId = eventDay_id;
 	}
 
 	public boolean isPurchased() {
@@ -48,12 +48,12 @@ public class ReservationDTO {
 		this.tickets = tickets;
 	}
 
-	public Long getEventDay_id() {
-		return eventDay_id;
+	public Long getEventDayId() {
+		return eventDayId;
 	}
 
-	public void setEventDay_id(Long eventDay_id) {
-		this.eventDay_id = eventDay_id;
+	public void setEventDayId(Long eventDay_id) {
+		this.eventDayId = eventDay_id;
 	}
 
 }

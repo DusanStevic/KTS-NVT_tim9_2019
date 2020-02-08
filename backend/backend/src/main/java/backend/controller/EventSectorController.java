@@ -48,9 +48,11 @@ public class EventSectorController {
 	
 	/* saving event sector */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EventSector> createEventSector(@Valid @RequestBody EventSectorDTO eventSectorDTO) throws ResourceNotFoundException {
-		EventSector eventSector = eventSectorConverter.EventSectorDTO2EventSector2(eventSectorDTO);
+	@PostMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EventSector> createEventSector
+				(@PathVariable(value = "id") Long eventId, @Valid @RequestBody EventSectorDTO eventSectorDTO) 
+				throws ResourceNotFoundException {
+		EventSector eventSector = eventSectorConverter.EventSectorDTO2EventSector(eventSectorDTO, eventId);
 		return new ResponseEntity<>(eventSectorService.save(eventSector), HttpStatus.OK);
 	}
 
@@ -69,7 +71,7 @@ public class EventSectorController {
 	}
 
 	/* update event sector by id */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EventSector> updateEventSector(
 			@PathVariable(value = "id") Long eventSectorId,
@@ -77,15 +79,15 @@ public class EventSectorController {
 
 		return new ResponseEntity<>(eventSectorService.update(eventSectorId, price), HttpStatus.OK);
 		
-	}
+	}*/
 
 	/* delete event sector */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteEventSector(
 			@PathVariable(value = "id") Long eventSectorId) throws ResourceNotFoundException {
 		eventSectorService.delete(eventSectorId);
 		logger.info("Deleted " + eventSectorId);
 		return new ResponseEntity<>("Successfully deleted a day of an event", HttpStatus.OK);
-	}
+	}*/
 }
