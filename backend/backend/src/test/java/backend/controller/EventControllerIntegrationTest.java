@@ -133,12 +133,12 @@ public class EventControllerIntegrationTest {
 	public void testCreate() throws ResourceNotFoundException {
 		int size = eventService.findAllNotDeleted().size(); //sve neobrisane event-e
 		ArrayList<EventDayDTO> days = new ArrayList<EventDayDTO>();
-		ArrayList<EventSectorDTO> sectors = new ArrayList<EventSectorDTO>();
+		//ArrayList<EventSectorDTO> sectors = new ArrayList<EventSectorDTO>();
 		//EventDayDTO day = new EventDayDTO("day1","creating");
-		EventSectorDTO sector = new EventSectorDTO(200,1L,1L);
+		//EventSectorDTO sector = new EventSectorDTO(200,1L,1L);
 		//days.add(day);
-		sectors.add(sector);
-		NEW_EVENT_DTO.setSectors(sectors);
+		//sectors.add(sector);
+		//NEW_EVENT_DTO.setSectors(sectors);
 		//NEW_EVENT_DTO.setEvent_days(days);
 		System.out.println("EVENT JE: " + NEW_EVENT_DTO);
 		HttpEntity<CreateEventDTO> httpEntity = new HttpEntity<CreateEventDTO>(NEW_EVENT_DTO,headers);
@@ -151,7 +151,7 @@ public class EventControllerIntegrationTest {
 		
 		assertFalse(created.isDeleted());
 		assertFalse(created.getEventSectors().isEmpty());
-		assertEquals(sectors.size(), created.getEventSectors().size());
+		//assertEquals(sectors.size(), created.getEventSectors().size());
 		
 		Event found = eventService.findOne(created.getId());
 		assertNotNull(found);
@@ -159,7 +159,7 @@ public class EventControllerIntegrationTest {
 		assertFalse(found.isDeleted());
 		//assertEquals(NEW_HALL_LOCATION_ID, found.getLocation().getId());
 		assertFalse(found.getEventSectors().isEmpty());
-		assertEquals(sectors.size(), found.getEventSectors().size());
+		//assertEquals(sectors.size(), found.getEventSectors().size());
 		//assertEquals(size+1, eventService.findAllNotDeleted().size());
 		assertEquals(size+1, eventService.findAllNotDeleted().size());
 	}
@@ -167,7 +167,7 @@ public class EventControllerIntegrationTest {
 	@Test
 	public void testUpdate() throws ResourceNotFoundException {
 		int size = eventService.findAll().size();
-		EventUpdateDTO dto = new EventUpdateDTO("novo ime","opis",1);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","opis");
 		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
 		
 		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+DB_EVENT_TO_BE_UPDATED, HttpMethod.PUT, httpEntity, Event.class);
@@ -186,7 +186,7 @@ public class EventControllerIntegrationTest {
 	
 	@Test 
 	public void testUpdate_NotFoundException() {
-		EventUpdateDTO dto = new EventUpdateDTO("novo ime","novi opis",2);
+		EventUpdateDTO dto = new EventUpdateDTO("novo ime","novi opis");
 		HttpEntity<EventUpdateDTO> httpEntity = new HttpEntity<EventUpdateDTO>(dto, headers);
 		ResponseEntity<Event> responseEntity = restTemplate.exchange("/api/event/"+EVENT_ID_NON_EXISTENT, HttpMethod.PUT, httpEntity, Event.class);
 		System.out.println("******upd not found");

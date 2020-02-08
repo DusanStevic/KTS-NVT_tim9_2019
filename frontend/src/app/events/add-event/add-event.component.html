@@ -1,0 +1,9 @@
+<h1>Add New Event</h1>
+<div class="row">
+	<div class="col">
+		<app-event-form [eventForm]="eventForm" [event]="event" [hideFormFields]="hideFormFields"
+		(submit)="onEventSubmit($event)" (resetClicked)="onReset($event)"></app-event-form>
+		
+		<input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
+	</div>
+</div>

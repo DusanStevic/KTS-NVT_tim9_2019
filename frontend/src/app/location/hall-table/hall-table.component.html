@@ -11,14 +11,14 @@
     </ng-container>
 
     <!-- Sitting Sectors Column -->
-    <ng-container matColumnDef="Sitting Sectors">
-      <th mat-header-cell *matHeaderCellDef> Sitting Sectors </th>
+    <ng-container matColumnDef="Sitting Sec.">
+      <th mat-header-cell *matHeaderCellDef> Sitting Sec. </th>
       <td mat-cell *matCellDef="let element"> {{getNrOfSectors('sitting', element)}} </td>
     </ng-container>
 
     <!-- Standing Sectors -->
-    <ng-container matColumnDef="Standing Sectors">
-      <th mat-header-cell *matHeaderCellDef> Standing Sectors </th>
+    <ng-container matColumnDef="Standing Sec.">
+      <th mat-header-cell *matHeaderCellDef> Standing Sec. </th>
       <td mat-cell *matCellDef="let element"> {{getNrOfSectors('standing', element)}} </td>
     </ng-container>
 
@@ -26,6 +26,12 @@
     <ng-container matColumnDef="Edit">
         <th mat-header-cell *matHeaderCellDef> Edit </th>
         <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" id="edit edit-btn" class="editBtn" (click)="updateHall(element.id)">Edit</button> </td>
+    </ng-container>
+
+    <!-- Edit Column -->
+    <ng-container matColumnDef="Add Event">
+      <th mat-header-cell *matHeaderCellDef> Add Event </th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" id="add-event add-event-btn" class="addEventBtn" (click)="addEvent(element.id)">Add Event</button> </td>
     </ng-container>
 
     <!-- Delete Column -->

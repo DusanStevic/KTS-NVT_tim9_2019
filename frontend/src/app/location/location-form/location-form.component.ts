@@ -19,7 +19,7 @@ export class LocationFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLocationSubmit(){
+  onLocationSubmit() {
     console.log('submit');
   }
   onReset() {

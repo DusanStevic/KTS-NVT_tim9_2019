@@ -76,13 +76,13 @@ public class ReservationService {
 		Reservation r = new Reservation();
 		r.setBuyer((RegisteredUser) userService.findByUsername(username));
 		r.setPurchased(res_dto.isPurchased());
-		EventDay ed = eventDayService.findOneNotDeleted(res_dto.getEventDay_id());
+		EventDay ed = eventDayService.findOneNotDeleted(res_dto.getEventDayId());
 
 		for (TicketDTO t : res_dto.getTickets()) {
 
-			EventSector es = esService.findOneNotDeleted(t.getEventSector_id());
-			List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(res_dto.getEventDay_id(),
-					t.getEventSector_id());
+			EventSector es = esService.findOneNotDeleted(t.getEventSectorId());
+			List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(res_dto.getEventDayId(),
+					t.getEventSectorId());
 
 			if (ed.getEvent().getMaxTickets() < res_dto.getTickets().size()) {
 				throw new BadRequestException("Max number of tickets exceeded");
