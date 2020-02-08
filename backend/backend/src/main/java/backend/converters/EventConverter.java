@@ -67,7 +67,7 @@ public class EventConverter {
 		e.setDescription(dto.getDescription());
 		e.setName(dto.getName());
 		//e.setMaxTickets(dto.getMax_tickets());
-		e.setEventType(EventType.values()[dto.getType()]);
+		//e.setEventType(EventType.values()[dto.getType()]);
 		
 		return e;
 	}

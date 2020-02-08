@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="form-group ">
+    <div class="form-group " *ngIf="hideFormFields == false">
         <div class="col-10">
             <mat-form-field appearance="legacy">
                 <mat-label>Type:</mat-label>
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div class="form-group ">
+    <div class="form-group " *ngIf="hideFormFields == false">
         <div class="col-10">
             <mat-form-field appearance="legacy">
                 <mat-label>Start Date:</mat-label>
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="form-group ">
+    <div class="form-group " *ngIf="hideFormFields == false">
         <div class="col-10">
             <mat-form-field appearance="legacy">
                 <mat-label>End Date:</mat-label>
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div class="form-group ">
+    <div class="form-group " *ngIf="hideFormFields == false">
         <div class="col-10">
             <mat-form-field appearance="legacy">
                 <mat-label>Days Until Expiration of Reservation:</mat-label>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div class="form-group ">
+    <div class="form-group " *ngIf="hideFormFields == false">
         <div class="col-10">
             <mat-form-field appearance="legacy">
                 <mat-label>Max. nr. of Tickets:</mat-label>

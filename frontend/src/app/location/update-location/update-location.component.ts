@@ -88,7 +88,7 @@ export class UpdateLocationComponent implements OnInit {
     // this.address.id = 1;
     console.log(this.location.id);
     console.log(this.location);
-    this.locationService.update(this.location as Location, localStorage.getItem('selectedLocation')).subscribe(
+    this.locationService.update(this.location, localStorage.getItem('selectedLocation')).subscribe(
       result => {
         this.toastr.success('Successfully updated location');
         console.log(result);

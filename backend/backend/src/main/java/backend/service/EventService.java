@@ -75,7 +75,7 @@ public class EventService {
 		// e.setEvent(event);
 		e.setDescription(event.getDescription());
 		e.setName(event.getName());
-		e.setEventType(event.getEventType());
+		//e.setEventType(event.getEventType());
 		//e.setMaxTickets(event.getMaxTickets());
 		// lokacija?
 		return save(e);

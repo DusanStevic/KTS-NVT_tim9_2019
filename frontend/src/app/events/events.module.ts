@@ -8,11 +8,19 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventFormComponent } from './event-form/event-form.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UpdateEventComponent } from './update-event/update-event.component';
 
 
 
 @NgModule({
-  declarations: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent],
+  declarations: [
+    EventListComponent,
+    EventSearchComponent,
+    EventDetailsComponent,
+    EventFormComponent,
+    AddEventComponent,
+    UpdateEventComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
