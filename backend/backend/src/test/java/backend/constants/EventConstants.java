@@ -26,5 +26,5 @@ public class EventConstants {
 	
 	public static Event NEW_EVENT = new Event("Novi Event", "novi",EventType.CONCERT,22,null);
 	public static Event UPD_EVENT = new Event("UPD Event", "apdejtovani",EventType.CULTURE,55);
-	public static CreateEventDTO NEW_EVENT_DTO = new CreateEventDTO("NoviEventDTO","opis",1,new Date(),new Date(),250,5,1L);
+	public static CreateEventDTO NEW_EVENT_DTO = new CreateEventDTO("NoviEventDTO","opis",1,new Date(),new Date(),250,5,1L, 1L);
 }

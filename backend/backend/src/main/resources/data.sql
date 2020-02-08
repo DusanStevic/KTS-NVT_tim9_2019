@@ -28,8 +28,8 @@ INSERT INTO halls (id, name, location_id, deleted) values (1, "Main Hall", 1, fa
 INSERT INTO sectors (sector_type, id , name , capacity, hall_id, deleted) VALUES ('standing', 1, 'S1_1', 500, 1, false);	--standing sector
 INSERT INTO sectors (sector_type, id , name, num_cols , num_rows, hall_id, deleted) VALUES ('sitting', 2, 'S2_2', 10, 10, 1, false); --sitting sector
 
-INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
-	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, false);
+INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, hall_id, deleted) 
+	values (1, "Dubioza kolektiv, sars, zurka ajoj", "2020-03-03", "2020-03-03", 0, 3, 5, "UNIPARTY", 1, 1, false);
 INSERT INTO events (id, description, start_date, end_date, event_type, num_days, max_tickets, name, location_id, deleted) 
 	values (2, "Folk fest", "2020-05-03", "2020-05-03", 0, 3, 5, "FolkFest", 1, false);
 	

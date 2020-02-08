@@ -38,6 +38,8 @@ export class HallTableComponent implements OnInit {
   }
 
   addEvent(id: string) {
+    console.log(id);
+    localStorage.setItem('selectedHall', id);
     this.router.navigate(['events/add']);
   }
 }

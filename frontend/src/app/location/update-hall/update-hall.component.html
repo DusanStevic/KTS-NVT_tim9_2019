@@ -20,7 +20,7 @@
     <div class="col">
         <h2>All Sectors</h2>
         <div class="table-sector" id="table-sector">
-			<app-sector-table [sectors]="sectorList" (deleteSectorClicked)="onDelete($event)"></app-sector-table>
+			<app-sector-table [sectors]="sectorList" [isEventUpdate]="false" (deleteSectorClicked)="onDelete($event)"></app-sector-table>
 		</div>
     </div>
 </div>
