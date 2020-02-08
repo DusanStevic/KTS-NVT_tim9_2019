@@ -24,7 +24,7 @@ public class RegistrationConverter {
 		//account ce biti aktiviran kada se potvrdi registracioni konfirmacioni mail
 		registeredUser.setEnabled(false);
 		//kada se user bude prvi put prijavljivao na sistem mora da promeni password
-		registeredUser.setFirstTime(true);
+		registeredUser.setFirstTime(false);
 		registeredUser.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
 		registeredUser.setFirstName(registrationDTO.getFirstName());
 		registeredUser.setLastName(registrationDTO.getLastName());

@@ -16,6 +16,8 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
   submitted = false;
   pwChanger: PasswordChanger;
+  
+  errorMessage = '';
 
   constructor(
       private formBuilder: FormBuilder,
@@ -32,7 +34,7 @@ export class ChangePasswordComponent implements OnInit {
   createForm() {
     this.changePasswordForm = this.formBuilder.group({
         oldPassword: ['', Validators.required],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
+        newPassword: ['', [Validators.required, Validators.minLength(3)]],
         confirmPassword: ['', Validators.required]
     }, {
         validator: MustMatch('newPassword', 'confirmPassword')
@@ -48,11 +50,13 @@ export class ChangePasswordComponent implements OnInit {
       // stop here if form is invalid
       if (this.changePasswordForm.invalid) {
           this.toastr.warning('Please follow the instructions', 'Warning!');
+          this.errorMessage = 'Please follow the instructions';
           return;
       }
 
       if (this.changePasswordForm.value.newPassword === this.changePasswordForm.value.oldPassword) {
         this.toastr.warning('New password is identical to old password!', 'Warning!');
+        this.errorMessage = 'New password is identical to old password!';
         return;
       }
       this.pwChanger = new PasswordChanger();
@@ -68,6 +72,7 @@ export class ChangePasswordComponent implements OnInit {
           },
           error => {
             this.toastr.error('The entered old password is not correct!');
+            this.errorMessage = 'The entered old password is not correct!';
             this.changePasswordForm.patchValue( { oldPassword : ''});
           }
       );

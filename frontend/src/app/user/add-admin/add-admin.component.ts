@@ -13,6 +13,7 @@ import { UserService } from 'src/app/core/services/user.service';
 export class AddAdminComponent implements OnInit {
   addAdminForm: FormGroup;
   addAdmin: Registration;
+  errorMessage = '';
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -39,13 +40,13 @@ export class AddAdminComponent implements OnInit {
 
     this.userService.addAdmin(this.addAdmin as Registration).subscribe(
       result => {
-        this.router.navigate(['events']);
+        this.router.navigate(['/events']);
         this.toastr.success('You have successfully added admin!');
       },
       error => {
         this.addAdminForm.reset();
-        this.router.navigate(['events']);
-        this.toastr.error('Add Admin Failed There was an error adding the administrator!');
+        this.errorMessage = 'There was an error adding the administrator! Try again!';
+        this.toastr.error('There was an error adding the administrator! Try again!');
       }
     );
   }

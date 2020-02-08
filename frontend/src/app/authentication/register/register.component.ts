@@ -13,6 +13,7 @@ import { Registration } from 'src/app/shared/models/registration.model';
 export class RegisterComponent implements OnInit {
   registrationForm: FormGroup;
   registration: Registration;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -40,14 +41,15 @@ export class RegisterComponent implements OnInit {
 
     this.authenticationService.register(this.registration as Registration).subscribe(
       result => {
+        this.errorMessage = '';
         this.router.navigate(['events']);
         this.toastr.success('We have sent an email with a confirmation link to your email address.' +
         'In order to complete the sign-up process, please click the confirmation link!');
       },
       error => {
         this.registrationForm.reset();
-        this.router.navigate(['events']);
         this.toastr.error('There was an error with your registration. Please try registering again!');
+        this.errorMessage = 'There was an error with your registration. Please try registering again!';
       }
     );
   }

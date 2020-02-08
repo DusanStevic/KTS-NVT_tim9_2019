@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit {
   submitted = false;
   oldUsername: string;
 
+  errorMessage = '';
+
   matcher = new MyErrorStateMatcher();
 
   constructor(
@@ -62,6 +64,7 @@ export class ProfileComponent implements OnInit {
     this.userService.whoAmI().subscribe(
       result => {
         console.log(result);
+        this.errorMessage = '';
         this.user = result;
         this.oldUsername = result.username;
         if (!result.imageUrl) {
@@ -70,6 +73,7 @@ export class ProfileComponent implements OnInit {
         this.createForm();
       },
       error => {
+        this.errorMessage = 'Please log in again to resolve errors!';
         this.toastr.error('Please log in again to resolve errors!', 'An error accured');
       }
     );
@@ -98,6 +102,7 @@ export class ProfileComponent implements OnInit {
 
     if (this.userForm.invalid) {
       this.toastr.warning('Data is not valid');
+      this.errorMessage = 'Data is not valid';
       return;
     }
 
@@ -124,6 +129,7 @@ export class ProfileComponent implements OnInit {
       success => {
         this.loading = false;
         this.toastr.success('Profile updated succesfully!', 'Succes');
+        this.errorMessage = 'Profile updated succesfully!';
         if (isUsernameChanged) {
           this.toastr.success('Log in with new username!', 'Username changed');
           localStorage.removeItem('user');
@@ -133,6 +139,7 @@ export class ProfileComponent implements OnInit {
       error => {
         // dodaj warning ako same email ili ako same username
         this.toastr.error('Username or email is taken!');
+        this.errorMessage = 'Username or email is taken!';
         this.userForm.value.email = this.user.email;
         this.userForm.value.username = this.user.username;
         this.loading = false;
@@ -152,6 +159,7 @@ export class ProfileComponent implements OnInit {
       this.toastr.success('You successfully updated profile image.');
       this.user.imageUrl = response.imageUrl;
     }, error => {
+      this.errorMessage = 'There was an error while updating profile image.';
       this.toastr.error('There was an error while updating profile image.');
     });
 

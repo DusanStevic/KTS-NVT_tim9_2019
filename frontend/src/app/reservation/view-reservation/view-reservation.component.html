@@ -22,7 +22,7 @@
                         <mat-list><h6>Ticket for day " {{ticket.nameED}} "</h6></mat-list>
                         <mat-list><h6>Sector: "{{ticket.sectorName}}"</h6></mat-list>
                         <mat-list *ngIf="ticket.hasSeat"><h6>Row: {{ticket.numRow}} &nbsp; Col: {{ticket.numCol}}</h6></mat-list>
-                        <mat-list *ngIf="!ticket.hasSeat"><h6>Standing card"</h6></mat-list>
+                        <mat-list *ngIf="!ticket.hasSeat"><h6>Standing card</h6></mat-list>
                         <mat-list><h6>Ticket price {{ticket.price}}RSD</h6></mat-list>
                     </mat-card>
                 </mat-grid-tile>
@@ -35,7 +35,7 @@
 
     
     <mat-card-actions>
-        <div #paypal style="margin-left: 35%; width: 30%;"></div>
-        <button mat-stroked-button color="warn" style="margin-left: 35%; width: 30%;" *ngIf="canCancel" (click)="openDialog()">CANCEL RESERVATION</button>
+        <div #paypal id="paypal" style="margin-left: 35%; width: 30%;"></div>
+        <button mat-stroked-button id="cancelBtn" color="warn" style="margin-left: 35%; width: 30%;" *ngIf="canCancel" (click)="openDialog()">CANCEL RESERVATION</button>
     </mat-card-actions>
 </mat-card>

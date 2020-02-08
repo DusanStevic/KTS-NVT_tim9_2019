@@ -22,7 +22,8 @@ import { ViewReservationComponent } from './reservation/view-reservation/view-re
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/events', pathMatch: 'full' },
+  // {path: '', redirectTo: '/events', pathMatch: 'full' },
+  {path: '', component: EventListComponent },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'events', component: EventListComponent},
@@ -92,7 +93,9 @@ const routes: Routes = [
   },
   {
     path: 'location/all',
-    component: LocationListComponent
+    component: LocationListComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SYS_ADMIN|ROLE_ADMIN'}
   },
   {
     path: 'location/details',
