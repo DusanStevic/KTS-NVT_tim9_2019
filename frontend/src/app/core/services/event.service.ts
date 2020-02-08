@@ -27,4 +27,9 @@ export class EventService {
   add(newEvent: CreateEventDTO): Observable<any> {
     return this.http.post(this.constantsService.eventPath, newEvent, {headers: this.headers, responseType: 'json'});
   }
+
+  getEvent(eventId: string): Observable<any> {
+    return this.http.get(this.constantsService.eventPath + '/' + eventId, {headers: this.headers, responseType: 'json'});
+  }
+
 }

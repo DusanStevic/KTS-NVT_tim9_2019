@@ -20,6 +20,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent]
+  exports: [EventListComponent, EventSearchComponent, EventDetailsComponent, EventFormComponent, AddEventComponent]
 })
 export class EventsModule { }
