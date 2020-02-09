@@ -56,6 +56,8 @@ export class MakeReservationComponent implements OnInit {
     console.log(obj);
     this.reservation.eventDayId = +localStorage.getItem('selectedEventDay');
     this.reservation.purchased = false;
+    this.reservation.sittingTickets = [];
+    this.reservation.standingTickets = [];
     obj.seatObjects.forEach( x => {
       const sitTicket: SittingTicketDTO = {
         type: 'sittingTicketDTO',
