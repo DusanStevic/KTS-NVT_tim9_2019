@@ -23,17 +23,22 @@ export class EventDetailsComponent implements OnInit {
     private toastr: ToastrService,
     private mapService: MapService,
     private router: Router,
-  ) {this.initEvent(); }
+  ) {}
 
   ngOnInit() {
     this.eventId = this.route.snapshot.paramMap.get('id');
+    localStorage.setItem('selectedEvent', this.eventId);
+    console.log(this.eventId);
     this.role = this.authenticationService.getRole();
+    this.initEvent();
   }
 
   initEvent() {
     this.eventService.getEvent(this.eventId).subscribe(
       success => {
         this.eventDetailed = success;
+        console.log(this.eventDetailed);
+        console.log(success);
       },
       error => {
         this.toastr.error('An error occurred during event data retrieval');

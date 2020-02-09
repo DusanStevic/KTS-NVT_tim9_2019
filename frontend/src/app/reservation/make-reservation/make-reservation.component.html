@@ -1,5 +1,6 @@
 <div class = "row">
     <div class = "col">
-        <app-sector-chart></app-sector-chart>
+        <app-sector-chart [eventSectors]="eventSectors" [isReservation]="true" 
+        (reserveNowClicked)="processReservation($event)"></app-sector-chart>
     </div>
 </div>
