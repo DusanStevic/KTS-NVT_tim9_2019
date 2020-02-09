@@ -41,7 +41,7 @@ public class ReservationController {
 			@Valid @RequestBody ReservationDTO reservationDTO, Principal user) throws BadRequestException, ResourceNotFoundException {
 		// provere: max selektovanih sedista, validnost podataka iz dto
 		// validno sediste
-
+		System.out.println("**********************111");
 		return new ResponseEntity<>(reservationService.createReservation(reservationDTO, user.getName()), HttpStatus.OK);
 	}
 

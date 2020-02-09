@@ -3,6 +3,7 @@ import { ReservationDetailed } from '../../shared/models/reservationDetailed.mod
 import { HttpClientModule, HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConstantsService } from './constants.service';
+import { ReservationDTO } from 'src/app/shared/models/reservation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class ReservationService {
 
   cancelReservation( id: number): Observable<any> {
     return this.http.put( this.constantsService.reservationPath + '/cancel/' + id , {headers: this.headers, responseType: 'json'});
+  }
+
+  makeReservation(reservation: ReservationDTO): Observable<any> {
+    return this.http.post( this.constantsService.reservationPath, reservation, {headers: this.headers, responseType: 'json'});
   }
 }

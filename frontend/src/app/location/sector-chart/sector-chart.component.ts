@@ -95,7 +95,7 @@ export class SectorChartComponent implements OnInit {
         console.log((eventSector.sector as SittingSector).numRows);
         for (let i = 0; i < sit.numRows; i++) {
           seatMap.push({
-            seat_label: (i + 1).toString(),
+            seat_label: (i + 1),
             layout: 'g'.repeat(sit.numCols)
           });
         }

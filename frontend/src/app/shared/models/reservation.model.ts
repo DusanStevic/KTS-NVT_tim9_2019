@@ -1,6 +1,7 @@
 export class ReservationDTO {
-    tickets: TicketDTO[];
-    eventDayId: string;
+    sittingTickets: SittingTicketDTO[];
+    standingTickets: StandingTicketDTO[];
+    eventDayId: number;
     purchased: boolean;
 }
 
@@ -9,11 +10,15 @@ export abstract class TicketDTO {
     eventSectorId: number;
 }
 
-export class SittingTicketDTO extends TicketDTO {
+export class SittingTicketDTO {
     row: number;
     col: number;
+    type: string;
+    eventSectorId: number;
 }
 
-export class StandingTicketDTO extends TicketDTO {
+export class StandingTicketDTO {
     numOfStandingTickets: number;
+    type: string;
+    eventSectorId: number;
 }

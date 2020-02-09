@@ -3,7 +3,7 @@ package backend.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class SittingTicketDTO extends TicketDTO{
+public class SittingTicketDTO{
 
 	@NotNull(message = "Row is mandatory")
 	@Min(value=1, message="Row number must be greater than or equal to {value}")
@@ -13,16 +13,23 @@ public class SittingTicketDTO extends TicketDTO{
 	@Min(value=1, message="Column number must be greater than or equal to {value}")
 	private int col;
 
-	public SittingTicketDTO(Long eventSector_id) {
-		super(eventSector_id);
+	@NotNull(message = "Sector is mandatory")
+	@Min(value = 1, message = "Invalid sector")
+	private Long eventSectorId;
+	
+	private String type;
+	
+	public SittingTicketDTO() {
+		
 	}
 
-	public SittingTicketDTO(Long eventSector_id,
+	public SittingTicketDTO(Long eventSectorId,
 			@NotNull(message = "Row is mandatory") @Min(value = 1, message = "Row number must be greater than or equal to {value}") int row,
 			@NotNull(message = "Column is mandatory") @Min(value = 1, message = "Column number must be greater than or equal to {value}") int col) {
-		super(eventSector_id);
+		this.eventSectorId = eventSectorId;
 		this.row = row;
 		this.col = col;
+		this.type = "sittingTicketDTO";
 	}
 
 	public int getRow() {
@@ -39,5 +46,21 @@ public class SittingTicketDTO extends TicketDTO{
 
 	public void setCol(int col) {
 		this.col = col;
+	}
+
+	public Long getEventSectorId() {
+		return eventSectorId;
+	}
+
+	public void setEventSectorId(Long eventSectorId) {
+		this.eventSectorId = eventSectorId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
