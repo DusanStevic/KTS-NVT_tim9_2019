@@ -8,7 +8,7 @@ import backend.model.EventType;
 
 public class EventConstants {
 
-	public static final int DB_EVENT_COUNT = 7; //koliko ih ima u bazi
+	public static final int DB_EVENT_COUNT = 8; //koliko ih ima u bazi
 	
 	public static final Long DB_EVENT_ID = 3L;
 	public static final Long DB_EVENT_DELETED = 4L;

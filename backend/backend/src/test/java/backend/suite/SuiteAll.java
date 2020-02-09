@@ -11,6 +11,9 @@ import backend.controller.LocationControllerIntegrationTest;
 import backend.controller.SectorControllerIntegrationTest;
 import backend.controller.TicketControllerIntegrationTest;
 import backend.repository.AddressRepositoryIntegrationTest;
+import backend.repository.EventDayRepositoryIntegrationTest;
+import backend.repository.EventRepositoryIntegrationTest;
+import backend.repository.EventSectorRepositoryIntegrationTest;
 import backend.repository.HallRepositoryIntegrationTest;
 import backend.repository.LocationRepositoryIntegrationTest;
 import backend.repository.SectorRepositoryIntegrationTest;
@@ -19,6 +22,12 @@ import backend.service.AddressServiceIntegrationTest;
 import backend.service.AddressServiceUnitTest;
 import backend.service.ChartServiceIntegrationTest;
 import backend.service.ChartServiceUnitTest;
+import backend.service.EventDayServiceIntegrationTest;
+import backend.service.EventDayServiceUnitTest;
+import backend.service.EventSectorServiceIntegrationTest;
+import backend.service.EventSectorServiceUnitTest;
+import backend.service.EventServiceIntegrationTest;
+import backend.service.EventServiceUnitTest;
 import backend.service.HallServiceIntegrationTest;
 import backend.service.HallServiceUnitTest;
 import backend.service.LocationServiceIntegrationTest;
@@ -57,7 +66,19 @@ import backend.service.TicketServiceUnitTest;
 	SectorRepositoryIntegrationTest.class,
 	SectorServiceUnitTest.class,
 	SectorServiceIntegrationTest.class,
-	SectorControllerIntegrationTest.class
+	SectorControllerIntegrationTest.class,
+
+	EventDayRepositoryIntegrationTest.class,
+	EventRepositoryIntegrationTest.class,
+	EventSectorRepositoryIntegrationTest.class,
+	EventDayServiceIntegrationTest.class,
+	EventDayServiceUnitTest.class,
+	EventSectorServiceIntegrationTest.class,
+	EventSectorServiceUnitTest.class,
+	EventServiceIntegrationTest.class,
+	EventServiceUnitTest.class
+	
+	
 })
 public class SuiteAll {
 

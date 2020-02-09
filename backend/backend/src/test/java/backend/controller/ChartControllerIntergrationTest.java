@@ -1,6 +1,32 @@
 package backend.controller;
 
-import static backend.constants.ChartConstants.*;
+import static backend.constants.ChartConstants.AVERAGE_NAME;
+import static backend.constants.ChartConstants.END_DATE_BAD;
+import static backend.constants.ChartConstants.END_DATE_EMPTY;
+import static backend.constants.ChartConstants.END_DATE_GOOD;
+import static backend.constants.ChartConstants.EVENT1_NAME;
+import static backend.constants.ChartConstants.EVENT2_NAME;
+import static backend.constants.ChartConstants.INCOME_EVENT1;
+import static backend.constants.ChartConstants.INCOME_EVENT2;
+import static backend.constants.ChartConstants.INCOME_EVENT_AVERAGE;
+import static backend.constants.ChartConstants.INCOME_LOCATION1;
+import static backend.constants.ChartConstants.INCOME_LOCATION1_INTERVAL;
+import static backend.constants.ChartConstants.INCOME_LOCATION_AVG;
+import static backend.constants.ChartConstants.INFO_ALLTIME_INCOME;
+import static backend.constants.ChartConstants.INFO_ALLTIME_TICKETS;
+import static backend.constants.ChartConstants.INFO_NUM_ADMIN;
+import static backend.constants.ChartConstants.INFO_NUM_EVENTS;
+import static backend.constants.ChartConstants.INFO_NUM_USERS;
+import static backend.constants.ChartConstants.LOCATION1_NAME;
+import static backend.constants.ChartConstants.START_DATE_BAD;
+import static backend.constants.ChartConstants.START_DATE_EMPTY;
+import static backend.constants.ChartConstants.START_DATE_GOOD;
+import static backend.constants.ChartConstants.TICKETS_SOLD_AVERAGE;
+import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT1;
+import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT2;
+import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1;
+import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1_INTERVAL;
+import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION_AVG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +55,6 @@ import backend.dto.charts.ChartIncomeLocationsDTO;
 import backend.dto.charts.ChartLocationTicketsSoldDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.dto.charts.SystemInformationsDTO;
-import backend.model.UserTokenState;
 import backend.security.auth.JwtAuthenticationRequest;
 
 
@@ -80,24 +105,25 @@ public class ChartControllerIntergrationTest {
 		ResponseEntity<SystemInformationsDTO> responseEntity = restTemplate.getForEntity("/api/charts/sysinfo", SystemInformationsDTO.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
 		
-		//Admin
-		ResponseEntity<UserTokenState> login = 
+		//Admin	i admin moze da
+		/*
+		ResponseEntity<String> login = 
 				restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("admin", "admin"), 
-						UserTokenState.class);
-		String accessTokenAdmin = login.getBody().getAccessToken();
+						String.class);
+		String accessTokenAdmin = login.getBody();
 		HttpHeaders headersAdmin = new HttpHeaders();
 		headersAdmin.add("Authorization", "Bearer "+accessTokenAdmin);
 
 		responseEntity = restTemplate.exchange("/api/charts/sysinfo", 
 					HttpMethod.GET, new HttpEntity<Object>(headersAdmin), SystemInformationsDTO.class);
 		assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-		
+		*/
 		//User
-		login = restTemplate.postForEntity("/auth/login", 
+		ResponseEntity<String> login = restTemplate.postForEntity("/auth/login", 
 						new JwtAuthenticationRequest("user", "user"), 
-						UserTokenState.class);
-		String accessTokenUser = login.getBody().getAccessToken();
+						String.class);
+		String accessTokenUser = login.getBody();
 		HttpHeaders headersUser = new HttpHeaders();
 		headersUser.add("Authorization", "Bearer "+accessTokenUser);
 
