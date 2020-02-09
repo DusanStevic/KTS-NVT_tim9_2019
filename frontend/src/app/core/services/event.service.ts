@@ -21,7 +21,7 @@ export class EventService {
   }
 
   search(search: Search): Observable <any> {
-    return this.http.post(this.constantsService.eventPath + '/search', search, {headers: this.headers, responseType: 'json'});
+    return this.http.post(this.constantsService.eventPath + '/search', search);
   }
 
   add(newEvent: CreateEventDTO): Observable<any> {

@@ -27,8 +27,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 	@Query("SELECT e FROM Event e WHERE e.name like concat('%',?1,'%')"
 			+ " and (e.startDate >= ?2 or ?2 = null) and (e.endDate <= ?3 or ?3 = null) and"
 			+ " (e.eventType = ?4 or ?4 = null) and (e.location.id = ?5 or ?5 = null)")
-	Page<Event> search(String name, Date startDate, Date endDate, EventType eventType,
-			Long locationId, Pageable pageable);
+	List<Event> search(String name, Date startDate, Date endDate, EventType eventType,
+			Long locationId);
 	
 	
 }
