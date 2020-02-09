@@ -15,7 +15,7 @@ import {ChartService} from '../../core/services/chart.service';
 export class IncomeByLocationsComponent implements OnInit {
   title = 'Income by locations';
   type = 'BarChart';
-  data: Array<Array<ChartIncomeLocations[]>>;
+  data: Array<Array<any>>;
   columnNames = ['Location', 'Incomes', { role: 'style' }];
   options = {
     titleTextStyle: {
