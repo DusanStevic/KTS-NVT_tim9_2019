@@ -104,7 +104,7 @@ export class SectorChartComponent implements OnInit {
           layout: '_'.repeat(sit.numCols)
         });
         this.seatConfig.push({
-          sector_id: eventSector.sector.id,
+          sector_id: eventSector.id,
           sector_name: eventSector.sector.name,
           sector_type: eventSector.sector.type,
           seat_price: eventSector.price,
@@ -155,6 +155,8 @@ export class SectorChartComponent implements OnInit {
             seatValArr.forEach(item => {
               const seatObj = {
                 key : mapElement.seat_label + '_' + totalItemCounter,
+                row : mapElement.seat_label,
+                col : totalItemCounter,
                 price : mapData[counter].seat_price,
                 status : 'available',
                 seatLabel: '',

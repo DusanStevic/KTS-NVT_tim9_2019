@@ -1,6 +1,6 @@
 export class ReservationDTO {
     tickets: TicketDTO[];
-    eventDayId: number;
+    eventDayId: string;
     purchased: boolean;
 }
 

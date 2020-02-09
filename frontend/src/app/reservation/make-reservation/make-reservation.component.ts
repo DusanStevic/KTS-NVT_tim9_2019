@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Hall } from 'src/app/shared/models/hall.model';
+import { Hall, SittingSector } from 'src/app/shared/models/hall.model';
 import { Event } from 'src/app/shared/models/event.model';
 import { EventSectorDTO } from 'src/app/shared/models/create-event.model';
 import { EventSector } from 'src/app/shared/models/event-sector.model';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/services/location.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { ToastrService } from 'ngx-toastr';
-import { ReservationDTO } from 'src/app/shared/models/reservation.model';
+import { ReservationDTO, SittingTicketDTO } from 'src/app/shared/models/reservation.model';
 
 @Component({
   selector: 'app-make-reservation',
@@ -27,6 +27,11 @@ export class MakeReservationComponent implements OnInit {
     private eventService: EventService,
     private toastr: ToastrService
   ) {
+    this.reservation = {
+      tickets: [],
+      purchased: false,
+      eventDayId: ''
+    };
   }
 
   ngOnInit() {
@@ -41,5 +46,17 @@ export class MakeReservationComponent implements OnInit {
 
   processReservation(obj) {
     console.log(obj);
+    this.reservation.eventDayId = localStorage.getItem('selectedEventDay');
+    this.reservation.purchased = false;
+    obj.seatObjects.forEach( x => {
+      const sitTicket: SittingTicketDTO = {
+        type: 'sitting',
+        eventSectorId: x.sectorId,
+        row: x.row,
+        col: x.col
+      };
+      this.reservation.tickets.push(sitTicket);
+    });
+    console.log(this.reservation);
   }
 }
