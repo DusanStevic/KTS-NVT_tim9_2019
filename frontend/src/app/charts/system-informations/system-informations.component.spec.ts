@@ -5,6 +5,8 @@ import { SystemInformationsComponent } from './system-informations.component';
 describe('SystemInformationsComponent', () => {
   let component: SystemInformationsComponent;
   let fixture: ComponentFixture<SystemInformationsComponent>;
+  let chartService: any;
+  
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

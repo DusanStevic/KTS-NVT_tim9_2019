@@ -23,11 +23,12 @@ export class EventDetailsComponent implements OnInit {
     private toastr: ToastrService,
     private mapService: MapService,
     private router: Router,
-  ) {this.initEvent(); }
+  ) {}
 
   ngOnInit() {
     this.eventId = this.route.snapshot.paramMap.get('id');
     this.role = this.authenticationService.getRole();
+    this.initEvent();
   }
 
   initEvent() {

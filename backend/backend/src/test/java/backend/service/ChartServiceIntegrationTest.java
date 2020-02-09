@@ -85,7 +85,7 @@ public class ChartServiceIntegrationTest {
 		assertTrue(INCOME_EVENT2 == info.get(1).getIncome());
 		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getEventName()
 				.toLowerCase());
-		System.out.println("Income by events " + info.get(info.size()-1).getIncome());
+		System.out.println("EVENTS income by events " + info.get(info.size()-1).getIncome());
 		assertTrue(INCOME_EVENT_AVERAGE == info.get(info.size()-1).getIncome());
 	}
 
@@ -194,7 +194,7 @@ public class ChartServiceIntegrationTest {
 		assertTrue(INCOME_LOCATION1 == info.get(0).getIncome());
 		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size() - 1).getLocationName()
 				.toLowerCase());
-		System.out.println("income  avg" + INCOME_LOCATION_AVG + " " + info.get(info.size()-1).getIncome());
+		System.out.println("LOCATIONS income  avg" + INCOME_LOCATION_AVG + " " + info.get(info.size()-1).getIncome());
 		assertTrue(INCOME_LOCATION_AVG == info.get(info.size() - 1).getIncome());
 	}
 
@@ -250,7 +250,7 @@ public class ChartServiceIntegrationTest {
 		assertTrue(TICKETS_SOLD_LOCATION1 == info.get(0).getTicketsSold());
 		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size() - 1).getLocationName()
 				.toLowerCase());
-		System.out.println("Tickets sold avg" + TICKETS_SOLD_LOCATION_AVG + " " + info.get(info.size()-1).getTicketsSold());
+		System.out.println("LOCATIONS ticket sold avg" + TICKETS_SOLD_LOCATION_AVG + " " + info.get(info.size()-1).getTicketsSold());
 		assertTrue(TICKETS_SOLD_LOCATION_AVG == info.get(info.size() - 1).getTicketsSold());
 	}
 
