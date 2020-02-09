@@ -58,6 +58,7 @@ export class IncomeByEventsComponent implements OnInit {
         });
         console.log('Succesful income events');
         console.log(arr);
+        console.log(arr[0][0]);
         this.data = arr;
       }
     );
