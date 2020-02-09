@@ -44,7 +44,7 @@ export class LocationListComponent implements OnInit {
         console.log(this.locationList);
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Cannot delete location with active event!');
       }
     );
   }
