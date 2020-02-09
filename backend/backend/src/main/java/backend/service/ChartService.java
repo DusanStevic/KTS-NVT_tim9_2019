@@ -183,7 +183,7 @@ public class ChartService {
 	public List<ChartIncomeLocationsDTO> incomeByLocations() {
 		ArrayList<ChartIncomeLocationsDTO> info = new ArrayList<ChartIncomeLocationsDTO>();
 
-		List<Location> locations = locationService.findAll();
+		List<Location> locations = locationService.findAllNotDeleted();
 
 		if (locations == null || locations.isEmpty()) {
 			return info;
@@ -207,7 +207,7 @@ public class ChartService {
 	public List<ChartLocationTicketsSoldDTO> soldTicketsByLocations() {
 		ArrayList<ChartLocationTicketsSoldDTO> info = new ArrayList<ChartLocationTicketsSoldDTO>();
 
-		List<Location> locations = locationService.findAll();
+		List<Location> locations = locationService.findAllNotDeleted();
 
 		if (locations == null || locations.isEmpty()) {
 			return info;

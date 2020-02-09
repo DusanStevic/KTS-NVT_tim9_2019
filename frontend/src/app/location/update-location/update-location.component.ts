@@ -114,6 +114,9 @@ export class UpdateLocationComponent implements OnInit {
         this.hallList.unshift(result);
         // console.log(this.hallList);
         this.hallList = this.hallList.filter(hall => 1 === 1);
+      },
+      error =>{
+        this.toastr.error('Invalid data!');
       }
     );
   }
@@ -132,7 +135,7 @@ export class UpdateLocationComponent implements OnInit {
         console.log(this.hallList);
       },
       error => {
-        this.toastr.error(error);
+        this.toastr.error('Cannot delete hall!');
       }
     );
   }

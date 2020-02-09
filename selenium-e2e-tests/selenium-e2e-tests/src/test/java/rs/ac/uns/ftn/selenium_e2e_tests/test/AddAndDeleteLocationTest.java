@@ -16,15 +16,17 @@ import org.openqa.selenium.support.PageFactory;
 import rs.ac.uns.ftn.selenium_e2e_tests.pages.FormLocationPage;
 import rs.ac.uns.ftn.selenium_e2e_tests.pages.HomePageAdministrator;
 import rs.ac.uns.ftn.selenium_e2e_tests.pages.HomePageUnregistered;
+import rs.ac.uns.ftn.selenium_e2e_tests.pages.LocationListPage;
 import rs.ac.uns.ftn.selenium_e2e_tests.pages.LoginPage;
 
-public class AddLocationTest {
+public class AddAndDeleteLocationTest {
 	private WebDriver browser;
 	
 	HomePageUnregistered homePage;
 	LoginPage loginPage;
 	HomePageAdministrator homePageAdmin;
 	FormLocationPage addLocationPage;
+	LocationListPage locationListPage;
 	
 	@Before
 	public void setupSelenium(){
@@ -47,10 +49,12 @@ public class AddLocationTest {
 		loginPage = PageFactory.initElements(browser, LoginPage.class);
 		homePageAdmin = PageFactory.initElements(browser, HomePageAdministrator.class);
 		addLocationPage = PageFactory.initElements(browser, FormLocationPage.class);
+		locationListPage = PageFactory.initElements(browser, LocationListPage.class);
+		
 	}
 
 	@Test
-	public void addLocationTest() throws InterruptedException{
+	public void addAndDeleteLocationTest() throws InterruptedException{
 		homePage.ensureLoginIsDisplayed();
 		homePage.getLoginNavBtn().click();
 		
@@ -68,10 +72,18 @@ public class AddLocationTest {
 		Thread.sleep(1000);
 		assertEquals("http://localhost:4200/events", browser.getCurrentUrl());
 		
+		//getting number of locations before addition
+		homePageAdmin.ensureLocationsIsDisplayed();
+		homePageAdmin.getLocationsNavBtn().click();
+		Thread.sleep(500);
+		assertEquals("http://localhost:4200/location/all", browser.getCurrentUrl());
+		
+		int numBeforeAdd = locationListPage.getLocationsTableSize();
+		
 		homePageAdmin.ensureAddLocationsIsDisplayed();
 		homePageAdmin.getAddLocationsNavBtn().click();
 		
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		assertEquals("http://localhost:4200/location/add", browser.getCurrentUrl());
 		
 		//empty fields
@@ -102,8 +114,24 @@ public class AddLocationTest {
 		addLocationPage.setLongitudeInput("45.45");
 
 		addLocationPage.getSubmitLocationInput().click();
-		Thread.sleep(1500);
+		
+		homePageAdmin.ensureLocationsIsDisplayed();
 		assertEquals("http://localhost:4200/location/update", browser.getCurrentUrl());
+		
+		homePageAdmin.getLocationsNavBtn().click();
+
+		
+		Thread.sleep(500);
+		assertEquals("http://localhost:4200/location/all", browser.getCurrentUrl());
+
+		assertEquals(numBeforeAdd,locationListPage.getLocationsTableSize() - 1);
+		assertEquals("newLocation", locationListPage.getLastTdName().getText());
+		assertEquals("This is a description of a great location", locationListPage.getLastTdDescription().getText());
+		assertEquals("Kosokvska 23.", locationListPage.getLastTdAddress().getText());
+		
+		locationListPage.getLastTdDelete().click();
+		Thread.sleep(500);
+		assertEquals(numBeforeAdd, locationListPage.getLocationsTableSize());
 		
 	}
 
