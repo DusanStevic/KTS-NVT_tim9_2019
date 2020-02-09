@@ -60,7 +60,7 @@ describe('TicketsSoldByEventsComponent', () => {
       .then(() => {
         expect(component.data.length).toEqual(3, 'should contain given amount of elements');
         expect(component.data[0][0]).toEqual('Event1'); // name
-        expect(component.data[0][1]).toEqual(100); // income
+        expect(component.data[0][1]).toEqual(10); // income
         expect(component.data[0][2]).toEqual(''); // style
         expect(component.data[1][0]).toEqual('Event2'); // name
         expect(component.data[1][1]).toEqual(20); // income
