@@ -21,9 +21,9 @@ public abstract class TicketDTO {
 	@Min(value = 1, message = "Invalid sector")
 	private Long eventSectorId;
 
-	public TicketDTO(Long eventSector_id) {
+	public TicketDTO(Long eventSectorId) {
 		super();
-		this.eventSectorId = eventSector_id;
+		this.eventSectorId = eventSectorId;
 	}
 
 	public TicketDTO() {
@@ -34,8 +34,8 @@ public abstract class TicketDTO {
 		return eventSectorId;
 	}
 
-	public void setEventSectorId(Long eventSector_id) {
-		this.eventSectorId = eventSector_id;
+	public void setEventSectorId(Long eventSectorId) {
+		this.eventSectorId = eventSectorId;
 	}
 
 }

@@ -50,6 +50,7 @@ export class EventListComponent implements OnInit {
     this.eventService.getAll().subscribe(
       success => {
         this.events = success;
+        console.log(this.events);
         this.dataSource = new MatTableDataSource<Event>(this.events);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

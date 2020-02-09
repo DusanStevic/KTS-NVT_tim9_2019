@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sector, SittingSector, StandingSector } from 'src/app/shared/models/hall.model';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { EventSector } from 'src/app/shared/models/event-sector.model';
 
 @Component({
   selector: 'app-sector-chart',
@@ -10,9 +11,13 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 export class SectorChartComponent implements OnInit {
 
   @Input() sectors: Sector[];
+  @Input() eventSectors: EventSector[];
+  @Input() isReservation: boolean;
+  @Output() reserveNowClicked: EventEmitter<any>;
   private seatConfig: any = [];
   private seatmap = [];
   private role = '';
+  private seatObjects = [];
   private seatChartConfig = {
     showRowsLabel : true,
     showRowWisePricing : true,
@@ -31,12 +36,21 @@ export class SectorChartComponent implements OnInit {
   title = 'seat-chart-generator';
   constructor(
     private authService: AuthenticationService
-  ) { }
+  ) {
+    this.reserveNowClicked = new EventEmitter<any>();
+  }
 
   ngOnInit() {
     this.role = this.authService.getRole();
   }
 
+  generateClicked() {
+    if (this.isReservation) {
+      this.generateJsonForReserve();
+    } else {
+      this.generateJson();
+    }
+  }
   generateJson() {
     this.seatmap = [];
     console.log(this.sectors);
@@ -69,6 +83,40 @@ export class SectorChartComponent implements OnInit {
       }
     });
   }
+
+  generateJsonForReserve() {
+    this.seatmap = [];
+    console.log(this.sectors);
+    this.eventSectors.forEach(eventSector => {
+      this.seatConfig = [];
+      const seatMap = [];
+      if (eventSector.sector.type === 'sitting') {
+        const sit = eventSector.sector as SittingSector;
+        console.log((eventSector.sector as SittingSector).numRows);
+        for (let i = 0; i < sit.numRows; i++) {
+          seatMap.push({
+            seat_label: (i + 1),
+            layout: 'g'.repeat(sit.numCols)
+          });
+        }
+        seatMap.push({
+          seat_label: '',
+          layout: '_'.repeat(sit.numCols)
+        });
+        this.seatConfig.push({
+          sector_id: eventSector.id,
+          sector_name: eventSector.sector.name,
+          sector_type: eventSector.sector.type,
+          seat_price: eventSector.price,
+          seat_map: seatMap
+        });
+        this.processSeatChart(this.seatConfig);
+      } else if (eventSector.sector.type === 'standing') {
+        console.log(eventSector.sector.type);
+      }
+    });
+  }
+
   processSeatChart( mapData: any[] ) {
       if ( mapData.length > 0 ) {
         let seatNoCounter = 1;
@@ -107,6 +155,8 @@ export class SectorChartComponent implements OnInit {
             seatValArr.forEach(item => {
               const seatObj = {
                 key : mapElement.seat_label + '_' + totalItemCounter,
+                row : mapElement.seat_label,
+                col : totalItemCounter,
                 price : mapData[counter].seat_price,
                 status : 'available',
                 seatLabel: '',
@@ -140,16 +190,21 @@ public selectSeat( seatObject: any ) {
   if (this.role === 'ROLE_REGISTERED_USER') {
   if (seatObject.status === 'available') {
     seatObject.status = 'booked';
+    this.seatObjects.push(seatObject);
     this.cart.selectedSeats.push(seatObject.seatLabel);
     this.cart.seatstoStore.push(seatObject.key);
     this.cart.totalamount += seatObject.price;
   } else if ( seatObject.status === 'booked' ) {
     seatObject.status = 'available';
     const seatIndex = this.cart.selectedSeats.indexOf(seatObject.seatLabel);
+    const objIndex = this.seatObjects.indexOf(seatObject);
     if ( seatIndex > -1) {
       this.cart.selectedSeats.splice(seatIndex , 1);
       this.cart.seatstoStore.splice(seatIndex , 1);
       this.cart.totalamount -= seatObject.price;
+    }
+    if ( objIndex > -1 ) {
+      this.seatObjects.splice(objIndex, 1);
     }
   }
 }
@@ -184,4 +239,7 @@ public blockSeats(seatsToBlock: string) {
     }
   }
 }
+  processBooking() {
+    this.reserveNowClicked.emit({cart: this.cart, seatObjects: this.seatObjects});
+  }
 }

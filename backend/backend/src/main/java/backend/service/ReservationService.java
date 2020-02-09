@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import backend.dto.ReservationDTO;
 import backend.dto.ReservationDetailedDTO;
@@ -18,6 +19,7 @@ import backend.dto.StandingTicketDTO;
 import backend.dto.TicketDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.EventDay;
 import backend.model.EventSector;
 import backend.model.RegisteredUser;
@@ -71,6 +73,7 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
+	@org.springframework.transaction.annotation.Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = BadRequestException.class)
 	public Reservation createReservation(ReservationDTO res_dto, String username)
 			throws ResourceNotFoundException, BadRequestException {
 		Reservation r = new Reservation();
@@ -78,60 +81,107 @@ public class ReservationService {
 		r.setPurchased(res_dto.isPurchased());
 		EventDay ed = eventDayService.findOneNotDeleted(res_dto.getEventDayId());
 
-		for (TicketDTO t : res_dto.getTickets()) {
+		if (ed.getEvent().getMaxTickets() < res_dto.getSittingTickets().size() + res_dto.getStandingTickets().size()) {
+			throw new BadRequestException("Max number of tickets exceeded");
+		}
+		for (SittingTicketDTO t : res_dto.getSittingTickets()) {
 
 			EventSector es = esService.findOneNotDeleted(t.getEventSectorId());
 			List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(res_dto.getEventDayId(),
 					t.getEventSectorId());
 
-			if (ed.getEvent().getMaxTickets() < res_dto.getTickets().size()) {
-				throw new BadRequestException("Max number of tickets exceeded");
+
+			// if (t instanceof StandingTicketDTO && es.getSector() instanceof
+			// StandingSector) {
+
+			/*
+			 * int num_of_stand_tickets = ((StandingTicketDTO) t.getNumOfStandingTickets();
+			 * 
+			 * if (((StandingSector) es.getSector()).getCapacity() < tickets.size() +
+			 * num_of_stand_tickets) { throw new BadRequestException("Not enough room!"); }
+			 * else if (num_of_stand_tickets < 1) { throw new
+			 * BadRequestException("There should be at least one ticket"); } else { for (int
+			 * i = 0; i < num_of_stand_tickets; i++) { Ticket ticket = new Ticket();
+			 * ticket.setEventSector(es); ticket.setHasSeat(false); ticket.setEventDay(ed);
+			 * ticket.setReservation(r);
+			 * 
+			 * r.getTickets().add(ticket); }
+			 * 
+			 * }
+			 */
+			// } else if (t instanceof SittingTicketDTO && es.getSector() instanceof
+			// StandingSector) {
+
+			int row = ((SittingTicketDTO) t).getRow();
+			int col = ((SittingTicketDTO) t).getCol();
+			// proveriti da li je zauzeto
+			for (Ticket tic : tickets) {
+				if (tic.getNumRow() == row && tic.getNumCol() == col) {
+					throw new BadRequestException(
+							"Seat in row: " + row + " and column: " + col + " has already been taken");
+				}
 			}
+			// nije zauzeto
+			Ticket ticket = new Ticket();
+			ticket.setEventDay(ed);
+			ticket.setEventSector(es);
+			ticket.setHasSeat(true);
+			ticket.setNumCol(col);
+			ticket.setNumRow(row);
+			ticket.setReservation(r);
 
-			if (t instanceof StandingTicketDTO && es.getSector() instanceof StandingSector) {
+			r.getTickets().add(ticket);
+			// } else {
+			// throw new BadRequestException("Incompatible types of sector and ticket");
+			// }
+		}
 
-				int num_of_stand_tickets = ((StandingTicketDTO) t).getNumOfStandingTickets();
+		for (StandingTicketDTO t : res_dto.getStandingTickets()) {
 
-				if (((StandingSector) es.getSector()).getCapacity() < tickets.size() + num_of_stand_tickets) {
-					throw new BadRequestException("Not enough room!");
-				} else if (num_of_stand_tickets < 1) {
-					throw new BadRequestException("There should be at least one ticket");
-				} else {
-					for (int i = 0; i < num_of_stand_tickets; i++) {
-						Ticket ticket = new Ticket();
-						ticket.setEventSector(es);
-						ticket.setHasSeat(false);
-						ticket.setEventDay(ed);
-						ticket.setReservation(r);
+			EventSector es = esService.findOneNotDeleted(t.getEventSectorId());
+			List<Ticket> tickets = ticketService.findAllByEventDayIDEventSectorID(res_dto.getEventDayId(),
+					t.getEventSectorId());
 
-						r.getTickets().add(ticket);
-					}
+			
 
-				}
-			} else if (t instanceof SittingTicketDTO && es.getSector() instanceof StandingSector) {
+			// if (t instanceof StandingTicketDTO && es.getSector() instanceof
+			// StandingSector) {
 
-				int row = ((SittingTicketDTO) t).getRow();
-				int col = ((SittingTicketDTO) t).getCol();
-				// proveriti da li je zauzeto
-				for (Ticket tic : tickets) {
-					if (tic.getNumRow() == row && tic.getNumCol() == col) {
-						throw new BadRequestException(
-								"Seat in row: " + row + " and column: " + col + " has already been taken");
-					}
-				}
-				// nije zauzeto
-				Ticket ticket = new Ticket();
-				ticket.setEventDay(ed);
-				ticket.setEventSector(es);
-				ticket.setHasSeat(true);
-				ticket.setNumCol(col);
-				ticket.setNumRow(row);
-				ticket.setReservation(r);
+			int num_of_stand_tickets = t.getNumOfStandingTickets();
 
-				r.getTickets().add(ticket);
+			if (((StandingSector) es.getSector()).getCapacity() < tickets.size() + num_of_stand_tickets) {
+				throw new BadRequestException("Not enough room!");
+			} else if (num_of_stand_tickets < 1) {
+				throw new BadRequestException("There should be at least one ticket");
 			} else {
-				throw new BadRequestException("Incompatible types of sector and ticket");
+				for (int i = 0; i < num_of_stand_tickets; i++) {
+					Ticket ticket = new Ticket();
+					ticket.setEventSector(es);
+					ticket.setHasSeat(false);
+					ticket.setEventDay(ed);
+					ticket.setReservation(r);
+
+					r.getTickets().add(ticket);
+				}
+
 			}
+			// } else if (t instanceof SittingTicketDTO && es.getSector() instanceof
+			// StandingSector) {
+
+			/*
+			 * int row = ((SittingTicketDTO) t).getRow(); int col = ((SittingTicketDTO)
+			 * t).getCol(); // proveriti da li je zauzeto for (Ticket tic : tickets) { if
+			 * (tic.getNumRow() == row && tic.getNumCol() == col) { throw new
+			 * BadRequestException( "Seat in row: " + row + " and column: " + col +
+			 * " has already been taken"); } } // nije zauzeto Ticket ticket = new Ticket();
+			 * ticket.setEventDay(ed); ticket.setEventSector(es); ticket.setHasSeat(true);
+			 * ticket.setNumCol(col); ticket.setNumRow(row); ticket.setReservation(r);
+			 */
+
+			// r.getTickets().add(ticket);
+			// } else {
+			// throw new BadRequestException("Incompatible types of sector and ticket");
+			// }
 		}
 
 		r.setReservationDate(new Date());
@@ -218,11 +268,11 @@ public class ReservationService {
 		System.out.println(r.toString());
 		remove(ID);
 	}
-	
-	//za svrhe testiranja, samo logicko brisanje
+
+	// za svrhe testiranja, samo logicko brisanje
 	public void delete1(Long ID) throws ResourceNotFoundException {
 		Reservation r = findOne(ID);
-		//System.out.println(r.toString());
+		// System.out.println(r.toString());
 		r.setCanceled(true);
 		save(r);
 	}
@@ -231,10 +281,10 @@ public class ReservationService {
 		Reservation r = findOne(id);
 		if (r.isCanceled()) {
 			throw new BadRequestException("Reservation has already been canceled.");
-		}else if (r.isPurchased()) {
+		} else if (r.isPurchased()) {
 			throw new BadRequestException("Cannot cancel bought reservation");
-		}else {
-			
+		} else {
+
 			r.setCanceled(true);
 
 			return save(r);
@@ -259,7 +309,7 @@ public class ReservationService {
 	public List<Reservation> findByEvent(Long event_id) {
 		return reservationRepository.findByEvent(event_id);
 	}
-	
+
 	public List<Reservation> findAllNotCanceled() {
 		return reservationRepository.findAllByCanceled(false);
 	}
@@ -281,14 +331,14 @@ public class ReservationService {
 		res.setReservationDate(upd.getReservationDate());
 		res.setTickets(upd.getTickets());
 		return save(res);
-		
+
 	}
-	
-	public List<ReservationDetailedDTO> findMyReservations(String username){
+
+	public List<ReservationDetailedDTO> findMyReservations(String username) {
 		List<ReservationDetailedDTO> myReservations = new ArrayList<ReservationDetailedDTO>();
 
 		List<Reservation> reservations = reservationRepository.findMyReservations(username);
-		
+
 		reservations.forEach((Reservation r) -> {
 			try {
 				myReservations.add(new ReservationDetailedDTO(r));
@@ -296,14 +346,14 @@ public class ReservationService {
 				System.out.println("ups");
 			}
 		});
-		
+
 		return myReservations;
 	}
-	
-	public ReservationDetailedDTO findMyReservation(String username, Long reservationId){
+
+	public ReservationDetailedDTO findMyReservation(String username, Long reservationId) {
 		Reservation reservation = reservationRepository.findMyReservation(username, reservationId);
 		ReservationDetailedDTO retVal = new ReservationDetailedDTO(reservation);
-		
+
 		return retVal;
 	}
 
