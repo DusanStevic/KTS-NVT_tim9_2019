@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import backend.dto.ReservationDTO;
 import backend.dto.ReservationDetailedDTO;
@@ -18,6 +19,7 @@ import backend.dto.StandingTicketDTO;
 import backend.dto.TicketDTO;
 import backend.exceptions.BadRequestException;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.EventDay;
 import backend.model.EventSector;
 import backend.model.RegisteredUser;
@@ -71,6 +73,7 @@ public class ReservationService {
 		reservationRepository.deleteById(id);
 	}
 
+	@org.springframework.transaction.annotation.Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = BadRequestException.class)
 	public Reservation createReservation(ReservationDTO res_dto, String username)
 			throws ResourceNotFoundException, BadRequestException {
 		Reservation r = new Reservation();
