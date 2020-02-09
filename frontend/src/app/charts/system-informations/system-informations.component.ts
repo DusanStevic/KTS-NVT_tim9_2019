@@ -10,23 +10,14 @@ import {ChartService} from '../../core/services/chart.service';
   styleUrls: ['./system-informations.component.scss']
 })
 export class SystemInformationsComponent implements OnInit {
-
-  @Input()
   sysInfo: SystemInformations;
 
-  renderedCh1 = true;
-
-  constructor(private chartService: ChartService) {
-    /*this.sysInfo = {
-      allTimeIncome: 0,
-      allTimeTickets: 0,
-      numberOfAdmins: 0,
-      numberOfEvents: 0,
-      numberOfUsers: 0
-    }*/
+  constructor(
+    private chartService: ChartService) {
   }
 
   ngOnInit() {
+    this.renderSysInfo();
   }
 
   renderSysInfo() {
@@ -35,7 +26,6 @@ export class SystemInformationsComponent implements OnInit {
         console.log('Succesful sysinfo');
         console.log(result);
         this.sysInfo = result.body as SystemInformations;
-        this.renderedCh1 = true;
       }
     );
   }
