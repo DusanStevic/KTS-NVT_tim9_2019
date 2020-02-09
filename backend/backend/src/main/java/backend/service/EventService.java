@@ -100,8 +100,9 @@ public class EventService {
 		return eventRepository.findAllByDeleted(false, page);
 	}
 	
-	public Page<EventDTO> search(SearchDTO search, Pageable pageable) {
-        return eventRepository.search(search.getName(), search.getStartDate(), search.getEndDate(), search.getEventType(), search.getLocationId(), pageable).map(event -> EventConverter.Event2EventDTO(event));
+	public List<Event> search(SearchDTO search) {
+        return eventRepository.search(search.getName(), search.getStartDate(), search.getEndDate(), search.getEventType(), search.getLocationId());
+        
     }
 	
 	

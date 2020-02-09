@@ -1,6 +1,7 @@
 package backend.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 //can copypaste everywhere
 import java.util.List;
 
@@ -9,7 +10,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,10 +52,10 @@ public class EventController {
 	@Autowired
 	EventConverter eventConverter;
 	
-	@GetMapping(value = "/search")
-    public ResponseEntity<Page<EventDTO>> search(Pageable pageable,@Valid @RequestBody SearchDTO searchDTO){
-		
-		return new ResponseEntity<>(eventService.search(searchDTO,pageable),HttpStatus.OK);
+	@PostMapping(value = "/search")
+    public ResponseEntity<List<Event>> search(Pageable pageable,@Valid @RequestBody SearchDTO searchDTO){
+		List<Event> found = eventService.search(searchDTO);
+		return new ResponseEntity<>(found,HttpStatus.OK);
 	
 	}
 	
