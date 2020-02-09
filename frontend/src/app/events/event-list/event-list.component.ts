@@ -8,6 +8,8 @@ import { EventService } from 'src/app/core/services/event.service';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/core/services/location.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { Search } from 'src/app/shared/models/search.model';
+import { EventType } from 'src/app/shared/models/event-type.enum';
 
 @Component({
   selector: 'app-event-list',
@@ -17,6 +19,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 export class EventListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'startDate', 'endDate', 'eventType', 'details'];
+  eventTypes = [null, EventType.SPORT, EventType.CULTURE, EventType.CONCERT, EventType.FESTIVAL, EventType.THEATRE];
   dataSource: MatTableDataSource<Event>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -24,6 +27,8 @@ export class EventListComponent implements OnInit {
   events: Event[];
   locations: Location[];
   searchForm: FormGroup;
+  search: Search;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -74,6 +79,31 @@ export class EventListComponent implements OnInit {
       eventType: [null, ],
       locationId: [null, ],
     });
+  }
+
+  submit() {
+    this.search = this.searchForm.value;
+
+
+    this.eventService.search(this.search as Search).subscribe(
+      result => {
+        this.errorMessage = '';
+        this.events = result;
+        this.dataSource = new MatTableDataSource<Event>(this.events);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.searchForm.reset();
+      },
+      error => {
+        this.searchForm.reset();
+        this.toastr.error('There was an error with your search request. Please try again later!');
+        this.errorMessage = 'There was an error with your search request. Please try again later!';
+      }
+    );
+  }
+  reset() {
+    this.searchForm.reset();
+    this.initEvents();
   }
 
 

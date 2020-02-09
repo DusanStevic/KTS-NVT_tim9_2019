@@ -1,3 +1,67 @@
+<div class="container" >
+  <mat-card>
+    <div class="row justify-content-center align-items-center searchForm">
+      <form class="col-md-12 box" [formGroup]="searchForm" (submit)="submit()">
+        <fieldset>
+          <legend>Search</legend>
+          <div class="form-group row">
+              <label for="name" class="control-label col-md-3"><b>Event name:</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="name-input" name="name" placeholder="Event name" formControlName="name">    
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="control-label col-md-3"><b>Event type:</b></label>
+            <div class="col-md-9">
+              <mat-select id="type-input" formControlName="eventType" placeholder="Event type">
+                <mat-option *ngFor="let type of eventTypes" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>    
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="control-label col-md-3"><b>Event loaction:</b></label>
+            <div class="col-md-9">
+              <mat-select id="type-input" formControlName="locationId" placeholder="Location">
+                <mat-option *ngFor="let location of locations" [value]="location.id">
+                  {{location.name}}
+                </mat-option>
+              </mat-select>    
+            </div>
+          </div>
+
+   
+
+
+ 
+   
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+              <button type="submit" id="submitsearchBtn" class="btn btn-primary">
+                <mat-icon>search</mat-icon>
+                <span>Search</span>
+              </button>
+              <button type="button" id="resetBtn" class="btn btn-primary" (click)="reset()">
+                <mat-icon>cancel</mat-icon>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+     
+
+        </fieldset>
+      </form>
+    </div>
+    
+  <input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
+  </mat-card>
+</div>
+
+
 <div class="container">
   <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
     
