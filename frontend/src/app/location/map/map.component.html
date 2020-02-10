@@ -1,0 +1,5 @@
+<div class="map">
+  <angular-yandex-map [center]="[data.latitude, data.longitude]" [zoom]="14" [lang]="en_US">
+      <angular-yandex-placemark [geometry]="[data.latitude, data.longitude]" [properties]="placemarkProperties" [options]="placemarkOptions"></angular-yandex-placemark>
+  </angular-yandex-map>
+</div>

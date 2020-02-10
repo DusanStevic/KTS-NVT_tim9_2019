@@ -2,7 +2,6 @@ package backend.constants;
 
 import java.util.Date;
 
-import backend.model.Event;
 import backend.model.EventDay;
 import backend.model.EventStatus;
 

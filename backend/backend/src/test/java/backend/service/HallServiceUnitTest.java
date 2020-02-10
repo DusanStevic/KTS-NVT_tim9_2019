@@ -25,10 +25,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import backend.exceptions.ResourceNotFoundException;
-import backend.model.Address;
 import backend.model.Hall;
-import backend.model.Location;
-import backend.repository.AddressRepository;
 import backend.repository.HallRepository;
 
 @RunWith(SpringRunner.class)

@@ -1,0 +1,40 @@
+<div class="container">
+    <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+      
+        <!-- Event Name Column -->
+        <ng-container matColumnDef="eventName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Event name </th>
+          <td mat-cell *matCellDef="let element"> {{element.eventName}} </td>
+        </ng-container>
+      
+        <!-- Reservation date Column -->
+        <ng-container matColumnDef="reservationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of reservation </th>
+          <td mat-cell *matCellDef="let element"> {{element.reservationDate | date:medium }} </td>
+        </ng-container>
+      
+        <!-- Number of Tickets Column -->
+        <ng-container matColumnDef="ticketsNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of tickets </th>
+          <td mat-cell *matCellDef="let element"> {{element.tickets.length}} </td>
+        </ng-container>
+      
+        <!-- Price Column -->
+        <ng-container matColumnDef="fullPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.fullPrice}} </td>
+          </ng-container>
+
+        <!-- Pay Column -->
+        <ng-container matColumnDef="details">
+            <th mat-header-cell *matHeaderCellDef style="align-content: center;">View,buy or cancel reservations </th>
+            <td mat-cell *matCellDef="let element">
+               <button mat-raised-button color="primary" id="reservationDetails{{element.id}}" routerLink="/reservationDetail/{{element.id}}" style="width: 30%;">Details</button> 
+            </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

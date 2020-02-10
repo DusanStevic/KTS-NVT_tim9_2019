@@ -1,0 +1,86 @@
+<div class="div-container">
+    <div class="col-left"></div>
+<div class="formcontent col-center">
+<form class="addressForm" [formGroup]="addressForm" (submit)="onAddressSubmit( )">
+    <div class="form-group row">
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Street Name:</mat-label>
+                <input matInput class="form-control" type="text" id="streetName" 
+                 placeholder="Street name" 
+                formControlName="streetName">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Street Number:</mat-label>
+                <input matInput class="form-control" type="number" min="1" id="streetNumber" 
+                placeholder="Street number" 
+                formControlName="streetNumber">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>City:</mat-label>
+                <input matInput class="form-control" type="text" id="city" 
+                 placeholder="City"
+                formControlName="city">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Country:</mat-label>
+                <input matInput class="form-control" type="text" id="country" 
+                 placeholder="Country" 
+                formControlName="country">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Latitude:</mat-label>
+                <input matInput class="form-control" min="-90" max="90" type="number" id="latitude" 
+                 placeholder="Latitude" 
+                formControlName="latitude">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        
+        <div class="col-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Longitude:</mat-label>
+                <input matInput class="form-control" min="-180" max="180" type="number" id="longitude"
+                 placeholder="Longitude" 
+                formControlName="longitude">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group row float-right">
+		<div class="col-12">
+			<button mat-raised-button color="accent" class="btn btn-primary" type="submit"
+				 >Submit</button>
+		</div>
+	</div>
+</form>
+<div>
+        <button mat-raised-button color="primary" id="reset" class="resetBtn" (click)="onReset()">Reset</button>
+    </div>
+</div>
+<div class="col-right">
+
+</div>
+</div>

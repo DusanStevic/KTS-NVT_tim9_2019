@@ -11,26 +11,35 @@ public class ReservationDTO {
 	@NotNull
 	private boolean purchased;
 
-	@NotNull(message = "Tickets are mandatory")
-	@NotEmpty(message = "Tickets are mandatory")
-	private ArrayList<TicketDTO> tickets;
+	//@NotNull(message = "Tickets are mandatory")
+	//@NotEmpty(message = "Tickets are mandatory")
+	private ArrayList<SittingTicketDTO> sittingTickets;
 
+	//@NotNull(message = "Tickets are mandatory")
+	//@NotEmpty(message = "Tickets are mandatory")
+	private ArrayList<StandingTicketDTO> standingTickets;
+		
 	@NotNull(message = "Event day is mandatory")
 	@Min(value = 1, message = "Invalid event day")
-	private Long eventDay_id;
+	private Long eventDayId;
 
 	public ReservationDTO() {
 		super();
 	}
 
-	public ReservationDTO(@NotNull boolean purchased,
-			@NotNull(message = "Tickets are mandatory") @NotEmpty(message = "Tickets are mandatory") ArrayList<TicketDTO> tickets,
-			@NotNull(message = "Event day is mandatory") @Min(value = 1, message = "Invalid event day") Long eventDay_id) {
+	
+
+	public ReservationDTO(@NotNull boolean purchased, ArrayList<SittingTicketDTO> sittingTickets,
+			ArrayList<StandingTicketDTO> standingTickets,
+			@NotNull(message = "Event day is mandatory") @Min(value = 1, message = "Invalid event day") Long eventDayId) {
 		super();
 		this.purchased = purchased;
-		this.tickets = tickets;
-		this.eventDay_id = eventDay_id;
+		this.sittingTickets = sittingTickets;
+		this.standingTickets = standingTickets;
+		this.eventDayId = eventDayId;
 	}
+
+
 
 	public boolean isPurchased() {
 		return purchased;
@@ -40,20 +49,38 @@ public class ReservationDTO {
 		this.purchased = purchased;
 	}
 
-	public ArrayList<TicketDTO> getTickets() {
-		return tickets;
+	
+
+	public Long getEventDayId() {
+		return eventDayId;
 	}
 
-	public void setTickets(ArrayList<TicketDTO> tickets) {
-		this.tickets = tickets;
+	public void setEventDayId(Long eventDay_id) {
+		this.eventDayId = eventDay_id;
 	}
 
-	public Long getEventDay_id() {
-		return eventDay_id;
+
+
+	public ArrayList<SittingTicketDTO> getSittingTickets() {
+		return sittingTickets;
 	}
 
-	public void setEventDay_id(Long eventDay_id) {
-		this.eventDay_id = eventDay_id;
+
+
+	public void setSittingTickets(ArrayList<SittingTicketDTO> sittingTickets) {
+		this.sittingTickets = sittingTickets;
+	}
+
+
+
+	public ArrayList<StandingTicketDTO> getStandingTickets() {
+		return standingTickets;
+	}
+
+
+
+	public void setStandingTickets(ArrayList<StandingTicketDTO> standingTickets) {
+		this.standingTickets = standingTickets;
 	}
 
 }

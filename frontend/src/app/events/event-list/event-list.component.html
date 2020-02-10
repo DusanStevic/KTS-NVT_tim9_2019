@@ -1,0 +1,106 @@
+<div class="container" >
+  <mat-card>
+    <div class="row justify-content-center align-items-center searchForm">
+      <form class="col-md-12 box" [formGroup]="searchForm" (submit)="submit()">
+        <fieldset>
+          <legend>Search</legend>
+          <div class="form-group row">
+              <label for="name" class="control-label col-md-3"><b>Event name:</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="name-input" name="name" placeholder="Event name" formControlName="name">    
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="control-label col-md-3"><b>Event type:</b></label>
+            <div class="col-md-9">
+              <mat-select id="type-input" formControlName="eventType" placeholder="Event type">
+                <mat-option *ngFor="let type of eventTypes" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>    
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="name" class="control-label col-md-3"><b>Event loaction:</b></label>
+            <div class="col-md-9">
+              <mat-select id="type-input" formControlName="locationId" placeholder="Location">
+                <mat-option *ngFor="let location of locations" [value]="location.id">
+                  {{location.name}}
+                </mat-option>
+              </mat-select>    
+            </div>
+          </div>
+
+   
+
+
+ 
+   
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+              <button type="submit" id="submitsearchBtn" class="btn btn-primary">
+                <mat-icon>search</mat-icon>
+                <span>Search</span>
+              </button>
+              <button type="button" id="resetBtn" class="btn btn-primary" (click)="reset()">
+                <mat-icon>cancel</mat-icon>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+     
+
+        </fieldset>
+      </form>
+    </div>
+    
+  <input id="hiddenErrorMessage" type="text" value="{{this.errorMessage}}" hidden>
+  </mat-card>
+</div>
+
+
+<div class="container">
+  <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+    
+      <!-- Event Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Event name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.startDate | date:medium }} </td>
+      </ng-container>
+
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.endDate | date:medium }} </td>
+      </ng-container>
+    
+      <!-- Event Type Column -->
+      <ng-container matColumnDef="eventType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Event Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.eventType}} </td>
+      </ng-container>
+    
+
+      <!-- Details -->
+      <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef style="align-content: center;"> Details </th>
+          <td mat-cell *matCellDef="let element">
+             <button mat-raised-button color="primary" id="eventDetails{{element.id}}" routerLink="/eventDetail/{{element.id}}" style="width: 30%;">Details</button> 
+          </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+

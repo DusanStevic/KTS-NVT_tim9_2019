@@ -1,0 +1,41 @@
+<div>
+    <table mat-table [dataSource]="sectors" class="mat-elevation-z8">
+    
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+    
+        <!-- Type Column -->
+        <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+
+        <!-- Edit Column -->
+        <ng-container matColumnDef="Edit" *ngIf="isEventUpdate == false">
+            <th mat-header-cell *matHeaderCellDef> Edit </th>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" id="edit edit-btn" class="editBtn" (click)="updateSector(element.id)">Edit</button> </td>
+        </ng-container>
+    
+        <!-- Delete Column -->
+        <ng-container matColumnDef="Delete" *ngIf="isEventUpdate == false">
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" id="delete delete-btn" class="deleteBtn" (click)="deleteSector(element.id)">Delete</button> </td>
+        </ng-container>
+    
+        <!-- Add Column -->
+        <ng-container matColumnDef="Add" *ngIf="isEventUpdate == true">
+          <th mat-header-cell *matHeaderCellDef> Add </th>
+          <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" id="add add-btn" class="addBtn" (click)="addEventSector(element.id, element.name)">Add</button> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+    </div>

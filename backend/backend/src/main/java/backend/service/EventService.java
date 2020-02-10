@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import backend.converters.EventConverter;
+import backend.dto.EventDTO;
+import backend.dto.SearchDTO;
 import backend.dto.charts.DateIntervalDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
@@ -72,8 +75,8 @@ public class EventService {
 		// e.setEvent(event);
 		e.setDescription(event.getDescription());
 		e.setName(event.getName());
-		e.setEventType(event.getEventType());
-		e.setMaxTickets(event.getMaxTickets());
+		//e.setEventType(event.getEventType());
+		//e.setMaxTickets(event.getMaxTickets());
 		// lokacija?
 		return save(e);
 
@@ -96,4 +99,12 @@ public class EventService {
 	public Page<Event> findAllNotDeleted(Pageable page) {
 		return eventRepository.findAllByDeleted(false, page);
 	}
+	
+	public List<Event> search(SearchDTO search) {
+        return eventRepository.search(search.getName(), search.getStartDate(), search.getEndDate(), search.getEventType(), search.getLocationId());
+        
+    }
+	
+	
+
 }

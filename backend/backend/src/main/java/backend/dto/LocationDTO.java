@@ -1,43 +1,51 @@
 package backend.dto;
 
-import java.util.ArrayList;
-
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 public class LocationDTO {
-	
+
 	@NotNull(message = "Location name is mandatory")
-	@Length(min=1, message="Location name is mandatory")
+	@Length(min = 1, message = "Location name is mandatory")
 	private String name;
-	
+
 	private String description;
-	
+
 	@NotNull(message = "Address is mandatory")
-	@Min(value=1, message="Address not valid")
-	private Long address_id;
+	@Length(min = 1, message = "Address is mandatory")
+	private String address;
 	
-	@NotNull(message = "Halls are mandatory")
-	@NotEmpty(message="Halls are mandatory")
-	private ArrayList<HallDTO> halls;
+	@NotNull(message = "Latitude is mandatory")
+	@Min(value=-90, message="Latitude must be greater than or equal to {value}")
+	@Max(value=90, message="Latitude must be less than or equal to {value}")
+	private Double latitude;
 	
+	@NotNull(message="Longitude is mandatory")
+	@Min(value=-180, message="Longitude must be greater than or equal to {value}")
+	@Max(value=180, message="Longitude must be less than or equal to {value}")
+	private Double longitude;
+
+	/*
+	 * @NotNull(message = "Halls are mandatory")
+	 * 
+	 * @NotEmpty(message="Halls are mandatory") private ArrayList<HallDTO> halls;
+	 */
+
 	public LocationDTO() {
 		super();
 	}
 
-	public LocationDTO(String name, String description, Long address_id,ArrayList<HallDTO> halls) {
+	public LocationDTO(String name, String description, String address, Double latitude, Double longitude) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.address_id = address_id;
-		this.halls = halls;
+		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
-
-	
-	
 
 	public String getName() {
 		return name;
@@ -55,20 +63,30 @@ public class LocationDTO {
 		this.description = description;
 	}
 
-	public Long getAddress_id() {
-		return address_id;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddress_id(Long address_id) {
-		this.address_id = address_id;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public ArrayList<HallDTO> getHalls() {
-		return halls;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setHalls(ArrayList<HallDTO> halls) {
-		this.halls = halls;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	
 
 }

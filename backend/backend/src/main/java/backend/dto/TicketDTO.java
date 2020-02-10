@@ -19,23 +19,23 @@ public abstract class TicketDTO {
 
 	@NotNull(message = "Sector is mandatory")
 	@Min(value = 1, message = "Invalid sector")
-	private Long eventSector_id;
+	private Long eventSectorId;
 
-	public TicketDTO(Long eventSector_id) {
+	public TicketDTO(Long eventSectorId) {
 		super();
-		this.eventSector_id = eventSector_id;
+		this.eventSectorId = eventSectorId;
 	}
 
 	public TicketDTO() {
 		super();
 	}
 
-	public Long getEventSector_id() {
-		return eventSector_id;
+	public Long getEventSectorId() {
+		return eventSectorId;
 	}
 
-	public void setEventSector_id(Long eventSector_id) {
-		this.eventSector_id = eventSector_id;
+	public void setEventSectorId(Long eventSectorId) {
+		this.eventSectorId = eventSectorId;
 	}
 
 }

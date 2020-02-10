@@ -1,0 +1,29 @@
+
+<div class="container" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 5%;">
+
+<div *ngIf="chart1"  style="width: 80%; margin-left: 10%;">
+        <h4>
+                <div>
+                Number of events: {{chart1.numberOfEvents}}
+                </div>
+                <div>
+                Number of admins: {{chart1.numberOfAdmins}}
+                </div>
+                <div>
+                Number of users: {{chart1.numberOfUsers}}
+                </div>
+                <div>
+                All time total income on site: {{chart1.allTimeIncome}}
+                </div>
+                <div>
+                All time number of tickets sold: {{chart1.allTimeTickets}}
+                </div>
+        </h4>   
+</div>
+
+
+<app-income-by-events style=" margin-top: 5%;"></app-income-by-events>
+<app-tickets-sold-by-events style=" margin-top: 5%;"></app-tickets-sold-by-events>
+<app-income-by-locations style=" margin-top: 5%;"></app-income-by-locations>
+<app-tickets-sold-by-locations style=" margin-top: 5%;"></app-tickets-sold-by-locations>
+</div>

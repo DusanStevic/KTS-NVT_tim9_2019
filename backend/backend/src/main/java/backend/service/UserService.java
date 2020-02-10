@@ -7,11 +7,12 @@ import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.RegistrationConverter;
 import backend.dto.RegistrationDTO;
+import backend.dto.UserUpdateDTO;
 import backend.exceptions.ResourceNotFoundException;
+import backend.exceptions.SavingException;
 import backend.model.Administrator;
 import backend.model.RegisteredUser;
 import backend.model.User;
@@ -26,35 +27,12 @@ public class UserService {
 	@Autowired
 	private EmailService emailService;
 	
-	@Autowired
-	private FileUploadService fileUploadService;
 
 	public User findByUsername(String username)
 			throws UsernameNotFoundException {
 		User u = userRepository.findByUsername(username);
 		return u;
 	}
-
-	/*
-	 * @Override public User pronadjiKorisnika(Long id) throws
-	 * UserNotFoundException {
-	 * 
-	 * User u = userRepository.getOne(id); if (u==null) { throw new
-	 * UserNotFoundException(id); } else { return u; }
-	 * 
-	 * }
-	 */
-
-	// OVO RADI
-	/*
-	 * @Override public User pronadjiKorisnika(Long id) throws
-	 * UserNotFoundException { return userRepository.findById(id)
-	 * .orElseThrow(() -> new UserNotFoundException(id));
-	 * 
-	 * 
-	 * }
-	 */
-
 
 
 	public User findById(Long id) throws ResourceNotFoundException {
@@ -69,13 +47,17 @@ public class UserService {
 		return result;
 	}
 
-	public User save(User user) {
-		return userRepository.save(user);
+	public User save(User user) throws SavingException {
+		try {
+			return userRepository.save(user);
+		} catch (Exception e) {
+			throw new SavingException("Couldn't save user. Username or email is taken!");
+		}
 	}
 
-	public RegisteredUser registerUser(RegistrationDTO registrationDTO,MultipartFile file) {
+	public RegisteredUser registerUser(RegistrationDTO registrationDTO) {
 		RegisteredUser registeredUser = RegistrationConverter.RegistrationDTO2RegisteredUser(registrationDTO);
-		registeredUser.setImageUrl(fileUploadService.imageUpload(file));
+		registeredUser.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		userRepository.save(registeredUser);
 		try {
 			emailService.sendRegistrationConfirmationEmail(registeredUser);
@@ -87,9 +69,9 @@ public class UserService {
 	}
 
 
-	public Administrator registerAdmin(RegistrationDTO registrationDTO,MultipartFile file) {
+	public Administrator registerAdmin(RegistrationDTO registrationDTO) {
 		Administrator administrator = RegistrationConverter.RegistrationDTO2Administrator(registrationDTO);
-		administrator.setImageUrl(fileUploadService.imageUpload(file));
+		administrator.setImageUrl("https://res.cloudinary.com/djxkexzcr/image/upload/v1574108111/zbvvptxlxzzhzomjvp2s.jpg");
 		userRepository.save(administrator);
 		try {
 			emailService.sendRegistrationConfirmationEmail(administrator);
@@ -99,5 +81,16 @@ public class UserService {
 		}
 		return administrator;
 
+	}
+
+	public User update(UserUpdateDTO userDetails) throws ResourceNotFoundException, SavingException {
+		User user = findById(userDetails.getId());
+		user.setFirstName(userDetails.getFirstName());
+		user.setLastName(userDetails.getLastName());
+		user.setPhoneNumber(userDetails.getPhoneNumber());
+		user.setUsername(userDetails.getUsername());
+		user.setEmail(userDetails.getEmail());
+		User updateUser = save(user); 
+		return updateUser;
 	}
 }

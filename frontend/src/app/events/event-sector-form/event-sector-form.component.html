@@ -1,0 +1,35 @@
+<div class="div-container ">
+    <div class="col-left"></div>
+<div class="formcontent col-center">
+<form id="event-form" [formGroup]="eventSectorForm" (submit)="onEventSectorSubmit( )">
+    <div class="form-group ">
+        <div class="col-10">
+            <mat-form-field appearance="legacy">
+                <mat-label>Sector Name: </mat-label>
+                <input matInput class="form-control" type="text" id="sector-name-input" 
+                 placeholder="Name" 
+                formControlName="name">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div class="col-10">
+            <mat-form-field appearance="legacy">
+                <mat-label>Price: </mat-label>
+                <input matInput class="form-control" type="number" min="0" id="price-input" 
+                 placeholder="Price" 
+                formControlName="price">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="form-group ">
+		<div class="col-12">
+			<button mat-raised-button color="accent" id="submit-event-sector-btn" class="btn btn-primary" type="submit"
+				 >Submit</button>
+		</div>
+	</div>
+</form>
+</div>
+</div>
+

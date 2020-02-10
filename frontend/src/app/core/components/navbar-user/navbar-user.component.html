@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="navbar">
+
+    <button mat-button [routerLink]="['/events']">
+      <mat-icon>event_available</mat-icon>
+      <span>Events</span>
+    </button>
+
+    <span class="spacer"></span>
+
+
+    <div>
+        <button mat-button [routerLink]="['/login']" id="login-btn">
+            <mat-icon>input</mat-icon>
+            <span>Login</span>
+        </button>
+        <button mat-button [routerLink]="['/register']" id="register-btn">
+            <mat-icon>person_add</mat-icon>
+            <span>Register</span>
+        </button>
+    </div>
+
+</mat-toolbar>

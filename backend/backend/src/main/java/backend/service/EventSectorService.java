@@ -2,8 +2,6 @@ package backend.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,18 +39,18 @@ public class EventSectorService {
 		return eventSectorRepository.findAll();
 	}
 
-	public Page<EventSector> findAllNotDeleted(Pageable page){
+	public Page<EventSector> findAllNotDeleted(Pageable page) {
 		return eventSectorRepository.findAllByDeleted(false, page);
 	}
-	
+
 	public Page<EventSector> findAll(Pageable page) {
 		return eventSectorRepository.findAll(page);
 	}
 
-	/*@Transactional
-	public void remove(Long id) {
-		eventSectorRepository.deleteById(id);
-	}*/
+	/*
+	 * @Transactional public void remove(Long id) {
+	 * eventSectorRepository.deleteById(id); }
+	 */
 
 	public void delete(Long ID) throws ResourceNotFoundException {
 		EventSector es = findOneNotDeleted(ID);
@@ -63,6 +61,13 @@ public class EventSectorService {
 
 	public EventSector update(Long id, double price) throws ResourceNotFoundException {
 		EventSector es = findOneNotDeleted(id);
+		es.setPrice(price);
+		return save(es);
+	}
+	
+	public EventSector update1(Long id, double price) throws ResourceNotFoundException {
+		EventSector es = findOneNotDeleted(id);
+		es.getEvent().setName("Novi Event");
 		es.setPrice(price);
 		return save(es);
 

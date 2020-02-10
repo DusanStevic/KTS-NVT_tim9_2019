@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "reservations")
@@ -30,14 +30,12 @@ public class Reservation {
 	@Column(name = "reservationDate", nullable = false)
 	private Date reservationDate;
 
-	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("reservation")
-	//@JsonBackReference
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference("ticketsForReservation")
 	private Set<Ticket> tickets = new HashSet<>();
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	// @JsonIgnoreProperties("reservations")
-	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JsonBackReference("buyer")
 	private RegisteredUser buyer;
 
 
@@ -57,6 +55,17 @@ public class Reservation {
 		this.reservationDate = reservationDate;
 		this.tickets = tickets;
 		this.buyer = buyer;
+	}
+	
+	public Reservation(Long id, boolean purchased, Date reservationDate, Set<Ticket> tickets, RegisteredUser buyer,
+			boolean canceled) {
+		super();
+		this.id = id;
+		this.purchased = purchased;
+		this.reservationDate = reservationDate;
+		this.tickets = tickets;
+		this.buyer = buyer;
+		this.canceled = canceled;
 	}
 
 	public Long getId() {
@@ -106,8 +115,6 @@ public class Reservation {
 				+ tickets + ", buyer=" + buyer + "]";
 	}
 
-
-
 	public boolean isCanceled() {
 		return canceled;
 	}
@@ -115,6 +122,25 @@ public class Reservation {
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reservation other = (Reservation) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
 
 
 }

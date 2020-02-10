@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 import backend.model.Event;
 
 public class EventDTO {
-	//private Long id;
+	private Long id;
 	@NotNull(message = "Event name is mandatory")
 	@Length(min=1, message="Event name is mandatory")
 	private String name;
@@ -55,7 +55,7 @@ public class EventDTO {
 	private ArrayList<EventDayDTO> event_days;
 	
 	public EventDTO(Event event){
-		//this.id = event.getId();
+		this.id = event.getId();
 		this.name = event.getName();
 		this.description =event.getDescription();
 		this.event_type = event.getEventType().ordinal();
@@ -69,8 +69,8 @@ public class EventDTO {
 		this.sectors = (ArrayList<EventSectorDTO>) event.getEventSectors().stream().map(temp->{
 			EventSectorDTO obj = new EventSectorDTO();
 			obj.setPrice(temp.getPrice());
-			obj.setEvent_id(temp.getEvent().getId());
-			obj.setSector_id(temp.getSector().getId());
+			obj.setEventId(temp.getEvent().getId());
+			obj.setSectorId(temp.getSector().getId());
 			return obj;
 		}).collect(Collectors.toList());
 		this.event_days = (ArrayList<EventDayDTO>) event.getEventDays().stream().map(temp->{
@@ -108,6 +108,10 @@ public class EventDTO {
 	public EventDTO() {
 		super();
 	}
+	public EventDTO(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -184,6 +188,14 @@ public class EventDTO {
 
 	public void setVideo_paths(ArrayList<String> video_paths) {
 		this.video_paths = video_paths;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

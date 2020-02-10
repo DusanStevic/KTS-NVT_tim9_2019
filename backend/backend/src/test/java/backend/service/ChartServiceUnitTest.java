@@ -1,30 +1,6 @@
 package backend.service;
 
-import static backend.constants.ChartConstants.AVERAGE_NAME;
-import static backend.constants.ChartConstants.END_DATE_BAD;
-import static backend.constants.ChartConstants.END_DATE_EMPTY;
-import static backend.constants.ChartConstants.END_DATE_GOOD;
-import static backend.constants.ChartConstants.EVENT1_NAME;
-import static backend.constants.ChartConstants.EVENT2_NAME;
-import static backend.constants.ChartConstants.INCOME_EVENT1;
-import static backend.constants.ChartConstants.INCOME_EVENT2;
-import static backend.constants.ChartConstants.INCOME_EVENT_AVERAGE;
-import static backend.constants.ChartConstants.INCOME_LOCATION1;
-import static backend.constants.ChartConstants.INCOME_LOCATION1_INTERVAL;
-import static backend.constants.ChartConstants.INFO_ALLTIME_INCOME;
-import static backend.constants.ChartConstants.INFO_ALLTIME_TICKETS;
-import static backend.constants.ChartConstants.INFO_NUM_ADMIN;
-import static backend.constants.ChartConstants.INFO_NUM_EVENTS;
-import static backend.constants.ChartConstants.INFO_NUM_USERS;
-import static backend.constants.ChartConstants.LOCATION1_NAME;
-import static backend.constants.ChartConstants.START_DATE_BAD;
-import static backend.constants.ChartConstants.START_DATE_EMPTY;
-import static backend.constants.ChartConstants.START_DATE_GOOD;
-import static backend.constants.ChartConstants.TICKETS_SOLD_AVERAGE;
-import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT1;
-import static backend.constants.ChartConstants.TICKETS_SOLD_EVENT2;
-import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1;
-import static backend.constants.ChartConstants.TICKETS_SOLD_LOCATION1_INTERVAL;
+import static backend.constants.ChartConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -147,8 +123,7 @@ public class ChartServiceUnitTest {
 		Set<Ticket> res3 = new HashSet<Ticket>();
 		Set<Ticket> res4 = new HashSet<Ticket>();
 
-		location = new Location(1L, "SPENS NS", "", halls, new Address(),
-				new Timestamp(15L));
+		location = new Location(1L, "SPENS NS", "", halls, new Timestamp(15L), "", 0, 0);
 
 		h1 = new Hall(1L, "Main hall", sectors, location, false);
 
@@ -174,11 +149,11 @@ public class ChartServiceUnitTest {
 		eventDays2.add(day2);
 
 		event1 = new Event(1L, "UNIPARTY", "", EventType.CONCERT,
-				df.parse("2020-03-03"), df.parse("2020-03-03"), 5, 3, location,
+				df.parse("2020-03-03"), df.parse("2020-03-03"), 5, 3, location, h1,
 				new HashSet<String>(), new HashSet<String>(), eventSectors1,
 				eventDays1, false);
 		event2 = new Event(2L, "FolkFest", "", EventType.CULTURE,
-				df.parse("2020-05-03"), df.parse("2020-05-03"), 5, 3, location,
+				df.parse("2020-05-03"), df.parse("2020-05-03"), 5, 3, location, h1,
 				new HashSet<String>(), new HashSet<String>(), eventSectors2,
 				eventDays2, false);
 
@@ -261,7 +236,7 @@ public class ChartServiceUnitTest {
 	public void testSystemInformations() {
 		SystemInformationsDTO info = chartService.systemInformations();
 		assertNotNull(info);
-		assertEquals(INFO_NUM_EVENTS, info.getNumberOfEvents());
+		assertEquals(INFO_NUM_EVENTS_UNIT, info.getNumberOfEvents());
 		assertEquals(INFO_NUM_ADMIN, info.getNumberOfAdmins());
 		assertEquals(INFO_NUM_USERS, info.getNumberOfUsers());
 		assertTrue(INFO_ALLTIME_INCOME == info.getAllTimeIncome());
@@ -272,15 +247,16 @@ public class ChartServiceUnitTest {
 	public void testIncomeByEvents() {
 		List<ChartIncomeEventsDTO> info = chartService.incomeByEvents();
 		assertNotNull(info);
+		assertTrue(info.size()>0);
 		assertEquals(EVENT1_NAME.toLowerCase(), info.get(0).getEventName()
 				.toLowerCase());
 		assertTrue(INCOME_EVENT1 == info.get(0).getIncome());
 		assertEquals(EVENT2_NAME.toLowerCase(), info.get(1).getEventName()
 				.toLowerCase());
 		assertTrue(INCOME_EVENT2 == info.get(1).getIncome());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(2).getEventName()
+		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getEventName()
 				.toLowerCase());
-		assertTrue(INCOME_EVENT_AVERAGE == info.get(2).getIncome());
+		assertTrue(INCOME_EVENT_AVERAGE_UNIT == info.get(info.size()-1).getIncome());
 	}
 
 	@Test
@@ -325,15 +301,16 @@ public class ChartServiceUnitTest {
 		List<ChartEventTicketsSoldDTO> info = chartService
 				.soldTicketsByEvents();
 		assertNotNull(info);
+		assertTrue(info.size()>0);
 		assertEquals(EVENT1_NAME.toLowerCase(), info.get(0).getEventName()
 				.toLowerCase());
 		assertTrue(TICKETS_SOLD_EVENT1 == info.get(0).getTicketsSold());
 		assertEquals(EVENT2_NAME.toLowerCase(), info.get(1).getEventName()
 				.toLowerCase());
 		assertTrue(TICKETS_SOLD_EVENT2 == info.get(1).getTicketsSold());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(2).getEventName()
+		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getEventName()
 				.toLowerCase());
-		assertTrue(TICKETS_SOLD_AVERAGE == info.get(2).getTicketsSold());
+		assertTrue(TICKETS_SOLD_AVERAGE_UNIT == info.get(info.size()-1).getTicketsSold());
 	}
 
 	@Test
@@ -378,12 +355,13 @@ public class ChartServiceUnitTest {
 	public void testIncomeByLocations() {
 		List<ChartIncomeLocationsDTO> info = chartService.incomeByLocations();
 		assertNotNull(info);
+		assertTrue(info.size()>0);
 		assertEquals(LOCATION1_NAME.toLowerCase(), info.get(0)
 				.getLocationName().toLowerCase());
 		assertTrue(INCOME_LOCATION1 == info.get(0).getIncome());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(1).getLocationName()
+		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size() - 1).getLocationName()
 				.toLowerCase());
-		assertTrue(INCOME_LOCATION1 == info.get(1).getIncome());
+		assertTrue(INCOME_LOCATION1 == info.get(info.size() - 1).getIncome());
 	}
 
 	@Test
@@ -430,12 +408,13 @@ public class ChartServiceUnitTest {
 		List<ChartLocationTicketsSoldDTO> info = chartService
 				.soldTicketsByLocations();
 		assertNotNull(info);
+		assertTrue(info.size()>0);
 		assertEquals(LOCATION1_NAME.toLowerCase(), info.get(0)
 				.getLocationName().toLowerCase());
 		assertTrue(TICKETS_SOLD_LOCATION1 == info.get(0).getTicketsSold());
-		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(1).getLocationName()
+		assertEquals(AVERAGE_NAME.toLowerCase(), info.get(info.size()-1).getLocationName()
 				.toLowerCase());
-		assertTrue(TICKETS_SOLD_LOCATION1 == info.get(1).getTicketsSold());
+		assertTrue(TICKETS_SOLD_LOCATION1 == info.get(info.size()-1).getTicketsSold());
 	}
 
 	@Test

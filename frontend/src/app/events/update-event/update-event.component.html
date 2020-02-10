@@ -1,0 +1,19 @@
+<div class="row">
+	<div class="col">
+		<h2>Edit Event</h2>
+		<app-event-form [eventForm]="eventUpdForm" [event]="event" [hideFormFields]="true" 
+		(submit)="onEventSubmit($event)" (resetClicked)="onReset($event)"></app-event-form>
+	</div>
+	<div class="col">
+		<h2>Add Event Sector</h2>
+		<app-event-sector-form [eventSectorForm]="eventSectorForm" (submit)="onEventSectorSubmit($event)" 
+		></app-event-sector-form>
+	</div>
+	<div class="col">
+		<h2>Available Sectors</h2>
+		<div class="table-sector" id="table-sector">
+			<app-sector-table [sectors]="sectorList" [isEventUpdate]="true" (addEventSectorClicked)="onAddEventSector($event)"></app-sector-table>
+		</div>
+	</div>
+</div>
+

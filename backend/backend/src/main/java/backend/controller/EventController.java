@@ -1,5 +1,7 @@
 package backend.controller;
+
 import java.io.IOException;
+import java.util.ArrayList;
 //can copypaste everywhere
 import java.util.List;
 
@@ -8,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import backend.converters.EventConverter;
+import backend.dto.CreateEventDTO;
 import backend.dto.EventDTO;
 import backend.dto.EventUpdateDTO;
+import backend.dto.SearchDTO;
 import backend.dto.UrlDTO;
 import backend.exceptions.ResourceNotFoundException;
 import backend.model.Event;
@@ -46,12 +51,21 @@ public class EventController {
 
 	@Autowired
 	EventConverter eventConverter;
+	
+	@PostMapping(value = "/search")
+    public ResponseEntity<List<Event>> search(Pageable pageable,@Valid @RequestBody SearchDTO searchDTO){
+		List<Event> found = eventService.search(searchDTO);
+		return new ResponseEntity<>(found,HttpStatus.OK);
+	
+	}
+	
+	
 	/* saving event */
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SYS_ADMIN')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO dto) throws ResourceNotFoundException {
-		Event event = eventConverter.EventDTO2Event(dto);
+	public ResponseEntity<Event> createEvent(@Valid @RequestBody CreateEventDTO dto) throws ResourceNotFoundException {
+		Event event = eventConverter.CreateEventDTO2Event(dto);
 		return new ResponseEntity<>(eventService.save(event), HttpStatus.OK);
 	}
 	
@@ -72,7 +86,8 @@ public class EventController {
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(
 			@PathVariable(value = "id") Long eventId) throws ResourceNotFoundException {
-		return new ResponseEntity<>(eventService.findOneNotDeleted(eventId), HttpStatus.OK);
+		Event e = eventService.findOneNotDeleted(eventId);
+		return new ResponseEntity<>(e, HttpStatus.OK);
 	}
 	
 	/* update event by id */
